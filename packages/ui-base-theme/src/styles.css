@@ -1,0 +1,11 @@
+@import "./default.css";
+
+:where(.uib-theme-surface) {
+  color: var(--uib-color-ink, #13294b);
+  background: var(--uib-color-surface, #ffffff);
+}
+
+:where(.uib-theme-stack) {
+  display: grid;
+  gap: var(--uib-space-4, 1rem);
+}

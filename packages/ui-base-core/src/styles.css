@@ -1,0 +1,29 @@
+:where(.uib-stack) {
+  display: grid;
+  gap: var(--uib-space-4, 1rem);
+}
+
+:where(.uib-cluster) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--uib-space-3, 0.75rem);
+  align-items: center;
+}
+
+:where(.uib-surface) {
+  color: var(--uib-color-ink, #13294b);
+  background: var(--uib-color-surface, #ffffff);
+  border: 1px solid var(--uib-color-border, #d9e2f0);
+  border-radius: var(--uib-radius-lg, 1rem);
+}
+
+:where(.uib-sr-only) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

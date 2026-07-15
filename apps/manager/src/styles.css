@@ -1,0 +1,20 @@
+body {
+  min-width: 320px;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  transform: translateY(-180%);
+  z-index: 20;
+  padding: 0.75rem 1rem;
+  border-radius: var(--uib-radius-pill);
+  background: var(--uib-color-primary);
+  color: var(--uib-color-primary-contrast);
+  font-weight: 850;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}

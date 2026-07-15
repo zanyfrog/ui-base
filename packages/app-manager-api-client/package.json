@@ -1,0 +1,17 @@
+{
+  "name": "@ui.base/app-manager-api-client",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Fetch client for UI Base app manager ORM and I-AM endpoints.",
+  "main": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./styles.css": "./src/styles.css"
+  },
+  "scripts": {
+    "build": "tsc --noEmit",
+    "typecheck": "tsc --noEmit"
+  },
+  "files": ["src", "README.md"],
+  "license": "UNLICENSED"
+}

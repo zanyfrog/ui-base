@@ -1,0 +1,8 @@
+:root {
+  --uib-app-manager-shell-max-width: 1480px;
+  --uib-app-manager-sidebar-width: 18rem;
+  --uib-app-manager-form-max-width: 920px;
+  --uib-app-manager-preview-min-width: 420px;
+  --uib-app-manager-field-gap: 0.875rem;
+  --uib-app-manager-grid-gap: clamp(1rem, 2vw, 1.5rem);
+}

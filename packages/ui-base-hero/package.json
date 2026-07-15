@@ -1,0 +1,26 @@
+{
+  "name": "@ui.base/hero",
+  "version": "0.2.3",
+  "type": "module",
+  "description": "Framework-neutral UI Base Hero Web Component for landing pages and tour pages.",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./styles.css": "./src/styles.css",
+    "./uib-hero": "./src/uib-hero.js",
+    "./uib-hero-preview": "./src/uib-hero-preview.js",
+    "./uib-hero-editor": "./src/uib-hero-editor.js",
+    "./hero-data": "./src/hero-data.js",
+    "./defaults": "./src/defaults.js"
+  },
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "sideEffects": true,
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@ui.base/ui": "^0.5.1",
+    "@ui.base/assets": "^0.1.17"
+  }
+}

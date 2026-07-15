@@ -1,0 +1,35 @@
+{
+  "name": "@ui.base/forms",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "UI Base form, validation, input, and form layout Web Components.",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./styles.css": "./src/styles.css",
+    "./form": "./src/uib-forms-form.js",
+    "./textbox": "./src/controls/uib-forms-textbox.js",
+    "./number": "./src/controls/uib-forms-number.js",
+    "./date": "./src/controls/uib-forms-date.js",
+    "./email": "./src/controls/uib-forms-email.js",
+    "./password": "./src/controls/uib-forms-password.js",
+    "./phone": "./src/controls/uib-forms-phone.js",
+    "./textarea": "./src/controls/uib-forms-textarea.js",
+    "./select": "./src/controls/uib-forms-select.js",
+    "./checkbox": "./src/controls/uib-forms-checkbox.js",
+    "./field": "./src/layout/uib-forms-field.js",
+    "./input-group": "./src/layout/uib-forms-input-group.js",
+    "./wizard": "./src/layout/uib-forms-wizard.js",
+    "./metadata": "./src/metadata.js"
+  },
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "sideEffects": true,
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@ui.base/core": "^0.1.0",
+    "@ui.base/ui": "^0.5.1"
+  }
+}

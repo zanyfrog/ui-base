@@ -1,0 +1,22 @@
+{
+  "name": "@ui.base/theme",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Theme CSS files for UI Base applications using CSS custom property overrides.",
+  "exports": {
+    ".": "./src/index.js",
+    "./styles.css": "./src/styles.css",
+    "./default.css": "./src/default.css",
+    "./dark.css": "./src/dark.css",
+    "./sample-tour.css": "./src/sample-tour.css"
+  },
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "sideEffects": true,
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@ui.base/design-system": "^0.1.0"
+  }
+}

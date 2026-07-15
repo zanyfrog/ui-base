@@ -1,0 +1,17 @@
+{
+  "name": "@ui.base/tour-ui",
+  "version": "0.1.1",
+  "type": "module",
+  "description": "Framework-neutral UI Base tour reservation Web Components.",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./styles.css": "./src/styles.css",
+    "./new-reservation": "./src/reservations/uib-new-reservation.js",
+    "./cancel-reservation": "./src/reservations/uib-cancel-reservation.js",
+    "./find-reservation": "./src/reservations/uib-find-reservation.js",
+    "./book-group-reservation": "./src/reservations/uib-book-group-reservation.js"
+  },
+  "sideEffects": true,
+  "license": "UNLICENSED"
+}

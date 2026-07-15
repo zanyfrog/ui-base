@@ -1,0 +1,22 @@
+{
+  "name": "@ui.base/demo",
+  "version": "0.8.1",
+  "private": true,
+  "type": "module",
+  "description": "Documentation and demo app for UI Base design system and packages, including assets.",
+  "dependencies": {
+    "@ui.base/core": "file:../../packages/ui-base-core",
+    "@ui.base/design-system": "file:../../packages/ui-base-design-system",
+    "@ui.base/theme": "file:../../packages/ui-base-theme",
+    "@ui.base/icons": "file:../../packages/ui-base-icons",
+    "@ui.base/ui": "file:../../packages/ui-base-ui",
+    "@ui.base/forms": "file:../../packages/ui-base-forms",
+    "@ui.base/hero": "file:../../packages/ui-base-hero",
+    "@ui.base/calendar": "file:../../packages/ui-base-calendar",
+    "@ui.base/tour-ui": "file:../../packages/ui-base-tour-ui",
+    "@ui.base/assets": "file:../../packages/ui-base-assets"
+  },
+  "scripts": {
+    "start": "node ../../scripts/serve.mjs ../.. 5173"
+  }
+}

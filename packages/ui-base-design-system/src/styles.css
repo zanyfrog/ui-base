@@ -1,0 +1,14 @@
+@import "./tokens.css";
+@import "./a11y.css";
+
+:where(.uib-design-stack) {
+  display: grid;
+  gap: var(--uib-space-4, 1rem);
+}
+
+:where(.uib-design-surface) {
+  color: var(--uib-color-ink, #13294b);
+  background: var(--uib-color-surface, #ffffff);
+  border: 1px solid var(--uib-color-border, #d9e2f0);
+  border-radius: var(--uib-radius-lg, 1rem);
+}

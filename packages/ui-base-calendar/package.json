@@ -1,0 +1,14 @@
+{
+  "name": "@ui.base/calendar",
+  "version": "0.2.0",
+  "type": "module",
+  "description": "Framework-neutral UI Base calendar Web Components.",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./metadata": "./src/metadata.js",
+    "./styles.css": "./src/styles.css"
+  },
+  "sideEffects": true,
+  "license": "UNLICENSED"
+}

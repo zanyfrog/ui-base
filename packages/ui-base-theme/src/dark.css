@@ -1,0 +1,25 @@
+[data-uib-theme="dark"] {
+  color-scheme: dark;
+
+  --uib-color-ink: #eff6ff;
+  --uib-color-ink-soft: #cbd7eb;
+  --uib-color-muted: #9fb1cc;
+  --uib-color-background: #071426;
+  --uib-color-surface: #0f213a;
+  --uib-color-surface-soft: #132946;
+  --uib-color-surface-tint: #1c3555;
+  --uib-color-border: #28445f;
+  --uib-color-border-strong: #496984;
+  --uib-color-primary: #9dc7ff;
+  --uib-color-primary-hover: #c9e0ff;
+  --uib-color-primary-soft: #12345c;
+  --uib-color-primary-contrast: #061528;
+  --uib-color-accent: #ffd166;
+  --uib-color-accent-hover: #ffe29a;
+  --uib-color-accent-contrast: #13294b;
+  --uib-color-success: #8bd39d;
+  --uib-color-warning: #ffd166;
+  --uib-color-danger: #ff9aa2;
+  --uib-color-info: #9dc7ff;
+  --uib-focus-ring: 0 0 0 4px rgba(157, 199, 255, 0.35);
+}

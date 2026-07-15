@@ -1,0 +1,9 @@
+[data-uib-theme="sample-tour"] {
+  --uib-color-primary: #0f6f5d;
+  --uib-color-primary-hover: #084f42;
+  --uib-color-primary-soft: #dff6f0;
+  --uib-color-accent: #d6a12f;
+  --uib-color-accent-hover: #b5841f;
+  --uib-color-surface-tint: #e9f7f4;
+  --uib-focus-ring: 0 0 0 4px rgba(15, 111, 93, 0.25);
+}

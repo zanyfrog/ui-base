@@ -1,0 +1,30 @@
+{
+  "name": "@ui.base/ui-layout",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Source-backed layout analysis and safe visual layout editing tools for UI Base components.",
+  "main": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./styles.css": "./src/styles.css",
+    "./analyzer": "./src/analyzer/analyze-component.ts",
+    "./writer": "./src/writer/apply-layout-operations.ts",
+    "./uib-layout-manager": "./src/ui/uib-layout-manager.ts",
+    "./uib-layout-editor": "./src/ui/uib-layout-editor.ts"
+  },
+  "bin": {
+    "mt-layout": "./src/cli/mt-layout.ts"
+  },
+  "scripts": {
+    "build": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "sideEffects": true,
+  "files": [
+    "src",
+    "test",
+    "README.md"
+  ],
+  "license": "UNLICENSED"
+}

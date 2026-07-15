@@ -1,0 +1,28 @@
+{
+  "name": "@ui.base/assets",
+  "version": "0.1.17",
+  "type": "module",
+  "description": "Framework-neutral UI Base asset browser, picker, upload, permission, usage, and version Web Components.",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./styles.css": "./src/styles.css",
+    "./providers": "./src/providers/index.js",
+    "./models": "./src/models/index.js",
+    "./metadata": "./src/metadata.js",
+    "./components/uib-asset-browser": "./src/components/uib-asset-browser.js",
+    "./components/uib-asset-picker": "./src/components/uib-asset-picker.js",
+    "./components/uib-asset-picker-dialog": "./src/components/uib-asset-picker-dialog.js",
+    "./components/uib-asset-image": "./src/components/uib-asset-image.js",
+    "./components/uib-visual-source-control": "./src/components/uib-visual-source-control.js"
+  },
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "sideEffects": true,
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@ui.base/ui": "^0.5.1"
+  }
+}

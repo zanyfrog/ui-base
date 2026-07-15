@@ -1,0 +1,198 @@
+:where(
+  uib-new-reservation,
+  uib-cancel-reservation,
+  uib-find-reservation,
+  uib-book-group-reservation
+) {
+  display: block;
+}
+
+:where(.uib-tour-grid) {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: var(--uib-space-4, 1rem);
+}
+
+:where(.uib-tour-stack) {
+  display: grid;
+  gap: var(--uib-space-4, 1rem);
+}
+
+:where(
+  uib-new-reservation,
+  uib-cancel-reservation,
+  uib-find-reservation,
+  uib-book-group-reservation
+)::part(card) {
+  position: relative;
+  min-height: 100%;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--uib-space-4, 1rem);
+  overflow: hidden;
+  padding: clamp(1rem, 3vw, 1.35rem);
+  border: 1px solid var(--uib-color-border, rgba(19, 41, 75, 0.14));
+  border-radius: var(--uib-radius-xl, 1.25rem);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--uib-tour-accent, var(--uib-color-primary, #174a8b)) 6%, transparent), transparent 54%), var(--uib-color-surface, #ffffff);
+  color: var(--uib-color-ink, #13294b);
+  box-shadow: var(--uib-shadow-md, 0 14px 40px rgba(10, 31, 68, 0.1));
+  font-family: var(--uib-font-family-sans, Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
+}
+
+:where(uib-cancel-reservation)::part(card) {
+  --uib-tour-accent: var(--uib-color-danger, #9d2b3a);
+}
+
+:where(uib-find-reservation)::part(card) {
+  --uib-tour-accent: var(--uib-color-success, #23634f);
+}
+
+:where(uib-book-group-reservation)::part(card) {
+  --uib-tour-accent: var(--uib-color-accent-contrast, #6e4aa3);
+}
+
+:where(
+  uib-new-reservation,
+  uib-cancel-reservation,
+  uib-find-reservation,
+  uib-book-group-reservation
+)::part(icon) {
+  width: 3rem;
+  height: 3rem;
+  display: inline-grid;
+  place-items: center;
+  border-radius: var(--uib-radius-lg, 1rem);
+  background: var(--uib-tour-accent, var(--uib-color-primary, #174a8b));
+  color: var(--uib-color-primary-contrast, #ffffff);
+  font-weight: 950;
+}
+
+:where(
+  uib-new-reservation,
+  uib-cancel-reservation,
+  uib-find-reservation,
+  uib-book-group-reservation
+)::part(content) {
+  min-width: 0;
+  display: grid;
+  gap: var(--uib-space-3, 0.75rem);
+}
+
+:where(
+  uib-new-reservation,
+  uib-cancel-reservation,
+  uib-find-reservation,
+  uib-book-group-reservation
+)::part(eyebrow) {
+  margin: 0;
+  color: var(--uib-tour-accent, var(--uib-color-primary, #174a8b));
+  font-size: var(--uib-font-size-xs, 0.75rem);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+:where(
+  uib-new-reservation,
+  uib-cancel-reservation,
+  uib-find-reservation,
+  uib-book-group-reservation
+)::part(heading) {
+  margin: 0;
+  color: var(--uib-color-ink, #13294b);
+  font-size: clamp(1.15rem, 2vw, 1.45rem);
+  line-height: 1.1;
+}
+
+:where(
+  uib-new-reservation,
+  uib-cancel-reservation,
+  uib-find-reservation,
+  uib-book-group-reservation
+)::part(description),
+:where(
+  uib-new-reservation,
+  uib-cancel-reservation,
+  uib-find-reservation,
+  uib-book-group-reservation
+)::part(disabled-note) {
+  margin: 0;
+  color: var(--uib-color-muted, #53657f);
+  line-height: 1.55;
+}
+
+:where(
+  uib-new-reservation,
+  uib-cancel-reservation,
+  uib-find-reservation,
+  uib-book-group-reservation
+)::part(action-row) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--uib-space-3, 0.75rem);
+  align-items: center;
+  margin-top: var(--uib-space-1, 0.25rem);
+}
+
+:where(
+  uib-new-reservation,
+  uib-cancel-reservation,
+  uib-find-reservation,
+  uib-book-group-reservation
+)::part(button) {
+  min-height: var(--uib-size-control-height-md, 2.75rem);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.72rem 1rem;
+  border: 1px solid var(--uib-tour-accent, var(--uib-color-primary, #174a8b));
+  border-radius: var(--uib-radius-pill, 999px);
+  background: var(--uib-tour-accent, var(--uib-color-primary, #174a8b));
+  color: var(--uib-color-primary-contrast, #ffffff);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 850;
+}
+
+:where(
+  uib-new-reservation,
+  uib-cancel-reservation,
+  uib-find-reservation,
+  uib-book-group-reservation
+)::part(toast) {
+  position: absolute;
+  right: var(--uib-space-4, 1rem);
+  bottom: var(--uib-space-4, 1rem);
+  z-index: 2;
+  max-width: min(25rem, calc(100% - 2rem));
+  padding: 0.85rem 1rem;
+  border-radius: var(--uib-radius-lg, 1rem);
+  background: color-mix(in srgb, var(--uib-tour-accent, var(--uib-color-primary, #174a8b)) 72%, #061528);
+  color: #ffffff;
+  box-shadow: var(--uib-shadow-md, 0 14px 40px rgba(10, 31, 68, 0.1));
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+@media (max-width: 540px) {
+  :where(
+    uib-new-reservation,
+    uib-cancel-reservation,
+    uib-find-reservation,
+    uib-book-group-reservation
+  )::part(card) {
+    grid-template-columns: 1fr;
+  }
+
+  :where(
+    uib-new-reservation,
+    uib-cancel-reservation,
+    uib-find-reservation,
+    uib-book-group-reservation
+  )::part(toast) {
+    position: static;
+    max-width: 100%;
+    margin-top: var(--uib-space-3, 0.75rem);
+    grid-column: 1 / -1;
+  }
+}

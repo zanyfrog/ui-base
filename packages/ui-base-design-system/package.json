@@ -1,0 +1,19 @@
+{
+  "name": "@ui.base/design-system",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "UI Base design system principles, tokens, accessibility standards, component specification template, and governance documentation.",
+  "exports": {
+    ".": "./src/index.js",
+    "./styles.css": "./src/styles.css",
+    "./tokens.css": "./src/tokens.css",
+    "./a11y.css": "./src/a11y.css"
+  },
+  "files": [
+    "src",
+    "docs",
+    "README.md"
+  ],
+  "sideEffects": true,
+  "license": "UNLICENSED"
+}

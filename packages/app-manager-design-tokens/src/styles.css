@@ -1,0 +1,13 @@
+@import "./tokens.css";
+
+:where(.uibam-token-surface) {
+  color: var(--uib-color-ink, #13294b);
+  background: var(--uib-color-surface, #ffffff);
+  border: 1px solid var(--uib-color-border, #d9e2f0);
+  border-radius: var(--uib-radius-lg, 1rem);
+}
+
+:where(.uibam-token-stack) {
+  display: grid;
+  gap: var(--uib-space-4, 1rem);
+}

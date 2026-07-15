@@ -1,0 +1,251 @@
+{
+  "schemaVersion": 1,
+  "shared": {
+    "optionSets": {
+      "alignment": ["start", "center", "end"],
+      "sizes": ["compact", "default", "large"],
+      "actionVariants": ["primary", "secondary", "tertiary", "destructive"],
+      "helpModes": ["tooltip", "inline"]
+    },
+    "assets": {
+      "icons": {
+        "accessibility": "/apps/demo/assets/icons/accessibility.svg",
+        "availability": "/apps/demo/assets/icons/availability.svg",
+        "tourSize": "/apps/demo/assets/icons/tour-size.svg"
+      }
+    }
+  },
+  "packageTests": [
+    {
+      "name": "@ui.base/core",
+      "title": "Core utilities",
+      "description": "Base element behavior, shared utilities, validation, localization, and metadata conventions.",
+      "primaryPath": "/design-system/",
+      "primaryLabel": "Open Core Standards",
+      "links": [{ "path": "/components/", "label": "Component Catalog" }]
+    },
+    {
+      "name": "@ui.base/design-system",
+      "title": "Design system",
+      "description": "Accessibility standards, lifecycle rules, component specifications, and package roadmap.",
+      "primaryPath": "/design-system/",
+      "primaryLabel": "Open Design System",
+      "links": [{ "path": "/components/", "label": "Live Components" }]
+    },
+    {
+      "name": "@ui.base/theme",
+      "title": "Theme tokens",
+      "description": "Default and dark token stylesheets plus token examples used across every UI package.",
+      "primaryPath": "/design-system/",
+      "primaryLabel": "Open Theme Demo",
+      "links": [{ "path": "/components/", "label": "Styled Components" }]
+    },
+    {
+      "name": "@ui.base/icons",
+      "title": "Icons",
+      "description": "SVG registry icons, URL icons, labels, and accessible icon behavior.",
+      "primaryPath": "/components/",
+      "primaryLabel": "Open Icons Demo",
+      "links": [{ "path": "/components/", "label": "Catalog" }]
+    },
+    {
+      "name": "@ui.base/ui",
+      "title": "UI controls and layout",
+      "description": "Menus, labels, help, toggles, checkboxes, cards, panels, grids, dialogs, tabs, and layout stubs.",
+      "primaryPath": "/ui/",
+      "primaryLabel": "Open UI Demo",
+      "links": [
+        { "path": "/ui-controls/", "label": "Control Events" },
+        { "path": "/components/", "label": "Layout Catalog" }
+      ]
+    },
+    {
+      "name": "@ui.base/forms",
+      "title": "Forms",
+      "description": "Text, number, date, email, password, phone, textarea, select, form field, input group, wizard, and form shell tests.",
+      "primaryPath": "/forms/",
+      "primaryLabel": "Open Forms Demo",
+      "links": [{ "path": "/ui-controls/", "label": "Control Events" }]
+    },
+    {
+      "name": "@ui.base/calendar",
+      "title": "Calendar",
+      "description": "Day, week, month, year, date-window, and day-of-week views controlled by parent state.",
+      "primaryPath": "/calendar-demo/",
+      "primaryLabel": "Open Calendar Demo",
+      "links": [{ "path": "/calendar-demo/", "label": "All Calendar Views" }]
+    },
+    {
+      "name": "@ui.base/hero",
+      "title": "Hero",
+      "description": "Hero headline, CTAs, navigation, trust signal, visual, and detail-bullet configuration tests.",
+      "primaryPath": "/hero/",
+      "primaryLabel": "Open Hero Demo",
+      "links": [
+        { "path": "/hero/sample-site", "label": "Sample Site" },
+        { "path": "/hero/organization", "label": "Organization" },
+        { "path": "/hero/asset-backed-details", "label": "Asset-backed Details" }
+      ]
+    },
+    {
+      "name": "@ui.base/assets",
+      "title": "Assets",
+      "description": "Asset browser, asset picker, upload, management, permissions, versions, usage, and provider mode tests.",
+      "primaryPath": "/assets/",
+      "primaryLabel": "Open Assets Components",
+      "links": [
+        { "path": "/assets-demo/", "label": "Workflow Overview" },
+        { "path": "/assets-demo/picker", "label": "Asset Picker" },
+        { "path": "/assets-demo/browser", "label": "Browser" },
+        { "path": "/assets-demo/manage", "label": "Manage" },
+        { "path": "/assets-demo/permissions", "label": "Permissions" },
+        { "path": "/assets-demo/versions", "label": "Versions" },
+        { "path": "/assets-demo/usage", "label": "Usage" }
+      ]
+    },
+    {
+      "name": "@ui.base/tour-ui",
+      "title": "Action components",
+      "description": "Reusable action components for new, cancel, find, and group-style workflows.",
+      "primaryPath": "/tour-ui/",
+      "primaryLabel": "Open Action Demo",
+      "links": [
+        { "path": "/tour-ui/new-reservation", "label": "New" },
+        { "path": "/tour-ui/cancel-reservation", "label": "Cancel" },
+        { "path": "/tour-ui/find-reservation", "label": "Find" },
+        { "path": "/tour-ui/book-group-reservation", "label": "Group" }
+      ]
+    }
+  ],
+  "routes": {
+    "assets": [
+      { "path": "/assets-demo/simple", "label": "Form Picker", "description": "Compact picker field for attaching an image/file/asset to a form field." },
+      { "path": "/assets-demo/browser", "label": "Browser", "description": "List/grid/split browsing with search and filters." },
+      { "path": "/assets-demo/picker", "label": "Picker", "description": "Form-field picker with selected thumbnail/name and Browse -> search-first modal." },
+      { "path": "/assets-demo/manage", "label": "Manage", "description": "Upload, create, edit, archive, and restore examples." },
+      { "path": "/assets-demo/permissions", "label": "Permissions", "description": "Mock users with different resolved item permissions." },
+      { "path": "/assets-demo/versions", "label": "Versions", "description": "Pinned/latest, draft, pending review, and approved version examples." },
+      { "path": "/assets-demo/usage", "label": "Usage", "description": "Where-used records and restricted usage behavior." }
+    ],
+    "calendar": [
+      { "path": "/calendar-demo/day", "label": "Day View", "description": "Single date display." },
+      { "path": "/calendar-demo/week", "label": "Week View", "description": "Seven consecutive days." },
+      { "path": "/calendar-demo/month", "label": "Month View", "description": "Month grid." },
+      { "path": "/calendar-demo/year", "label": "Year View", "description": "Month selection for a year." },
+      { "path": "/calendar-demo/date-window", "label": "DateWindowView", "description": "N consecutive dates." },
+      { "path": "/calendar-demo/day-of-week", "label": "DayOfWeekView", "description": "Only one weekday across weeks." },
+      { "path": "/calendar-demo/day-of-week-paging", "label": "DayOfWeek Paging", "description": "Parent-controlled previous and next paging." }
+    ]
+  },
+  "assets": {
+    "optionSets": {
+      "providerModes": [
+        { "value": "mock", "label": "Mock demo provider - in memory" },
+        { "value": "orm", "label": "ORM server - live assets" }
+      ],
+      "modes": [
+        { "value": "browse", "label": "browse - browse/details mode" },
+        { "value": "pick", "label": "pick - selection mode" },
+        { "value": "manage", "label": "manage - upload/manage mode" },
+        { "value": "simple", "label": "simple - picker alias" }
+      ],
+      "views": [
+        { "value": "list", "label": "list" },
+        { "value": "grid", "label": "grid" }
+      ],
+      "layouts": [
+        { "value": "split", "label": "split - results plus details rail" },
+        { "value": "full", "label": "full - results only" }
+      ],
+      "selectionModes": [
+        { "value": "single", "label": "single" },
+        { "value": "multiple", "label": "multiple" }
+      ],
+      "categories": [
+        { "value": "", "label": "Not set" },
+        { "value": "general", "label": "general" },
+        { "value": "hero", "label": "hero" },
+        { "value": "logo", "label": "logo" },
+        { "value": "document", "label": "document" },
+        { "value": "background", "label": "background" },
+        { "value": "detail-icon", "label": "detail-icon" }
+      ],
+      "assetTypes": [
+        { "value": "", "label": "Not set" },
+        { "value": "image", "label": "image" },
+        { "value": "icon", "label": "icon" },
+        { "value": "document", "label": "document" },
+        { "value": "pdf", "label": "pdf" },
+        { "value": "svg", "label": "svg" },
+        { "value": "json", "label": "json" },
+        { "value": "other", "label": "other" }
+      ],
+      "scopes": [
+        { "value": "", "label": "Not set" },
+        { "value": "application", "label": "application" },
+        { "value": "shared", "label": "shared" },
+        { "value": "global", "label": "global" }
+      ],
+      "visibilities": [
+        { "value": "", "label": "Not set" },
+        { "value": "public", "label": "public" },
+        { "value": "application_private", "label": "application_private" },
+        { "value": "shared_private", "label": "shared_private" },
+        { "value": "global_private", "label": "global_private" },
+        { "value": "admin_only", "label": "admin_only" }
+      ],
+      "statuses": [
+        { "value": "active", "label": "active" },
+        { "value": "archived", "label": "archived" },
+        { "value": "all", "label": "all" }
+      ],
+      "actors": [
+        { "value": "admin", "label": "admin" },
+        { "value": "viewer", "label": "viewer" },
+        { "value": "restricted", "label": "restricted" }
+      ]
+    }
+  },
+  "components": {
+    "componentCatalog": {
+      "detailAssetMap": {
+        "asset-capacity": { "url": "/apps/demo/assets/icons/tour-size.svg", "alt": "Capacity" }
+      },
+      "defaultDetails": [
+        { "label": "Duration", "value": "60 minutes", "icon": "60", "iconAlt": "Duration" },
+        { "label": "Capacity", "value": "20 people", "iconAssetId": "asset-capacity" },
+        { "label": "Accessible", "value": "Yes", "iconUrl": "/apps/demo/assets/icons/accessibility.svg", "iconAlt": "Accessible" }
+      ],
+      "controls": {
+        "headingEyebrow": "Reusable primitive",
+        "headingHeadline": "Component options update live",
+        "headingSubheadline": "Change labels, alignment, sizing, and body copy from parent controls.",
+        "headingBody": "The parent owns the state and the Web Component renders from attributes/properties.",
+        "headingSize": "compact",
+        "headingAlign": "start",
+        "actionLabel": "Open workflow",
+        "secondaryActionLabel": "Learn more",
+        "actionVariant": "primary",
+        "actionHref": "",
+        "actionToken": "OPEN_WORKFLOW",
+        "actionDisabled": false,
+        "actionAlign": "start",
+        "actionStacked": false,
+        "mediaSrc": "/apps/demo/assets/icons/availability.svg",
+        "mediaAlt": "Availability icon",
+        "mediaFit": "contain",
+        "mediaRatio": "16:9",
+        "mediaFallback": "No media",
+        "fieldLabel": "Example label",
+        "fieldHelp": "Change this helper text from the parent page.",
+        "fieldHelpMode": "tooltip",
+        "fieldAccessibleText": "Additional screen reader text",
+        "fieldPlaceholder": "Type a sample value",
+        "fieldValue": "Editable value",
+        "fieldDisabled": false,
+        "fieldRequired": false,
+        "menuBreakpoint": "700"
+      }
+    }
+  }
+}
