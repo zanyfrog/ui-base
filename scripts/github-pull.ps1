@@ -29,8 +29,14 @@ if ([string]::IsNullOrWhiteSpace($Branch)) {
 
 Invoke-Git fetch $Remote
 
-$upstream = (& git rev-parse --abbrev-ref --symbolic-full-name "@{u}" 2>$null)
-if ($LASTEXITCODE -eq 0 -and -not [string]::IsNullOrWhiteSpace($upstream)) {
+$upstream = ""
+try {
+  $upstream = (& git rev-parse --abbrev-ref --symbolic-full-name "@{u}" 2>$null)
+} catch {
+  $upstream = ""
+}
+
+if (-not [string]::IsNullOrWhiteSpace($upstream)) {
   Invoke-Git pull --rebase --autostash
   exit 0
 }

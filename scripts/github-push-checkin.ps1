@@ -41,8 +41,14 @@ if (-not [string]::IsNullOrWhiteSpace($stagedChanges)) {
   Write-Host "No staged changes to commit."
 }
 
-$upstream = (& git rev-parse --abbrev-ref --symbolic-full-name "@{u}" 2>$null)
-if ($LASTEXITCODE -eq 0 -and -not [string]::IsNullOrWhiteSpace($upstream)) {
+$upstream = ""
+try {
+  $upstream = (& git rev-parse --abbrev-ref --symbolic-full-name "@{u}" 2>$null)
+} catch {
+  $upstream = ""
+}
+
+if (-not [string]::IsNullOrWhiteSpace($upstream)) {
   Invoke-Git push
 } else {
   Invoke-Git push -u $Remote $Branch
