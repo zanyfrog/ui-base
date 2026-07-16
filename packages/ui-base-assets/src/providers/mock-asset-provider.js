@@ -23,7 +23,20 @@ function slugify(value) {
 
 function imageSvg(label, color = '#174a8b') {
   const safe = encodeURIComponent(String(label || 'Asset'));
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360"><rect width="640" height="360" rx="32" fill="#eef4fb"/><circle cx="520" cy="80" r="86" fill="#f4bd46" opacity="0.72"/><rect x="56" y="76" width="300" height="48" rx="24" fill="${color}" opacity="0.95"/><rect x="56" y="150" width="480" height="24" rx="12" fill="#13294b" opacity="0.24"/><rect x="56" y="196" width="420" height="24" rx="12" fill="#13294b" opacity="0.16"/><text x="56" y="298" fill="#13294b" font-family="Arial, sans-serif" font-size="36" font-weight="700">${safe}</text></svg>`;
+  const svg = (
+  `<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360">` +
+  `<rect width="640" height="360" rx="32" fill="#eef4fb"/>` +
+  `<circle cx="520" cy="80" r="86" fill="#f4bd46" opacity="0.72"/>` +
+  `<rect x="56" y="76" width="300" height="48" rx="24" fill="` +
+  (color) +
+  `" opacity="0.95"/>` +
+  `<rect x="56" y="150" width="480" height="24" rx="12" fill="#13294b" opacity="0.24"/>` +
+  `<rect x="56" y="196" width="420" height="24" rx="12" fill="#13294b" opacity="0.16"/>` +
+  `<text x="56" y="298" fill="#13294b" font-family="Arial, sans-serif" font-size="36" font-weight="700">` +
+  (safe) +
+  `</text>` +
+  `</svg>`
+);
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
 }
 

@@ -452,11 +452,25 @@ export function maskedValue(asset, fieldName, value) {
 export function statusBadge(status) {
   const value = String(status || 'unknown');
   const className = value === 'approved' ? 'success' : value === 'pending_review' ? 'warning' : value === 'rejected' || value === 'archived' ? 'danger' : 'strong';
-  return `<span class="badge ${className}">${escapeHtml(humanize(value))}</span>`;
+  return (
+  `<span class="badge ` +
+  (className) +
+  `">` +
+  (escapeHtml(humanize(value))) +
+  `</span>`
+);
 }
 
 export function permissionBadge(allowed, label) {
-  return `<span class="badge ${allowed ? 'success' : ''}">${allowed ? 'Allowed' : 'Hidden'}: ${escapeHtml(label)}</span>`;
+  return (
+  `<span class="badge ` +
+  (allowed ? 'success' : '') +
+  `">` +
+  (allowed ? 'Allowed' : 'Hidden') +
+  `: ` +
+  (escapeHtml(label)) +
+  `</span>`
+);
 }
 
 export function registerElement(name, constructor) {

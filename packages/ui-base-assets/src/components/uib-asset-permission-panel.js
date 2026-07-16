@@ -38,12 +38,14 @@ export class UibAssetPermissionPanel extends BaseHTMLElement {
 
   render() {
     const asset = this._asset;
-    this.shadowRoot.innerHTML = `
-      <style>${baseAssetStyles}
-        .permission-grid { display: flex; flex-wrap: wrap; gap: 0.45rem; }
-      </style>
-      <section class="stack-sm" aria-label="Asset permission summary">
-        ${asset ? `
+    this.shadowRoot.innerHTML = (
+  `<style>` +
+  (baseAssetStyles) +
+  ` .permission-grid { display: flex; flex-wrap: wrap; gap: 0.45rem; } ` +
+  `</style>` +
+  `<section class="stack-sm" aria-label="Asset permission summary">` +
+  ` ` +
+  (asset ? `
           <div class="surface-soft stack-sm" style="padding: 0.8rem;">
             <div class="row-between">
               <strong>${escapeHtml(asset.permissionSetKey || 'No permission set')}</strong>
@@ -55,9 +57,10 @@ export class UibAssetPermissionPanel extends BaseHTMLElement {
           <div class="permission-grid">
             ${Object.entries(ACTION_LABELS).map(([key, label]) => permissionBadge(Boolean(asset.permissions[key]), label)).join('')}
           </div>
-        ` : '<div class="empty-state">Open an asset to view its permission summary.</div>'}
-      </section>
-    `;
+        ` : '<div class="empty-state">Open an asset to view its permission summary.</div>') +
+  ` ` +
+  `</section>`
+);
     const picker = this.shadowRoot.querySelector('uib-asset-permission-set-picker');
     if (picker) picker.permissionSets = this._permissionSets;
   }

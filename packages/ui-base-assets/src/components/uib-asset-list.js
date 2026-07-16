@@ -20,17 +20,13 @@ export class UibAssetList extends BaseHTMLElement {
   render() {
     const selectedId = this.getAttribute('selected-asset-id') || '';
     const selectionMode = this.getAttribute('selection-mode') || 'single';
-    this.shadowRoot.innerHTML = `
-      <style>${baseAssetStyles}
-        .name-cell { display: grid; grid-template-columns: 74px minmax(0, 1fr); gap: 0.75rem; align-items: center; }
-        uib-asset-thumbnail { width: 74px; }
-        .asset-name { margin: 0; font-weight: 900; }
-        .asset-key { color: var(--uib-assets-muted); font-size: 0.8rem; }
-        .actions { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-        .actions button { min-height: 2rem; padding: 0.4rem 0.6rem; font-size: 0.8rem; }
-        @media (max-width: 820px) { .hide-sm { display: none; } .data-table th, .data-table td { padding: 0.55rem; } }
-      </style>
-      ${this._assets.length ? `
+    this.shadowRoot.innerHTML = (
+  `<style>` +
+  (baseAssetStyles) +
+  ` .name-cell { display: grid; grid-template-columns: 74px minmax(0, 1fr); gap: 0.75rem; align-items: center; } uib-asset-thumbnail { width: 74px; } .asset-name { margin: 0; font-weight: 900; } .asset-key { color: var(--uib-assets-muted); font-size: 0.8rem; } .actions { display: flex; flex-wrap: wrap; gap: 0.4rem; } .actions button { min-height: 2rem; padding: 0.4rem 0.6rem; font-size: 0.8rem; } @media (max-width: 820px) { .hide-sm { display: none; } .data-table th, .data-table td { padding: 0.55rem; } } ` +
+  `</style>` +
+  ` ` +
+  (this._assets.length ? `
         <table class="data-table" aria-label="Asset list">
           <thead>
             <tr>
@@ -66,8 +62,9 @@ export class UibAssetList extends BaseHTMLElement {
             `).join('')}
           </tbody>
         </table>
-      ` : `<div class="empty-state">No assets match the current search and filters.</div>`}
-    `;
+      ` : `<div class="empty-state">No assets match the current search and filters.</div>`) +
+  ` `
+);
 
     this.shadowRoot.querySelectorAll('uib-asset-thumbnail').forEach((thumbnail, index) => { thumbnail.asset = this._assets[index]; });
     this.shadowRoot.querySelectorAll('tr[data-id]').forEach((row) => {

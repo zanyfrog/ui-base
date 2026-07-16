@@ -22,7 +22,30 @@ export class UibHeadingBlock extends HTMLElement {
     const body = this.getAttribute('body') || '';
     const level = safeLevel(this.getAttribute('level'));
     const tag = `h${level}`;
-    this.shadowRoot.innerHTML = `<style>${styles}</style><div class="block" part="block">${eyebrow ? `<span class="eyebrow-slot"><uib-eyebrow text="${escapeHtml(eyebrow)}"></uib-eyebrow></span>` : ''}<${tag} class="headline" part="headline"><slot name="headline">${escapeHtml(headline)}</slot></${tag}>${subheadline ? `<p class="subheadline" part="subheadline"><slot name="subheadline">${escapeHtml(subheadline)}</slot></p>` : ''}${body ? `<p class="body" part="body"><slot name="body">${escapeHtml(body)}</slot></p>` : ''}</div>`;
+    this.shadowRoot.innerHTML = (
+  `<style>` +
+  ` ` +
+  (styles) +
+  ` ` +
+  `</style>` +
+  `<div class="block" part="block">` +
+  ` ` +
+  (eyebrow ? `<span class="eyebrow-slot"><uib-eyebrow text="${escapeHtml(eyebrow)}"></uib-eyebrow></span>` : '') +
+  ` <` +
+  (tag) +
+  ` class="headline" part="headline">` +
+  `<slot name="headline">` +
+  (escapeHtml(headline)) +
+  `</slot>` +
+  `</` +
+  (tag) +
+  `> ` +
+  (subheadline ? `<p class="subheadline" part="subheadline"><slot name="subheadline">${escapeHtml(subheadline)}</slot></p>` : '') +
+  ` ` +
+  (body ? `<p class="body" part="body"><slot name="body">${escapeHtml(body)}</slot></p>` : '') +
+  ` ` +
+  `</div>`
+);
   }
 }
 

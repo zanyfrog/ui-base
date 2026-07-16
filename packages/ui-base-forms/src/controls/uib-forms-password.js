@@ -28,7 +28,26 @@ export class UibFormsPassword extends UibFormControlBase {
     const label = this._revealed ? 'Hide password' : 'Show password';
     const icon = this._revealed ? eyeOffIcon : eyeIcon;
 
-    return `<span class="uib-forms-password-control" part="control-wrap"><input type="${type}" ${common}${limits}><button class="uib-forms-password-toggle" part="toggle" type="button" aria-label="${label}" title="${label}" aria-pressed="${this._revealed ? 'true' : 'false'}" ${this.disabled ? 'disabled' : ''}>${icon}</button></span>`;
+    return (
+  `<span class="uib-forms-password-control" part="control-wrap">` +
+  `<input type="` +
+  (type) +
+  `" ` +
+  (common) +
+  (limits) +
+  `><button class="uib-forms-password-toggle" part="toggle" type="button" aria-label="` +
+  (label) +
+  `" title="` +
+  (label) +
+  `" aria-pressed="` +
+  (this._revealed ? 'true' : 'false') +
+  `" ` +
+  (this.disabled ? 'disabled' : '') +
+  `>` +
+  (icon) +
+  `</button>` +
+  `</span>`
+);
   }
 
   render() {

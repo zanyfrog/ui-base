@@ -128,33 +128,58 @@ export class UibAssetPickerDialog extends BaseHTMLElement {
     const pickerMode = this.pickerMode();
     const passthrough = attributeList(this);
     const selectionMode = this.getAttribute('selection-mode') || 'single';
-    this.shadowRoot.innerHTML = `
-      <style>${baseAssetStyles}
-        .backdrop { position: fixed; inset: 0; z-index: 50; display: ${isOpen ? 'grid' : 'none'}; place-items: center; padding: 1rem; background: rgba(6, 21, 40, 0.62); }
-        .dialog { width: min(1180px, 100%); max-height: min(86vh, 900px); overflow: auto; padding: 1rem; }
-        .dialog-header { margin-bottom: 0.75rem; }
-        .dialog-meta { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.45rem; }
-      </style>
-      <div class="backdrop" role="presentation">
-        <section class="asset-card dialog" role="dialog" aria-modal="true" aria-label="Asset picker">
-          <div class="dialog-header row-between">
-            <div>
-              <h2 class="title">Choose an asset</h2>
-              <p class="subtitle">The selected value returns asset id and version details, not just a URL.</p>
-              <div class="dialog-meta" aria-label="Current picker settings">
-                <span class="badge strong">mode: ${escapeHtml(pickerMode)}</span>
-                <span class="badge">selection: ${escapeHtml(selectionMode)}</span>
-              </div>
-            </div>
-            <div class="row">
-              <button type="button" data-action="close">Cancel</button>
-              <button type="button" class="primary" data-action="choose" ${this._selected ? '' : 'disabled'}>Choose selected</button>
-            </div>
-          </div>
-          <uib-asset-browser mode="${escapeHtml(pickerMode)}" data-picker-mode="${escapeHtml(pickerMode)}" ${passthrough}></uib-asset-browser>
-        </section>
-      </div>
-    `;
+    this.shadowRoot.innerHTML = (
+  `<style>` +
+  ` ` +
+  (baseAssetStyles) +
+  ` .backdrop { position: fixed; inset: 0; z-index: 50; display: ` +
+  (isOpen ? 'grid' : 'none') +
+  ` ; place-items: center; padding: 1rem; background: rgba(6, 21, 40, 0.62); } .dialog { width: min(1180px, 100%); max-height: min(86vh, 900px); overflow: auto; padding: 1rem; } .dialog-header { margin-bottom: 0.75rem; } .dialog-meta { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.45rem; } ` +
+  `</style>` +
+  `<div class="backdrop" role="presentation">` +
+  `<section class="asset-card dialog" role="dialog" aria-modal="true" aria-label="Asset picker">` +
+  `<div class="dialog-header row-between">` +
+  `<div>` +
+  `<h2 class="title">` +
+  ` Choose an asset ` +
+  `</h2>` +
+  `<p class="subtitle">` +
+  ` The selected value returns asset id and version details, not just a URL. ` +
+  `</p>` +
+  `<div class="dialog-meta" aria-label="Current picker settings">` +
+  `<span class="badge strong">` +
+  ` mode: ` +
+  (escapeHtml(pickerMode)) +
+  ` ` +
+  `</span>` +
+  `<span class="badge">` +
+  ` selection: ` +
+  (escapeHtml(selectionMode)) +
+  ` ` +
+  `</span>` +
+  `</div>` +
+  `</div>` +
+  `<div class="row">` +
+  `<button type="button" data-action="close">` +
+  ` Cancel ` +
+  `</button>` +
+  `<button type="button" class="primary" data-action="choose" ` +
+  (this._selected ? '' : 'disabled') +
+  `> Choose selected ` +
+  `</button>` +
+  `</div>` +
+  `</div>` +
+  `<uib-asset-browser mode="` +
+  (escapeHtml(pickerMode)) +
+  `" data-picker-mode="` +
+  (escapeHtml(pickerMode)) +
+  `" ` +
+  (passthrough) +
+  `>` +
+  `</uib-asset-browser>` +
+  `</section>` +
+  `</div>`
+);
     this.shadowRoot.querySelector('[data-action="close"]')?.addEventListener('click', () => this.close());
     this.shadowRoot.querySelector('[data-action="choose"]')?.addEventListener('click', () => {
       if (!this._selected) return;

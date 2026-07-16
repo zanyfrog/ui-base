@@ -108,7 +108,39 @@ export class UibMenu extends UibBaseElement {
     const isOpen = !this._mobile || this.open;
     const buttonLabel = isOpen ? closeLabel : collapseLabel;
 
-    this.shadowRoot.innerHTML = `<style>${styles}</style><div class="uib-menu" part="base"><button class="uib-menu__toggle" part="toggle" type="button" aria-label="${escapeHtml(buttonLabel)}" aria-expanded="${isOpen ? 'true' : 'false'}" aria-controls="${navId}"><uib-icon name="${isOpen ? 'close' : 'menu'}" decorative></uib-icon><span>${escapeHtml(getUiBaseMessage('common.menu', 'Menu'))}</span></button><nav id="${navId}" class="uib-menu__nav" part="nav" aria-label="${escapeHtml(label)}" ${isOpen ? '' : 'hidden'}><div class="uib-menu__items" part="items"><slot></slot></div></nav></div>`;
+    this.shadowRoot.innerHTML = (
+  `<style>` +
+  (styles) +
+  `</style>` +
+  `<div class="uib-menu" part="base">` +
+  `<button class="uib-menu__toggle" part="toggle" type="button" aria-label="` +
+  (escapeHtml(buttonLabel)) +
+  `" aria-expanded="` +
+  (isOpen ? 'true' : 'false') +
+  `" aria-controls="` +
+  (navId) +
+  `"><uib-icon name="` +
+  (isOpen ? 'close' : 'menu') +
+  `" decorative>` +
+  `</uib-icon>` +
+  `<span>` +
+  (escapeHtml(getUiBaseMessage('common.menu', 'Menu'))) +
+  `</span>` +
+  `</button>` +
+  `<nav id="` +
+  (navId) +
+  `" class="uib-menu__nav" part="nav" aria-label="` +
+  (escapeHtml(label)) +
+  `"` +
+  (isOpen ? '' : 'hidden') +
+  `>` +
+  `<div class="uib-menu__items" part="items">` +
+  `<slot>` +
+  `</slot>` +
+  `</div>` +
+  `</nav>` +
+  `</div>`
+);
     this.shadowRoot.querySelector('.uib-menu__toggle')?.addEventListener('click', () => this._toggleOpen());
     this.shadowRoot.querySelector('slot')?.addEventListener('slotchange', () => this._applyMobileToItems());
     this.shadowRoot.addEventListener('keydown', (event) => {

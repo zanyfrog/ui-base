@@ -47,8 +47,30 @@ export class UibActionButton extends HTMLElement {
     const className = `button button--${escapeHtml(variant)}`;
     const disabled = this.disabled;
     const commonAttrs = `class="${className}" part="button" aria-disabled="${disabled ? 'true' : 'false'}"`;
-    const contents = `${icon ? `<span class="icon" aria-hidden="true">${escapeHtml(icon)}</span>` : ''}<span class="label"><slot>${escapeHtml(label)}</slot></span>`;
-    this.shadowRoot.innerHTML = `<style>${styles}</style>${href ? `<a ${commonAttrs} href="${escapeHtml(href)}" ${target ? `target="${escapeHtml(target)}"` : ''} ${rel ? `rel="${escapeHtml(rel)}"` : ''}>${contents}</a>` : `<button ${commonAttrs} type="button" ${disabled ? 'disabled' : ''}>${contents}</button>`}`;
+    const contents = (
+  (icon ? `<span class="icon" aria-hidden="true">${escapeHtml(icon)}</span>` : '') +
+  `<span class="label">` +
+  `<slot>` +
+  (escapeHtml(label)) +
+  `</slot>` +
+  `</span>`
+);
+    this.shadowRoot.innerHTML = (
+  `<style>` +
+  ` ` +
+  (styles) +
+  ` ` +
+  `</style>` +
+  ` ` +
+  (href
+        ? `<a ${commonAttrs} href="${escapeHtml(href)}" ${target ? `target="${escapeHtml(target)}"` : ''} ${rel ? `rel="${escapeHtml(rel)}"` : ''}>
+            ${contents}
+          </a>`
+        : `<button ${commonAttrs} type="button" ${disabled ? 'disabled' : ''}>
+            ${contents}
+          </button>`) +
+  ` `
+);
     this.shadowRoot.querySelector('a,button')?.addEventListener('click', (event) => this.emitClick(event));
   }
 }

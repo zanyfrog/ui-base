@@ -152,37 +152,26 @@ export class UibDetailItemEdit extends HTMLElement {
     const appKey = this.getAttribute('application-key') || '';
     const baseUrl = this.getAttribute('api-base-url') || '';
     const assetId = detail.iconAssetId || '';
-    return `
-      <div class="field field--wide">
-        <span>Asset picker</span>
-        <span class="field-note">Selecting an asset stores its ID in iconAssetId. Icon URL and alt text below can override the resolved asset image and alt text.</span>
-        <uib-asset-picker
-          data-detail-picker="true"
-          data-picker-mode="simple"
-          label="Detail icon asset"
-          placeholder="Select or upload icon"
-          value="${escapeHtml(assetId)}"
-          application-key="${escapeHtml(appKey)}"
-          default-application-key="${escapeHtml(appKey)}"
-          api-base-url="${escapeHtml(baseUrl)}"
-          selection-mode="single"
-          view="list"
-          default-layout="list"
-          default-asset-type="image"
-          default-file-type="image"
-          default-reuse-scope="global"
-          default-scope="global"
-          default-visibility="public"
-          asset-visibility="public"
-          allow-upload
-          insertable-only
-          insertable-file-types="image,icon,svg"
-          accepted-file-types="image/png,image/jpeg,image/gif,image/webp,image/svg+xml,image/avif"
-          copy-on-select="false"
-          selection-behavior="select"
-        ></uib-asset-picker>
-      </div>
-    `;
+    return (
+  `<div class="field field--wide">` +
+  `<span>` +
+  `Asset picker` +
+  `</span>` +
+  `<span class="field-note">` +
+  `Selecting an asset stores its ID in iconAssetId. Icon URL and alt text below can override the resolved asset image and alt text.` +
+  `</span>` +
+  `<uib-asset-picker data-detail-picker="true" data-picker-mode="simple" label="Detail icon asset" placeholder="Select or upload icon" value="` +
+  (escapeHtml(assetId)) +
+  `" application-key="` +
+  (escapeHtml(appKey)) +
+  `" default-application-key="` +
+  (escapeHtml(appKey)) +
+  `" api-base-url="` +
+  (escapeHtml(baseUrl)) +
+  `" selection-mode="single" view="list" default-layout="list" default-asset-type="image" default-file-type="image" default-reuse-scope="global" default-scope="global" default-visibility="public" asset-visibility="public" allow-upload insertable-only insertable-file-types="image,icon,svg" accepted-file-types="image/png,image/jpeg,image/gif,image/webp,image/svg+xml,image/avif" copy-on-select="false" selection-behavior="select" >` +
+  `</uib-asset-picker>` +
+  `</div>`
+);
   }
 
   configurePicker() {
@@ -228,40 +217,72 @@ export class UibDetailItemEdit extends HTMLElement {
 
   render() {
     const detail = this.detail;
-    this.shadowRoot.innerHTML = `
-      <style>${styles}</style>
-      <div class="fields" part="fields">
-        <label class="field">
-          <span>Label</span>
-          <input data-field="label" value="${escapeHtml(detail.label || '')}">
-        </label>
-        <label class="field">
-          <span>Value</span>
-          <input data-field="value" value="${escapeHtml(detail.value || '')}">
-        </label>
-        <label class="field">
-          <span>Text icon fallback</span>
-          <input data-field="icon" value="${escapeHtml(detail.icon || '')}" placeholder="ex: OK">
-        </label>
-        <label class="field">
-          <span>Icon asset ID</span>
-          <input data-field="iconAssetId" value="${escapeHtml(detail.iconAssetId || '')}" placeholder="asset_123">
-        </label>
-        ${this.pickerMarkup(detail)}
-        <label class="field">
-          <span>Icon URL override</span>
-          <input data-field="iconUrl" value="${escapeHtml(detail.iconUrl || '')}" placeholder="/icons/example.svg">
-        </label>
-        <label class="field">
-          <span>Icon alt override</span>
-          <input data-field="iconAlt" value="${escapeHtml(detail.iconAlt || '')}">
-        </label>
-        <label class="field field--wide">
-          <span>Description</span>
-          <textarea data-field="description">${escapeHtml(detail.description || '')}</textarea>
-        </label>
-      </div>
-    `;
+    this.shadowRoot.innerHTML = (
+  `<style>` +
+  (styles) +
+  `</style>` +
+  `<div class="fields" part="fields">` +
+  `<label class="field">` +
+  `<span>` +
+  `Label` +
+  `</span>` +
+  `<input data-field="label" value="` +
+  (escapeHtml(detail.label || '')) +
+  `">` +
+  `</label>` +
+  `<label class="field">` +
+  `<span>` +
+  `Value` +
+  `</span>` +
+  `<input data-field="value" value="` +
+  (escapeHtml(detail.value || '')) +
+  `">` +
+  `</label>` +
+  `<label class="field">` +
+  `<span>` +
+  `Text icon fallback` +
+  `</span>` +
+  `<input data-field="icon" value="` +
+  (escapeHtml(detail.icon || '')) +
+  `" placeholder="ex: OK">` +
+  `</label>` +
+  `<label class="field">` +
+  `<span>` +
+  `Icon asset ID` +
+  `</span>` +
+  `<input data-field="iconAssetId" value="` +
+  (escapeHtml(detail.iconAssetId || '')) +
+  `" placeholder="asset_123">` +
+  `</label>` +
+  ` ` +
+  (this.pickerMarkup(detail)) +
+  ` ` +
+  `<label class="field">` +
+  `<span>` +
+  `Icon URL override` +
+  `</span>` +
+  `<input data-field="iconUrl" value="` +
+  (escapeHtml(detail.iconUrl || '')) +
+  `" placeholder="/icons/example.svg">` +
+  `</label>` +
+  `<label class="field">` +
+  `<span>` +
+  `Icon alt override` +
+  `</span>` +
+  `<input data-field="iconAlt" value="` +
+  (escapeHtml(detail.iconAlt || '')) +
+  `">` +
+  `</label>` +
+  `<label class="field field--wide">` +
+  `<span>` +
+  `Description` +
+  `</span>` +
+  `<textarea data-field="description">` +
+  (escapeHtml(detail.description || '')) +
+  `</textarea>` +
+  `</label>` +
+  `</div>`
+);
     this.bind();
   }
 }

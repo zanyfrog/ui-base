@@ -22,7 +22,13 @@ function slotMarkup(record, name, modeField, contentField) {
   const mode = record[modeField] || 'empty';
   const content = record[contentField] || '';
   if (mode !== 'custom' || !String(content).trim()) return '';
-  return `<div slot="${escapeHtml(name)}">${content}</div>`;
+  return (
+  `<div slot="` +
+  (escapeHtml(name)) +
+  `">` +
+  (content) +
+  `</div>`
+);
 }
 
 export class UibHeroPreview extends HTMLElement {
@@ -86,62 +92,96 @@ export class UibHeroPreview extends HTMLElement {
     const visualMode = resolveHeroVisualMode(record);
     const assetMap = this.getAttribute('asset-map') || record.asset_map || '';
 
-    this.innerHTML = `
-      <style>
-        :host{display:block;color:var(--uib-hero-editor-text,#13294b);font-family:var(--uib-font-family-sans,Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif)}
-        *,*::before,*::after{box-sizing:border-box}
-        .preview-card{display:grid;gap:1rem}
-        .preview-head{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap}
-        h2{margin:0;color:var(--uib-color-primary,#174a8b);font-size:1.05rem;line-height:1.2}
-        p{margin:.25rem 0 0;color:var(--uib-color-muted,#53657f);line-height:1.45}
-        .status{display:flex;align-items:center;gap:.45rem;flex-wrap:wrap;color:var(--uib-color-muted,#53657f);font-size:.85rem;font-weight:750}
-        .badge{display:inline-flex;align-items:center;min-height:1.55rem;padding:.16rem .55rem;border:1px solid var(--uib-color-border,#d9e2f0);border-radius:999px;background:var(--uib-color-surface-soft,#f8fbff);color:var(--uib-color-primary,#174a8b);font-size:.74rem;font-weight:900;text-transform:uppercase}
-        .shell{min-width:0;overflow:auto;padding:.75rem;border:1px solid var(--uib-color-border,#d9e2f0);border-radius:1rem;background:var(--uib-color-surface-soft,#f8fbff)}
-        uib-hero{min-width:min(100%,52rem)}
-      </style>
-      <section class="preview-card">
-        <div class="preview-head">
-          <div>
-            <h2>Live preview</h2>
-            <p>The preview renders the currently edited Hero record.</p>
-          </div>
-          <div class="status">
-            <span class="badge">${escapeHtml(record.theme || 'theme')}</span>
-            <span>${navCount} nav item${navCount === 1 ? '' : 's'}</span>
-            <span>${detailsCount} detail${detailsCount === 1 ? '' : 's'}</span>
-          </div>
-        </div>
-        <div class="shell">
-          <uib-hero
-            eyebrow="${escapeHtml(record.eyebrow)}"
-            headline="${escapeHtml(record.headline || 'Hero headline')}"
-            subheadline="${escapeHtml(record.subheadline)}"
-            action-components="${escapeHtml(actionsJson)}"
-            visual-source="${escapeHtml(record.visual_source || 'none')}"
-            visual-role="${escapeHtml(record.visual_role || 'image')}"
-            visual-src="${escapeHtml(recordValue(record, 'visual_src', 'visualSrc'))}"
-            visual-asset-id="${escapeHtml(recordValue(record, 'visual_asset_id', 'visualAssetId'))}"
-            visual-alt="${escapeHtml(recordValue(record, 'visual_alt', 'visualAlt'))}"
-            visual-mode="${escapeHtml(visualMode)}"
-            visual-position="${escapeHtml(visualPositionForMode(visualMode))}"
-            layout-opacity="${escapeHtml(record.layout_opacity || '0.8')}"
-            trust-signal="${escapeHtml(record.trust_signal)}"
-            nav-items="${escapeHtml(navItems)}"
-            details="${escapeHtml(details)}"
-            asset-map="${escapeHtml(assetMap)}"
-            theme="${escapeHtml(record.theme || 'organization')}"
-            size="${escapeHtml(record.size || 'large')}"
-            brand-label="${escapeHtml(brandLabel)}"
-            brand-mark="${escapeHtml(brandMark)}"
-          >
-            ${slotMarkup(record, 'navigation', 'navigation_slot_mode', 'navigation_slot')}
-            ${slotMarkup(record, 'visual', 'visual_slot_mode', 'visual_slot')}
-            ${slotMarkup(record, 'trust', 'trust_slot_mode', 'trust_slot')}
-            ${slotMarkup(record, 'after-content', 'after_content_slot_mode', 'after_content_slot')}
-          </uib-hero>
-        </div>
-      </section>
-    `;
+    this.innerHTML = (
+  `<style>` +
+  ` :host{display:block;color:var(--uib-hero-editor-text,#13294b);font-family:var(--uib-font-family-sans,Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif)} *,*::before,*::after{box-sizing:border-box} .preview-card{display:grid;gap:1rem} .preview-head{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap} h2{margin:0;color:var(--uib-color-primary,#174a8b);font-size:1.05rem;line-height:1.2} p{margin:.25rem 0 0;color:var(--uib-color-muted,#53657f);line-height:1.45} .status{display:flex;align-items:center;gap:.45rem;flex-wrap:wrap;color:var(--uib-color-muted,#53657f);font-size:.85rem;font-weight:750} .badge{display:inline-flex;align-items:center;min-height:1.55rem;padding:.16rem .55rem;border:1px solid var(--uib-color-border,#d9e2f0);border-radius:999px;background:var(--uib-color-surface-soft,#f8fbff);color:var(--uib-color-primary,#174a8b);font-size:.74rem;font-weight:900;text-transform:uppercase} .shell{min-width:0;overflow:auto;padding:.75rem;border:1px solid var(--uib-color-border,#d9e2f0);border-radius:1rem;background:var(--uib-color-surface-soft,#f8fbff)} uib-hero{min-width:min(100%,52rem)} ` +
+  `</style>` +
+  `<section class="preview-card">` +
+  `<div class="preview-head">` +
+  `<div>` +
+  `<h2>` +
+  ` Live preview ` +
+  `</h2>` +
+  `<p>` +
+  ` The preview renders the currently edited Hero record. ` +
+  `</p>` +
+  `</div>` +
+  `<div class="status">` +
+  `<span class="badge">` +
+  ` ` +
+  (escapeHtml(record.theme || 'theme')) +
+  ` ` +
+  `</span>` +
+  `<span>` +
+  ` ` +
+  (navCount) +
+  ` nav item ` +
+  (navCount === 1 ? '' : 's') +
+  ` ` +
+  `</span>` +
+  `<span>` +
+  ` ` +
+  (detailsCount) +
+  ` detail ` +
+  (detailsCount === 1 ? '' : 's') +
+  ` ` +
+  `</span>` +
+  `</div>` +
+  `</div>` +
+  `<div class="shell">` +
+  `<uib-hero eyebrow="` +
+  (escapeHtml(record.eyebrow)) +
+  `" headline="` +
+  (escapeHtml(record.headline || 'Hero headline')) +
+  `" subheadline="` +
+  (escapeHtml(record.subheadline)) +
+  `" action-components="` +
+  (escapeHtml(actionsJson)) +
+  `" visual-source="` +
+  (escapeHtml(record.visual_source || 'none')) +
+  `" visual-role="` +
+  (escapeHtml(record.visual_role || 'image')) +
+  `" visual-src="` +
+  (escapeHtml(recordValue(record, 'visual_src', 'visualSrc'))) +
+  `" visual-asset-id="` +
+  (escapeHtml(recordValue(record, 'visual_asset_id', 'visualAssetId'))) +
+  `" visual-alt="` +
+  (escapeHtml(recordValue(record, 'visual_alt', 'visualAlt'))) +
+  `" visual-mode="` +
+  (escapeHtml(visualMode)) +
+  `" visual-position="` +
+  (escapeHtml(visualPositionForMode(visualMode))) +
+  `" layout-opacity="` +
+  (escapeHtml(record.layout_opacity || '0.8')) +
+  `" trust-signal="` +
+  (escapeHtml(record.trust_signal)) +
+  `" nav-items="` +
+  (escapeHtml(navItems)) +
+  `" details="` +
+  (escapeHtml(details)) +
+  `" asset-map="` +
+  (escapeHtml(assetMap)) +
+  `" theme="` +
+  (escapeHtml(record.theme || 'organization')) +
+  `" size="` +
+  (escapeHtml(record.size || 'large')) +
+  `" brand-label="` +
+  (escapeHtml(brandLabel)) +
+  `" brand-mark="` +
+  (escapeHtml(brandMark)) +
+  `"> ` +
+  (slotMarkup(record, 'navigation', 'navigation_slot_mode', 'navigation_slot')) +
+  ` ` +
+  (slotMarkup(record, 'visual', 'visual_slot_mode', 'visual_slot')) +
+  ` ` +
+  (slotMarkup(record, 'trust', 'trust_slot_mode', 'trust_slot')) +
+  ` ` +
+  (slotMarkup(record, 'after-content', 'after_content_slot_mode', 'after_content_slot')) +
+  ` ` +
+  `</uib-hero>` +
+  `</div>` +
+  `</section>`
+);
   }
 }
 

@@ -54,9 +54,30 @@ export class UibIcon extends UibBaseElement {
     const sizeStyle = size ? `:host{--uib-icon-size:${escapeHtml(size)}}` : '';
     const src = this.src;
     const body = src
-      ? `<img src="${escapeHtml(src)}" alt="${this.decorative ? '' : escapeHtml(label)}">`
+      ? (
+  `<img src="` +
+  (escapeHtml(src)) +
+  `" alt="` +
+  (this.decorative ? '' : escapeHtml(label)) +
+  `">`
+)
       : (getMtIcon(this.name) || getMtIcon('info'));
-    this.shadowRoot.innerHTML = `<style>${styles}${sizeStyle}</style><span class="uib-icon" part="icon" ${aria}>${body}</span>`;
+
+    this.shadowRoot.innerHTML = (
+  `<style>` +
+  ` ` +
+  (styles) +
+  ` ` +
+  (sizeStyle) +
+  ` ` +
+  `</style>` +
+  `<span class="uib-icon" part="icon" ` +
+  (aria) +
+  `> ` +
+  (body) +
+  ` ` +
+  `</span>`
+);
   }
 }
 

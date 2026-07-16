@@ -46,7 +46,13 @@ const ICON_PATHS = {
 
 function iconSvg(name, className = 'button-icon') {
   const paths = ICON_PATHS[name] || ICON_PATHS.addAsset;
-  return `<svg class="${className}" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">${paths.map((path) => `<path fill="currentColor" d="${path}"></path>`).join('')}</svg>`;
+  return (
+  `<svg class="` +
+  (className) +
+  `" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">` +
+  (paths.map((path) => `<path fill="currentColor" d="${path}"></path>`).join('')) +
+  `</svg>`
+);
 }
 
 function attrList(value, fallback = []) {
@@ -410,85 +416,65 @@ export class UibAssetBrowser extends BaseHTMLElement {
     const createPanelId = 'uib-asset-browser-create-panel';
     const filtersToggleLabel = this._filterPanelOpen ? 'Hide filters' : 'Show filters';
     const createToggleLabel = this._createAssetPanelOpen ? 'Hide create asset' : 'Add or insert asset';
-    this.shadowRoot.innerHTML = `
-      <style>${baseAssetStyles}
-        .browser { display: grid; gap: 1rem; }
-        .action-strip {
-          display: grid;
-          grid-template-columns: minmax(0, 1fr) auto;
-          gap: 0.75rem;
-          align-items: center;
-          padding: 0.85rem 1rem;
-        }
-        .view-toggle { display: flex; flex-wrap: wrap; gap: 0.45rem; justify-content: flex-end; }
-        .panel-card { overflow: hidden; }
-        .panel-header {
-          display: grid;
-          grid-template-columns: minmax(0, 1fr) auto;
-          gap: 0.75rem;
-          align-items: center;
-          padding: 0.85rem 1rem;
-        }
-        .panel-copy { min-width: 0; }
-        .icon-button {
-          width: 2.5rem;
-          min-width: 2.5rem;
-          min-height: 2.5rem;
-          padding: 0;
-          display: inline-grid;
-          place-items: center;
-        }
-        .button-icon { width: 1.1rem; height: 1.1rem; flex: 0 0 auto; }
-        .panel-body {
-          display: grid;
-          gap: 0.75rem;
-          padding: 0 1rem 1rem;
-        }
-        .filter-fields { grid-template-columns: minmax(240px, 0.72fr) minmax(0, 1fr); align-items: end; }
-        .filter-fields uib-asset-search { min-width: 0; }
-        .upload-wrap { display: grid; gap: 0.75rem; }
-        .layout { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr); gap: 1rem; align-items: start; }
-        .layout[data-layout="full"] { grid-template-columns: 1fr; }
-        .right-rail { display: grid; gap: 1rem; position: sticky; top: 1rem; }
-        .status { min-height: 1.8rem; color: var(--uib-assets-muted); font-size: 0.88rem; }
-        @media (max-width: 1060px) {
-          .layout,
-          .filter-fields { grid-template-columns: 1fr; }
-          .right-rail { position: static; }
-          .action-strip { grid-template-columns: 1fr; align-items: start; }
-          .view-toggle { justify-content: flex-start; }
-        }
-        @media (max-width: 640px) {
-          .panel-header { grid-template-columns: 1fr; }
-          .panel-toggle,
-          .add-insert-button { justify-self: start; }
-        }
-      </style>
-      <section class="browser" aria-label="Asset browser">
-        <div class="asset-card action-strip">
-          <div class="status" aria-live="polite">${this._loading ? 'Loading assets...' : escapeHtml(this._message || 'Search, filter, open, select, upload, or edit assets.')}</div>
-          <div class="view-toggle" aria-label="Asset browser view">
-            <button type="button" data-view="list" class="icon-button ${view === 'list' ? 'primary' : ''}" title="Show list view" aria-label="Show list view">${iconSvg('list')}</button>
-            <button type="button" data-view="grid" class="icon-button ${view === 'grid' ? 'primary' : ''}" title="Show grid view" aria-label="Show grid view">${iconSvg('grid')}</button>
-          </div>
-        </div>
-
-        <section class="asset-card panel-card" aria-label="Asset filters">
-          <div class="panel-header">
-            <div class="panel-copy">
-              <h2 class="title">Filters</h2>
-            </div>
-            <button type="button" class="panel-toggle icon-button ${this._filterPanelOpen ? 'primary' : ''}" data-toggle-filters aria-controls="${filterPanelId}" aria-expanded="${this._filterPanelOpen ? 'true' : 'false'}" title="${filtersToggleLabel}" aria-label="${filtersToggleLabel}">
-              ${iconSvg('filter')}
-            </button>
-          </div>
-          <div id="${filterPanelId}" class="panel-body filter-fields" ${this._filterPanelOpen ? '' : 'hidden'}>
-            <uib-asset-search value="${escapeHtml(this._query)}"></uib-asset-search>
-            <uib-asset-filter-bar></uib-asset-filter-bar>
-          </div>
-        </section>
-
-        ${canCreate ? `
+    this.shadowRoot.innerHTML = (
+  `<style>` +
+  (baseAssetStyles) +
+  ` .browser { display: grid; gap: 1rem; } .action-strip { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.75rem; align-items: center; padding: 0.85rem 1rem; } .view-toggle { display: flex; flex-wrap: wrap; gap: 0.45rem; justify-content: flex-end; } .panel-card { overflow: hidden; } .panel-header { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.75rem; align-items: center; padding: 0.85rem 1rem; } .panel-copy { min-width: 0; } .icon-button { width: 2.5rem; min-width: 2.5rem; min-height: 2.5rem; padding: 0; display: inline-grid; place-items: center; } .button-icon { width: 1.1rem; height: 1.1rem; flex: 0 0 auto; } .panel-body { display: grid; gap: 0.75rem; padding: 0 1rem 1rem; } .filter-fields { grid-template-columns: minmax(240px, 0.72fr) minmax(0, 1fr); align-items: end; } .filter-fields uib-asset-search { min-width: 0; } .upload-wrap { display: grid; gap: 0.75rem; } .layout { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr); gap: 1rem; align-items: start; } .layout[data-layout="full"] { grid-template-columns: 1fr; } .right-rail { display: grid; gap: 1rem; position: sticky; top: 1rem; } .status { min-height: 1.8rem; color: var(--uib-assets-muted); font-size: 0.88rem; } @media (max-width: 1060px) { .layout, .filter-fields { grid-template-columns: 1fr; } .right-rail { position: static; } .action-strip { grid-template-columns: 1fr; align-items: start; } .view-toggle { justify-content: flex-start; } } @media (max-width: 640px) { .panel-header { grid-template-columns: 1fr; } .panel-toggle, .add-insert-button { justify-self: start; } } ` +
+  `</style>` +
+  `<section class="browser" aria-label="Asset browser">` +
+  `<div class="asset-card action-strip">` +
+  `<div class="status" aria-live="polite">` +
+  (this._loading ? 'Loading assets...' : escapeHtml(this._message || 'Search, filter, open, select, upload, or edit assets.')) +
+  `</div>` +
+  `<div class="view-toggle" aria-label="Asset browser view">` +
+  `<button type="button" data-view="list" class="icon-button ` +
+  (view === 'list' ? 'primary' : '') +
+  `" title="Show list view" aria-label="Show list view">` +
+  (iconSvg('list')) +
+  `</button>` +
+  `<button type="button" data-view="grid" class="icon-button ` +
+  (view === 'grid' ? 'primary' : '') +
+  `" title="Show grid view" aria-label="Show grid view">` +
+  (iconSvg('grid')) +
+  `</button>` +
+  `</div>` +
+  `</div>` +
+  `<section class="asset-card panel-card" aria-label="Asset filters">` +
+  `<div class="panel-header">` +
+  `<div class="panel-copy">` +
+  `<h2 class="title">` +
+  `Filters` +
+  `</h2>` +
+  `</div>` +
+  `<button type="button" class="panel-toggle icon-button ` +
+  (this._filterPanelOpen ? 'primary' : '') +
+  `" data-toggle-filters aria-controls="` +
+  (filterPanelId) +
+  `" aria-expanded="` +
+  (this._filterPanelOpen ? 'true' : 'false') +
+  `" title="` +
+  (filtersToggleLabel) +
+  `" aria-label="` +
+  (filtersToggleLabel) +
+  `"> ` +
+  (iconSvg('filter')) +
+  ` ` +
+  `</button>` +
+  `</div>` +
+  `<div id="` +
+  (filterPanelId) +
+  `" class="panel-body filter-fields" ` +
+  (this._filterPanelOpen ? '' : 'hidden') +
+  `><uib-asset-search value="` +
+  (escapeHtml(this._query)) +
+  `">` +
+  `</uib-asset-search>` +
+  `<uib-asset-filter-bar>` +
+  `</uib-asset-filter-bar>` +
+  `</div>` +
+  `</section>` +
+  ` ` +
+  (canCreate ? `
           <section class="asset-card panel-card" aria-label="Create Asset">
             <div class="panel-header">
               <div class="panel-copy">
@@ -502,19 +488,24 @@ export class UibAssetBrowser extends BaseHTMLElement {
               <uib-asset-uploader embedded></uib-asset-uploader>
             </div>
           </section>
-        ` : ''}
-
-        <div class="layout" data-layout="${escapeHtml(layout)}">
-          <section class="asset-results" aria-label="Asset results">
-            ${view === 'list' ? '<uib-asset-list></uib-asset-list>' : '<uib-asset-grid></uib-asset-grid>'}
-          </section>
-          <aside class="right-rail" aria-label="Selected asset panels">
-            <uib-asset-preview></uib-asset-preview>
-            <uib-asset-details></uib-asset-details>
-          </aside>
-        </div>
-      </section>
-    `;
+        ` : '') +
+  ` <div class="layout" data-layout="` +
+  (escapeHtml(layout)) +
+  `">` +
+  `<section class="asset-results" aria-label="Asset results">` +
+  ` ` +
+  (view === 'list' ? '<uib-asset-list></uib-asset-list>' : '<uib-asset-grid></uib-asset-grid>') +
+  ` ` +
+  `</section>` +
+  `<aside class="right-rail" aria-label="Selected asset panels">` +
+  `<uib-asset-preview>` +
+  `</uib-asset-preview>` +
+  `<uib-asset-details>` +
+  `</uib-asset-details>` +
+  `</aside>` +
+  `</div>` +
+  `</section>`
+);
 
     const search = this.shadowRoot.querySelector('uib-asset-search');
     search?.addEventListener('uib-asset-search', (event) => { this._query = event.detail.query || ''; this.loadAssets(); });
@@ -634,12 +625,15 @@ export class UibAssetBrowser extends BaseHTMLElement {
       .map((name) => `${name}="${escapeHtml(this.getAttribute(name))}"`)
       .join(' ');
 
-    this.shadowRoot.innerHTML = `
-      <style>
-        :host { display: block; }
-      </style>
-      <uib-asset-picker ${attrs}></uib-asset-picker>
-    `;
+    this.shadowRoot.innerHTML = (
+  `<style>` +
+  ` :host { display: block; } ` +
+  `</style>` +
+  `<uib-asset-picker ` +
+  (attrs) +
+  `>` +
+  `</uib-asset-picker>`
+);
 
     const picker = this.shadowRoot.querySelector('uib-asset-picker');
     if (!picker) return;
@@ -653,59 +647,161 @@ export class UibAssetBrowser extends BaseHTMLElement {
 
   renderSimpleFilterFields() {
     const filters = this._filters;
-    const option = (value, label, selected) => `<option value="${escapeHtml(value)}" ${value === selected ? 'selected' : ''}>${escapeHtml(label)}</option>`;
-    return `
-      <div class="filter-grid">
-        <label>Search <input name="query" value="${escapeHtml(this._query)}" placeholder="Search assets" /></label>
-        <label>Application <input name="applicationKey" value="${escapeHtml(filters.applicationKey || '')}" placeholder="demo-app" /></label>
-        <label>Category <select name="category">${option('all', 'All categories', filters.category)}${this._categories.map((category) => option(categoryKey(category), categoryName(category), filters.category)).join('')}</select></label>
-        <label>File type <select name="fileType">${option('all', 'All file types', filters.fileType)}${ASSET_FILE_TYPES.map((type) => option(type, humanize(type), filters.fileType)).join('')}</select></label>
-        <label>Scope <select name="scope">${option('all', 'All scopes', filters.scope)}${ASSET_SCOPES.map((scope) => option(scope, humanize(scope), filters.scope)).join('')}</select></label>
-        <label>Visibility <select name="visibility">${option('all', 'All visibility', filters.visibility)}${ASSET_VISIBILITIES.map((visibility) => option(visibility, humanize(visibility), filters.visibility)).join('')}</select></label>
-        <label>Status <select name="status">${option('active', 'Active', filters.status)}${option('archived', 'Archived', filters.status)}${option('all', 'Active and archived', filters.status)}</select></label>
-      </div>
-      <div class="filter-actions">
-        <button type="submit" class="primary">Apply filters</button>
-        <button type="button" data-clear-simple-filters>Clear</button>
-      </div>
-    `;
+    const option = (value, label, selected) => (
+  `<option value="` +
+  (escapeHtml(value)) +
+  `" ` +
+  (value === selected ? 'selected' : '') +
+  `>` +
+  (escapeHtml(label)) +
+  `</option>`
+);
+    return (
+  `<div class="filter-grid">` +
+  `<label>` +
+  `Search <input name="query" value="` +
+  (escapeHtml(this._query)) +
+  `" placeholder="Search assets" />` +
+  `</label>` +
+  `<label>` +
+  `Application <input name="applicationKey" value="` +
+  (escapeHtml(filters.applicationKey || '')) +
+  `" placeholder="demo-app" />` +
+  `</label>` +
+  `<label>` +
+  `Category ` +
+  `<select name="category">` +
+  (option('all', 'All categories', filters.category)) +
+  (this._categories.map((category) => option(categoryKey(category), categoryName(category), filters.category)).join('')) +
+  `</select>` +
+  `</label>` +
+  `<label>` +
+  `File type ` +
+  `<select name="fileType">` +
+  (option('all', 'All file types', filters.fileType)) +
+  (ASSET_FILE_TYPES.map((type) => option(type, humanize(type), filters.fileType)).join('')) +
+  `</select>` +
+  `</label>` +
+  `<label>` +
+  `Scope ` +
+  `<select name="scope">` +
+  (option('all', 'All scopes', filters.scope)) +
+  (ASSET_SCOPES.map((scope) => option(scope, humanize(scope), filters.scope)).join('')) +
+  `</select>` +
+  `</label>` +
+  `<label>` +
+  `Visibility ` +
+  `<select name="visibility">` +
+  (option('all', 'All visibility', filters.visibility)) +
+  (ASSET_VISIBILITIES.map((visibility) => option(visibility, humanize(visibility), filters.visibility)).join('')) +
+  `</select>` +
+  `</label>` +
+  `<label>` +
+  `Status ` +
+  `<select name="status">` +
+  (option('active', 'Active', filters.status)) +
+  (option('archived', 'Archived', filters.status)) +
+  (option('all', 'Active and archived', filters.status)) +
+  `</select>` +
+  `</label>` +
+  `</div>` +
+  `<div class="filter-actions">` +
+  `<button type="submit" class="primary">` +
+  `Apply filters` +
+  `</button>` +
+  `<button type="button" data-clear-simple-filters>` +
+  `Clear` +
+  `</button>` +
+  `</div>`
+);
   }
 
   renderSimpleUploadFields() {
     const accept = this.acceptedFileTypes().join(',');
     const preview = this._pendingUploadPreviewUrl
-      ? `<img src="${escapeHtml(this._pendingUploadPreviewUrl)}" alt="${escapeHtml(this._pendingUploadFileName || 'Selected file')} preview" />`
-      : `<span>${escapeHtml(this._pendingUploadFileName || 'Select file')}</span>`;
-    return `
-      <div class="row-between">
-        <div>
-          <h2 class="title">Upload asset</h2>
-          <p class="subtitle">Choose a file and optionally add a description. Defaults are applied automatically.</p>
-        </div>
-        <button type="submit" class="primary">Upload</button>
-      </div>
-      <div class="upload-grid">
-        <div class="upload-preview">${preview}</div>
-        <div class="upload-fields">
-          <label>File <input name="simpleFile" type="file" accept="${escapeHtml(accept)}" /></label>
-          <label>Description <textarea name="description" placeholder="Optional description"></textarea></label>
-          <p class="subtitle small">Defaults: type inferred from the file, scope ${escapeHtml(this.uploadDefaultScope())}, visibility ${escapeHtml(this.uploadDefaultVisibility())}, category ${escapeHtml(this.uploadDefaultCategory())}, status active.</p>
-        </div>
-      </div>
-    `;
+      ? (
+  `<img src="` +
+  (escapeHtml(this._pendingUploadPreviewUrl)) +
+  `" alt="` +
+  (escapeHtml(this._pendingUploadFileName || 'Selected file')) +
+  ` preview" />`
+)
+      : (
+  `<span>` +
+  (escapeHtml(this._pendingUploadFileName || 'Select file')) +
+  `</span>`
+);
+    return (
+  `<div class="row-between">` +
+  `<div>` +
+  `<h2 class="title">` +
+  ` Upload asset ` +
+  `</h2>` +
+  `<p class="subtitle">` +
+  ` Choose a file and optionally add a description. Defaults are applied automatically. ` +
+  `</p>` +
+  `</div>` +
+  `<button type="submit" class="primary">` +
+  ` Upload ` +
+  `</button>` +
+  `</div>` +
+  `<div class="upload-grid">` +
+  `<div class="upload-preview">` +
+  ` ` +
+  (preview) +
+  ` ` +
+  `</div>` +
+  `<div class="upload-fields">` +
+  `<label>` +
+  ` File <input name="simpleFile" type="file" accept="` +
+  (escapeHtml(accept)) +
+  `" />` +
+  `</label>` +
+  `<label>` +
+  ` Description ` +
+  `<textarea name="description" placeholder="Optional description">` +
+  `</textarea>` +
+  `</label>` +
+  `<p class="subtitle small">` +
+  ` Defaults: type inferred from the file, scope ` +
+  (escapeHtml(this.uploadDefaultScope())) +
+  ` , visibility ` +
+  (escapeHtml(this.uploadDefaultVisibility())) +
+  ` , category ` +
+  (escapeHtml(this.uploadDefaultCategory())) +
+  ` , status active. ` +
+  `</p>` +
+  `</div>` +
+  `</div>`
+);
   }
 
   renderSimpleAssetOption(asset) {
     const selected = this._selectedAssetIds.has(asset.id);
     const pressed = selected ? 'true' : 'false';
     const checkText = selected ? '✓' : (this.selectionMode() === 'multiple' ? '+' : '');
-    return `
-      <button type="button" class="asset-option" data-id="${escapeHtml(asset.id)}" aria-pressed="${pressed}" aria-selected="${pressed}">
-        <uib-asset-thumbnail></uib-asset-thumbnail>
-        <p class="asset-name">${escapeHtml(asset.name)}</p>
-        <span class="selected-mark" aria-hidden="true">${escapeHtml(checkText)}</span>
-      </button>
-    `;
+    return (
+  `<button type="button" class="asset-option" data-id="` +
+  (escapeHtml(asset.id)) +
+  `" aria-pressed="` +
+  (pressed) +
+  `" aria-selected="` +
+  (pressed) +
+  `">` +
+  `<uib-asset-thumbnail>` +
+  `</uib-asset-thumbnail>` +
+  `<p class="asset-name">` +
+  ` ` +
+  (escapeHtml(asset.name)) +
+  ` ` +
+  `</p>` +
+  `<span class="selected-mark" aria-hidden="true">` +
+  ` ` +
+  (escapeHtml(checkText)) +
+  ` ` +
+  `</span>` +
+  `</button>`
+);
   }
 
   handleSimpleFilterSubmit(form) {

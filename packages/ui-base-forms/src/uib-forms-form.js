@@ -57,7 +57,27 @@ export class UibFormsForm extends UibBaseElement {
   render() {
     const label = this.label || 'Form';
     const submitLabel = this.getAttribute('submit-label') || 'Submit';
-    this.shadowRoot.innerHTML = `<style>${styles}</style><form class="uib-forms-form" part="form" aria-label="${escapeHtml(label)}"><slot></slot><div class="uib-forms-form__actions" part="actions"><slot name="actions"><uib-action-button class="uib-forms-form__submit" part="submit" label="${escapeHtml(submitLabel)}" variant="primary" action="submit" action-token="submit"></uib-action-button></slot></div></form>`;
+    this.shadowRoot.innerHTML = (
+  `<style>` +
+  ` ` +
+  (styles) +
+  ` ` +
+  `</style>` +
+  `<form class="uib-forms-form" part="form" aria-label="` +
+  (escapeHtml(label)) +
+  `">` +
+  `<slot>` +
+  `</slot>` +
+  `<div class="uib-forms-form__actions" part="actions">` +
+  `<slot name="actions">` +
+  `<uib-action-button class="uib-forms-form__submit" part="submit" label="` +
+  (escapeHtml(submitLabel)) +
+  `" variant="primary" action="submit" action-token="submit" >` +
+  `</uib-action-button>` +
+  `</slot>` +
+  `</div>` +
+  `</form>`
+);
     this.shadowRoot.querySelector('form')?.addEventListener('submit', (event) => this._submit(event));
     this.shadowRoot.querySelector('uib-action-button')?.addEventListener('click', (event) => this._requestSubmit(event));
   }

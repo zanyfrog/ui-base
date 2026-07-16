@@ -3,11 +3,11 @@ import {
   defineUiBaseElement,
   escapeHtml
 } from '@ui.base/core';
-import '@ui.base/ui/label';
-import '@ui.base/ui/help';
+import '@ui.base/ui/checkbox';
 
 const styles = `
-:host{display:block;color:var(--uib-color-ink,#13294b);font-family:var(--uib-font-family-sans,Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif)}*,*::before,*::after{box-sizing:border-box}.uib-checkbox{display:inline-flex;align-items:flex-start;gap:.55rem;max-width:100%;line-height:1.45;cursor:pointer}.uib-checkbox__input{width:1.05rem;height:1.05rem;min-width:1.05rem;margin:.18rem 0 0;padding:0;border:1px solid var(--uib-color-border-strong,#aab8cc);border-radius:.3rem;background:var(--uib-color-surface,#fff);accent-color:var(--uib-color-primary,#174a8b);cursor:pointer}.uib-checkbox__input:focus-visible{outline:none;box-shadow:var(--uib-focus-ring,0 0 0 4px rgba(23,74,139,.25))}.uib-checkbox__content{display:grid;gap:.12rem;min-width:0}.uib-checkbox__label-row{display:inline-flex;gap:.35rem;align-items:center;min-width:0}.uib-checkbox__label{font-weight:800;overflow-wrap:anywhere}.uib-checkbox__required{color:var(--uib-color-danger,#b4232a);font-weight:900}.uib-checkbox__help,.uib-checkbox__error{font-size:var(--uib-font-size-sm,.875rem)}.uib-checkbox__help{color:var(--uib-color-muted,#53657f)}.uib-checkbox__error{color:var(--uib-color-danger,#b4232a)}.uib-checkbox--disabled,.uib-checkbox--readonly{cursor:not-allowed;opacity:.62}.uib-checkbox--disabled .uib-checkbox__input,.uib-checkbox--readonly .uib-checkbox__input{cursor:not-allowed}:host([invalid]) .uib-checkbox__input{border-color:var(--uib-color-danger,#b4232a)}
+:host{display:block}
+uib-checkbox{display:block}
 `;
 
 export class UibFormsCheckbox extends UibBaseElement {
@@ -17,12 +17,14 @@ export class UibFormsCheckbox extends UibBaseElement {
     return [
       ...UibBaseElement.commonAttributes,
       'checked',
-      'value'
+      'value',
+      'hint'
     ];
   }
 
   constructor() {
     super();
+    this._defaultChecked = null;
     this._internals = null;
     try {
       if (typeof this.attachInternals === 'function') this._internals = this.attachInternals();
@@ -33,6 +35,7 @@ export class UibFormsCheckbox extends UibBaseElement {
   }
 
   connectedCallback() {
+    if (this._defaultChecked === null) this._defaultChecked = this.hasAttribute('checked');
     this._updateFormValue();
     this.render();
   }
@@ -59,6 +62,21 @@ export class UibFormsCheckbox extends UibBaseElement {
   set value(value) {
     if (value === null || value === undefined) this.removeAttribute('value');
     else this.setAttribute('value', String(value));
+  }
+
+  get hint() {
+    return this.getAttribute('hint') || '';
+  }
+
+  set hint(value) {
+    if (value === null || value === undefined) this.removeAttribute('hint');
+    else this.setAttribute('hint', String(value));
+  }
+
+  formResetCallback() {
+    this.checked = this._defaultChecked === true;
+    this._updateFormValue();
+    this.render();
   }
 
   _updateFormValue() {
@@ -119,64 +137,79 @@ export class UibFormsCheckbox extends UibBaseElement {
     }));
   }
 
-  _handleInput(event) {
-    const oldValue = !this.checked;
-    this.checked = event.currentTarget.checked;
+  _syncFromUiCheckbox(event) {
+    event.stopPropagation();
+
+    const oldValue = this.checked;
+    const newValue = Boolean(event.detail?.newValue ?? event.currentTarget.checked);
+    if (oldValue !== newValue) this.checked = newValue;
     this._updateFormValue();
-    this._emitCommonControlEvent('input', event, { oldValue, newValue: this.checked });
+
+    return { oldValue, newValue };
   }
 
-  _handleChange(event) {
-    const oldValue = !this.checked;
-    this.checked = event.currentTarget.checked;
-    this._updateFormValue();
+  _handleUiCheckboxChange(event) {
+    const { oldValue, newValue } = this._syncFromUiCheckbox(event);
     this.checkValidity();
-    const detail = this._eventDetail({ oldValue, newValue: this.checked });
+    const detail = this._eventDetail({ oldValue, newValue });
+    this.emitMtEvent('input', detail);
     this.emitMtEvent('change', detail);
     this.emitMtEvent('uib-forms-checkbox-change', detail);
   }
 
-  _bindControlEvents(control) {
-    control?.addEventListener('input', (event) => this._handleInput(event));
-    control?.addEventListener('change', (event) => this._handleChange(event));
-    control?.addEventListener('focus', (event) => this._emitCommonControlEvent('focus', event));
-    control?.addEventListener('blur', (event) => this._emitCommonControlEvent('blur', event));
-    control?.addEventListener('focusin', (event) => this._emitCommonControlEvent('focusin', event));
-    control?.addEventListener('focusout', (event) => this._emitCommonControlEvent('focusout', event));
-    control?.addEventListener('keydown', (event) => this._emitKeyboardEvent('keydown', event));
-    control?.addEventListener('keyup', (event) => this._emitKeyboardEvent('keyup', event));
-    control?.addEventListener('invalid', (event) => this._emitCommonControlEvent('invalid', event));
+  _bindUiCheckboxEvents(control) {
+    if (!control) return;
+    control.addEventListener('uib-checkbox-change', (event) => this._handleUiCheckboxChange(event));
+    control.addEventListener('change', (event) => event.stopPropagation());
+    control.addEventListener('focus', (event) => this._emitCommonControlEvent('focus', event));
+    control.addEventListener('blur', (event) => this._emitCommonControlEvent('blur', event));
+    control.addEventListener('focusin', (event) => this._emitCommonControlEvent('focusin', event));
+    control.addEventListener('focusout', (event) => this._emitCommonControlEvent('focusout', event));
+    control.addEventListener('keydown', (event) => this._emitKeyboardEvent('keydown', event));
+    control.addEventListener('keyup', (event) => this._emitKeyboardEvent('keyup', event));
+    control.addEventListener('invalid', (event) => this._emitCommonControlEvent('invalid', event));
   }
 
   render() {
-    const inputId = `${this.componentId}-control`;
-    const helpId = this.help ? `${this.componentId}-help` : '';
     const validation = this._validation();
     const shouldShowError = this.invalid || !validation.valid;
     const errorText = this.error || validation.message;
-    const errorId = shouldShowError && errorText ? `${this.componentId}-error` : '';
-    const describedBy = this.describedBy(helpId, errorId);
     const label = this.label || this.textContent.trim() || this.name || 'Checkbox';
-    const help = this.help ? `<span id="${helpId}" class="uib-checkbox__help" part="help"><uib-help text="${escapeHtml(this.help)}" mode="${escapeHtml(this.helpMode || 'tooltip')}"></uib-help></span>` : '';
-    const error = errorId ? `<span id="${errorId}" class="uib-checkbox__error" part="error">${escapeHtml(errorText)}</span>` : '';
-    const disabledClass = this.disabled ? ' uib-checkbox--disabled' : '';
-    const readonlyClass = this.readonly ? ' uib-checkbox--readonly' : '';
+    const ariaLabel = this.ariaLabel || '';
+    const ariaDescribedBy = this.describedBy();
 
-    this.shadowRoot.innerHTML = `
-      <style>${styles}</style>
-      <label class="uib-checkbox${disabledClass}${readonlyClass}" part="field" for="${inputId}">
-        <input id="${inputId}" class="uib-checkbox__input" part="input" type="checkbox" name="${escapeHtml(this.name)}" value="${escapeHtml(this.value)}" ${this.checked ? 'checked' : ''} ${this.disabled ? 'disabled' : ''} ${this.readonly ? 'disabled' : ''} ${this.required ? 'required' : ''} ${describedBy ? `aria-describedby="${escapeHtml(describedBy)}"` : ''} aria-invalid="${this.invalid ? 'true' : 'false'}">
-        <span class="uib-checkbox__content" part="content">
-          <span class="uib-checkbox__label-row">
-            <span class="uib-checkbox__label" part="label"><slot><uib-label for="${inputId}" text="${escapeHtml(label)}"></uib-label></slot></span>
-            ${this.required ? '<span class="uib-checkbox__required" part="required" aria-hidden="true">*</span>' : ''}
-          </span>
-          ${help}
-          ${error}
-        </span>
-      </label>
-    `;
-    this._bindControlEvents(this.shadowRoot.querySelector('.uib-checkbox__input'));
+    this.shadowRoot.innerHTML = (
+  `<style>` +
+  (styles) +
+  `</style>` +
+  `<uib-checkbox exportparts="field,input,content,label,required,hint,help,error" ` +
+  (this.checked ? 'checked' : '') +
+  ` ` +
+  (this.disabled ? 'disabled' : '') +
+  ` ` +
+  (this.readonly ? 'readonly' : '') +
+  ` ` +
+  (this.required ? 'required' : '') +
+  ` ` +
+  (this.invalid || !validation.valid ? 'invalid' : '') +
+  ` label="` +
+  (escapeHtml(label)) +
+  `" help="` +
+  (escapeHtml(this.help)) +
+  `" help-mode="` +
+  (escapeHtml(this.helpMode || 'tooltip')) +
+  `" hint="` +
+  (escapeHtml(this.hint)) +
+  `" error="` +
+  (shouldShowError ? escapeHtml(errorText) : '') +
+  `" ` +
+  (ariaLabel ? `aria-label="${escapeHtml(ariaLabel)}"` : '') +
+  ` ` +
+  (ariaDescribedBy ? `aria-describedby="${escapeHtml(ariaDescribedBy)}"` : '') +
+  ` >` +
+  `</uib-checkbox>`
+);
+    this._bindUiCheckboxEvents(this.shadowRoot.querySelector('uib-checkbox'));
   }
 }
 

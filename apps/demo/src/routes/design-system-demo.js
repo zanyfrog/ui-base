@@ -86,106 +86,183 @@ function bindDesignSystem(main) {
 export function renderDesignSystemRoute(main) {
   main.innerHTML = `
     <section class="page-heading">
-      <p class="eyebrow">UI Base Design System</p>
-      <h1>Standards and live token testing for consistent applications.</h1>
-      <p>The design system defines the shared language for every package: accessibility, tokens, component maturity, event names, slots, CSS parts, validation, localization, and documentation.</p>
+      <p class="eyebrow">
+        UI Base Design System
+      </p>
+      <h1>
+        Standards and live token testing for consistent applications.
+      </h1>
+      <p>
+        The design system defines the shared language for every package: accessibility, tokens, component maturity, event names, slots, CSS parts, validation, localization, and documentation.
+      </p>
     </section>
-
     <section class="demo-layout token-playground-layout">
       <aside class="card controls">
         <div class="card-content">
-          <h2>Theme token controls</h2>
-          <p class="helper-text">Change colors, radius, density, and surface mode. The preview updates by setting CSS custom properties on a parent container, which is the same pattern consuming apps should use.</p>
-          <div class="form-grid">${tokenControls()}</div>
-          <div class="button-row" style="margin-top: 1rem;">
-            <button class="secondary-button" type="button" data-reset-tokens>Reset tokens</button>
+          <h2>
+            Theme token controls
+          </h2>
+          <p class="helper-text">
+            Change colors, radius, density, and surface mode. The preview updates by setting CSS custom properties on a parent container, which is the same pattern consuming apps should use.
+          </p>
+          <div class="form-grid">
+            ${tokenControls()}
           </div>
-          <div id="tokenStatus" class="status-box">Change a token to update the preview.</div>
-          <pre id="tokenCssOutput" class="code-block"></pre>
+          <div class="button-row" style="margin-top: 1rem;">
+            <button class="secondary-button" type="button" data-reset-tokens>
+              Reset tokens
+            </button>
+          </div>
+          <div id="tokenStatus" class="status-box">
+            Change a token to update the preview.
+          </div>
+          <pre id="tokenCssOutput" class="code-block">
+          </pre>
         </div>
       </aside>
       <section id="tokenPreview" class="card token-preview-stage" aria-label="Live token preview">
         <div class="card-content token-preview-content">
-          <uib-heading-block
-            eyebrow="Token preview"
-            headline="Reusable components inherit parent tokens"
-            subheadline="This preview uses CSS variables only. No component source changes are needed."
-            body="Use this route to test whether a proposed theme still works for headings, actions, media, details, and form controls."
-            size="compact">
+          <uib-heading-block eyebrow="Token preview" headline="Reusable components inherit parent tokens" subheadline="This preview uses CSS variables only. No component source changes are needed." body="Use this route to test whether a proposed theme still works for headings, actions, media, details, and form controls." size="compact">
           </uib-heading-block>
-          <uib-action-group
-            actions='[{"label":"Run callback","variant":"primary","actionToken":"TOKEN_CALLBACK"},{"label":"Secondary link","variant":"secondary","href":"#token-preview"},{"label":"Text action","variant":"tertiary","actionToken":"TEXT_ACTION"}]'>
+          <uib-action-group actions='[{"label":"Run callback","variant":"primary","actionToken":"TOKEN_CALLBACK"},{"label":"Secondary link","variant":"secondary","href":"#token-preview"},{"label":"Text action","variant":"tertiary","actionToken":"TEXT_ACTION"}]'>
           </uib-action-group>
           <uib-grid min="14rem">
-            <uib-card label="Card surface"><p>Card body text should remain readable against the selected surface.</p></uib-card>
-            <uib-panel label="Panel surface"><p>Panel content inherits the same token values.</p></uib-panel>
+            <uib-card label="Card surface">
+              <p>
+                Card body text should remain readable against the selected surface.
+              </p>
+            </uib-card>
+            <uib-panel label="Panel surface">
+              <p>
+                Panel content inherits the same token values.
+              </p>
+            </uib-panel>
             <uib-forms-form name="tokenSample" label="Token sample form" submit-label="Submit sample">
-              <uib-forms-textbox name="sampleLabel" label="Editable label" value="Sample value"></uib-forms-textbox>
-              <uib-forms-select name="sampleOption" label="Display option" options="Default,Compact,Expanded"></uib-forms-select>
+              <uib-forms-textbox name="sampleLabel" label="Editable label" value="Sample value">
+              </uib-forms-textbox>
+              <uib-forms-select name="sampleOption" label="Display option" options="Default,Compact,Expanded">
+              </uib-forms-select>
             </uib-forms-form>
           </uib-grid>
         </div>
       </section>
     </section>
-
     <section class="docs-grid" style="margin-top: 1rem;">
       <article class="card doc-card">
         <div class="card-content">
-          <h2>Principles</h2>
+          <h2>
+            Principles
+          </h2>
           <ul>
-            <li>Accessible by default.</li>
-            <li>Framework-neutral Web Components.</li>
-            <li>Convention over configuration.</li>
-            <li>Responsive by default.</li>
-            <li>Themeable by CSS tokens.</li>
+            <li>
+              Accessible by default.
+            </li>
+            <li>
+              Framework-neutral Web Components.
+            </li>
+            <li>
+              Convention over configuration.
+            </li>
+            <li>
+              Responsive by default.
+            </li>
+            <li>
+              Themeable by CSS tokens.
+            </li>
           </ul>
         </div>
       </article>
-
       <article class="card doc-card">
         <div class="card-content">
-          <h2>Common attributes</h2>
-          <p>Components use a shared base API where applicable.</p>
-          <pre class="code-block"><code>${escapeHtml('id, name, label, help, help-mode, title,\ndisabled, readonly, required, hidden,\ninvalid, error, class, style,\naria-label, aria-describedby')}</code></pre>
+          <h2>
+            Common attributes
+          </h2>
+          <p>
+            Components use a shared base API where applicable.
+          </p>
+          <pre class="code-block">
+            <code>
+              ${escapeHtml('id, name, label, help, help-mode, title,\ndisabled, readonly, required, hidden,\ninvalid, error, class, style,\naria-label, aria-describedby')}
+            </code>
+          </pre>
         </div>
       </article>
-
       <article class="card doc-card">
         <div class="card-content">
-          <h2>Component lifecycle</h2>
+          <h2>
+            Component lifecycle
+          </h2>
           <ol>
-            <li>Experimental</li>
-            <li>Preview</li>
-            <li>Stable</li>
-            <li>Deprecated</li>
-            <li>Retired</li>
+            <li>
+              Experimental
+            </li>
+            <li>
+              Preview
+            </li>
+            <li>
+              Stable
+            </li>
+            <li>
+              Deprecated
+            </li>
+            <li>
+              Retired
+            </li>
           </ol>
         </div>
       </article>
-
       <article class="card doc-card">
         <div class="card-content">
-          <h2>Theme override model</h2>
-          <p>A base stylesheet can define variables and a later stylesheet can override them.</p>
-          <pre class="code-block"><code>${escapeHtml('<link rel="stylesheet" href="@ui.base/theme/default.css">\n<link rel="stylesheet" href="/site/theme-overrides.css">')}</code></pre>
-          <p class="muted">The second file wins for variables it redefines.</p>
+          <h2>
+            Theme override model
+          </h2>
+          <p>
+            A base stylesheet can define variables and a later stylesheet can override them.
+          </p>
+          <pre class="code-block">
+            <code>
+              ${escapeHtml('<link rel="stylesheet" href="@ui.base/theme/default.css">\n<link rel="stylesheet" href="/site/theme-overrides.css">')}
+            </code>
+          </pre>
+          <p class="muted">
+            The second file wins for variables it redefines.
+          </p>
         </div>
       </article>
     </section>
-
     <section class="card package-roadmap-card">
       <div class="card-content">
-        <h2>Package roadmap</h2>
+        <h2>
+          Package roadmap
+        </h2>
         <div class="package-roadmap">
-          <code>@ui.base/core</code>
-          <code>@ui.base/design-system</code>
-          <code>@ui.base/theme</code>
-          <code>@ui.base/icons</code>
-          <code>@ui.base/ui</code>
-          <code>@ui.base/forms</code>
-          <code>@ui.base/calendar</code>
-          <code>@ui.base/hero</code>
-          <code>@ui.base/assets</code>
+          <code>
+            @ui.base/core
+          </code>
+          <code>
+            @ui.base/design-system
+          </code>
+          <code>
+            @ui.base/theme
+          </code>
+          <code>
+            @ui.base/icons
+          </code>
+          <code>
+            @ui.base/ui
+          </code>
+          <code>
+            @ui.base/forms
+          </code>
+          <code>
+            @ui.base/calendar
+          </code>
+          <code>
+            @ui.base/hero
+          </code>
+          <code>
+            @ui.base/assets
+          </code>
         </div>
       </div>
     </section>

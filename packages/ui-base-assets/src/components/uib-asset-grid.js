@@ -20,17 +20,13 @@ export class UibAssetGrid extends BaseHTMLElement {
   render() {
     const selectedId = this.getAttribute('selected-asset-id') || '';
     const selectionMode = this.getAttribute('selection-mode') || 'single';
-    this.shadowRoot.innerHTML = `
-      <style>${baseAssetStyles}
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 0.85rem; }
-        .asset-tile { display: grid; gap: 0.75rem; padding: 0.75rem; text-align: left; cursor: pointer; }
-        .asset-tile[aria-selected="true"] { outline: 3px solid rgba(23, 74, 139, 0.25); border-color: var(--uib-assets-primary); }
-        .tile-title { margin: 0; font-size: 0.98rem; font-weight: 900; line-height: 1.25; }
-        .tile-meta { display: flex; flex-wrap: wrap; gap: 0.35rem; }
-        .tile-actions { display: flex; gap: 0.4rem; flex-wrap: wrap; }
-        .tile-actions button { min-height: 2.05rem; padding: 0.4rem 0.65rem; font-size: 0.8rem; }
-      </style>
-      ${this._assets.length ? `
+    this.shadowRoot.innerHTML = (
+  `<style>` +
+  (baseAssetStyles) +
+  ` .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 0.85rem; } .asset-tile { display: grid; gap: 0.75rem; padding: 0.75rem; text-align: left; cursor: pointer; } .asset-tile[aria-selected="true"] { outline: 3px solid rgba(23, 74, 139, 0.25); border-color: var(--uib-assets-primary); } .tile-title { margin: 0; font-size: 0.98rem; font-weight: 900; line-height: 1.25; } .tile-meta { display: flex; flex-wrap: wrap; gap: 0.35rem; } .tile-actions { display: flex; gap: 0.4rem; flex-wrap: wrap; } .tile-actions button { min-height: 2.05rem; padding: 0.4rem 0.65rem; font-size: 0.8rem; } ` +
+  `</style>` +
+  ` ` +
+  (this._assets.length ? `
         <div class="grid" aria-label="Asset grid">
           ${this._assets.map((asset) => `
             <article class="asset-card asset-tile" data-id="${escapeHtml(asset.id)}" aria-selected="${asset.id === selectedId ? 'true' : 'false'}" tabindex="0">
@@ -50,8 +46,9 @@ export class UibAssetGrid extends BaseHTMLElement {
             </article>
           `).join('')}
         </div>
-      ` : `<div class="empty-state">No assets match the current search and filters.</div>`}
-    `;
+      ` : `<div class="empty-state">No assets match the current search and filters.</div>`) +
+  ` `
+);
     this.shadowRoot.querySelectorAll('uib-asset-thumbnail').forEach((thumbnail, index) => { thumbnail.asset = this._assets[index]; });
     this.shadowRoot.querySelectorAll('.asset-tile').forEach((tile) => {
       tile.addEventListener('click', (event) => {

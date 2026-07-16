@@ -156,7 +156,11 @@ function clone(value) {
 
 function heroRouteList(currentPath, includeOverview = true) {
   const overviewLink = includeOverview
-    ? `<a class="route-button" href="/hero/" data-link ${currentPath === '/hero' ? 'aria-current="page"' : ''}>Hero Overview</a>`
+    ? `
+      <a class="route-button" href="/hero/" data-link ${currentPath === '/hero' ? 'aria-current="page"' : ''}>
+        Hero Overview
+      </a>
+    `
     : '';
 
   return `
@@ -170,62 +174,81 @@ function heroRouteList(currentPath, includeOverview = true) {
 function renderHeroIndex(main, path) {
   main.innerHTML = `
     <section class="page-heading">
-      <h1>Hero Component Demo</h1>
-      <p>The Hero component is a reusable page-opening component for designers and developers. Choose one of the two tour examples below.</p>
+      <h1>
+        Hero Component Demo
+      </h1>
+      <p>
+        The Hero component is a reusable page-opening component for designers and developers. Choose one of the two tour examples below.
+      </p>
     </section>
     ${heroRouteList(path, false)}
     <section class="home-grid" aria-label="Hero examples">
       <a class="card home-card" href="/hero/organization" data-link>
         <span>
-          <h2>Sample Department Main Building</h2>
-          <p>A background-image hero treatment with navigation, tour details, four parent-controlled CTA buttons, and a historic-building visual.</p>
+          <h2>
+            Sample Department Main Building
+          </h2>
+          <p>
+            A background-image hero treatment with navigation, tour details, four parent-controlled CTA buttons, and a historic-building visual.
+          </p>
         </span>
-        <strong class="primary-button">Display Sample Department Example</strong>
+        <strong class="primary-button">
+          Display Sample Department Example
+        </strong>
       </a>
       <a class="card home-card" href="/hero/sample-site" data-link>
         <span>
-          <h2>Tour the Sample Visitor Center</h2>
-          <p>A dark background-image hero treatment with gold CTA, location visual, trust signal, and four action buttons.</p>
+          <h2>
+            Tour the Sample Visitor Center
+          </h2>
+          <p>
+            A dark background-image hero treatment with gold CTA, location visual, trust signal, and four action buttons.
+          </p>
         </span>
-        <strong class="primary-button">Display Sample Visitor Center Example</strong>
+        <strong class="primary-button">
+          Display Sample Visitor Center Example
+        </strong>
       </a>
       <a class="card home-card" href="/hero/asset-backed-details" data-link>
         <span>
-          <h2>Asset-backed Hero Details</h2>
-          <p>Tests <code>uib-visual-source-control</code>, <code>uib-detail-list-editor</code>, <code>uib-asset-image</code>, and <code>uib-hero</code> together.</p>
+          <h2>
+            Asset-backed Hero Details
+          </h2>
+          <p>
+            Tests
+            <code>
+              uib-visual-source-control
+            </code>
+            ,
+            <code>
+              uib-detail-list-editor
+            </code>
+            ,
+            <code>
+              uib-asset-image
+            </code>
+            , and
+            <code>
+              uib-hero
+            </code>
+            together.
+          </p>
         </span>
-        <strong class="primary-button">Test Asset-backed Details</strong>
+        <strong class="primary-button">
+          Test Asset-backed Details
+        </strong>
       </a>
     </section>
     <section class="card" style="margin-top: 1rem;">
       <div class="card-content">
-        <h2>Basic usage</h2>
-        <pre class="code-block"><code>&lt;script type="module"&gt;
-  import '@ui.base/hero';
-  import '@ui.base/ui';
-
-  const hero = document.querySelector('uib-hero');
-  hero.details = [
-    { label: 'Tour Length', value: '45 minutes', iconUrl: '/apps/demo/assets/icons/tour-length.svg', iconAlt: 'Tour length' },
-    { label: 'Cost', value: 'Free', iconUrl: '/apps/demo/assets/icons/cost.svg', iconAlt: 'Cost' }
-  ];
-&lt;/script&gt;
-
-&lt;uib-hero
-  headline="Tour the Sample Visitor Center"
-  subheadline="Go behind the scenes and see how the visitor experience is delivered."
-  action-components='[
-    { "id": "book-tour", "name": "primaryCta", "kind": "primary", "label": "Book a Tour", "type": "link", "value": "/book", "show": true, "disabled": false, "variant": "primary" },
-    { "id": "plan-visit", "name": "secondaryCta", "kind": "secondary", "label": "Plan Your Visit", "type": "link", "value": "/visit", "show": true, "disabled": false, "variant": "secondary" },
-    { "id": "cancel-reservation", "name": "thirdCta", "kind": "third", "label": "Cancel Reservation", "type": "link", "value": "/cancel", "show": true, "disabled": false, "variant": "destructive" },
-    { "id": "book-group-tour", "name": "fourthCta", "kind": "fourth", "label": "Book Group Tour", "type": "link", "value": "/group", "show": true, "disabled": false, "variant": "secondary" }
-  ]'
-  trust-signal="Advance reservations are required."
-  visual-source="url"
-  visual-role="background"
-  visual-mode="background"
-  layout-opacity="0.8"
-&gt;&lt;/uib-hero&gt;</code></pre>
+        <h2>
+          Basic usage
+        </h2>
+        <pre class="code-block">
+          <code>
+            &lt;script type="module"&gt; import '@ui.base/hero'; import '@ui.base/ui'; const hero = document.querySelector('uib-hero'); hero.details = [ { label: 'Tour Length', value: '45 minutes', iconUrl: '/apps/demo/assets/icons/tour-length.svg', iconAlt: 'Tour length' }, { label: 'Cost', value: 'Free', iconUrl: '/apps/demo/assets/icons/cost.svg', iconAlt: 'Cost' } ]; &lt;/script&gt; &lt;uib-hero headline="Tour the Sample Visitor Center" subheadline="Go behind the scenes and see how the visitor experience is delivered." action-components='[ { "id": "book-tour", "name": "primaryCta", "kind": "primary", "label": "Book a Tour", "type": "link", "value": "/book", "show": true, "disabled": false, "variant": "primary" }, { "id": "plan-visit", "name": "secondaryCta", "kind": "secondary", "label": "Plan Your Visit", "type": "link", "value": "/visit", "show": true, "disabled": false, "variant": "secondary" }, { "id": "cancel-reservation", "name": "thirdCta", "kind": "third", "label": "Cancel Reservation", "type": "link", "value": "/cancel", "show": true, "disabled": false, "variant": "destructive" }, { "id": "book-group-tour", "name": "fourthCta", "kind": "fourth", "label": "Book Group Tour", "type": "link", "value": "/group", "show": true, "disabled": false, "variant": "secondary" } ]' trust-signal="Advance reservations are required." visual-source="url" visual-role="background" visual-mode="background" layout-opacity="0.8" &gt;&lt;/uib-hero&gt;
+          </code>
+        </pre>
       </div>
     </section>
   `;
@@ -298,76 +321,108 @@ function renderAssetBackedDetailsDemo(main, path) {
   const detailJson = JSON.stringify(HERO_ASSET_DETAILS);
   main.innerHTML = `
     <section class="page-heading">
-      <h1>Hero with asset-backed detail icons</h1>
-      <p>This test page wires the reusable base components together: the Hero visual uses <code>visualSource</code>/<code>visualRole</code>, detail icons can be direct URLs or asset IDs, and the detail editor emits separate add/update/remove events plus a full change event.</p>
+      <h1>
+        Hero with asset-backed detail icons
+      </h1>
+      <p>
+        This test page wires the reusable base components together: the Hero visual uses
+        <code>
+          visualSource
+        </code>
+        /
+        <code>
+          visualRole
+        </code>
+        , detail icons can be direct URLs or asset IDs, and the detail editor emits separate add/update/remove events plus a full change event.
+      </p>
     </section>
     ${heroRouteList(path)}
     <section class="demo-layout hero-demo-layout">
       <aside class="card controls" aria-label="Asset-backed Hero controls">
         <div class="card-content">
-          <h2>Reusable asset and detail controls</h2>
-          <p class="helper-text">A value in <code>visualSrc</code> wins over <code>visualAssetId</code>. Clear the URL to let the asset ID resolve from the asset map.</p>
-          <uib-visual-source-control
-            id="assetHeroVisualControl"
-            label="Main Hero visual"
-            visual-source="asset"
-            visual-role="background"
-            asset-id="asset-hero-main"
-            alt="Asset-backed Hero visual"
-            application-key="demo-app"
-            api-base-url="http://localhost:4020"
-            use-asset-picker
-          ></uib-visual-source-control>
-          <uib-detail-list-editor
-            id="assetHeroDetailsEditor"
-            label="Hero detail icon editor"
-            details='${detailJson.replaceAll("'", '&#039;')}'
-            asset-map='${assetMapJson.replaceAll("'", '&#039;')}'
-            application-key="demo-app"
-            api-base-url="http://localhost:4020"
-            use-asset-picker
-          ></uib-detail-list-editor>
-          <div id="assetHeroStatus" class="status-box">Change the visual or detail rows to update the Hero preview.</div>
+          <h2>
+            Reusable asset and detail controls
+          </h2>
+          <p class="helper-text">
+            A value in
+            <code>
+              visualSrc
+            </code>
+            wins over
+            <code>
+              visualAssetId
+            </code>
+            . Clear the URL to let the asset ID resolve from the asset map.
+          </p>
+          <uib-visual-source-control id="assetHeroVisualControl" label="Main Hero visual" visual-source="asset" visual-role="background" asset-id="asset-hero-main" alt="Asset-backed Hero visual" application-key="demo-app" api-base-url="http://localhost:4020" use-asset-picker>
+          </uib-visual-source-control>
+          <uib-detail-list-editor id="assetHeroDetailsEditor" label="Hero detail icon editor" details='${detailJson.replaceAll("'", '&#039;')}' asset-map='${assetMapJson.replaceAll("'", '&#039;')}' application-key="demo-app" api-base-url="http://localhost:4020" use-asset-picker>
+          </uib-detail-list-editor>
+          <div id="assetHeroStatus" class="status-box">
+            Change the visual or detail rows to update the Hero preview.
+          </div>
           <details class="control-section" open>
-            <summary><strong>Detail editor and Hero preview event log</strong></summary>
-            <pre id="assetHeroEventLog" class="code-block controls-event-log">[]</pre>
+            <summary>
+              <strong>
+                Detail editor and Hero preview event log
+              </strong>
+            </summary>
+            <pre id="assetHeroEventLog" class="code-block controls-event-log">
+              []
+            </pre>
           </details>
           <details class="control-section">
-            <summary><strong>Hero markup</strong></summary>
-            <pre id="assetHeroMarkup" class="code-block"></pre>
+            <summary>
+              <strong>
+                Hero markup
+              </strong>
+            </summary>
+            <pre id="assetHeroMarkup" class="code-block">
+            </pre>
           </details>
         </div>
       </aside>
       <section class="hero-preview" aria-label="Asset-backed Hero preview">
-        <uib-hero
-          id="assetBackedHero"
-          eyebrow="Reusable primitives"
-          headline="Hero composed from UI Base components"
-          subheadline="The Hero delegates media rendering, action buttons, headings, and detail icons to reusable base components."
-          action-components='[{"id":"start-workflow","name":"primaryCta","kind":"primary","label":"Start workflow","type":"action","value":"START_WORKFLOW","show":true,"disabled":false,"variant":"primary"},{"id":"learn-more","name":"secondaryCta","kind":"secondary","label":"Learn more","type":"link","value":"#learn-more","show":true,"disabled":false,"variant":"secondary"}]'
-          trust-signal="Demo data is resolved from clean source fields and an asset map."
-          brand-label="UI Base"
-          brand-mark="UIB"
-          theme="organization"
-          size="large"
-          visual-source="asset"
-          visual-role="background"
-          visual-asset-id="asset-hero-main"
-          visual-alt="Asset-backed Hero visual"
-          visual-mode="background"
-          visual-position="background"
-          asset-map='${assetMapJson.replaceAll("'", '&#039;')}'
-          details='${detailJson.replaceAll("'", '&#039;')}'
-          nav-items='[{"label":"Overview","href":"#overview"},{"label":"Components","href":"#components"},{"label":"Assets","href":"#assets"}]'
-        ></uib-hero>
+        <uib-hero id="assetBackedHero" eyebrow="Reusable primitives" headline="Hero composed from UI Base components" subheadline="The Hero delegates media rendering, action buttons, headings, and detail icons to reusable base components." action-components='[{"id":"start-workflow","name":"primaryCta","kind":"primary","label":"Start workflow","type":"action","value":"START_WORKFLOW","show":true,"disabled":false,"variant":"primary"},{"id":"learn-more","name":"secondaryCta","kind":"secondary","label":"Learn more","type":"link","value":"#learn-more","show":true,"disabled":false,"variant":"secondary"}]' trust-signal="Demo data is resolved from clean source fields and an asset map." brand-label="UI Base" brand-mark="UIB" theme="organization" size="large" visual-source="asset" visual-role="background" visual-asset-id="asset-hero-main" visual-alt="Asset-backed Hero visual" visual-mode="background" visual-position="background" asset-map='${assetMapJson.replaceAll("'", '&#039;')}' details='${detailJson.replaceAll("'", '&#039;')}' nav-items='[{"label":"Overview","href":"#overview"},{"label":"Components","href":"#components"},{"label":"Assets","href":"#assets"}]'>
+        </uib-hero>
         <section id="learn-more" class="card" style="margin-top: 1rem;">
           <div class="card-content">
-            <h2>What this validates</h2>
+            <h2>
+              What this validates
+            </h2>
             <ul>
-              <li><code>uib-hero</code> accepts raw asset IDs and resolved URLs.</li>
-              <li><code>uib-asset-image</code> resolves IDs through <code>asset-map</code>.</li>
-              <li><code>uib-detail-list-editor</code> emits add, update, remove, and change events.</li>
-              <li><code>visualSrc</code> overrides <code>visualAssetId</code> when both are populated.</li>
+              <li>
+                <code>
+                  uib-hero
+                </code>
+                accepts raw asset IDs and resolved URLs.
+              </li>
+              <li>
+                <code>
+                  uib-asset-image
+                </code>
+                resolves IDs through
+                <code>
+                  asset-map
+                </code>
+                .
+              </li>
+              <li>
+                <code>
+                  uib-detail-list-editor
+                </code>
+                emits add, update, remove, and change events.
+              </li>
+              <li>
+                <code>
+                  visualSrc
+                </code>
+                overrides
+                <code>
+                  visualAssetId
+                </code>
+                when both are populated.
+              </li>
             </ul>
           </div>
         </section>
@@ -533,129 +588,242 @@ function renderActionControlCard(action) {
 function renderExampleShell(main, path, kind, state) {
   main.innerHTML = `
     <section class="page-heading">
-      <h1>${state.pageTitle}</h1>
-      <p>This page demonstrates the reusable &lt;uib-hero&gt; component with parent-controlled text values, four CTA buttons, CTA visibility, CTA disabled state, navigation items, visual mode, trust signal, and tour detail bullets.</p>
+      <h1>
+        ${state.pageTitle}
+      </h1>
+      <p>
+        This page demonstrates the reusable &lt;uib-hero&gt; component with parent-controlled text values, four CTA buttons, CTA visibility, CTA disabled state, navigation items, visual mode, trust signal, and tour detail bullets.
+      </p>
     </section>
     ${heroRouteList(path)}
     <section class="demo-layout hero-demo-layout" id="heroDemoLayout">
       <aside class="card controls" id="heroControlsPanel" aria-label="Hero parent state controls">
         <div class="card-content">
           <div class="controls-header">
-            <h2>Parent state controls</h2>
-            <button id="toggleControlsPanel" class="secondary-button compact-control-button" type="button" aria-controls="heroControlsPanel" aria-expanded="true">Collapse controls</button>
+            <h2>
+              Parent state controls
+            </h2>
+            <button id="toggleControlsPanel" class="secondary-button compact-control-button" type="button" aria-controls="heroControlsPanel" aria-expanded="true">
+              Collapse controls
+            </button>
           </div>
           <div class="form-grid">
-            <div class="field"><label for="eyebrow">Eyebrow</label><input id="eyebrow" /></div>
-            <div class="field"><label for="headline">Headline</label><textarea id="headline"></textarea></div>
-            <div class="field"><label for="subheadline">Subheadline</label><textarea id="subheadline"></textarea></div>
+            <div class="field">
+              <label for="eyebrow">
+                Eyebrow
+              </label>
+              <input id="eyebrow" />
+            </div>
+            <div class="field">
+              <label for="headline">
+                Headline
+              </label>
+              <textarea id="headline">
+              </textarea>
+            </div>
+            <div class="field">
+              <label for="subheadline">
+                Subheadline
+              </label>
+              <textarea id="subheadline">
+              </textarea>
+            </div>
             <fieldset class="control-section cta-control-section">
-              <legend>Hero action buttons</legend>
-              <p class="helper-text">Each action card controls the button label, whether it is shown, and whether it is disabled. The Hero renders visible CTA buttons as a wrapping CSS flow on a distinct action panel.</p>
+              <legend>
+                Hero action buttons
+              </legend>
+              <p class="helper-text">
+                Each action card controls the button label, whether it is shown, and whether it is disabled. The Hero renders visible CTA buttons as a wrapping CSS flow on a distinct action panel.
+              </p>
               <div class="cta-control-grid">
                 ${HERO_ACTIONS.map(renderActionControlCard).join('')}
               </div>
             </fieldset>
-            <div class="field"><label for="trustSignal">Trust signal</label><textarea id="trustSignal"></textarea></div>
+            <div class="field">
+              <label for="trustSignal">
+                Trust signal
+              </label>
+              <textarea id="trustSignal">
+              </textarea>
+            </div>
             <fieldset class="control-section">
-              <legend>Visual mode</legend>
+              <legend>
+                Visual mode
+              </legend>
               <div class="field">
-                <label for="visualMode">Hero visual mode</label>
+                <label for="visualMode">
+                  Hero visual mode
+                </label>
                 <select id="visualMode">
-                  <option value="panel-right">Panel visual on right</option>
-                  <option value="panel-left">Panel visual on left</option>
-                  <option value="background">Background behind whole Hero</option>
+                  <option value="panel-right">
+                    Panel visual on right
+                  </option>
+                  <option value="panel-left">
+                    Panel visual on left
+                  </option>
+                  <option value="background">
+                    Background behind whole Hero
+                  </option>
                 </select>
               </div>
               <div class="field">
-                <label for="layoutOpacity">Layout opacity</label>
+                <label for="layoutOpacity">
+                  Layout opacity
+                </label>
                 <input id="layoutOpacity" type="number" min="0" max="1" step="0.05" />
-                <p class="helper-text">Controls the opacity of the Hero <code>.uib-hero__layout</code> area. Default is 0.8.</p>
+                <p class="helper-text">
+                  Controls the opacity of the Hero
+                  <code>
+                    .uib-hero__layout
+                  </code>
+                  area. Default is 0.8.
+                </p>
               </div>
               <div class="field">
-                <label for="visualSource">Visual source</label>
+                <label for="visualSource">
+                  Visual source
+                </label>
                 <select id="visualSource">
-                  <option value="slot">Custom slotted demo visual</option>
-                  <option value="url">Image URL or data URI</option>
+                  <option value="slot">
+                    Custom slotted demo visual
+                  </option>
+                  <option value="url">
+                    Image URL or data URI
+                  </option>
                 </select>
               </div>
               <div class="field">
-                <label for="visualSrc">Image URL or data URI</label>
+                <label for="visualSrc">
+                  Image URL or data URI
+                </label>
                 <input id="visualSrc" placeholder="/images/tour-photo.jpg or data:image/svg+xml,..." />
               </div>
               <div class="field">
-                <label for="visualAlt">Image alt text</label>
+                <label for="visualAlt">
+                  Image alt text
+                </label>
                 <input id="visualAlt" />
               </div>
-              <button id="refreshHeroPreview" class="secondary-button control-button" type="button">Refresh Hero Preview</button>
-              <p class="helper-text">Panel modes keep the visual as a subset of the Hero. Background mode places the visual behind the whole Hero surface, including navigation and detail bullets. The preview updates immediately; use refresh only after pasting a large image data URI or changing several visual fields at once.</p>
+              <button id="refreshHeroPreview" class="secondary-button control-button" type="button">
+                Refresh Hero Preview
+              </button>
+              <p class="helper-text">
+                Panel modes keep the visual as a subset of the Hero. Background mode places the visual behind the whole Hero surface, including navigation and detail bullets. The preview updates immediately; use refresh only after pasting a large image data URI or changing several visual fields at once.
+              </p>
             </fieldset>
-            <div class="field"><label for="detailsJson">Tour detail bullets JSON</label><textarea id="detailsJson" spellcheck="false"></textarea><p class="helper-text">Use <code>icon</code> for a short text badge. Use <code>iconUrl</code> or <code>iconSrc</code> for an image URL, relative URL, or <code>data:image/...</code> URI. A URL placed directly in <code>icon</code> will also render as an image.</p></div>
-            <div class="field"><label for="navJson">Navigation JSON</label><textarea id="navJson" spellcheck="false"></textarea></div>
+            <div class="field">
+              <label for="detailsJson">
+                Tour detail bullets JSON
+              </label>
+              <textarea id="detailsJson" spellcheck="false">
+              </textarea>
+              <p class="helper-text">
+                Use
+                <code>
+                  icon
+                </code>
+                for a short text badge. Use
+                <code>
+                  iconUrl
+                </code>
+                or
+                <code>
+                  iconSrc
+                </code>
+                for an image URL, relative URL, or
+                <code>
+                  data:image/...
+                </code>
+                URI. A URL placed directly in
+                <code>
+                  icon
+                </code>
+                will also render as an image.
+              </p>
+            </div>
+            <div class="field">
+              <label for="navJson">
+                Navigation JSON
+              </label>
+              <textarea id="navJson" spellcheck="false">
+              </textarea>
+            </div>
           </div>
-          <div id="heroStatus" class="status-box">Change a value to see the Hero update. CTA clicks are reported here.</div>
+          <div id="heroStatus" class="status-box">
+            Change a value to see the Hero update. CTA clicks are reported here.
+          </div>
           <details class="control-section" open>
-            <summary><strong>Latest Hero event</strong></summary>
-            <pre id="heroEventLog" class="code-block">{}</pre>
+            <summary>
+              <strong>
+                Latest Hero event
+              </strong>
+            </summary>
+            <pre id="heroEventLog" class="code-block">
+              {}
+            </pre>
           </details>
           <details class="control-section">
-            <summary><strong>Current Hero markup</strong></summary>
-            <pre id="heroMarkup" class="code-block"></pre>
+            <summary>
+              <strong>
+                Current Hero markup
+              </strong>
+            </summary>
+            <pre id="heroMarkup" class="code-block">
+            </pre>
           </details>
         </div>
       </aside>
       <section class="hero-preview" aria-label="Hero preview">
         <div class="preview-toolbar card">
           <div>
-            <strong>Hero preview</strong>
-            <span id="previewToolbarText">Collapse controls to display the Hero at full width.</span>
+            <strong>
+              Hero preview
+            </strong>
+            <span id="previewToolbarText">
+              Collapse controls to display the Hero at full width.
+            </span>
           </div>
-          <button id="toggleControlsPreview" class="primary-button compact-control-button" type="button" aria-controls="heroControlsPanel" aria-expanded="true">Hide controls</button>
+          <button id="toggleControlsPreview" class="primary-button compact-control-button" type="button" aria-controls="heroControlsPanel" aria-expanded="true">
+            Hide controls
+          </button>
         </div>
-        <uib-hero id="tourHero"></uib-hero>
+        <uib-hero id="tourHero">
+        </uib-hero>
         <section id="booking" class="card hero-tour-action-panel" hidden tabindex="-1" aria-live="polite" aria-labelledby="heroTourActionTitle">
           <div class="card-content">
             <div class="hero-tour-action-header">
               <div>
-                <p class="hero-tour-action-eyebrow">Tour UI opened by parent state</p>
-                <h2 id="heroTourActionTitle">Tour reservation action</h2>
-                <p id="heroTourActionHelp" class="muted">Hero CTA events are handled by this parent page. The parent decides which Tour UI component to open and call.</p>
+                <p class="hero-tour-action-eyebrow">
+                  Tour UI opened by parent state
+                </p>
+                <h2 id="heroTourActionTitle">
+                  Tour reservation action
+                </h2>
+                <p id="heroTourActionHelp" class="muted">
+                  Hero CTA events are handled by this parent page. The parent decides which Tour UI component to open and call.
+                </p>
               </div>
-              <button id="closeHeroTourAction" class="secondary-button compact-control-button" type="button">Close</button>
+              <button id="closeHeroTourAction" class="secondary-button compact-control-button" type="button">
+                Close
+              </button>
             </div>
             <div class="hero-tour-action-grid" aria-label="Tour UI components called by the Hero parent">
-              <uib-new-reservation
-                id="heroNewReservation"
-                heading="Create a new tour reservation"
-                description="The parent page opened this component after receiving the Hero primary CTA event. Continue into the booking flow from here."
-                action-label="Start New Reservation"
-                toast-message="New reservation opened from the Hero Book a Tour CTA."
-              ></uib-new-reservation>
-              <uib-find-reservation
-                id="heroFindReservation"
-                heading="Find or plan a reservation"
-                description="The parent page opened this component after receiving the Hero secondary CTA event. Look up an existing reservation or review visit details from here."
-                action-label="Find Reservation"
-                toast-message="Find reservation opened from the Hero Plan Your Visit CTA."
-                hidden
-              ></uib-find-reservation>
-              <uib-cancel-reservation
-                id="heroCancelReservation"
-                heading="Cancel a reservation"
-                description="The parent page opened this component after receiving the Hero third CTA event. Use it to begin a cancellation flow."
-                action-label="Cancel Reservation"
-                toast-message="Cancel reservation opened from the Hero third CTA."
-                hidden
-              ></uib-cancel-reservation>
-              <uib-book-group-reservation
-                id="heroBookGroupReservation"
-                heading="Book a group tour"
-                description="The parent page opened this component after receiving the Hero fourth CTA event. Use it for group reservation requests."
-                action-label="Start Group Reservation"
-                toast-message="Group reservation opened from the Hero fourth CTA."
-                hidden
-              ></uib-book-group-reservation>
+              <uib-new-reservation id="heroNewReservation" heading="Create a new tour reservation" description="The parent page opened this component after receiving the Hero primary CTA event. Continue into the booking flow from here." action-label="Start New Reservation" toast-message="New reservation opened from the Hero Book a Tour CTA.">
+              </uib-new-reservation>
+              <uib-find-reservation id="heroFindReservation" heading="Find or plan a reservation" description="The parent page opened this component after receiving the Hero secondary CTA event. Look up an existing reservation or review visit details from here." action-label="Find Reservation" toast-message="Find reservation opened from the Hero Plan Your Visit CTA." hidden>
+              </uib-find-reservation>
+              <uib-cancel-reservation id="heroCancelReservation" heading="Cancel a reservation" description="The parent page opened this component after receiving the Hero third CTA event. Use it to begin a cancellation flow." action-label="Cancel Reservation" toast-message="Cancel reservation opened from the Hero third CTA." hidden>
+              </uib-cancel-reservation>
+              <uib-book-group-reservation id="heroBookGroupReservation" heading="Book a group tour" description="The parent page opened this component after receiving the Hero fourth CTA event. Use it for group reservation requests." action-label="Start Group Reservation" toast-message="Group reservation opened from the Hero fourth CTA." hidden>
+              </uib-book-group-reservation>
             </div>
-            <p class="helper-text">Implementation note: the Hero component emits CTA events only. The parent owns the decision to reveal and call a reservation component from <code>@ui.base/ui</code>.</p>
+            <p class="helper-text">
+              Implementation note: the Hero component emits CTA events only. The parent owns the decision to reveal and call a reservation component from
+              <code>
+                @ui.base/ui
+              </code>
+              .
+            </p>
           </div>
         </section>
       </section>
@@ -1003,13 +1171,23 @@ export function renderHeroRoute(main, path) {
 
   main.innerHTML = `
     <section class="page-heading">
-      <h1>Hero route not found</h1>
-      <p>The requested Hero route was not found. Use one of the supported example routes below.</p>
+      <h1>
+        Hero route not found
+      </h1>
+      <p>
+        The requested Hero route was not found. Use one of the supported example routes below.
+      </p>
     </section>
     <div class="route-list hero-example-buttons">
-      <a class="route-button hero-choice-button" href="/hero/organization" data-link>Sample Department Main Building</a>
-      <a class="route-button hero-choice-button" href="/hero/sample-site" data-link>Tour the Sample Visitor Center</a>
-      <a class="route-button hero-choice-button" href="/hero/asset-backed-details" data-link>Asset-backed Details</a>
+      <a class="route-button hero-choice-button" href="/hero/organization" data-link>
+        Sample Department Main Building
+      </a>
+      <a class="route-button hero-choice-button" href="/hero/sample-site" data-link>
+        Tour the Sample Visitor Center
+      </a>
+      <a class="route-button hero-choice-button" href="/hero/asset-backed-details" data-link>
+        Asset-backed Details
+      </a>
     </div>
   `;
 }

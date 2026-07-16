@@ -25,7 +25,25 @@ export class UibMedia extends HTMLElement {
     const ratio = this.getAttribute('ratio') || '';
     const position = this.getAttribute('position') || 'center';
     const fallback = this.getAttribute('fallback-label') || alt || 'Image unavailable';
-    this.shadowRoot.innerHTML = `<style>${styles}</style><figure class="media" part="media" style="--uib-media-fit:${escapeHtml(fit)};--uib-media-position:${escapeHtml(position)};${ratio ? `--uib-media-ratio:${escapeHtml(ratio)};` : ''}">${src ? `<img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async">` : `<div class="fallback" part="fallback">${escapeHtml(fallback)}</div>`}</figure>`;
+    this.shadowRoot.innerHTML = (
+  `<style>` +
+  ` ` +
+  (styles) +
+  ` ` +
+  `</style>` +
+  `<figure class="media" part="media" style="--uib-media-fit:` +
+  (escapeHtml(fit)) +
+  `;--uib-media-position:` +
+  (escapeHtml(position)) +
+  `;` +
+  (ratio ? `--uib-media-ratio:${escapeHtml(ratio)};` : '') +
+  `" > ` +
+  (src
+          ? `<img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async">`
+          : `<div class="fallback" part="fallback">${escapeHtml(fallback)}</div>`) +
+  ` ` +
+  `</figure>`
+);
   }
 }
 

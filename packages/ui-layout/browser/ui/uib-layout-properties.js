@@ -101,28 +101,16 @@ export class UibLayoutProperties extends BaseHTMLElement {
     if (!this.shadowRoot) return;
     const node = this.node;
     const locked = !node || this.readonly || !node.editable;
-    this.shadowRoot.innerHTML = `
-      <style>
-        :host{display:block;color:#172033;font:14px/1.4 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-        .panel{display:grid;gap:1rem}
-        h3{margin:0;font-size:1rem;color:#203b5e}
-        .meta{display:grid;gap:.35rem;padding:.7rem;border:1px solid #d9e2ee;border-radius:8px;background:#f8fafd}
-        label{display:grid;gap:.35rem;color:#40546d;font-weight:700}
-        input,textarea{width:100%;min-width:0;border:1px solid #bdcbdd;border-radius:6px;padding:.5rem;font:inherit;color:#172033;background:#fff}
-        textarea{min-height:5rem;resize:vertical}
-        button{min-height:2.25rem;border:1px solid #245ea8;border-radius:6px;background:#245ea8;color:#fff;font:inherit;font-weight:800;cursor:pointer}
-        button:disabled{opacity:.55;cursor:not-allowed}
-        .readonly{margin:0;color:#6d7888}
-        .attrs{display:grid;gap:.45rem;margin:0;padding:0;list-style:none;color:#52677f}
-        .attr-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr) auto auto;gap:.35rem;align-items:end}
-        .secondary{border-color:#bdcbdd;background:#fff;color:#203b5e}
-        .danger{border-color:#ad3138;background:#ad3138;color:#fff}
-        code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.86rem}
-        @media(max-width:560px){.attr-row{grid-template-columns:1fr}.attr-row button{width:100%}}
-      </style>
-      <div class="panel">
-        <h3>Properties</h3>
-        ${node ? `
+    this.shadowRoot.innerHTML = (
+  `<style>` +
+  ` :host{display:block;color:#172033;font:14px/1.4 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif} .panel{display:grid;gap:1rem} h3{margin:0;font-size:1rem;color:#203b5e} .meta{display:grid;gap:.35rem;padding:.7rem;border:1px solid #d9e2ee;border-radius:8px;background:#f8fafd} label{display:grid;gap:.35rem;color:#40546d;font-weight:700} input,textarea{width:100%;min-width:0;border:1px solid #bdcbdd;border-radius:6px;padding:.5rem;font:inherit;color:#172033;background:#fff} textarea{min-height:5rem;resize:vertical} button{min-height:2.25rem;border:1px solid #245ea8;border-radius:6px;background:#245ea8;color:#fff;font:inherit;font-weight:800;cursor:pointer} button:disabled{opacity:.55;cursor:not-allowed} .readonly{margin:0;color:#6d7888} .attrs{display:grid;gap:.45rem;margin:0;padding:0;list-style:none;color:#52677f} .attr-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr) auto auto;gap:.35rem;align-items:end} .secondary{border-color:#bdcbdd;background:#fff;color:#203b5e} .danger{border-color:#ad3138;background:#ad3138;color:#fff} code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.86rem} @media(max-width:560px){.attr-row{grid-template-columns:1fr}.attr-row button{width:100%}} ` +
+  `</style>` +
+  `<div class="panel">` +
+  `<h3>` +
+  `Properties` +
+  `</h3>` +
+  ` ` +
+  (node ? `
           <div class="meta">
             <strong>${escapeHtml(node.label)}</strong>
             <span>${escapeHtml(node.kind)}${node.tagName ? ` / ${escapeHtml(node.tagName)}` : ''}</span>
@@ -160,9 +148,10 @@ export class UibLayoutProperties extends BaseHTMLElement {
             <button type="button" data-apply-text ${locked ? 'disabled' : ''}>Apply text</button>
           ` : ''}
           ${locked ? '<p class="readonly">This node is read-only in the current layout analysis.</p>' : ''}
-        ` : '<p class="readonly">Select a node to edit its layout properties.</p>'}
-      </div>
-    `;
+        ` : '<p class="readonly">Select a node to edit its layout properties.</p>') +
+  ` ` +
+  `</div>`
+);
     this.bind();
   }
 }

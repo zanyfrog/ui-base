@@ -62,8 +62,12 @@ function routeHelp() {
   return `
     <section class="card catalog-section">
       <div class="card-content">
-        <h2>What this route tests</h2>
-        <p class="muted">Use the controls to change labels, text, display options, disabled state, required state, action behavior, media rendering, and detail rows. Interact with the rendered components to verify callbacks and event payloads.</p>
+        <h2>
+          What this route tests
+        </h2>
+        <p class="muted">
+          Use the controls to change labels, text, display options, disabled state, required state, action behavior, media rendering, and detail rows. Interact with the rendered components to verify callbacks and event payloads.
+        </p>
       </div>
     </section>
   `;
@@ -291,9 +295,15 @@ function usageBlock() {
   return `
     <section class="catalog-section card">
       <div class="card-content">
-        <h2>Usage pattern</h2>
-        <p class="muted">Import the package once, set component attributes/properties from parent state, and listen for bubbling events.</p>
-        <pre class="code-block"><code>${escapeHtml(`<script type="module">
+        <h2>
+          Usage pattern
+        </h2>
+        <p class="muted">
+          Import the package once, set component attributes/properties from parent state, and listen for bubbling events.
+        </p>
+        <pre class="code-block">
+          <code>
+            ${escapeHtml(`<script type="module">
   import '@ui.base/ui';
   import '@ui.base/forms';
 
@@ -307,7 +317,9 @@ function usageBlock() {
 </script>
 
 <uib-heading-block eyebrow="Section" headline="Reusable heading"></uib-heading-block>
-<uib-action-group actions='[{"label":"Save","actionToken":"SAVE","variant":"primary"}]'></uib-action-group>`)}</code></pre>
+<uib-action-group actions='[{"label":"Save","actionToken":"SAVE","variant":"primary"}]'></uib-action-group>`)}
+          </code>
+        </pre>
       </div>
     </section>
   `;
@@ -317,23 +329,33 @@ export function renderComponentCatalogRoute(main, data = FALLBACK_CATALOG_DATA) 
   catalogData = data;
   main.innerHTML = `
     <section class="page-heading">
-      <p class="eyebrow">Live component catalog</p>
-      <h1>Component playground with parent controls and event callbacks.</h1>
-      <p>This route shows reusable UI, form, icon, layout, media, action, and detail components. A user can change labels, text, display options, disabled states, and callback behavior without editing source code.</p>
+      <p class="eyebrow">
+        Live component catalog
+      </p>
+      <h1>
+        Component playground with parent controls and event callbacks.
+      </h1>
+      <p>
+        This route shows reusable UI, form, icon, layout, media, action, and detail components. A user can change labels, text, display options, disabled states, and callback behavior without editing source code.
+      </p>
     </section>
-
     ${routeHelp()}
-
     <section class="demo-layout component-playground-layout">
       <aside class="card controls">
         <div class="card-content">
           <div class="controls-header">
-            <h2>Component option controls</h2>
-            <button class="secondary-button compact-control-button" type="button" data-reset-catalog>Reset</button>
+            <h2>
+              Component option controls
+            </h2>
+            <button class="secondary-button compact-control-button" type="button" data-reset-catalog>
+              Reset
+            </button>
           </div>
           <div class="form-grid">
             <fieldset class="control-section">
-              <legend>Heading / eyebrow</legend>
+              <legend>
+                Heading / eyebrow
+              </legend>
               ${field('headingEyebrow', 'Eyebrow text', controlValue('headingEyebrow'))}
               ${field('headingHeadline', 'Headline/title', controlValue('headingHeadline'))}
               ${textareaField('headingSubheadline', 'Subheadline/subtitle', controlValue('headingSubheadline'))}
@@ -342,7 +364,9 @@ export function renderComponentCatalogRoute(main, data = FALLBACK_CATALOG_DATA) 
               ${selectField('headingAlign', 'Alignment', ['start', 'center'], controlValue('headingAlign'))}
             </fieldset>
             <fieldset class="control-section">
-              <legend>Action group</legend>
+              <legend>
+                Action group
+              </legend>
               ${field('actionLabel', 'Primary action label', controlValue('actionLabel'))}
               ${field('secondaryActionLabel', 'Secondary action label', controlValue('secondaryActionLabel'))}
               ${selectField('actionVariant', 'Primary variant', ['primary', 'secondary', 'tertiary', 'destructive'], controlValue('actionVariant'))}
@@ -353,7 +377,9 @@ export function renderComponentCatalogRoute(main, data = FALLBACK_CATALOG_DATA) 
               ${checkboxField('actionStacked', 'Stack actions vertically', controlChecked('actionStacked'))}
             </fieldset>
             <fieldset class="control-section">
-              <legend>Media</legend>
+              <legend>
+                Media
+              </legend>
               ${field('mediaSrc', 'Image / SVG URL', controlValue('mediaSrc'))}
               ${field('mediaAlt', 'Alt text', controlValue('mediaAlt'))}
               ${selectField('mediaFit', 'Object fit', ['cover', 'contain', 'fill', 'none'], controlValue('mediaFit'))}
@@ -361,7 +387,9 @@ export function renderComponentCatalogRoute(main, data = FALLBACK_CATALOG_DATA) 
               ${field('mediaFallback', 'Fallback label', controlValue('mediaFallback'))}
             </fieldset>
             <fieldset class="control-section">
-              <legend>Label / form field</legend>
+              <legend>
+                Label / form field
+              </legend>
               ${field('fieldLabel', 'Label text', controlValue('fieldLabel'))}
               ${field('fieldHelp', 'Help text', controlValue('fieldHelp'))}
               ${selectField('fieldHelpMode', 'Help mode', ['tooltip', 'inline'], controlValue('fieldHelpMode'))}
@@ -372,125 +400,236 @@ export function renderComponentCatalogRoute(main, data = FALLBACK_CATALOG_DATA) 
               ${checkboxField('fieldRequired', 'Require native input', controlChecked('fieldRequired'))}
             </fieldset>
             <fieldset class="control-section">
-              <legend>Details</legend>
+              <legend>
+                Details
+              </legend>
               ${textareaField('detailsJson', 'Detail rows JSON', json(catalogData.defaultDetails || []), 'spellcheck="false"')}
             </fieldset>
             <fieldset class="control-section">
-              <legend>Menu</legend>
+              <legend>
+                Menu
+              </legend>
               ${field('menuBreakpoint', 'Responsive breakpoint', controlValue('menuBreakpoint'), 'number')}
             </fieldset>
           </div>
-          <div id="catalogStatus" class="status-box">Change a control to update the components.</div>
+          <div id="catalogStatus" class="status-box">
+            Change a control to update the components.
+          </div>
           <details class="control-section" open>
-            <summary><strong>Generated markup</strong></summary>
-            <pre id="catalogMarkup" class="code-block"></pre>
+            <summary>
+              <strong>
+                Generated markup
+              </strong>
+            </summary>
+            <pre id="catalogMarkup" class="code-block">
+            </pre>
           </details>
         </div>
       </aside>
-
       <section class="component-playground-stage">
         <section class="catalog-section card">
           <div class="card-content stack-block">
-            <h2>Heading, eyebrow, actions, and media</h2>
-            <uib-eyebrow id="catalogEyebrow" text="Reusable primitive"></uib-eyebrow>
-            <uib-heading-block id="catalogHeadingBlock"></uib-heading-block>
-            <uib-action-group id="catalogActionGroup"></uib-action-group>
-            <uib-media id="catalogMedia"></uib-media>
+            <h2>
+              Heading, eyebrow, actions, and media
+            </h2>
+            <uib-eyebrow id="catalogEyebrow" text="Reusable primitive">
+            </uib-eyebrow>
+            <uib-heading-block id="catalogHeadingBlock">
+            </uib-heading-block>
+            <uib-action-group id="catalogActionGroup">
+            </uib-action-group>
+            <uib-media id="catalogMedia">
+            </uib-media>
           </div>
         </section>
-
         <section class="catalog-section card">
           <div class="card-content stack-block">
-            <h2>Detail list and detail editor</h2>
-            <p class="muted">Edit rows below to test add, update, move, remove, direct icon URL, text icon fallback, and clean event payloads.</p>
-            <uib-detail-list id="catalogDetailList"></uib-detail-list>
-            <uib-detail-list-editor id="catalogDetailEditor" label="Editable details" application-key="demo-app" api-base-url="http://localhost:4020" use-asset-picker></uib-detail-list-editor>
+            <h2>
+              Detail list and detail editor
+            </h2>
+            <p class="muted">
+              Edit rows below to test add, update, move, remove, direct icon URL, text icon fallback, and clean event payloads.
+            </p>
+            <uib-detail-list id="catalogDetailList">
+            </uib-detail-list>
+            <uib-detail-list-editor id="catalogDetailEditor" label="Editable details" application-key="demo-app" api-base-url="http://localhost:4020" use-asset-picker>
+            </uib-detail-list-editor>
           </div>
         </section>
-
         <section class="catalog-section card">
           <div class="card-content stack-block">
-            <h2>Label, help, icons, and responsive menu</h2>
+            <h2>
+              Label, help, icons, and responsive menu
+            </h2>
             <div class="native-field-row">
-              <uib-label id="catalogLabel" for="nativeComponentValue"></uib-label>
+              <uib-label id="catalogLabel" for="nativeComponentValue">
+              </uib-label>
               <input id="nativeComponentValue" class="native-input" type="text" />
             </div>
             <div class="help-examples">
-              <span>Tooltip help <uib-help text="Tooltip help appears on hover or keyboard focus."></uib-help></span>
-              <uib-help mode="inline" text="Inline help can be used when guidance should always be visible."></uib-help>
+              <span>
+                Tooltip help
+                <uib-help text="Tooltip help appears on hover or keyboard focus.">
+                </uib-help>
+              </span>
+              <uib-help mode="inline" text="Inline help can be used when guidance should always be visible.">
+              </uib-help>
             </div>
             <div class="icon-demo-row" aria-label="Icon examples">
-              <span><uib-icon name="help" label="Help"></uib-icon> help</span>
-              <span><uib-icon name="calendar" label="Calendar"></uib-icon> calendar</span>
-              <span><uib-icon name="warning" label="Warning"></uib-icon> warning</span>
-              <span><uib-icon src="/apps/demo/assets/icons/accessibility.svg" label="Accessibility"></uib-icon> URL icon</span>
+              <span>
+                <uib-icon name="help" label="Help">
+                </uib-icon>
+                help
+              </span>
+              <span>
+                <uib-icon name="calendar" label="Calendar">
+                </uib-icon>
+                calendar
+              </span>
+              <span>
+                <uib-icon name="warning" label="Warning">
+                </uib-icon>
+                warning
+              </span>
+              <span>
+                <uib-icon src="/apps/demo/assets/icons/accessibility.svg" label="Accessibility">
+                </uib-icon>
+                URL icon
+              </span>
             </div>
             <uib-menu id="catalogMenu" label="Catalog navigation" breakpoint="700">
-              <uib-menuitem href="/components/" active>Overview</uib-menuitem>
-              <uib-menuitem label="Examples">
-                <uib-menuitem href="/hero/sample-site">Hero sample</uib-menuitem>
-                <uib-menuitem href="/calendar-demo/">Calendar</uib-menuitem>
+              <uib-menuitem href="/components/" active>
+                Overview
               </uib-menuitem>
-              <uib-menuitem href="/assets-demo/picker">Asset picker</uib-menuitem>
+              <uib-menuitem label="Examples">
+                <uib-menuitem href="/hero/sample-site">
+                  Hero sample
+                </uib-menuitem>
+                <uib-menuitem href="/calendar-demo/">
+                  Calendar
+                </uib-menuitem>
+              </uib-menuitem>
+              <uib-menuitem href="/assets-demo/picker">
+                Asset picker
+              </uib-menuitem>
             </uib-menu>
           </div>
         </section>
-
         <section class="catalog-section card">
           <div class="card-content stack-block">
-            <h2>Form controls and validation events</h2>
-            <p class="muted">Submit the form or change fields to see <code>change</code> and <code>uib-forms-form-submit</code> payloads.</p>
+            <h2>
+              Form controls and validation events
+            </h2>
+            <p class="muted">
+              Submit the form or change fields to see
+              <code>
+                change
+              </code>
+              and
+              <code>
+                uib-forms-form-submit
+              </code>
+              payloads.
+            </p>
             <uib-forms-form name="exampleRequest" label="Example request" submit-label="Submit request">
               <uib-forms-input-group>
-                <uib-forms-textbox name="visitorName" label="Name" required minlength="2" help="Required sample field."></uib-forms-textbox>
-                <uib-forms-email name="email" label="Email" placeholder="person@example.local"></uib-forms-email>
+                <uib-forms-textbox name="visitorName" label="Name" required minlength="2" help="Required sample field.">
+                </uib-forms-textbox>
+                <uib-forms-email name="email" label="Email" placeholder="person@example.local">
+                </uib-forms-email>
               </uib-forms-input-group>
               <uib-forms-input-group>
-                <uib-forms-number name="groupSize" label="Group size" min="1" max="30" value="4"></uib-forms-number>
-                <uib-forms-date name="requestedDate" label="Requested date"></uib-forms-date>
-                <uib-forms-phone name="phone" label="Phone"></uib-forms-phone>
+                <uib-forms-number name="groupSize" label="Group size" min="1" max="30" value="4">
+                </uib-forms-number>
+                <uib-forms-date name="requestedDate" label="Requested date">
+                </uib-forms-date>
+                <uib-forms-phone name="phone" label="Phone">
+                </uib-forms-phone>
               </uib-forms-input-group>
-              <uib-forms-select name="location" label="Location" options="Site A,Site B,Remote"></uib-forms-select>
-              <uib-forms-textarea name="notes" label="Notes" help="Textarea uses the same validation and event model."></uib-forms-textarea>
+              <uib-forms-select name="location" label="Location" options="Site A,Site B,Remote">
+              </uib-forms-select>
+              <uib-forms-textarea name="notes" label="Notes" help="Textarea uses the same validation and event model.">
+              </uib-forms-textarea>
             </uib-forms-form>
           </div>
         </section>
-
         <section class="catalog-section card">
           <div class="card-content stack-block">
-            <h2>Layout and overlay components</h2>
+            <h2>
+              Layout and overlay components
+            </h2>
             <uib-grid min="12rem">
-              <uib-card label="Card"><p>Card body content.</p><span slot="footer">Footer slot.</span></uib-card>
-              <uib-panel label="Panel"><p>Panel body content.</p><span slot="footer">Footer slot.</span></uib-panel>
-              <uib-accordion label="Accordion"><p>Accordion content.</p></uib-accordion>
+              <uib-card label="Card">
+                <p>
+                  Card body content.
+                </p>
+                <span slot="footer">
+                  Footer slot.
+                </span>
+              </uib-card>
+              <uib-panel label="Panel">
+                <p>
+                  Panel body content.
+                </p>
+                <span slot="footer">
+                  Footer slot.
+                </span>
+              </uib-panel>
+              <uib-accordion label="Accordion">
+                <p>
+                  Accordion content.
+                </p>
+              </uib-accordion>
             </uib-grid>
             <uib-stack class="catalog-stack" gap="1rem">
               <uib-row wrap>
-                <button class="primary-button" type="button" data-open-dialog>Open dialog</button>
-                <uib-tabs label="Preview tab"><p>Experimental tab content.</p></uib-tabs>
+                <button class="primary-button" type="button" data-open-dialog>
+                  Open dialog
+                </button>
+                <uib-tabs label="Preview tab">
+                  <p>
+                    Experimental tab content.
+                  </p>
+                </uib-tabs>
               </uib-row>
               <uib-splitter>
-                <div slot="start">Start pane</div>
-                <div slot="end">End pane</div>
+                <div slot="start">
+                  Start pane
+                </div>
+                <div slot="end">
+                  End pane
+                </div>
               </uib-splitter>
             </uib-stack>
             <uib-dialog id="catalogDialog" label="Dialog">
-              <p>This dialog demonstrates the base overlay API. The parent opened it with <code>show()</code>.</p>
-              <span slot="footer">Footer slot</span>
+              <p>
+                This dialog demonstrates the base overlay API. The parent opened it with
+                <code>
+                  show()
+                </code>
+                .
+              </p>
+              <span slot="footer">
+                Footer slot
+              </span>
             </uib-dialog>
           </div>
         </section>
-
         <section class="catalog-section card">
           <div class="card-content">
-            <h2>Event callback log</h2>
-            <p class="muted">Interact with actions, menus, forms, and the detail editor to see the latest event payload.</p>
-            <pre id="catalogEventLog" class="code-block">{}</pre>
+            <h2>
+              Event callback log
+            </h2>
+            <p class="muted">
+              Interact with actions, menus, forms, and the detail editor to see the latest event payload.
+            </p>
+            <pre id="catalogEventLog" class="code-block">
+              {}
+            </pre>
           </div>
         </section>
       </section>
     </section>
-
     ${usageBlock()}
   `;
   bindCatalog(main);

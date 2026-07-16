@@ -98,7 +98,34 @@ export class UibMenuItem extends UibBaseElement {
     const disabled = this.disabled ? ' aria-disabled="true" tabindex="-1"' : '';
 
     if (submenu) {
-      this.shadowRoot.innerHTML = `<style>${styles}</style><div class="uib-menuitem" part="item"><button class="uib-menuitem__button" part="button" type="button" aria-expanded="${this.open ? 'true' : 'false'}" aria-controls="${submenuId}"${disabled}><span part="label">${escapeHtml(labelText)}</span><uib-icon class="uib-menuitem__chevron" name="chevron-down" decorative></uib-icon></button><div id="${submenuId}" class="uib-menuitem__submenu" part="submenu" ${this.open ? '' : 'hidden'}><slot></slot></div></div>`;
+      this.shadowRoot.innerHTML = (
+  `<style>` +
+  (styles) +
+  `</style>` +
+  `<div class="uib-menuitem" part="item">` +
+  `<button class="uib-menuitem__button" part="button" type="button" aria-expanded="` +
+  (this.open ? 'true' : 'false') +
+  `" aria-controls="` +
+  (submenuId) +
+  `"` +
+  (disabled) +
+  `>` +
+  `<span part="label">` +
+  (escapeHtml(labelText)) +
+  `</span>` +
+  `<uib-icon class="uib-menuitem__chevron" name="chevron-down" decorative>` +
+  `</uib-icon>` +
+  `</button>` +
+  `<div id="` +
+  (submenuId) +
+  `" class="uib-menuitem__submenu" part="submenu"` +
+  (this.open ? '' : 'hidden') +
+  `>` +
+  `<slot>` +
+  `</slot>` +
+  `</div>` +
+  `</div>`
+);
       const button = this.shadowRoot.querySelector('button');
       button?.addEventListener('click', () => this._toggleOpen());
       this.shadowRoot.addEventListener('keydown', (event) => {
@@ -114,12 +141,43 @@ export class UibMenuItem extends UibBaseElement {
     if (this.href) {
       const target = this.target ? ` target="${escapeHtml(this.target)}"` : '';
       const rel = this.rel ? ` rel="${escapeHtml(this.rel)}"` : (this.target === '_blank' ? ' rel="noopener noreferrer"' : '');
-      this.shadowRoot.innerHTML = `<style>${styles}</style><div class="uib-menuitem" part="item"><a class="uib-menuitem__link" part="link" href="${escapeHtml(this.href)}"${target}${rel}${current}${disabled}><slot>${escapeHtml(labelText)}</slot></a></div>`;
+      this.shadowRoot.innerHTML = (
+  `<style>` +
+  (styles) +
+  `</style>` +
+  `<div class="uib-menuitem" part="item">` +
+  `<a class="uib-menuitem__link" part="link" href="` +
+  (escapeHtml(this.href)) +
+  `"` +
+  (target) +
+  (rel) +
+  (current) +
+  (disabled) +
+  `>` +
+  `<slot>` +
+  (escapeHtml(labelText)) +
+  `</slot>` +
+  `</a>` +
+  `</div>`
+);
       this.shadowRoot.querySelector('a')?.addEventListener('click', (event) => this._emitSelect(event));
       return;
     }
 
-    this.shadowRoot.innerHTML = `<style>${styles}</style><div class="uib-menuitem" part="item"><button class="uib-menuitem__button" part="button" type="button"${disabled}><slot>${escapeHtml(labelText)}</slot></button></div>`;
+    this.shadowRoot.innerHTML = (
+  `<style>` +
+  (styles) +
+  `</style>` +
+  `<div class="uib-menuitem" part="item">` +
+  `<button class="uib-menuitem__button" part="button" type="button"` +
+  (disabled) +
+  `>` +
+  `<slot>` +
+  (escapeHtml(labelText)) +
+  `</slot>` +
+  `</button>` +
+  `</div>`
+);
     this.shadowRoot.querySelector('button')?.addEventListener('click', (event) => this._emitSelect(event));
   }
 }

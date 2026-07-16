@@ -11,7 +11,20 @@ export class UibEyebrow extends HTMLElement {
   attributeChangedCallback() { if (this.isConnected) this.render(); }
   render() {
     const text = this.getAttribute('text') || this.textContent.trim();
-    this.shadowRoot.innerHTML = `<style>${styles}</style><p class="eyebrow" part="eyebrow"><slot>${escapeHtml(text)}</slot></p>`;
+    this.shadowRoot.innerHTML = (
+  `<style>` +
+  ` ` +
+  (styles) +
+  ` ` +
+  `</style>` +
+  `<p class="eyebrow" part="eyebrow">` +
+  `<slot>` +
+  ` ` +
+  (escapeHtml(text)) +
+  ` ` +
+  `</slot>` +
+  `</p>`
+);
   }
 }
 

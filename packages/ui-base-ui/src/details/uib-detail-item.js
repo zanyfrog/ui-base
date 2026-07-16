@@ -134,29 +134,69 @@ export class UibDetailItem extends HTMLElement {
 
     if (src || assetId) {
       if (typeof customElements !== 'undefined' && customElements.get('uib-asset-image')) {
-        return `<span class="icon icon--image"><uib-asset-image src="${escapeHtml(src)}" asset-id="${escapeHtml(assetId)}" alt="${escapeHtml(alt)}" role="icon" fit="contain" asset-map='${escapeHtml(JSON.stringify(assetMap || {}))}' fallback-label="${escapeHtml(iconText(detail, this.index))}"></uib-asset-image></span>`;
+        return (
+  `<span class="icon icon--image">` +
+  `<uib-asset-image src="` +
+  (escapeHtml(src)) +
+  `" asset-id="` +
+  (escapeHtml(assetId)) +
+  `" alt="` +
+  (escapeHtml(alt)) +
+  `" role="icon" fit="contain" asset-map='` +
+  (escapeHtml(JSON.stringify(assetMap || {}))) +
+  `' fallback-label="` +
+  (escapeHtml(iconText(detail, this.index))) +
+  `">` +
+  `</uib-asset-image>` +
+  `</span>`
+);
       }
       if (src) {
-        return `<span class="icon icon--image"><uib-media src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" role="icon" fit="contain" fallback-label="${escapeHtml(iconText(detail, this.index))}"></uib-media></span>`;
+        return (
+  `<span class="icon icon--image">` +
+  `<uib-media src="` +
+  (escapeHtml(src)) +
+  `" alt="` +
+  (escapeHtml(alt)) +
+  `" role="icon" fit="contain" fallback-label="` +
+  (escapeHtml(iconText(detail, this.index))) +
+  `">` +
+  `</uib-media>` +
+  `</span>`
+);
       }
     }
 
-    return `<span class="icon icon--text" aria-hidden="true">${escapeHtml(iconText(detail, this.index))}</span>`;
+    return (
+  `<span class="icon icon--text" aria-hidden="true">` +
+  (escapeHtml(iconText(detail, this.index))) +
+  `</span>`
+);
   }
 
   render() {
     const detail = this.detail;
-    this.shadowRoot.innerHTML = `
-      <style>${styles}</style>
-      <div class="detail" part="item">
-        ${this.iconMarkup(detail)}
-        <div class="copy">
-          <dt class="label" part="label">${escapeHtml(detail.label)}</dt>
-          <dd class="value" part="value">${escapeHtml(detail.value)}</dd>
-          ${detail.description ? `<dd class="description" part="description">${escapeHtml(detail.description)}</dd>` : ''}
-        </div>
-      </div>
-    `;
+    this.shadowRoot.innerHTML = (
+  `<style>` +
+  (styles) +
+  `</style>` +
+  `<div class="detail" part="item">` +
+  ` ` +
+  (this.iconMarkup(detail)) +
+  ` ` +
+  `<div class="copy">` +
+  `<dt class="label" part="label">` +
+  (escapeHtml(detail.label)) +
+  `</dt>` +
+  `<dd class="value" part="value">` +
+  (escapeHtml(detail.value)) +
+  `</dd>` +
+  ` ` +
+  (detail.description ? `<dd class="description" part="description">${escapeHtml(detail.description)}</dd>` : '') +
+  ` ` +
+  `</div>` +
+  `</div>`
+);
   }
 }
 

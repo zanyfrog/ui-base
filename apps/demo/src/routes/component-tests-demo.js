@@ -439,7 +439,9 @@ function renderFixture(component, packageId, index) {
   if (!fixture) {
     return `
       <div class="component-fixture component-fixture--empty" data-test-id="fixture-${escapeAttr(testId(component.tagName))}">
-        <p>No live fixture on this page. Use the linked route for the full workflow test.</p>
+        <p>
+          No live fixture on this page. Use the linked route for the full workflow test.
+        </p>
       </div>
     `;
   }
@@ -467,33 +469,51 @@ function renderComponentCard(component, packageDoc, index) {
       <div class="card-content component-doc-card__content">
         <div class="component-doc-header">
           <div>
-            <p class="eyebrow">${escapeHtml(component.package || packageDoc.name)}</p>
-            <h3><code>${escapeHtml(component.tagName)}</code></h3>
-            <p class="muted">${escapeHtml(component.purpose || 'Component documentation fixture.')}</p>
+            <p class="eyebrow">
+              ${escapeHtml(component.package || packageDoc.name)}
+            </p>
+            <h3>
+              <code>
+                ${escapeHtml(component.tagName)}
+              </code>
+            </h3>
+            <p class="muted">
+              ${escapeHtml(component.purpose || 'Component documentation fixture.')}
+            </p>
           </div>
-          <span class="component-status component-status--${escapeAttr(status)}">${escapeHtml(status)}</span>
+          <span class="component-status component-status--${escapeAttr(status)}">
+            ${escapeHtml(status)}
+          </span>
         </div>
-
         <div class="component-doc-grid">
           <section>
-            <h4>Observed attributes</h4>
+            <h4>
+              Observed attributes
+            </h4>
             ${listMarkup(attrs)}
           </section>
           <section>
-            <h4>Properties / methods</h4>
+            <h4>
+              Properties / methods
+            </h4>
             ${listMarkup([...(component.properties || []), ...(component.methods || [])])}
           </section>
           <section>
-            <h4>Events</h4>
+            <h4>
+              Events
+            </h4>
             ${listMarkup(component.events || [])}
           </section>
           <section>
-            <h4>Slots / CSS hooks</h4>
+            <h4>
+              Slots / CSS hooks
+            </h4>
             ${listMarkup([...(component.slots || []).map((slot) => `slot:${slot}`), ...(component.cssParts || []).map((part) => `part:${part}`), ...(component.cssVariables || []).map((variable) => `var:${variable}`)])}
           </section>
         </div>
-
-        <p class="runtime-note">${escapeHtml(runtimeNote)}</p>
+        <p class="runtime-note">
+          ${escapeHtml(runtimeNote)}
+        </p>
         ${component.notes?.length ? `<div class="doc-note-list">${listMarkup(component.notes, 'plain-doc-list')}</div>` : ''}
         ${renderFixture(component, packageDoc.id, index)}
       </div>
@@ -523,7 +543,11 @@ function renderSmokeChecks(packageDoc) {
 function renderPackageSection(packageDoc) {
   const components = packageDoc.components || [];
   const focusedDemoControl = packageDoc.testRoute
-    ? `<a class="primary-button" href="${escapeAttr(packageDoc.testRoute)}" data-link>Open focused demo</a>`
+    ? `
+      <a class="primary-button" href="${escapeAttr(packageDoc.testRoute)}" data-link>
+        Open focused demo
+      </a>
+    `
     : '<span class="secondary-button disabled-link" aria-disabled="true">No static demo route</span>';
   return `
     <section id="${escapeAttr(packageDoc.id)}" class="component-package-section" data-test-id="component-package-${escapeAttr(packageDoc.id)}">
@@ -531,15 +555,33 @@ function renderPackageSection(packageDoc) {
         <div class="card-content">
           <div class="package-doc-header">
             <div>
-              <p class="eyebrow">${escapeHtml(packageDoc.name)}</p>
-              <h2>${escapeHtml(packageDoc.title)}</h2>
-              <p class="muted">${escapeHtml(packageDoc.summary)}</p>
+              <p class="eyebrow">
+                ${escapeHtml(packageDoc.name)}
+              </p>
+              <h2>
+                ${escapeHtml(packageDoc.title)}
+              </h2>
+              <p class="muted">
+                ${escapeHtml(packageDoc.summary)}
+              </p>
             </div>
             ${focusedDemoControl}
           </div>
           <div class="package-doc-meta">
-            <span><strong>Source:</strong> <code>${escapeHtml(packageDoc.updateSource || 'package source')}</code></span>
-            <span><strong>Component docs:</strong> ${components.length ? `${components.length} item${components.length === 1 ? '' : 's'}` : 'API-only package'}</span>
+            <span>
+              <strong>
+                Source:
+              </strong>
+              <code>
+                ${escapeHtml(packageDoc.updateSource || 'package source')}
+              </code>
+            </span>
+            <span>
+              <strong>
+                Component docs:
+              </strong>
+              ${components.length ? `${components.length} item${components.length === 1 ? '' : 's'}` : 'API-only package'}
+            </span>
           </div>
           <div class="package-doc-columns">
             ${renderApiItems(packageDoc)}
@@ -569,20 +611,40 @@ function renderSmokeStrategy() {
   return `
     <section class="card component-strategy-card" data-test-id="component-tests-strategy">
       <div class="card-content">
-        <p class="eyebrow">Demo-first test strategy</p>
-        <h2>Human docs now, automation hooks ready.</h2>
+        <p class="eyebrow">
+          Demo-first test strategy
+        </p>
+        <h2>
+          Human docs now, automation hooks ready.
+        </h2>
         <div class="component-strategy-grid">
           <div>
-            <h3>What this page does</h3>
-            <p class="muted">It gives testers and developers a single route with package summaries, component options, runtime attribute reflection, stable test IDs, live fixtures, event logs, and focused demo links.</p>
+            <h3>
+              What this page does
+            </h3>
+            <p class="muted">
+              It gives testers and developers a single route with package summaries, component options, runtime attribute reflection, stable test IDs, live fixtures, event logs, and focused demo links.
+            </p>
           </div>
           <div>
-            <h3>How docs stay current</h3>
-            <p class="muted">Registered Web Components expose their current <code>observedAttributes</code> directly from the loaded class. Package-owned metadata fills in purpose, events, slots, CSS parts, and examples.</p>
+            <h3>
+              How docs stay current
+            </h3>
+            <p class="muted">
+              Registered Web Components expose their current
+              <code>
+                observedAttributes
+              </code>
+              directly from the loaded class. Package-owned metadata fills in purpose, events, slots, CSS parts, and examples.
+            </p>
           </div>
           <div>
-            <h3>Automation recommendation</h3>
-            <p class="muted">Do not create a daily documentation automation yet. Keep this source-driven, then add CI or a scheduled browser smoke job once generated metadata or a browser runner is available.</p>
+            <h3>
+              Automation recommendation
+            </h3>
+            <p class="muted">
+              Do not create a daily documentation automation yet. Keep this source-driven, then add CI or a scheduled browser smoke job once generated metadata or a browser runner is available.
+            </p>
           </div>
         </div>
       </div>
@@ -614,48 +676,70 @@ export function renderComponentTestsRoute(main) {
   const registeredCount = ALL_COMPONENTS.filter((component) => customElements.get(component.tagName)).length;
   main.innerHTML = `
     <section class="page-heading component-tests-heading" data-test-id="component-tests-heading">
-      <p class="eyebrow">Component tests</p>
-      <h1>Interactive developer documentation for every UI Base package.</h1>
-      <p>Use this route as a human-friendly test gallery and as the future foundation for smoke tests. It documents package purpose, component options, runtime attributes, event payloads, fixture markup, and focused demo routes.</p>
+      <p class="eyebrow">
+        Component tests
+      </p>
+      <h1>
+        Interactive developer documentation for every UI Base package.
+      </h1>
+      <p>
+        Use this route as a human-friendly test gallery and as the future foundation for smoke tests. It documents package purpose, component options, runtime attributes, event payloads, fixture markup, and focused demo routes.
+      </p>
     </section>
-
     <section class="component-tests-summary-grid" aria-label="Component test summary">
       <article class="card summary-stat-card">
         <div class="card-content">
-          <span>${PACKAGE_DOCS.length}</span>
-          <p>packages covered</p>
+          <span>
+            ${PACKAGE_DOCS.length}
+          </span>
+          <p>
+            packages covered
+          </p>
         </div>
       </article>
       <article class="card summary-stat-card">
         <div class="card-content">
-          <span>${ALL_COMPONENTS.length}</span>
-          <p>components documented</p>
+          <span>
+            ${ALL_COMPONENTS.length}
+          </span>
+          <p>
+            components documented
+          </p>
         </div>
       </article>
       <article class="card summary-stat-card">
         <div class="card-content">
-          <span>${registeredCount}</span>
-          <p>registered in this runtime</p>
+          <span>
+            ${registeredCount}
+          </span>
+          <p>
+            registered in this runtime
+          </p>
         </div>
       </article>
     </section>
-
     ${renderSmokeStrategy()}
     ${renderPackageNav()}
-
     <section class="card component-events-card" data-test-id="component-tests-event-log">
       <div class="card-content">
         <div class="package-doc-header">
           <div>
-            <p class="eyebrow">Event harness</p>
-            <h2>Latest fixture event</h2>
-            <p id="componentTestsStatus" class="muted">Interact with live fixtures to see the latest event payload.</p>
+            <p class="eyebrow">
+              Event harness
+            </p>
+            <h2>
+              Latest fixture event
+            </h2>
+            <p id="componentTestsStatus" class="muted">
+              Interact with live fixtures to see the latest event payload.
+            </p>
           </div>
         </div>
-        <pre id="componentTestsEventLog" class="code-block">${escapeHtml(json({}))}</pre>
+        <pre id="componentTestsEventLog" class="code-block">
+          ${escapeHtml(json({}))}
+        </pre>
       </div>
     </section>
-
     ${PACKAGE_DOCS.map(renderPackageSection).join('')}
   `;
 

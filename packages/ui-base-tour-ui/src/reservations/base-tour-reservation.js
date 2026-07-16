@@ -129,7 +129,64 @@ export class UibTourReservationBase extends HTMLElement {
     const descriptionId = `${this.defaults.action}-description`;
     const toastClass = this._toastVisible ? 'uib-tour-toast uib-tour-toast--visible' : 'uib-tour-toast';
     const toastText = this._toastMessage || this.toastMessage;
-    this.shadowRoot.innerHTML = `<style>${styles}</style><section class="uib-tour-card uib-tour-card--${escapeHtml(this.variant)}" part="card" aria-labelledby="${titleId}" aria-describedby="${descriptionId}"><div class="uib-tour-card__icon" part="icon" aria-hidden="true">${escapeHtml(this.defaults.icon)}</div><div class="uib-tour-card__content" part="content"><p class="uib-tour-card__eyebrow" part="eyebrow">${escapeHtml(this.eyebrow)}</p><h3 id="${titleId}" class="uib-tour-card__heading" part="heading">${escapeHtml(this.heading)}</h3><p id="${descriptionId}" class="uib-tour-card__description" part="description">${escapeHtml(this.description)}</p><div class="uib-tour-card__action-row" part="action-row"><button class="uib-tour-card__button" part="button" type="button" ${this.disabled ? 'disabled' : ''}>${escapeHtml(this.actionLabel)}</button>${this.disabled ? '<span class="uib-tour-card__disabled-note" part="disabled-note">Action disabled by parent state.</span>' : ''}</div></div><div class="${toastClass}" part="toast" role="alert" aria-live="assertive" ${this._toastVisible ? '' : 'hidden'}>${escapeHtml(toastText)}</div></section>`;
+    this.shadowRoot.innerHTML = (
+  `<style>` +
+  ` ` +
+  (styles) +
+  ` ` +
+  `</style>` +
+  `<section class="uib-tour-card uib-tour-card--` +
+  (escapeHtml(this.variant)) +
+  `" part="card" aria-labelledby="` +
+  (titleId) +
+  `" aria-describedby="` +
+  (descriptionId) +
+  `">` +
+  `<div class="uib-tour-card__icon" part="icon" aria-hidden="true">` +
+  ` ` +
+  (escapeHtml(this.defaults.icon)) +
+  ` ` +
+  `</div>` +
+  `<div class="uib-tour-card__content" part="content">` +
+  `<p class="uib-tour-card__eyebrow" part="eyebrow">` +
+  ` ` +
+  (escapeHtml(this.eyebrow)) +
+  ` ` +
+  `</p>` +
+  `<h3 id="` +
+  (titleId) +
+  `" class="uib-tour-card__heading" part="heading"> ` +
+  (escapeHtml(this.heading)) +
+  ` ` +
+  `</h3>` +
+  `<p id="` +
+  (descriptionId) +
+  `" class="uib-tour-card__description" part="description"> ` +
+  (escapeHtml(this.description)) +
+  ` ` +
+  `</p>` +
+  `<div class="uib-tour-card__action-row" part="action-row">` +
+  `<button class="uib-tour-card__button" part="button" type="button" ` +
+  (this.disabled ? 'disabled' : '') +
+  `> ` +
+  (escapeHtml(this.actionLabel)) +
+  ` ` +
+  `</button>` +
+  ` ` +
+  (this.disabled ? '<span class="uib-tour-card__disabled-note" part="disabled-note">Action disabled by parent state.</span>' : '') +
+  ` ` +
+  `</div>` +
+  `</div>` +
+  `<div class="` +
+  (toastClass) +
+  `" part="toast" role="alert" aria-live="assertive" ` +
+  (this._toastVisible ? '' : 'hidden') +
+  `> ` +
+  (escapeHtml(toastText)) +
+  ` ` +
+  `</div>` +
+  `</section>`
+);
     applyCssClassToRoot(this);
     this.shadowRoot.querySelector('button')?.addEventListener('click', () => this.call({ trigger: 'button' }));
   }

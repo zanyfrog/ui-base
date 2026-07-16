@@ -19,14 +19,14 @@ export class UibAssetMetadataEditor extends BaseHTMLElement {
 
   render() {
     const asset = this._asset;
-    this.shadowRoot.innerHTML = `
-      <style>${baseAssetStyles}
-        form { display: grid; gap: 0.85rem; }
-        .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.85rem; }
-        @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }
-      </style>
-      <section class="asset-card" style="padding: 1rem;" aria-label="Asset metadata editor">
-        ${asset ? `
+    this.shadowRoot.innerHTML = (
+  `<style>` +
+  (baseAssetStyles) +
+  ` form { display: grid; gap: 0.85rem; } .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.85rem; } @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } } ` +
+  `</style>` +
+  `<section class="asset-card" style="padding: 1rem;" aria-label="Asset metadata editor">` +
+  ` ` +
+  (asset ? `
           <form>
             <div class="row-between">
               <div>
@@ -46,9 +46,10 @@ export class UibAssetMetadataEditor extends BaseHTMLElement {
             <label>Description <textarea name="description">${escapeHtml(asset.description)}</textarea></label>
             <uib-asset-permission-set-picker value="${escapeHtml(asset.permissionSetKey)}" ${asset.permissions.canManagePermissions ? '' : 'disabled'}></uib-asset-permission-set-picker>
           </form>
-        ` : '<div class="empty-state">Open an asset to edit metadata.</div>'}
-      </section>
-    `;
+        ` : '<div class="empty-state">Open an asset to edit metadata.</div>') +
+  ` ` +
+  `</section>`
+);
     const picker = this.shadowRoot.querySelector('uib-asset-permission-set-picker');
     if (picker) picker.permissionSets = this._permissionSets;
     this.shadowRoot.querySelector('form')?.addEventListener('submit', (event) => {

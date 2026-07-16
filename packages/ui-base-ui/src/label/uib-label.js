@@ -57,13 +57,45 @@ export class UibLabel extends UibBaseElement {
     this._rendering = true;
     const visibleText = this.text ? escapeHtml(this.text) : (this._initialContent || escapeHtml(this.label || this.name || 'Label'));
     const required = this.required ? '<span class="uib-label__required" aria-hidden="true">*</span>' : '';
-    const accessible = this.accessibleText ? `<span class="uib-label__accessible">${escapeHtml(this.accessibleText)}</span>` : '';
-    const help = this.help ? `<uib-help text="${escapeHtml(this.help)}" mode="${escapeHtml(this.helpMode)}"></uib-help>` : '';
-    const content = `<span class="uib-label__text">${visibleText}${accessible}</span>${required}${help}`;
+    const accessible = this.accessibleText ? (
+  `<span class="uib-label__accessible">` +
+  (escapeHtml(this.accessibleText)) +
+  `</span>`
+) : '';
+    const help = this.help ? (
+  `<uib-help text="` +
+  (escapeHtml(this.help)) +
+  `" mode="` +
+  (escapeHtml(this.helpMode)) +
+  `">` +
+  `</uib-help>`
+) : '';
+    const content = (
+  `<span class="uib-label__text">` +
+  (visibleText) +
+  (accessible) +
+  `</span>` +
+  (required) +
+  (help)
+);
     const title = this.titleText ? ` title="${escapeHtml(this.titleText)}"` : '';
     const label = this.htmlFor
-      ? `<label class="uib-label" part="label" for="${escapeHtml(this.htmlFor)}"${title}>${content}</label>`
-      : `<span class="uib-label" part="label"${title}>${content}</span>`;
+      ? (
+  `<label class="uib-label" part="label" for="` +
+  (escapeHtml(this.htmlFor)) +
+  `"` +
+  (title) +
+  `>` +
+  (content) +
+  `</label>`
+)
+      : (
+  `<span class="uib-label" part="label"` +
+  (title) +
+  `>` +
+  (content) +
+  `</span>`
+);
     this.innerHTML = label;
     this._rendering = false;
   }

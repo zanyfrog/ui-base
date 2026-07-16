@@ -22,9 +22,42 @@ export class UibActionGroup extends HTMLElement {
     const actionToken = item.action || item.actionToken || item.token || (String(item.type || '').toLowerCase() === 'action' ? item.value : '');
     const shown = boolish(item.shown ?? item.show ?? item.visible, true);
     if (!shown || !label) return '';
-    return `<uib-action-button label="${escapeHtml(label)}" kind="${escapeHtml(kind)}" variant="${escapeHtml(variant)}" href="${escapeHtml(href || '')}" action-token="${escapeHtml(actionToken || '')}" ${boolish(item.disabled, false) ? 'disabled' : ''} ${item.target ? `target="${escapeHtml(item.target)}"` : ''} ${item.rel ? `rel="${escapeHtml(item.rel)}"` : ''}></uib-action-button>`;
+    return (
+  `<uib-action-button label="` +
+  (escapeHtml(label)) +
+  `" kind="` +
+  (escapeHtml(kind)) +
+  `" variant="` +
+  (escapeHtml(variant)) +
+  `" href="` +
+  (escapeHtml(href || '')) +
+  `" action-token="` +
+  (escapeHtml(actionToken || '')) +
+  `" ` +
+  (boolish(item.disabled, false) ? 'disabled' : '') +
+  ` ` +
+  (item.target ? `target="${escapeHtml(item.target)}"` : '') +
+  ` ` +
+  (item.rel ? `rel="${escapeHtml(item.rel)}"` : '') +
+  `>` +
+  `</uib-action-button>`
+);
   }
-  render() { const actionMarkup = this.actions.map((action, index) => this.renderAction(action, index)).join(''); this.shadowRoot.innerHTML = `<style>${styles}</style><div class="group" part="group">${actionMarkup || '<slot></slot>'}</div>`; }
+  render() {
+    const actionMarkup = this.actions.map((action, index) => this.renderAction(action, index)).join('');
+    this.shadowRoot.innerHTML = (
+  `<style>` +
+  ` ` +
+  (styles) +
+  ` ` +
+  `</style>` +
+  `<div class="group" part="group">` +
+  ` ` +
+  (actionMarkup || '<slot></slot>') +
+  ` ` +
+  `</div>`
+);
+  }
 }
 
 defineUiBaseElement('uib-action-group', UibActionGroup);

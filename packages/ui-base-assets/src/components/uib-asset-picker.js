@@ -497,134 +497,44 @@ export class UibAssetPicker extends BaseHTMLElement {
     const selectedSummary = this.renderSelectedSummary(selectedAssets, selectedIds, placeholder);
     const filterPanelId = 'uib-asset-picker-filters';
     const uploadPanelId = 'uib-asset-picker-upload';
-    this.shadowRoot.innerHTML = `
-      <style>${baseAssetStyles}
-        :host { display: block; position: relative; }
-        .picker-shell { display: grid; gap: 0.35rem; position: relative; }
-        .field-label { display: inline-flex; color: var(--uib-assets-muted); font-size: 0.85rem; font-weight: 850; }
-        .control-row {
-          display: grid;
-          grid-template-columns: minmax(0, 1fr) auto auto auto;
-          gap: 0.45rem;
-          align-items: stretch;
-        }
-        .picker-value {
-          width: 100%;
-          min-height: 3.1rem;
-          display: grid;
-          align-items: center;
-          border: 1px solid var(--uib-assets-border-strong);
-          border-radius: 0.85rem;
-          padding: 0.35rem 0.5rem;
-          background: var(--uib-assets-surface);
-        }
-        .picker-action, .clear-button, .filter-icon, .upload-icon, .dialog-close { min-width: 2.25rem; min-height: 2.25rem; border-radius: 999px; white-space: nowrap; }
-        .picker-action.primary { padding-inline: 0.9rem; }
-        .picker-action.primary.icon-button { padding: 0; color: var(--uib-assets-primary-contrast); background: var(--uib-assets-primary); border-color: var(--uib-assets-primary); }
-        .icon-button { width: 2.35rem; min-width: 2.35rem; padding: 0; display: inline-grid; place-items: center; font-size: 1.05rem; line-height: 1; }
-        .picker-value[data-disabled="true"], .picker-action:disabled, .clear-button:disabled { cursor: not-allowed; opacity: 0.58; }
-        .selected-single, .placeholder-line { display: grid; grid-template-columns: 42px minmax(0, 1fr); gap: 0.55rem; align-items: center; min-width: 0; }
-        .placeholder-thumb { width: 42px; height: 42px; border-radius: 0.65rem; border: 1px dashed var(--uib-assets-border-strong); background: var(--uib-assets-surface-soft); display: grid; place-items: center; color: var(--uib-assets-muted); font-weight: 950; }
-        .selected-single uib-asset-thumbnail { width: 42px; }
-        .selected-text { display: grid; min-width: 0; }
-        .selected-name { overflow: hidden; color: var(--uib-assets-text); font-weight: 950; line-height: 1.2; text-overflow: ellipsis; white-space: nowrap; }
-        .selected-meta { overflow: hidden; color: var(--uib-assets-muted); font-size: 0.76rem; font-weight: 650; text-overflow: ellipsis; white-space: nowrap; }
-        .chip-wrap { display: flex; flex-wrap: wrap; gap: 0.35rem; min-width: 0; }
-        .asset-chip { display: inline-grid; grid-template-columns: 28px minmax(0, auto); gap: 0.35rem; align-items: center; max-width: 15rem; padding: 0.22rem 0.45rem 0.22rem 0.28rem; border: 1px solid var(--uib-assets-border); border-radius: 999px; background: var(--uib-assets-surface-soft); }
-        .asset-chip uib-asset-thumbnail { width: 28px; }
-        .asset-chip span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.8rem; font-weight: 850; }
-        .modal-backdrop {
-          position: fixed;
-          inset: 0;
-          z-index: 1000;
-          display: grid;
-          place-items: center;
-          padding: 1rem;
-          background: rgba(6, 21, 40, 0.56);
-        }
-        .modal-dialog {
-          width: min(36rem, calc(100vw - 2rem));
-          max-height: min(74vh, 40rem);
-          display: grid;
-          grid-template-rows: auto auto minmax(0, 1fr) auto;
-          gap: 0.55rem;
-          overflow: hidden;
-          padding: 0.85rem;
-          border: 1px solid var(--uib-assets-border-strong);
-          border-radius: var(--uib-assets-radius);
-          background: var(--uib-assets-surface);
-          box-shadow: 0 24px 72px rgba(10, 31, 68, 0.28);
-        }
-        .dialog-header { display: flex; gap: 0.75rem; align-items: start; justify-content: space-between; }
-        .dialog-title-wrap { min-width: 0; }
-        .picker-toolbar { display: grid; grid-template-columns: minmax(12rem, 1fr) auto auto; gap: 0.35rem; align-items: center; }
-        .picker-toolbar input { min-height: 2.35rem; }
-        .dialog-panels { display: grid; gap: 0.45rem; }
-        .filter-panel, .upload-panel { display: grid; gap: 0.55rem; padding: 0.6rem; border: 1px solid var(--uib-assets-border); border-radius: 0.75rem; background: var(--uib-assets-surface-soft); }
-        .filter-panel { width: min(100%, 30rem); justify-self: start; box-shadow: 0 8px 24px rgba(10, 31, 68, 0.08); }
-        .filter-panel[hidden], .upload-panel[hidden], [hidden] { display: none !important; }
-        .filter-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: end; }
-        .filter-grid label { width: auto; min-width: 7.2rem; max-width: 10.5rem; }
-        .filter-grid input, .filter-grid select { width: auto; min-width: 7.2rem; max-width: 10.5rem; }
-        .filter-grid input[name="applicationKey"] { max-width: 10rem; }
-        .filter-actions, .picker-footer { display: flex; flex-wrap: wrap; gap: 0.45rem; align-items: center; justify-content: space-between; }
-        .status { min-height: 1.25rem; color: var(--uib-assets-muted); font-size: 0.78rem; }
-        .modal-body { min-height: 0; overflow: auto; padding-right: 0.15rem; }
-        .asset-options { display: grid; gap: 0.3rem; }
-        .asset-option {
-          width: 100%;
-          min-height: auto;
-          display: grid;
-          grid-template-columns: 44px minmax(0, 1fr) auto;
-          gap: 0.5rem;
-          align-items: center;
-          padding: 0.42rem;
-          border-radius: 0.7rem;
-          text-align: left;
-          background: var(--uib-assets-surface);
-        }
-        .asset-option[aria-selected="true"], .asset-option[aria-pressed="true"] { border-color: var(--uib-assets-primary); background: var(--uib-assets-surface-tint); }
-        .asset-option uib-asset-thumbnail { width: 44px; }
-        .asset-name { overflow: hidden; margin: 0; padding-left: 0.75rem; color: var(--uib-assets-text); font-weight: 900; text-overflow: ellipsis; white-space: nowrap; }
-        .selected-mark { display: inline-grid; width: 1.35rem; height: 1.35rem; place-items: center; border-radius: 999px; border: 1px solid var(--uib-assets-border-strong); color: var(--uib-assets-muted); font-size: 0.75rem; font-weight: 950; }
-        .asset-option[aria-selected="true"] .selected-mark, .asset-option[aria-pressed="true"] .selected-mark { background: var(--uib-assets-primary); border-color: var(--uib-assets-primary); color: var(--uib-assets-primary-contrast); }
-        .upload-grid { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 0.55rem; align-items: start; }
-        .upload-preview { min-height: 64px; display: grid; place-items: center; border: 1px dashed var(--uib-assets-border-strong); border-radius: 0.7rem; background: var(--uib-assets-surface); color: var(--uib-assets-muted); font-size: 0.78rem; text-align: center; }
-        .upload-preview img { width: 100%; height: 64px; object-fit: cover; border-radius: 0.6rem; }
-        .upload-fields { display: grid; gap: 0.55rem; }
-        .upload-fields textarea { min-height: 4.5rem; }
-        .file-row { display: flex; flex-wrap: wrap; gap: 0.45rem; align-items: center; }
-        .small-button { min-height: 2rem; padding: 0.3rem 0.7rem; border-radius: 0.65rem; font-size: 0.84rem; }
-        .selected-file-name { color: var(--uib-assets-muted); font-size: 0.84rem; font-weight: 750; }
-        .visually-hidden-file { position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0; pointer-events: none; }
-        .upload-status { margin: 0; padding: 0.45rem 0.6rem; border: 1px solid var(--uib-assets-border); border-radius: 0.65rem; background: var(--uib-assets-surface); color: var(--uib-assets-text); font-size: 0.84rem; font-weight: 750; }
-        .strong { color: var(--uib-assets-text); font-weight: 850; }
-        @media (max-width: 640px) {
-          .control-row { grid-template-columns: 1fr; }
-          .picker-action, .clear-button { justify-self: start; }
-          .modal-backdrop { align-items: end; padding: 0.5rem; }
-          .modal-dialog { width: 100%; max-height: 94vh; }
-          .picker-toolbar, .filter-grid, .upload-grid { grid-template-columns: 1fr; }
-        }
-      </style>
-      <div class="picker-shell" data-open="${open ? 'true' : 'false'}">
-        ${name ? `<input type="hidden" name="${escapeHtml(name)}" value="${escapeHtml(this._value)}" />` : ''}
-        ${label ? `<span class="field-label">${escapeHtml(label)}</span>` : ''}
-        <div class="control-row">
-          <div class="picker-value" data-disabled="${disabled ? 'true' : 'false'}" aria-live="polite" title="Selected asset for this field">
-            ${selectedSummary}
-          </div>
-          <button type="button" class="picker-action primary icon-button" data-open-picker title="Browse existing assets" aria-label="Browse existing assets" ${disabled ? 'disabled' : ''}>
-            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
-              <path fill="currentColor" d="M10.5 4a6.5 6.5 0 0 1 5.17 10.44l4.45 4.44-1.41 1.41-4.45-4.44A6.5 6.5 0 1 1 10.5 4Zm0 2a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9Z"></path>
-            </svg>
-          </button>
-          ${this.allowUpload() ? `<button type="button" class="picker-action icon-button" data-open-upload title="Upload a new asset" aria-label="Upload a new asset" ${disabled ? 'disabled' : ''}>⇧</button>` : ''}
-          ${selectedCount ? `<button type="button" class="clear-button danger" data-clear-selection title="Clear selected asset" ${disabled ? 'disabled' : ''}>Clear</button>` : ''}
-        </div>
-        ${open ? this.renderModal(selectionMode, canUseSelected, filterPanelId, uploadPanelId) : ''}
-      </div>
-    `;
+    this.shadowRoot.innerHTML = (
+  `<style>` +
+  (baseAssetStyles) +
+  ` :host { display: block; position: relative; } .picker-shell { display: grid; gap: 0.35rem; position: relative; } .field-label { display: inline-flex; color: var(--uib-assets-muted); font-size: 0.85rem; font-weight: 850; } .control-row { display: grid; grid-template-columns: minmax(0, 1fr) auto auto auto; gap: 0.45rem; align-items: stretch; } .picker-value { width: 100%; min-height: 3.1rem; display: grid; align-items: center; border: 1px solid var(--uib-assets-border-strong); border-radius: 0.85rem; padding: 0.35rem 0.5rem; background: var(--uib-assets-surface); } .picker-action, .clear-button, .filter-icon, .upload-icon, .dialog-close { min-width: 2.25rem; min-height: 2.25rem; border-radius: 999px; white-space: nowrap; } .picker-action.primary { padding-inline: 0.9rem; } .picker-action.primary.icon-button { padding: 0; color: var(--uib-assets-primary-contrast); background: var(--uib-assets-primary); border-color: var(--uib-assets-primary); } .icon-button { width: 2.35rem; min-width: 2.35rem; padding: 0; display: inline-grid; place-items: center; font-size: 1.05rem; line-height: 1; } .picker-value[data-disabled="true"], .picker-action:disabled, .clear-button:disabled { cursor: not-allowed; opacity: 0.58; } .selected-single, .placeholder-line { display: grid; grid-template-columns: 42px minmax(0, 1fr); gap: 0.55rem; align-items: center; min-width: 0; } .placeholder-thumb { width: 42px; height: 42px; border-radius: 0.65rem; border: 1px dashed var(--uib-assets-border-strong); background: var(--uib-assets-surface-soft); display: grid; place-items: center; color: var(--uib-assets-muted); font-weight: 950; } .selected-single uib-asset-thumbnail { width: 42px; } .selected-text { display: grid; min-width: 0; } .selected-name { overflow: hidden; color: var(--uib-assets-text); font-weight: 950; line-height: 1.2; text-overflow: ellipsis; white-space: nowrap; } .selected-meta { overflow: hidden; color: var(--uib-assets-muted); font-size: 0.76rem; font-weight: 650; text-overflow: ellipsis; white-space: nowrap; } .chip-wrap { display: flex; flex-wrap: wrap; gap: 0.35rem; min-width: 0; } .asset-chip { display: inline-grid; grid-template-columns: 28px minmax(0, auto); gap: 0.35rem; align-items: center; max-width: 15rem; padding: 0.22rem 0.45rem 0.22rem 0.28rem; border: 1px solid var(--uib-assets-border); border-radius: 999px; background: var(--uib-assets-surface-soft); } .asset-chip uib-asset-thumbnail { width: 28px; } .asset-chip span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.8rem; font-weight: 850; } .modal-backdrop { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; padding: 1rem; background: rgba(6, 21, 40, 0.56); } .modal-dialog { width: min(36rem, calc(100vw - 2rem)); max-height: min(74vh, 40rem); display: grid; grid-template-rows: auto auto minmax(0, 1fr) auto; gap: 0.55rem; overflow: hidden; padding: 0.85rem; border: 1px solid var(--uib-assets-border-strong); border-radius: var(--uib-assets-radius); background: var(--uib-assets-surface); box-shadow: 0 24px 72px rgba(10, 31, 68, 0.28); } .dialog-header { display: flex; gap: 0.75rem; align-items: start; justify-content: space-between; } .dialog-title-wrap { min-width: 0; } .picker-toolbar { display: grid; grid-template-columns: minmax(12rem, 1fr) auto auto; gap: 0.35rem; align-items: center; } .picker-toolbar input { min-height: 2.35rem; } .dialog-panels { display: grid; gap: 0.45rem; } .filter-panel, .upload-panel { display: grid; gap: 0.55rem; padding: 0.6rem; border: 1px solid var(--uib-assets-border); border-radius: 0.75rem; background: var(--uib-assets-surface-soft); } .filter-panel { width: min(100%, 30rem); justify-self: start; box-shadow: 0 8px 24px rgba(10, 31, 68, 0.08); } .filter-panel[hidden], .upload-panel[hidden], [hidden] { display: none !important; } .filter-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: end; } .filter-grid label { width: auto; min-width: 7.2rem; max-width: 10.5rem; } .filter-grid input, .filter-grid select { width: auto; min-width: 7.2rem; max-width: 10.5rem; } .filter-grid input[name="applicationKey"] { max-width: 10rem; } .filter-actions, .picker-footer { display: flex; flex-wrap: wrap; gap: 0.45rem; align-items: center; justify-content: space-between; } .status { min-height: 1.25rem; color: var(--uib-assets-muted); font-size: 0.78rem; } .modal-body { min-height: 0; overflow: auto; padding-right: 0.15rem; } .asset-options { display: grid; gap: 0.3rem; } .asset-option { width: 100%; min-height: auto; display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; gap: 0.5rem; align-items: center; padding: 0.42rem; border-radius: 0.7rem; text-align: left; background: var(--uib-assets-surface); } .asset-option[aria-selected="true"], .asset-option[aria-pressed="true"] { border-color: var(--uib-assets-primary); background: var(--uib-assets-surface-tint); } .asset-option uib-asset-thumbnail { width: 44px; } .asset-name { overflow: hidden; margin: 0; padding-left: 0.75rem; color: var(--uib-assets-text); font-weight: 900; text-overflow: ellipsis; white-space: nowrap; } .selected-mark { display: inline-grid; width: 1.35rem; height: 1.35rem; place-items: center; border-radius: 999px; border: 1px solid var(--uib-assets-border-strong); color: var(--uib-assets-muted); font-size: 0.75rem; font-weight: 950; } .asset-option[aria-selected="true"] .selected-mark, .asset-option[aria-pressed="true"] .selected-mark { background: var(--uib-assets-primary); border-color: var(--uib-assets-primary); color: var(--uib-assets-primary-contrast); } .upload-grid { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 0.55rem; align-items: start; } .upload-preview { min-height: 64px; display: grid; place-items: center; border: 1px dashed var(--uib-assets-border-strong); border-radius: 0.7rem; background: var(--uib-assets-surface); color: var(--uib-assets-muted); font-size: 0.78rem; text-align: center; } .upload-preview img { width: 100%; height: 64px; object-fit: cover; border-radius: 0.6rem; } .upload-fields { display: grid; gap: 0.55rem; } .upload-fields textarea { min-height: 4.5rem; } .file-row { display: flex; flex-wrap: wrap; gap: 0.45rem; align-items: center; } .small-button { min-height: 2rem; padding: 0.3rem 0.7rem; border-radius: 0.65rem; font-size: 0.84rem; } .selected-file-name { color: var(--uib-assets-muted); font-size: 0.84rem; font-weight: 750; } .visually-hidden-file { position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0; pointer-events: none; } .upload-status { margin: 0; padding: 0.45rem 0.6rem; border: 1px solid var(--uib-assets-border); border-radius: 0.65rem; background: var(--uib-assets-surface); color: var(--uib-assets-text); font-size: 0.84rem; font-weight: 750; } .strong { color: var(--uib-assets-text); font-weight: 850; } @media (max-width: 640px) { .control-row { grid-template-columns: 1fr; } .picker-action, .clear-button { justify-self: start; } .modal-backdrop { align-items: end; padding: 0.5rem; } .modal-dialog { width: 100%; max-height: 94vh; } .picker-toolbar, .filter-grid, .upload-grid { grid-template-columns: 1fr; } } ` +
+  `</style>` +
+  `<div class="picker-shell" data-open="` +
+  (open ? 'true' : 'false') +
+  `"> ` +
+  (name ? `<input type="hidden" name="${escapeHtml(name)}" value="${escapeHtml(this._value)}" />` : '') +
+  ` ` +
+  (label ? `<span class="field-label">${escapeHtml(label)}</span>` : '') +
+  ` ` +
+  `<div class="control-row">` +
+  `<div class="picker-value" data-disabled="` +
+  (disabled ? 'true' : 'false') +
+  `" aria-live="polite" title="Selected asset for this field"> ` +
+  (selectedSummary) +
+  ` ` +
+  `</div>` +
+  `<button type="button" class="picker-action primary icon-button" data-open-picker title="Browse existing assets" aria-label="Browse existing assets" ` +
+  (disabled ? 'disabled' : '') +
+  `>` +
+  `<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">` +
+  `<path fill="currentColor" d="M10.5 4a6.5 6.5 0 0 1 5.17 10.44l4.45 4.44-1.41 1.41-4.45-4.44A6.5 6.5 0 1 1 10.5 4Zm0 2a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9Z">` +
+  `</path>` +
+  `</svg>` +
+  `</button>` +
+  ` ` +
+  (this.allowUpload() ? `<button type="button" class="picker-action icon-button" data-open-upload title="Upload a new asset" aria-label="Upload a new asset" ${disabled ? 'disabled' : ''}>⇧</button>` : '') +
+  ` ` +
+  (selectedCount ? `<button type="button" class="clear-button danger" data-clear-selection title="Clear selected asset" ${disabled ? 'disabled' : ''}>Clear</button>` : '') +
+  ` ` +
+  `</div>` +
+  ` ` +
+  (open ? this.renderModal(selectionMode, canUseSelected, filterPanelId, uploadPanelId) : '') +
+  ` ` +
+  `</div>`
+);
 
     this.wireEvents();
     this.assignThumbnails();
@@ -643,20 +553,64 @@ export class UibAssetPicker extends BaseHTMLElement {
   renderSelectedSummary(selectedAssets, selectedIds, placeholder) {
     if (this.isMultiple()) {
       if (!selectedIds.length) {
-        return `<span class="placeholder-line"><span class="placeholder-thumb" aria-hidden="true">+</span><span class="selected-text"><span class="selected-name">${escapeHtml(placeholder)}</span><span class="selected-meta">Attach one or more assets</span></span></span>`;
+        return (
+  `<span class="placeholder-line">` +
+  `<span class="placeholder-thumb" aria-hidden="true">` +
+  `+` +
+  `</span>` +
+  `<span class="selected-text">` +
+  `<span class="selected-name">` +
+  (escapeHtml(placeholder)) +
+  `</span>` +
+  `<span class="selected-meta">` +
+  `Attach one or more assets` +
+  `</span>` +
+  `</span>` +
+  `</span>`
+);
       }
-      return `<span class="chip-wrap">${selectedIds.map((id) => {
+      return (
+  `<span class="chip-wrap">` +
+  (selectedIds.map((id) => {
         const asset = selectedAssets.find((item) => item.id === id);
         return `<span class="asset-chip" data-chip-id="${escapeHtml(id)}">${asset ? '<uib-asset-thumbnail></uib-asset-thumbnail>' : '<span class="placeholder-thumb" aria-hidden="true">?</span>'}<span>${escapeHtml(asset?.name || id)}</span></span>`;
-      }).join('')}</span>`;
+      }).join('')) +
+  `</span>`
+);
     }
 
     const selectedId = selectedIds[0] || '';
     const asset = selectedAssets[0] || null;
     if (!selectedId) {
-      return `<span class="placeholder-line"><span class="placeholder-thumb" aria-hidden="true">+</span><span class="selected-text"><span class="selected-name">${escapeHtml(placeholder)}</span><span class="selected-meta">Attach an image, file, or asset</span></span></span>`;
+      return (
+  `<span class="placeholder-line">` +
+  `<span class="placeholder-thumb" aria-hidden="true">` +
+  `+` +
+  `</span>` +
+  `<span class="selected-text">` +
+  `<span class="selected-name">` +
+  (escapeHtml(placeholder)) +
+  `</span>` +
+  `<span class="selected-meta">` +
+  `Attach an image, file, or asset` +
+  `</span>` +
+  `</span>` +
+  `</span>`
+);
     }
-    return `<span class="selected-single">${asset ? '<uib-asset-thumbnail class="selected-thumbnail"></uib-asset-thumbnail>' : '<span class="placeholder-thumb" aria-hidden="true">?</span>'}<span class="selected-text"><span class="selected-name">${escapeHtml(asset?.name || selectedId)}</span><span class="selected-meta">${escapeHtml(asset ? [asset.fileType, asset.category].filter(Boolean).join(' · ') : 'Asset selected')}</span></span></span>`;
+    return (
+  `<span class="selected-single">` +
+  (asset ? '<uib-asset-thumbnail class="selected-thumbnail"></uib-asset-thumbnail>' : '<span class="placeholder-thumb" aria-hidden="true">?</span>') +
+  `<span class="selected-text">` +
+  `<span class="selected-name">` +
+  (escapeHtml(asset?.name || selectedId)) +
+  `</span>` +
+  `<span class="selected-meta">` +
+  (escapeHtml(asset ? [asset.fileType, asset.category].filter(Boolean).join(' · ') : 'Asset selected')) +
+  `</span>` +
+  `</span>` +
+  `</span>`
+);
   }
 
   renderModal(selectionMode, canUseSelected, filterPanelId, uploadPanelId) {
@@ -664,113 +618,262 @@ export class UibAssetPicker extends BaseHTMLElement {
     const view = 'list';
     const filtersButtonLabel = this._filtersOpen ? 'Hide more filters' : 'Show more filters';
     const uploadButtonLabel = this._uploadOpen ? 'Hide upload form' : 'Upload a new asset';
-    return `
-      <div class="modal-backdrop" data-modal-backdrop role="presentation">
-        <section class="modal-dialog" role="dialog" aria-modal="true" aria-label="Choose asset">
-          <div class="dialog-header">
-            <div class="dialog-title-wrap">
-              <h2 class="title">Choose an asset</h2>
-              <p class="subtitle">Search existing assets first. Upload a new file only when needed.</p>
+    return (
+  `<div class="modal-backdrop" data-modal-backdrop role="presentation">` +
+  `<section class="modal-dialog" role="dialog" aria-modal="true" aria-label="Choose asset">` +
+  `<div class="dialog-header">` +
+  `<div class="dialog-title-wrap">` +
+  `<h2 class="title">` +
+  ` Choose an asset ` +
+  `</h2>` +
+  `<p class="subtitle">` +
+  ` Search existing assets first. Upload a new file only when needed. ` +
+  `</p>` +
+  `</div>` +
+  `<button type="button" class="dialog-close icon-button" data-close-picker aria-label="Close asset picker" title="Close asset picker">` +
+  ` × ` +
+  `</button>` +
+  `</div>` +
+  `<div class="dialog-panels">` +
+  `<div class="picker-toolbar">` +
+  `<input data-search-input value="` +
+  (escapeHtml(this._query)) +
+  `" placeholder="Search assets" aria-label="Search assets" title="Search assets by name, description, tag, or file name" /><button type="button" class="filter-icon icon-button ` +
+  (this._filtersOpen ? 'primary' : '') +
+  `" data-toggle-filters aria-controls="` +
+  (filterPanelId) +
+  `" aria-expanded="` +
+  (this._filtersOpen ? 'true' : 'false') +
+  `" title="` +
+  (filtersButtonLabel) +
+  `" aria-label="` +
+  (filtersButtonLabel) +
+  `"> ☰ ` +
+  `</button>` +
+  ` ` +
+  (allowUpload ? `<button type="button" data-toggle-upload class="upload-icon icon-button ${this._uploadOpen ? 'primary' : ''}" aria-controls="${uploadPanelId}" aria-expanded="${this._uploadOpen ? 'true' : 'false'}" title="${uploadButtonLabel}" aria-label="${uploadButtonLabel}">⇧</button>` : '') +
+  ` ` +
+  `</div>` +
+  `<div class="status" aria-live="polite">` +
+  ` ` +
+  (this._loading ? 'Loading assets...' : escapeHtml(this._message || 'Choose an asset.')) +
+  ` ` +
+  `</div>` +
+  ` ` +
+  (this._filtersOpen ? `
+            <form id="${filterPanelId}" class="filter-panel" data-filter-panel-open="true">
+            ${this.renderFilterFields()}
+            </form>
+            ` : '') +
+  ` ` +
+  (allowUpload && this._uploadOpen ? `
+            <form id="${uploadPanelId}" class="upload-panel" data-upload-panel-open="true">
+            ${this.renderUploadFields()}
+            </form>
+            ` : '') +
+  ` ` +
+  `</div>` +
+  `<div class="modal-body">` +
+  ` ` +
+  (this._assets.length ? `
+            <div class="asset-options" data-view="${escapeHtml(view)}" role="listbox" aria-multiselectable="${this.isMultiple() ? 'true' : 'false'}">
+            ${this._assets.map((asset) => this.renderAssetOption(asset)).join('')}
             </div>
-            <button type="button" class="dialog-close icon-button" data-close-picker aria-label="Close asset picker" title="Close asset picker">×</button>
-          </div>
-          <div class="dialog-panels">
-            <div class="picker-toolbar">
-              <input data-search-input value="${escapeHtml(this._query)}" placeholder="Search assets" aria-label="Search assets" title="Search assets by name, description, tag, or file name" />
-              <button type="button" class="filter-icon icon-button ${this._filtersOpen ? 'primary' : ''}" data-toggle-filters aria-controls="${filterPanelId}" aria-expanded="${this._filtersOpen ? 'true' : 'false'}" title="${filtersButtonLabel}" aria-label="${filtersButtonLabel}">☰</button>
-              ${allowUpload ? `<button type="button" data-toggle-upload class="upload-icon icon-button ${this._uploadOpen ? 'primary' : ''}" aria-controls="${uploadPanelId}" aria-expanded="${this._uploadOpen ? 'true' : 'false'}" title="${uploadButtonLabel}" aria-label="${uploadButtonLabel}">⇧</button>` : ''}
-            </div>
-            <div class="status" aria-live="polite">${this._loading ? 'Loading assets...' : escapeHtml(this._message || 'Choose an asset.')}</div>
-            ${this._filtersOpen ? `
-              <form id="${filterPanelId}" class="filter-panel" data-filter-panel-open="true">
-                ${this.renderFilterFields()}
-              </form>
-            ` : ''}
-            ${allowUpload && this._uploadOpen ? `
-              <form id="${uploadPanelId}" class="upload-panel" data-upload-panel-open="true">
-                ${this.renderUploadFields()}
-              </form>
-            ` : ''}
-          </div>
-          <div class="modal-body">
-            ${this._assets.length ? `
-              <div class="asset-options" data-view="${escapeHtml(view)}" role="listbox" aria-multiselectable="${this.isMultiple() ? 'true' : 'false'}">
-                ${this._assets.map((asset) => this.renderAssetOption(asset)).join('')}
-              </div>
-            ` : `<div class="empty-state">No insertable assets match the current filters. Try a broader search, change filters, or upload a new file.</div>`}
-          </div>
-          ${selectionMode === 'multiple' ? `<div class="picker-footer"><span class="small muted">${this._selectedAssetIds.size} selected</span><button type="button" class="primary" data-use-selected title="Use the selected assets" ${canUseSelected ? '' : 'disabled'}>Use Selected</button></div>` : ''}
-        </section>
-      </div>
-    `;
+            ` : `<div class="empty-state">No insertable assets match the current filters. Try a broader search, change filters, or upload a new file.</div>`) +
+  ` ` +
+  `</div>` +
+  ` ` +
+  (selectionMode === 'multiple' ? `<div class="picker-footer"><span class="small muted">${this._selectedAssetIds.size} selected</span><button type="button" class="primary" data-use-selected title="Use the selected assets" ${canUseSelected ? '' : 'disabled'}>Use Selected</button></div>` : '') +
+  ` ` +
+  `</section>` +
+  `</div>`
+);
   }
 
   renderFilterFields() {
     const filters = this._filters;
-    const option = (value, label, selected) => `<option value="${escapeHtml(value)}" ${value === selected ? 'selected' : ''}>${escapeHtml(label)}</option>`;
-    return `
-      <div class="filter-grid">
-        <label title="Limit results to assets for one application">Application <input name="applicationKey" value="${escapeHtml(filters.applicationKey || '')}" placeholder="demo-app" title="Limit results to assets for one application" /></label>
-        <label title="Limit results to one category">Category <select name="category" title="Limit results to one category">${option('all', 'All categories', filters.category)}${this._categories.map((category) => option(categoryKey(category), categoryName(category), filters.category)).join('')}</select></label>
-        <label title="Limit results to one file type">File type <select name="fileType" title="Limit results to one file type">${option('all', 'All file types', filters.fileType)}${ASSET_FILE_TYPES.map((type) => option(type, humanize(type), filters.fileType)).join('')}</select></label>
-        <label title="Limit results by reuse scope">Scope <select name="scope" title="Limit results by reuse scope">${option('all', 'All scopes', filters.scope)}${ASSET_SCOPES.map((scope) => option(scope, humanize(scope), filters.scope)).join('')}</select></label>
-        <label title="Limit results by visibility">Visibility <select name="visibility" title="Limit results by visibility">${option('all', 'All visibility', filters.visibility)}${ASSET_VISIBILITIES.map((visibility) => option(visibility, humanize(visibility), filters.visibility)).join('')}</select></label>
-        <label title="Limit results by status">Status <select name="status" title="Limit results by status">${option('active', 'Active', filters.status)}${option('archived', 'Archived', filters.status)}${option('all', 'Active and archived', filters.status)}</select></label>
-      </div>
-      <div class="filter-actions">
-        <button type="submit" class="primary" title="Apply selected filters">Apply filters</button>
-        <button type="button" data-clear-filters title="Clear filters and show broader results">Clear</button>
-      </div>
-    `;
+    const option = (value, label, selected) => (
+  `<option value="` +
+  (escapeHtml(value)) +
+  `" ` +
+  (value === selected ? 'selected' : '') +
+  `>` +
+  (escapeHtml(label)) +
+  `</option>`
+);
+    return (
+  `<div class="filter-grid">` +
+  `<label title="Limit results to assets for one application">` +
+  `Application <input name="applicationKey" value="` +
+  (escapeHtml(filters.applicationKey || '')) +
+  `" placeholder="demo-app" title="Limit results to assets for one application" />` +
+  `</label>` +
+  `<label title="Limit results to one category">` +
+  `Category ` +
+  `<select name="category" title="Limit results to one category">` +
+  (option('all', 'All categories', filters.category)) +
+  (this._categories.map((category) => option(categoryKey(category), categoryName(category), filters.category)).join('')) +
+  `</select>` +
+  `</label>` +
+  `<label title="Limit results to one file type">` +
+  `File type ` +
+  `<select name="fileType" title="Limit results to one file type">` +
+  (option('all', 'All file types', filters.fileType)) +
+  (ASSET_FILE_TYPES.map((type) => option(type, humanize(type), filters.fileType)).join('')) +
+  `</select>` +
+  `</label>` +
+  `<label title="Limit results by reuse scope">` +
+  `Scope ` +
+  `<select name="scope" title="Limit results by reuse scope">` +
+  (option('all', 'All scopes', filters.scope)) +
+  (ASSET_SCOPES.map((scope) => option(scope, humanize(scope), filters.scope)).join('')) +
+  `</select>` +
+  `</label>` +
+  `<label title="Limit results by visibility">` +
+  `Visibility ` +
+  `<select name="visibility" title="Limit results by visibility">` +
+  (option('all', 'All visibility', filters.visibility)) +
+  (ASSET_VISIBILITIES.map((visibility) => option(visibility, humanize(visibility), filters.visibility)).join('')) +
+  `</select>` +
+  `</label>` +
+  `<label title="Limit results by status">` +
+  `Status ` +
+  `<select name="status" title="Limit results by status">` +
+  (option('active', 'Active', filters.status)) +
+  (option('archived', 'Archived', filters.status)) +
+  (option('all', 'Active and archived', filters.status)) +
+  `</select>` +
+  `</label>` +
+  `</div>` +
+  `<div class="filter-actions">` +
+  `<button type="submit" class="primary" title="Apply selected filters">` +
+  `Apply filters` +
+  `</button>` +
+  `<button type="button" data-clear-filters title="Clear filters and show broader results">` +
+  `Clear` +
+  `</button>` +
+  `</div>`
+);
   }
 
   renderUploadFields() {
     const accept = this.acceptedFileTypes().join(',');
     const hasPendingFile = Boolean(this._pendingUploadFile);
     const preview = this._pendingUploadPreviewUrl
-      ? `<img src="${escapeHtml(this._pendingUploadPreviewUrl)}" alt="${escapeHtml(this._pendingUploadFileName || 'Selected file')} preview" />`
-      : `<span>${escapeHtml(this._pendingUploadFileName || 'No file selected')}</span>`;
+      ? (
+  `<img src="` +
+  (escapeHtml(this._pendingUploadPreviewUrl)) +
+  `" alt="` +
+  (escapeHtml(this._pendingUploadFileName || 'Selected file')) +
+  ` preview" />`
+)
+      : (
+  `<span>` +
+  (escapeHtml(this._pendingUploadFileName || 'No file selected')) +
+  `</span>`
+);
     const uploadStatus = this._uploadMessage
-      ? `<p class="upload-status" role="status" aria-live="polite">${escapeHtml(this._uploadMessage)}</p>`
+      ? (
+  `<p class="upload-status" role="status" aria-live="polite">` +
+  ` ` +
+  (escapeHtml(this._uploadMessage)) +
+  ` ` +
+  `</p>`
+)
       : '';
-    return `
-      <div class="row-between">
-        <div>
-          <h2 class="title">Upload asset</h2>
-          <p class="subtitle small">Choose a file and optionally add a description. Defaults are applied automatically.</p>
-        </div>
-        <button type="button" class="primary icon-button" data-upload-submit title="Upload selected file" aria-label="Upload selected file">⇧</button>
-      </div>
-      <div class="upload-grid">
-        <div class="upload-preview">${preview}</div>
-        <div class="upload-fields">
-          <label title="Choose a local file to upload">File
-            <span class="file-row">
-              <button type="button" class="small-button" data-choose-upload-file title="Choose a local file to upload">Choose file</button>
-              <span class="selected-file-name" title="Selected file name">${escapeHtml(this._pendingUploadFileName || 'No file selected')}</span>
-            </span>
-            <input class="visually-hidden-file" data-upload-file-input name="assetFile" type="file" accept="${escapeHtml(accept)}" title="Choose a local file to upload" />
-          </label>
-          <label title="Describe the asset for future search and reuse">Description <textarea name="description" data-upload-description placeholder="Optional description" title="Describe the asset for future search and reuse">${escapeHtml(this._pendingUploadDescription || '')}</textarea></label>
-          ${uploadStatus}
-          <p class="subtitle small">Defaults: type inferred from file, scope ${escapeHtml(this.uploadDefaultScope())}, visibility ${escapeHtml(this.uploadDefaultVisibility())}, category ${escapeHtml(this.uploadDefaultCategory())}, status active.</p>
-          ${hasPendingFile ? '<p class="subtitle small strong">Ready to upload the selected file.</p>' : '<p class="subtitle small">Select a file before pressing upload.</p>'}
-        </div>
-      </div>
-    `;
+    return (
+  `<div class="row-between">` +
+  `<div>` +
+  `<h2 class="title">` +
+  ` Upload asset ` +
+  `</h2>` +
+  `<p class="subtitle small">` +
+  ` Choose a file and optionally add a description. Defaults are applied automatically. ` +
+  `</p>` +
+  `</div>` +
+  `<button type="button" class="primary icon-button" data-upload-submit title="Upload selected file" aria-label="Upload selected file">` +
+  ` ⇧ ` +
+  `</button>` +
+  `</div>` +
+  `<div class="upload-grid">` +
+  `<div class="upload-preview">` +
+  ` ` +
+  (preview) +
+  ` ` +
+  `</div>` +
+  `<div class="upload-fields">` +
+  `<label title="Choose a local file to upload">` +
+  ` File ` +
+  `<span class="file-row">` +
+  `<button type="button" class="small-button" data-choose-upload-file title="Choose a local file to upload">` +
+  ` Choose file ` +
+  `</button>` +
+  `<span class="selected-file-name" title="Selected file name">` +
+  ` ` +
+  (escapeHtml(this._pendingUploadFileName || 'No file selected')) +
+  ` ` +
+  `</span>` +
+  `</span>` +
+  `<input class="visually-hidden-file" data-upload-file-input name="assetFile" type="file" accept="` +
+  (escapeHtml(accept)) +
+  `" title="Choose a local file to upload" />` +
+  `</label>` +
+  `<label title="Describe the asset for future search and reuse">` +
+  ` Description ` +
+  `<textarea name="description" data-upload-description placeholder="Optional description" title="Describe the asset for future search and reuse">` +
+  ` ` +
+  (escapeHtml(this._pendingUploadDescription || '')) +
+  ` ` +
+  `</textarea>` +
+  `</label>` +
+  ` ` +
+  (uploadStatus) +
+  ` ` +
+  `<p class="subtitle small">` +
+  ` Defaults: type inferred from file, scope ` +
+  (escapeHtml(this.uploadDefaultScope())) +
+  ` , visibility ` +
+  (escapeHtml(this.uploadDefaultVisibility())) +
+  ` , category ` +
+  (escapeHtml(this.uploadDefaultCategory())) +
+  ` , status active. ` +
+  `</p>` +
+  ` ` +
+  (hasPendingFile ? '<p class="subtitle small strong">Ready to upload the selected file.</p>' : '<p class="subtitle small">Select a file before pressing upload.</p>') +
+  ` ` +
+  `</div>` +
+  `</div>`
+);
   }
 
   renderAssetOption(asset) {
     const selected = this._selectedAssetIds.has(asset.id);
     const pressed = selected ? 'true' : 'false';
     const checkText = selected ? '✓' : (this.isMultiple() ? '+' : '');
-    return `
-      <button type="button" class="asset-option" data-id="${escapeHtml(asset.id)}" role="option" aria-pressed="${pressed}" aria-selected="${pressed}" title="Choose ${escapeHtml(asset.name)}">
-        <uib-asset-thumbnail></uib-asset-thumbnail>
-        <p class="asset-name">${escapeHtml(asset.name)}</p>
-        <span class="selected-mark" aria-hidden="true">${escapeHtml(checkText)}</span>
-      </button>
-    `;
+    return (
+  `<button type="button" class="asset-option" data-id="` +
+  (escapeHtml(asset.id)) +
+  `" role="option" aria-pressed="` +
+  (pressed) +
+  `" aria-selected="` +
+  (pressed) +
+  `" title="Choose ` +
+  (escapeHtml(asset.name)) +
+  `">` +
+  `<uib-asset-thumbnail>` +
+  `</uib-asset-thumbnail>` +
+  `<p class="asset-name">` +
+  ` ` +
+  (escapeHtml(asset.name)) +
+  ` ` +
+  `</p>` +
+  `<span class="selected-mark" aria-hidden="true">` +
+  ` ` +
+  (escapeHtml(checkText)) +
+  ` ` +
+  `</span>` +
+  `</button>`
+);
   }
 
   wireEvents() {

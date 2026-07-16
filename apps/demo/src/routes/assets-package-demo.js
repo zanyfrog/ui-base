@@ -293,7 +293,11 @@ function serializedMarkup(component, state) {
 }
 
 function apiItems(items, emptyText = 'None documented.') {
-  if (!items?.length) return `<p class="forms-api-empty">${escapeHtml(emptyText)}</p>`;
+  if (!items?.length) return `
+    <p class="forms-api-empty">
+      ${escapeHtml(emptyText)}
+    </p>
+  `;
   return `
     <dl class="forms-api-list">
       ${items.map((item) => `
@@ -355,19 +359,34 @@ function renderComponentApi(component) {
 function renderIndex(main) {
   main.innerHTML = `
     <section class="page-heading">
-      <p class="eyebrow">@ui.base/assets</p>
-      <h1>Assets component demos.</h1>
-      <p>Each exported asset component has a focused page with public prop controls, mock-data previews, event logging, markup output, and package API notes.</p>
+      <p class="eyebrow">
+        @ui.base/assets
+      </p>
+      <h1>
+        Assets component demos.
+      </h1>
+      <p>
+        Each exported asset component has a focused page with public prop controls, mock-data previews, event logging, markup output, and package API notes.
+      </p>
     </section>
     <section class="forms-component-grid" aria-label="Asset components">
       ${componentEntries.map((component) => `
         <a class="card forms-component-card" href="${escapeAttr(component.route)}" data-link>
           <span>
-            <p class="eyebrow">${escapeHtml(component.package)}</p>
-            <h2><code>${escapeHtml(component.tagName)}</code></h2>
-            <p>${escapeHtml(component.summary)}</p>
+            <p class="eyebrow">
+              ${escapeHtml(component.package)}
+            </p>
+            <h2>
+              <code>
+                ${escapeHtml(component.tagName)}
+              </code>
+            </h2>
+            <p>
+              ${escapeHtml(component.summary)}
+            </p>
           </span>
-          <div class="forms-card-preview assets-card-preview" aria-hidden="true" data-card-preview="${escapeAttr(component.tagName)}"></div>
+          <div class="forms-card-preview assets-card-preview" aria-hidden="true" data-card-preview="${escapeAttr(component.tagName)}">
+          </div>
         </a>
       `).join('')}
     </section>
@@ -398,56 +417,85 @@ function renderComponentPage(main, component) {
 
   main.innerHTML = `
     <section class="page-heading forms-detail-heading">
-      <p class="eyebrow">@ui.base/assets</p>
-      <h1><code>${escapeHtml(component.tagName)}</code></h1>
-      <p>${escapeHtml(component.summary)}</p>
+      <p class="eyebrow">
+        @ui.base/assets
+      </p>
+      <h1>
+        <code>
+          ${escapeHtml(component.tagName)}
+        </code>
+      </h1>
+      <p>
+        ${escapeHtml(component.summary)}
+      </p>
       <div class="button-row">
-        <a class="secondary-button compact-control-button" href="/assets/" data-link>Back to assets</a>
-        <a class="secondary-button compact-control-button" href="/assets-demo/" data-link>Workflow demos</a>
+        <a class="secondary-button compact-control-button" href="/assets/" data-link>
+          Back to assets
+        </a>
+        <a class="secondary-button compact-control-button" href="/assets-demo/" data-link>
+          Workflow demos
+        </a>
       </div>
     </section>
-
     <section class="demo-layout forms-demo-layout">
       <aside class="card controls forms-controls" aria-label="${escapeAttr(component.tagName)} prop controls">
         <div class="card-content">
           <div class="controls-header">
-            <h2>Public props</h2>
-            <span class="forms-control-count">${attrs.length}</span>
+            <h2>
+              Public props
+            </h2>
+            <span class="forms-control-count">
+              ${attrs.length}
+            </span>
           </div>
           <div class="form-grid" data-assets-controls>
             ${attrs.map((name) => controlMarkup(name, state[name])).join('')}
             <div class="field">
-              <label for="assets-control-children">children / slots</label>
-              <textarea id="assets-control-children" data-prop="children" spellcheck="false">${escapeHtml(state.children)}</textarea>
+              <label for="assets-control-children">
+                children / slots
+              </label>
+              <textarea id="assets-control-children" data-prop="children" spellcheck="false">
+                ${escapeHtml(state.children)}
+              </textarea>
             </div>
           </div>
         </div>
       </aside>
-
       <div class="forms-preview-stack">
         ${renderComponentApi(component)}
-
         <section class="card">
           <div class="preview-toolbar">
             <div>
-              <strong>Live preview</strong>
-              <span>Seeded with mock asset data where the component expects properties.</span>
+              <strong>
+                Live preview
+              </strong>
+              <span>
+                Seeded with mock asset data where the component expects properties.
+              </span>
             </div>
           </div>
-          <div class="forms-live-preview assets-live-preview" data-assets-preview></div>
-        </section>
-
-        <section class="card">
-          <div class="card-content">
-            <h2>Latest event</h2>
-            <pre class="code-block forms-event-log" data-assets-event-log>${escapeHtml(json({}))}</pre>
+          <div class="forms-live-preview assets-live-preview" data-assets-preview>
           </div>
         </section>
-
         <section class="card">
           <div class="card-content">
-            <h2>Current markup</h2>
-            <pre class="code-block forms-markup-output"><code data-assets-markup></code></pre>
+            <h2>
+              Latest event
+            </h2>
+            <pre class="code-block forms-event-log" data-assets-event-log>
+              ${escapeHtml(json({}))}
+            </pre>
+          </div>
+        </section>
+        <section class="card">
+          <div class="card-content">
+            <h2>
+              Current markup
+            </h2>
+            <pre class="code-block forms-markup-output">
+              <code data-assets-markup>
+              </code>
+            </pre>
           </div>
         </section>
       </div>

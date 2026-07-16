@@ -75,10 +75,13 @@ export class UibDetailList extends HTMLElement {
     const details = this.details;
     const assetMap = this.assetMap;
     const assetMapJson = JSON.stringify(assetMap || {});
-    this.shadowRoot.innerHTML = `
-      <style>${styles}</style>
-      <dl class="details" part="list">
-        ${details.map((item, index) => {
+    this.shadowRoot.innerHTML = (
+  `<style>` +
+  (styles) +
+  `</style>` +
+  `<dl class="details" part="list">` +
+  ` ` +
+  (details.map((item, index) => {
           const row = cleanDetail(item);
           return `<uib-detail-item
             part="item"
@@ -92,9 +95,10 @@ export class UibDetailList extends HTMLElement {
             icon-alt="${escapeHtml(row.iconAlt || row.icon_alt || row.alt || '')}"
             asset-map='${escapeHtml(assetMapJson)}'
           ></uib-detail-item>`;
-        }).join('')}
-      </dl>
-    `;
+        }).join('')) +
+  ` ` +
+  `</dl>`
+);
   }
 }
 

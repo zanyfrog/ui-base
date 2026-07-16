@@ -160,8 +160,12 @@ export class PackageBrowser extends HTMLElement {
 
     return `
       <a class="component-link" href="${escapeAttr(component.route)}" data-route>
-        <code>${escapeHtml(component.tagName)}</code>
-        <span>${escapeHtml(label)}</span>
+        <code>
+          ${escapeHtml(component.tagName)}
+        </code>
+        <span>
+          ${escapeHtml(label)}
+        </span>
       </a>
     `;
   }
@@ -193,20 +197,32 @@ export class PackageBrowser extends HTMLElement {
     const isOpen = this._open || this.hasAttribute('open');
 
     this.shadowRoot.innerHTML = `
-      <style>${styles}</style>
+      <style>
+        ${styles}
+      </style>
       <section class="browser">
         <details class="browser-disclosure" ${isOpen ? 'open' : ''}>
           <summary>
             <span class="summary-main">
-              <span class="eyebrow">Workspace components</span>
-              <h2>${escapeHtml(title)}</h2>
-              <p>Browse packages and jump to focused component demos when available.</p>
+              <span class="eyebrow">
+                Workspace components
+              </span>
+              <h2>
+                ${escapeHtml(title)}
+              </h2>
+              <p>
+                Browse packages and jump to focused component demos when available.
+              </p>
             </span>
-            <span class="summary-count">${this.componentCount(this.packages)}</span>
+            <span class="summary-count">
+              ${this.componentCount(this.packages)}
+            </span>
           </summary>
           <div class="content">
             <div class="filter-field">
-              <label for="packageBrowserFilter">Filter packages and components</label>
+              <label for="packageBrowserFilter">
+                Filter packages and components
+              </label>
               <input id="packageBrowserFilter" data-filter type="search" value="${escapeAttr(this._filter)}" placeholder="Search package or component name">
             </div>
             ${this._loading ? '<div class="load-note">Loading package metadata...</div>' : ''}

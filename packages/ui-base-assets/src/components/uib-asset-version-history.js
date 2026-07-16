@@ -17,13 +17,14 @@ export class UibAssetVersionHistory extends BaseHTMLElement {
   connectedCallback() { this.render(); }
 
   render() {
-    this.shadowRoot.innerHTML = `
-      <style>${baseAssetStyles}
-        .version { display: grid; gap: 0.45rem; padding: 0.75rem; border: 1px solid var(--uib-assets-border); border-radius: 0.85rem; background: var(--uib-assets-surface); }
-        .version + .version { margin-top: 0.55rem; }
-      </style>
-      <section class="stack-sm" aria-label="Asset version history">
-        ${this._versions.length ? this._versions.map((version) => `
+    this.shadowRoot.innerHTML = (
+  `<style>` +
+  (baseAssetStyles) +
+  ` .version { display: grid; gap: 0.45rem; padding: 0.75rem; border: 1px solid var(--uib-assets-border); border-radius: 0.85rem; background: var(--uib-assets-surface); } .version + .version { margin-top: 0.55rem; } ` +
+  `</style>` +
+  `<section class="stack-sm" aria-label="Asset version history">` +
+  ` ` +
+  (this._versions.length ? this._versions.map((version) => `
           <article class="version">
             <div class="row-between">
               <strong>Version ${escapeHtml(version.versionNumber || version.version_number || '?')}</strong>
@@ -32,9 +33,10 @@ export class UibAssetVersionHistory extends BaseHTMLElement {
             <div class="small muted">${escapeHtml(version.fileName || version.file_name || 'No file name')} · ${escapeHtml(formatDate(version.createdAt || version.created_at))}</div>
             ${version.notes ? `<div class="small">${escapeHtml(version.notes)}</div>` : ''}
           </article>
-        `).join('') : '<div class="empty-state">No versions returned for this asset.</div>'}
-      </section>
-    `;
+        `).join('') : '<div class="empty-state">No versions returned for this asset.</div>') +
+  ` ` +
+  `</section>`
+);
   }
 }
 

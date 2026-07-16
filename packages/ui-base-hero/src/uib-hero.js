@@ -633,10 +633,23 @@ function renderDetailIcon(item, index) {
   if (source) {
     const alt = String(item?.iconAlt ?? '').trim();
     const hiddenAttribute = alt ? '' : ' aria-hidden="true"';
-    return `<dt class="uib-hero__detail-icon uib-hero__detail-icon--image"${hiddenAttribute}><img class="uib-hero__detail-icon-image" src="${escapeHtml(source)}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async" /></dt>`;
+    return (
+  `<dt class="uib-hero__detail-icon uib-hero__detail-icon--image"` +
+  (hiddenAttribute) +
+  `><img class="uib-hero__detail-icon-image" src="` +
+  (escapeHtml(source)) +
+  `" alt="` +
+  (escapeHtml(alt)) +
+  `" loading="lazy" decoding="async" />` +
+  `</dt>`
+);
   }
 
-  return `<dt class="uib-hero__detail-icon uib-hero__detail-icon--text" aria-hidden="true">${escapeHtml(iconText(item?.icon, index))}</dt>`;
+  return (
+  `<dt class="uib-hero__detail-icon uib-hero__detail-icon--text" aria-hidden="true">` +
+  (escapeHtml(iconText(item?.icon, index))) +
+  `</dt>`
+);
 }
 
 function normalizeLayoutOpacity(value, fallback = 0.8) {
@@ -1297,56 +1310,134 @@ export class UibHero extends BaseHTMLElement {
     const actionsMarkup = this.renderActions();
     const resolvedVisual = resolveVisualSourceValue(visualSource, visualSrc, visualAssetId);
     const visualMarkup = resolvedVisual.source !== 'none'
-      ? `<uib-asset-image src="${escapeHtml(safeHref(resolvedVisual.src))}" asset-id="${escapeHtml(resolvedVisual.assetId)}" asset-map='${escapeHtml(assetMap)}' alt="${escapeHtml(visualAlt)}" role="${escapeHtml(visualRole)}" fit="${visualRole === 'icon' || visualRole === 'svg' ? 'contain' : 'cover'}" fallback-label="${escapeHtml(headline)}"></uib-asset-image>`
-      : `<div class="uib-hero__visual-placeholder" aria-hidden="true"><div class="uib-hero__visual-card"><strong>${escapeHtml(headline)}</strong><div class="uib-hero__visual-line"></div><div class="uib-hero__visual-line"></div><div class="uib-hero__visual-line"></div></div></div>`;
+      ? (
+  `<uib-asset-image src="` +
+  (escapeHtml(safeHref(resolvedVisual.src))) +
+  `" asset-id="` +
+  (escapeHtml(resolvedVisual.assetId)) +
+  `" asset-map='` +
+  (escapeHtml(assetMap)) +
+  `' alt="` +
+  (escapeHtml(visualAlt)) +
+  `" role="` +
+  (escapeHtml(visualRole)) +
+  `" fit="` +
+  (visualRole === 'icon' || visualRole === 'svg' ? 'contain' : 'cover') +
+  `" fallback-label="` +
+  (escapeHtml(headline)) +
+  `">` +
+  `</uib-asset-image>`
+)
+      : (
+  `<div class="uib-hero__visual-placeholder" aria-hidden="true">` +
+  `<div class="uib-hero__visual-card">` +
+  `<strong>` +
+  (escapeHtml(headline)) +
+  `</strong>` +
+  `<div class="uib-hero__visual-line">` +
+  `</div>` +
+  `<div class="uib-hero__visual-line">` +
+  `</div>` +
+  `<div class="uib-hero__visual-line">` +
+  `</div>` +
+  `</div>` +
+  `</div>`
+);
 
-    const visualContainerMarkup = `
-      <div class="uib-hero__visual" part="visual" data-visual-role="${escapeHtml(visualRole)}" data-visual-source="${escapeHtml(resolvedVisual.source)}">
-        <slot name="visual">${visualMarkup}</slot>
-      </div>
-    `;
+    const visualContainerMarkup = (
+  `<div class="uib-hero__visual" part="visual" data-visual-role="` +
+  (escapeHtml(visualRole)) +
+  `" data-visual-source="` +
+  (escapeHtml(resolvedVisual.source)) +
+  `">` +
+  `<slot name="visual">` +
+  (visualMarkup) +
+  `</slot>` +
+  `</div>`
+);
     const usesBackgroundVisual = visualPosition === 'background';
 
-    this.shadowRoot.innerHTML = `
-      <style>${styles}</style>
-      <section class="uib-hero uib-hero--${escapeHtml(theme)} uib-hero--${escapeHtml(size)} uib-hero--${escapeHtml(visualPosition)}" part="hero" aria-label="${escapeHtml(headline)}" style="--uib-hero-layout-opacity: ${layoutOpacity};">
-        ${usesBackgroundVisual ? visualContainerMarkup : ''}
-        ${navMarkup}
-        <div class="uib-hero__layout" part="layout">
-          <div class="uib-hero__content" part="content">
-            <uib-heading-block eyebrow="${escapeHtml(eyebrow)}" headline="${escapeHtml(headline)}" subheadline="${escapeHtml(subheadline)}" size="${escapeHtml(size)}"></uib-heading-block>
-            ${actionsMarkup}
-            <div class="uib-hero__trust" part="trust">
-              <slot name="trust">${trustSignal ? escapeHtml(trustSignal) : ''}</slot>
-            </div>
-            <slot name="after-content"></slot>
-          </div>
-          ${usesBackgroundVisual ? '' : visualContainerMarkup}
-        </div>
-        ${detailsMarkup}
-      </section>
-    `;
+    this.shadowRoot.innerHTML = (
+  `<style>` +
+  (styles) +
+  `</style>` +
+  `<section class="uib-hero uib-hero--` +
+  (escapeHtml(theme)) +
+  ` uib-hero--` +
+  (escapeHtml(size)) +
+  ` uib-hero--` +
+  (escapeHtml(visualPosition)) +
+  `" part="hero" aria-label="` +
+  (escapeHtml(headline)) +
+  `" style="--uib-hero-layout-opacity: ` +
+  (layoutOpacity) +
+  `;"> ` +
+  (usesBackgroundVisual ? visualContainerMarkup : '') +
+  ` ` +
+  (navMarkup) +
+  ` ` +
+  `<div class="uib-hero__layout" part="layout">` +
+  `<div class="uib-hero__content" part="content">` +
+  `<uib-heading-block eyebrow="` +
+  (escapeHtml(eyebrow)) +
+  `" headline="` +
+  (escapeHtml(headline)) +
+  `" subheadline="` +
+  (escapeHtml(subheadline)) +
+  `" size="` +
+  (escapeHtml(size)) +
+  `">` +
+  `</uib-heading-block>` +
+  ` ` +
+  (actionsMarkup) +
+  ` ` +
+  `<div class="uib-hero__trust" part="trust">` +
+  `<slot name="trust">` +
+  (trustSignal ? escapeHtml(trustSignal) : '') +
+  `</slot>` +
+  `</div>` +
+  `<slot name="after-content">` +
+  `</slot>` +
+  `</div>` +
+  ` ` +
+  (usesBackgroundVisual ? '' : visualContainerMarkup) +
+  ` ` +
+  `</div>` +
+  ` ` +
+  (detailsMarkup) +
+  ` ` +
+  `</section>`
+);
 
     this.bindActionHandlers();
   }
 
   renderNavigation(brandLabel, brandMark, items) {
     const hasNav = brandLabel || items.length;
-    return `
-      <header class="uib-hero__nav" part="nav" ${hasNav ? '' : 'hidden'}>
-        <div class="uib-hero__brand" part="brand" ${brandLabel ? '' : 'hidden'}>
-          <span class="uib-hero__brand-mark" part="brand-mark" aria-hidden="true">${escapeHtml(brandMark)}</span>
-          <span>${escapeHtml(brandLabel)}</span>
-        </div>
-        <div class="uib-hero__nav-links" part="nav-links">
-          <slot name="navigation">${items.map((item) => {
+    return (
+  `<header class="uib-hero__nav" part="nav" ` +
+  (hasNav ? '' : 'hidden') +
+  `><div class="uib-hero__brand" part="brand" ` +
+  (brandLabel ? '' : 'hidden') +
+  `>` +
+  `<span class="uib-hero__brand-mark" part="brand-mark" aria-hidden="true">` +
+  (escapeHtml(brandMark)) +
+  `</span>` +
+  `<span>` +
+  (escapeHtml(brandLabel)) +
+  `</span>` +
+  `</div>` +
+  `<div class="uib-hero__nav-links" part="nav-links">` +
+  `<slot name="navigation">` +
+  (items.map((item) => {
             const label = escapeHtml(item.label || 'Link');
             const href = escapeHtml(safeHref(item.href));
             return `<a href="${href}">${label}</a>`;
-          }).join('')}</slot>
-        </div>
-      </header>
-    `;
+          }).join('')) +
+  `</slot>` +
+  `</div>` +
+  `</header>`
+);
   }
 
   explicitActionButtons() {
@@ -1412,11 +1503,14 @@ export class UibHero extends BaseHTMLElement {
 
     if (!actions.length) return '';
 
-    return `
-      <div class="uib-hero__actions" aria-label="Hero actions">
-        <uib-action-group actions='${escapeHtml(JSON.stringify(actions))}'></uib-action-group>
-      </div>
-    `;
+    return (
+  `<div class="uib-hero__actions" aria-label="Hero actions">` +
+  `<uib-action-group actions='` +
+  (escapeHtml(JSON.stringify(actions))) +
+  `'>` +
+  `</uib-action-group>` +
+  `</div>`
+);
   }
 
   renderAction(action) {
@@ -1437,19 +1531,46 @@ export class UibHero extends BaseHTMLElement {
     ].join(' ');
 
     if (safeLink && safeLink !== '#') {
-      return `<a class="${className}" href="${escapeHtml(safeLink)}" ${dataAttrs}${disabledAttrs}>${safeLabel}</a>`;
+      return (
+  `<a class="` +
+  (className) +
+  `" href="` +
+  (escapeHtml(safeLink)) +
+  `" ` +
+  (dataAttrs) +
+  (disabledAttrs) +
+  `> ` +
+  (safeLabel) +
+  ` ` +
+  `</a>`
+);
     }
 
-    return `<button class="${className}" type="button" ${dataAttrs} aria-disabled="${action.disabled ? 'true' : 'false'}">${safeLabel}</button>`;
+    return (
+  `<button class="` +
+  (className) +
+  `" type="button" ` +
+  (dataAttrs) +
+  ` aria-disabled="` +
+  (action.disabled ? 'true' : 'false') +
+  `">` +
+  (safeLabel) +
+  `</button>`
+);
   }
 
   renderDetails(items, assetMap = '') {
     if (!items.length) return '';
-    return `
-      <div class="uib-hero__details" part="details">
-        <uib-detail-list details='${escapeHtml(JSON.stringify(items))}' asset-map='${escapeHtml(assetMap)}'></uib-detail-list>
-      </div>
-    `;
+    return (
+  `<div class="uib-hero__details" part="details">` +
+  `<uib-detail-list details='` +
+  (escapeHtml(JSON.stringify(items))) +
+  `' asset-map='` +
+  (escapeHtml(assetMap)) +
+  `'>` +
+  `</uib-detail-list>` +
+  `</div>`
+);
   }
 
   bindActionHandlers() {

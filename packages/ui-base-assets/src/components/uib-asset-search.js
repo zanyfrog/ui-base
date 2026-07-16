@@ -35,18 +35,25 @@ export class UibAssetSearch extends BaseHTMLElement {
   render() {
     const value = this._value || this.getAttribute('value') || '';
     const placeholder = this.getAttribute('placeholder') || 'Search assets by name, key, tag, category, or description';
-    this.shadowRoot.innerHTML = `
-      <style>${baseAssetStyles}
-        .search { position: relative; }
-        input { padding-left: 2.35rem; min-height: 2.85rem; }
-        .icon { position: absolute; left: 0.85rem; top: 50%; transform: translateY(-50%); color: var(--uib-assets-muted); }
-      </style>
-      <label class="search">
-        <span class="icon" aria-hidden="true">⌕</span>
-        <span class="sr-only" style="position:absolute;left:-9999px;">Search assets</span>
-        <input type="search" value="${escapeHtml(value)}" placeholder="${escapeHtml(placeholder)}" />
-      </label>
-    `;
+    this.shadowRoot.innerHTML = (
+  `<style>` +
+  (baseAssetStyles) +
+  ` .search { position: relative; } input { padding-left: 2.35rem; min-height: 2.85rem; } .icon { position: absolute; left: 0.85rem; top: 50%; transform: translateY(-50%); color: var(--uib-assets-muted); } ` +
+  `</style>` +
+  `<label class="search">` +
+  `<span class="icon" aria-hidden="true">` +
+  `⌕` +
+  `</span>` +
+  `<span class="sr-only" style="position:absolute;left:-9999px;">` +
+  `Search assets` +
+  `</span>` +
+  `<input type="search" value="` +
+  (escapeHtml(value)) +
+  `" placeholder="` +
+  (escapeHtml(placeholder)) +
+  `" />` +
+  `</label>`
+);
     this.shadowRoot.querySelector('input')?.addEventListener('input', (event) => {
       this._value = event.target.value;
       if (this.getAttribute('value') !== this._value) {

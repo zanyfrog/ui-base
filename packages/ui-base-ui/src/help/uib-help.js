@@ -70,11 +70,55 @@ export class UibHelp extends UibBaseElement {
     const tooltipId = `${this.componentId}-tooltip`;
 
     if (this.mode === 'inline') {
-      this.shadowRoot.innerHTML = `<style>${styles}</style><span class="uib-help uib-help--inline" part="base"><span class="uib-help__inline" part="inline"><uib-icon name="info" decorative></uib-icon><span part="text"><slot>${escapeHtml(text)}</slot></span></span></span>`;
+      this.shadowRoot.innerHTML = (
+  `<style>` +
+  ` ` +
+  (styles) +
+  ` ` +
+  `</style>` +
+  `<span class="uib-help uib-help--inline" part="base">` +
+  `<span class="uib-help__inline" part="inline">` +
+  `<uib-icon name="info" decorative>` +
+  `</uib-icon>` +
+  `<span part="text">` +
+  `<slot>` +
+  (escapeHtml(text)) +
+  `</slot>` +
+  `</span>` +
+  `</span>` +
+  `</span>`
+);
       return;
     }
 
-    this.shadowRoot.innerHTML = `<style>${styles}</style><span class="uib-help" part="base"><button class="uib-help__button" part="button" type="button" aria-label="${escapeHtml(label)}" aria-describedby="${tooltipId}" aria-expanded="${this.open ? 'true' : 'false'}"><uib-icon name="help" decorative></uib-icon></button><span id="${tooltipId}" class="uib-help__tooltip" part="tooltip" role="tooltip" ${this.open ? '' : 'hidden'}><slot>${escapeHtml(text)}</slot></span></span>`;
+    this.shadowRoot.innerHTML = (
+  `<style>` +
+  ` ` +
+  (styles) +
+  ` ` +
+  `</style>` +
+  `<span class="uib-help" part="base">` +
+  `<button class="uib-help__button" part="button" type="button" aria-label="` +
+  (escapeHtml(label)) +
+  `" aria-describedby="` +
+  (tooltipId) +
+  `" aria-expanded="` +
+  (this.open ? 'true' : 'false') +
+  `" >` +
+  `<uib-icon name="help" decorative>` +
+  `</uib-icon>` +
+  `</button>` +
+  `<span id="` +
+  (tooltipId) +
+  `" class="uib-help__tooltip" part="tooltip" role="tooltip" ` +
+  (this.open ? '' : 'hidden') +
+  ` >` +
+  `<slot>` +
+  (escapeHtml(text)) +
+  `</slot>` +
+  `</span>` +
+  `</span>`
+);
     const button = this.shadowRoot.querySelector('button');
     button?.addEventListener('mouseenter', () => this._show());
     button?.addEventListener('mouseleave', () => this._hide());

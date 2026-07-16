@@ -134,18 +134,81 @@ export class UibCheckbox extends UibBaseElement {
     const labelText = this.label || this.getAttribute('aria-label') || getUiBaseMessage('checkbox.defaultLabel', 'Checkbox');
     const labelMarkup = this.hasAttribute('label') || this.hasAttribute('aria-label')
       ? escapeHtml(labelText)
-      : `<slot>${escapeHtml(labelText)}</slot>`;
+      : (
+  `<slot>` +
+  (escapeHtml(labelText)) +
+  `</slot>`
+);
     const helpId = this.help ? `${this.componentId}-help` : '';
     const errorId = this.error || this.invalid ? `${this.componentId}-error` : '';
     const describedBy = this.describedBy(helpId, errorId);
-    const hintMarkup = this.hint ? `<span class="uib-checkbox__hint" part="hint">${escapeHtml(this.hint)}</span>` : '';
-    const helpMarkup = this.help ? `<uib-help id="${helpId}" text="${escapeHtml(this.help)}" mode="${escapeHtml(this.helpMode)}"></uib-help>` : '';
-    const errorMarkup = errorId ? `<span id="${errorId}" class="uib-checkbox__error" part="error">${escapeHtml(this.error || `${labelText} is invalid.`)}</span>` : '';
+    const hintMarkup = this.hint ? (
+  `<span class="uib-checkbox__hint" part="hint">` +
+  (escapeHtml(this.hint)) +
+  `</span>`
+) : '';
+    const helpMarkup = this.help ? (
+  `<uib-help id="` +
+  (helpId) +
+  `" text="` +
+  (escapeHtml(this.help)) +
+  `" mode="` +
+  (escapeHtml(this.helpMode)) +
+  `">` +
+  `</uib-help>`
+) : '';
+    const errorMarkup = errorId ? (
+  `<span id="` +
+  (errorId) +
+  `" class="uib-checkbox__error" part="error">` +
+  (escapeHtml(this.error || `${labelText} is invalid.`)) +
+  `</span>`
+) : '';
     const disabledClass = this.disabled ? ' uib-checkbox--disabled' : '';
     const readonlyClass = this.readonly ? ' uib-checkbox--readonly' : '';
     const described = describedBy ? `aria-describedby="${escapeHtml(describedBy)}"` : '';
 
-    this.shadowRoot.innerHTML = `<style>${styles}</style><label class="uib-checkbox${disabledClass}${readonlyClass}" part="field"><input class="uib-checkbox__input" part="input" type="checkbox" ${this.value ? 'checked' : ''} ${this.disabled ? 'disabled' : ''} ${this.required ? 'required' : ''} ${described} aria-invalid="${this.invalid ? 'true' : 'false'}" /><span class="uib-checkbox__content" part="content"><span class="uib-checkbox__label-row"><span class="uib-checkbox__label" part="label">${labelMarkup}</span>${this.required ? '<span class="uib-checkbox__required" aria-hidden="true">*</span>' : ''}${helpMarkup}</span>${hintMarkup}${errorMarkup}</span></label>`;
+    this.shadowRoot.innerHTML = (
+  `<style>` +
+  ` ` +
+  (styles) +
+  ` ` +
+  `</style>` +
+  `<label class="uib-checkbox` +
+  (disabledClass) +
+  (readonlyClass) +
+  `" part="field"><input class="uib-checkbox__input" part="input" type="checkbox" ` +
+  (this.value ? 'checked' : '') +
+  ` ` +
+  (this.disabled ? 'disabled' : '') +
+  ` ` +
+  (this.required ? 'required' : '') +
+  ` ` +
+  (described) +
+  ` aria-invalid="` +
+  (this.invalid ? 'true' : 'false') +
+  `" />` +
+  `<span class="uib-checkbox__content" part="content">` +
+  `<span class="uib-checkbox__label-row">` +
+  `<span class="uib-checkbox__label" part="label">` +
+  ` ` +
+  (labelMarkup) +
+  ` ` +
+  `</span>` +
+  ` ` +
+  (this.required ? '<span class="uib-checkbox__required" aria-hidden="true">*</span>' : '') +
+  ` ` +
+  (helpMarkup) +
+  ` ` +
+  `</span>` +
+  ` ` +
+  (hintMarkup) +
+  ` ` +
+  (errorMarkup) +
+  ` ` +
+  `</span>` +
+  `</label>`
+);
     this.shadowRoot.querySelector('input')?.addEventListener('change', (event) => this._handleInputChange(event));
   }
 }

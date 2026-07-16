@@ -13,8 +13,14 @@ let CALENDAR_ROUTES = [
 function routeList(currentPath) {
   return `
     <nav class="route-list" aria-label="Calendar examples">
-      <a class="route-button" href="/calendar-demo/" data-link ${currentPath === '/calendar-demo' ? 'aria-current="page"' : ''}>Overview</a>
-      ${CALENDAR_ROUTES.map((route) => `<a class="route-button" href="${route.path}" data-link ${currentPath === route.path ? 'aria-current="page"' : ''}>${route.label}</a>`).join('')}
+      <a class="route-button" href="/calendar-demo/" data-link ${currentPath === '/calendar-demo' ? 'aria-current="page"' : ''}>
+        Overview
+      </a>
+      ${CALENDAR_ROUTES.map((route) => `
+        <a class="route-button" href="${route.path}" data-link ${currentPath === route.path ? 'aria-current="page"' : ''}>
+          ${route.label}
+        </a>
+      `).join('')}
     </nav>
   `;
 }
@@ -22,18 +28,32 @@ function routeList(currentPath) {
 function renderOverview(main, path) {
   main.innerHTML = `
     <section class="page-heading">
-      <h1>Calendar Component Demo</h1>
-      <p>Each calendar view is a child route under <code>/calendar-demo/</code>. Parent-state values are exposed as editable fields so users can test inputs, selection callbacks, paging callbacks, and generated markup.</p>
+      <h1>
+        Calendar Component Demo
+      </h1>
+      <p>
+        Each calendar view is a child route under
+        <code>
+          /calendar-demo/
+        </code>
+        . Parent-state values are exposed as editable fields so users can test inputs, selection callbacks, paging callbacks, and generated markup.
+      </p>
     </section>
     ${routeList(path)}
     <section class="route-grid" aria-label="Calendar child routes">
       ${CALENDAR_ROUTES.map((route) => `
         <a class="card home-card" href="${route.path}" data-link>
           <span>
-            <h2>${route.label}</h2>
-            <p>${route.description}</p>
+            <h2>
+              ${route.label}
+            </h2>
+            <p>
+              ${route.description}
+            </p>
           </span>
-          <strong class="secondary-button">Open</strong>
+          <strong class="secondary-button">
+            Open
+          </strong>
         </a>
       `).join('')}
     </section>
@@ -43,24 +63,47 @@ function renderOverview(main, path) {
 function layout(main, path, title, description, controlsHtml, componentHtml) {
   main.innerHTML = `
     <section class="page-heading">
-      <h1>${title}</h1>
-      <p>${description}</p>
+      <h1>
+        ${title}
+      </h1>
+      <p>
+        ${description}
+      </p>
     </section>
     ${routeList(path)}
     <section class="demo-layout calendar-demo-layout">
       <aside class="card controls">
         <div class="card-content">
-          <h2>Parent state controls</h2>
-          <p class="helper-text">Change values to update attributes. Click dates/months to verify callback events. Parent code decides whether selected values update the component.</p>
-          <div class="form-grid">${controlsHtml}</div>
-          <div id="calendarStatus" class="status-box">Select a date or change a value to test parent-controlled state.</div>
+          <h2>
+            Parent state controls
+          </h2>
+          <p class="helper-text">
+            Change values to update attributes. Click dates/months to verify callback events. Parent code decides whether selected values update the component.
+          </p>
+          <div class="form-grid">
+            ${controlsHtml}
+          </div>
+          <div id="calendarStatus" class="status-box">
+            Select a date or change a value to test parent-controlled state.
+          </div>
           <details class="control-section" open>
-            <summary><strong>Current markup</strong></summary>
-            <pre id="calendarMarkup" class="code-block"></pre>
+            <summary>
+              <strong>
+                Current markup
+              </strong>
+            </summary>
+            <pre id="calendarMarkup" class="code-block">
+            </pre>
           </details>
           <details class="control-section" open>
-            <summary><strong>Latest event</strong></summary>
-            <pre id="calendarEventLog" class="code-block">{}</pre>
+            <summary>
+              <strong>
+                Latest event
+              </strong>
+            </summary>
+            <pre id="calendarEventLog" class="code-block">
+              {}
+            </pre>
           </details>
         </div>
       </aside>
@@ -68,8 +111,14 @@ function layout(main, path, title, description, controlsHtml, componentHtml) {
         <div class="card-content stack-block">
           ${componentHtml}
           <section class="usage-note">
-            <h2>Usage</h2>
-            <pre class="code-block"><code>${escapeHtml('<uib-calendar-month-view year="2026" month="7" selected-date="2026-07-07"></uib-calendar-month-view>\n\n<script>\n  calendar.addEventListener(\'uib-calendar-date-select\', (event) => {\n    calendar.setAttribute(\'selected-date\', event.detail.date);\n  });\n</script>')}</code></pre>
+            <h2>
+              Usage
+            </h2>
+            <pre class="code-block">
+              <code>
+                ${escapeHtml('<uib-calendar-month-view year="2026" month="7" selected-date="2026-07-07"></uib-calendar-month-view>\n\n<script>\n  calendar.addEventListener(\'uib-calendar-date-select\', (event) => {\n    calendar.setAttribute(\'selected-date\', event.detail.date);\n  });\n</script>')}
+              </code>
+            </pre>
           </section>
         </div>
       </section>

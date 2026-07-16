@@ -177,19 +177,81 @@ export class UibToggle extends UibBaseElement {
     const describedBy = this.describedBy(helpId, errorId);
     const groupLabel = this.ariaLabel || this.label || this.name || 'Toggle';
     const labelMarkup = this.label || this.help
-      ? `<span id="${labelId}" class="uib-field__label" part="label"><slot name="label">${escapeHtml(this.label || groupLabel)}</slot>${this.required ? '<span class="uib-field__required" aria-hidden="true">*</span>' : ''}${this.help ? `<uib-help id="${helpId}" text="${escapeHtml(this.help)}" mode="${escapeHtml(this.helpMode)}"></uib-help>` : ''}</span>`
+      ? (
+  `<span id="` +
+  (labelId) +
+  `" class="uib-field__label" part="label">` +
+  `<slot name="label">` +
+  (escapeHtml(this.label || groupLabel)) +
+  `</slot>` +
+  (this.required ? '<span class="uib-field__required" aria-hidden="true">*</span>' : '') +
+  (this.help ? `<uib-help id="${helpId}" text="${escapeHtml(this.help)}" mode="${escapeHtml(this.helpMode)}"></uib-help>` : '') +
+  `</span>`
+)
       : '';
     const buttons = options.map((option) => {
       const selected = valuesAreEqual(option.value, currentValue);
       const valueText = nullableBooleanToAttribute(option.value);
       const tabIndex = selected ? '0' : '-1';
-      return `<button class="uib-toggle__button" part="button" type="button" role="radio" data-value="${valueText}" aria-label="${escapeHtml(option.aria)}" aria-checked="${selected ? 'true' : 'false'}" tabindex="${tabIndex}" ${this.disabled ? 'disabled' : ''}>${escapeHtml(option.label)}</button>`;
+      return (
+  `<button class="uib-toggle__button" part="button" type="button" role="radio" data-value="` +
+  (valueText) +
+  `" aria-label="` +
+  (escapeHtml(option.aria)) +
+  `" aria-checked="` +
+  (selected ? 'true' : 'false') +
+  `" tabindex="` +
+  (tabIndex) +
+  `" ` +
+  (this.disabled ? 'disabled' : '') +
+  `>` +
+  (escapeHtml(option.label)) +
+  `</button>`
+);
     }).join('');
     const labelledBy = labelMarkup ? `aria-labelledby="${labelId}"` : `aria-label="${escapeHtml(groupLabel)}"`;
     const described = describedBy ? `aria-describedby="${escapeHtml(describedBy)}"` : '';
-    const errorMarkup = errorId ? `<span id="${errorId}" class="uib-field__error" part="error">${escapeHtml(this.error || `${groupLabel} is invalid.`)}</span>` : '';
+    const errorMarkup = errorId ? (
+  `<span id="` +
+  (errorId) +
+  `" class="uib-field__error" part="error">` +
+  (escapeHtml(this.error || `${groupLabel} is invalid.`)) +
+  `</span>`
+) : '';
 
-    this.shadowRoot.innerHTML = `<style>${styles}</style><div class="uib-field" part="field">${labelMarkup}<span class="uib-field__control" part="control"><span class="uib-toggle${requiredClass}" part="segmented-control" role="radiogroup" ${labelledBy} ${described} aria-disabled="${this.disabled ? 'true' : 'false'}" aria-readonly="${this.readonly ? 'true' : 'false'}" aria-invalid="${this.invalid ? 'true' : 'false'}">${buttons}</span></span></div>${errorMarkup}`;
+    this.shadowRoot.innerHTML = (
+  `<style>` +
+  ` ` +
+  (styles) +
+  ` ` +
+  `</style>` +
+  `<div class="uib-field" part="field">` +
+  ` ` +
+  (labelMarkup) +
+  ` ` +
+  `<span class="uib-field__control" part="control">` +
+  `<span class="uib-toggle` +
+  (requiredClass) +
+  `" part="segmented-control" role="radiogroup" ` +
+  (labelledBy) +
+  ` ` +
+  (described) +
+  ` aria-disabled="` +
+  (this.disabled ? 'true' : 'false') +
+  `" aria-readonly="` +
+  (this.readonly ? 'true' : 'false') +
+  `" aria-invalid="` +
+  (this.invalid ? 'true' : 'false') +
+  `" > ` +
+  (buttons) +
+  ` ` +
+  `</span>` +
+  `</span>` +
+  `</div>` +
+  ` ` +
+  (errorMarkup) +
+  ` `
+);
 
     this.shadowRoot.querySelectorAll('button').forEach((button) => {
       button.addEventListener('click', () => this._selectValue(parseNullableBoolean(button.dataset.value)));

@@ -162,7 +162,14 @@ export class UibDetailListEditor extends HTMLElement {
   renderPreviewOnly() {
     const preview = this.shadowRoot.querySelector('.preview');
     if (preview) {
-      preview.innerHTML = `<uib-detail-list details='${escapeHtml(JSON.stringify(this.details))}' asset-map='${escapeHtml(JSON.stringify(this.assetMap))}'></uib-detail-list>`;
+      preview.innerHTML = (
+  `<uib-detail-list details='` +
+  (escapeHtml(JSON.stringify(this.details))) +
+  `' asset-map='` +
+  (escapeHtml(JSON.stringify(this.assetMap))) +
+  `'>` +
+  `</uib-detail-list>`
+);
     }
   }
 
@@ -171,27 +178,51 @@ export class UibDetailListEditor extends HTMLElement {
     const appKey = this.getAttribute('application-key') || '';
     const baseUrl = this.getAttribute('api-base-url') || '';
     const useAssetPicker = this.hasAttribute('use-asset-picker') ? ' use-asset-picker' : '';
-    return `
-      <article class="row" data-index="${index}">
-        <uib-detail-item-edit
-          data-index="${index}"
-          index="${index}"
-          detail='${escapeHtml(JSON.stringify(item))}'
-          asset-map='${escapeHtml(JSON.stringify(this.assetMap))}'
-          application-key="${escapeHtml(appKey)}"
-          api-base-url="${escapeHtml(baseUrl)}"
-          ${useAssetPicker}
-        ></uib-detail-item-edit>
-        <div class="actions">
-          <span class="hint">Detail ${index + 1}</span>
-          <span>
-            <button class="button" type="button" data-action="move" data-index="${index}" data-direction="-1" ${index === 0 ? 'disabled' : ''}>Up</button>
-            <button class="button" type="button" data-action="move" data-index="${index}" data-direction="1" ${index === count - 1 ? 'disabled' : ''}>Down</button>
-            <button class="button button--danger" type="button" data-action="remove" data-index="${index}">Remove</button>
-          </span>
-        </div>
-      </article>
-    `;
+    return (
+  `<article class="row" data-index="` +
+  (index) +
+  `"><uib-detail-item-edit data-index="` +
+  (index) +
+  `" index="` +
+  (index) +
+  `" detail='` +
+  (escapeHtml(JSON.stringify(item))) +
+  `' asset-map='` +
+  (escapeHtml(JSON.stringify(this.assetMap))) +
+  `' application-key="` +
+  (escapeHtml(appKey)) +
+  `" api-base-url="` +
+  (escapeHtml(baseUrl)) +
+  `" ` +
+  (useAssetPicker) +
+  ` >` +
+  `</uib-detail-item-edit>` +
+  `<div class="actions">` +
+  `<span class="hint">` +
+  `Detail ` +
+  (index + 1) +
+  `</span>` +
+  `<span>` +
+  `<button class="button" type="button" data-action="move" data-index="` +
+  (index) +
+  `" data-direction="-1" ` +
+  (index === 0 ? 'disabled' : '') +
+  `>Up` +
+  `</button>` +
+  `<button class="button" type="button" data-action="move" data-index="` +
+  (index) +
+  `" data-direction="1" ` +
+  (index === count - 1 ? 'disabled' : '') +
+  `>Down` +
+  `</button>` +
+  `<button class="button button--danger" type="button" data-action="remove" data-index="` +
+  (index) +
+  `">Remove` +
+  `</button>` +
+  `</span>` +
+  `</div>` +
+  `</article>`
+);
   }
 
   configureItemEditors() {
@@ -228,24 +259,43 @@ export class UibDetailListEditor extends HTMLElement {
   render() {
     const details = this.details;
     const label = this.getAttribute('label') || 'Details';
-    this.shadowRoot.innerHTML = `
-      <style>${styles}</style>
-      <section class="editor" part="editor">
-        <div class="toolbar">
-          <div>
-            <h3 class="title">${escapeHtml(label)}</h3>
-            <p class="hint">Edit detail rows with a dedicated detail item editor. Each item editor includes asset selection when asset picking is enabled.</p>
-          </div>
-          <button class="button button--primary" type="button" data-action="add">Add detail</button>
-        </div>
-        <div class="rows">
-          ${details.length ? details.map((row, index) => this.rowMarkup(row, index, details.length)).join('') : '<div class="empty">No details yet.</div>'}
-        </div>
-        <div class="preview">
-          <uib-detail-list details='${escapeHtml(JSON.stringify(details))}' asset-map='${escapeHtml(JSON.stringify(this.assetMap))}'></uib-detail-list>
-        </div>
-      </section>
-    `;
+    this.shadowRoot.innerHTML = (
+  `<style>` +
+  ` ` +
+  (styles) +
+  ` ` +
+  `</style>` +
+  `<section class="editor" part="editor">` +
+  `<div class="toolbar">` +
+  `<div>` +
+  `<h3 class="title">` +
+  ` ` +
+  (escapeHtml(label)) +
+  ` ` +
+  `</h3>` +
+  `<p class="hint">` +
+  ` Edit detail rows with a dedicated detail item editor. Each item editor includes asset selection when asset picking is enabled. ` +
+  `</p>` +
+  `</div>` +
+  `<button class="button button--primary" type="button" data-action="add">` +
+  ` Add detail ` +
+  `</button>` +
+  `</div>` +
+  `<div class="rows">` +
+  ` ` +
+  (details.length ? details.map((row, index) => this.rowMarkup(row, index, details.length)).join('') : '<div class="empty">No details yet.</div>') +
+  ` ` +
+  `</div>` +
+  `<div class="preview">` +
+  `<uib-detail-list details='` +
+  (escapeHtml(JSON.stringify(details))) +
+  `' asset-map='` +
+  (escapeHtml(JSON.stringify(this.assetMap))) +
+  `'>` +
+  `</uib-detail-list>` +
+  `</div>` +
+  `</section>`
+);
     this.bind();
   }
 }

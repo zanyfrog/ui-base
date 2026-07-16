@@ -11,8 +11,14 @@ function routeList(currentPath) {
   const normalized = currentPath.endsWith('/') && currentPath.length > 1 ? currentPath.slice(0, -1) : currentPath;
   return `
     <nav class="route-list" aria-label="Action component examples">
-      <a class="route-button" href="/tour-ui/" data-link ${normalized === '/tour-ui' ? 'aria-current="page"' : ''}>All Actions</a>
-      ${TOUR_COMPONENTS.map((item) => `<a class="route-button" href="${item.path}" data-link ${normalized === item.path ? 'aria-current="page"' : ''}>${item.title}</a>`).join('')}
+      <a class="route-button" href="/tour-ui/" data-link ${normalized === '/tour-ui' ? 'aria-current="page"' : ''}>
+        All Actions
+      </a>
+      ${TOUR_COMPONENTS.map((item) => `
+        <a class="route-button" href="${item.path}" data-link ${normalized === item.path ? 'aria-current="page"' : ''}>
+          ${item.title}
+        </a>
+      `).join('')}
     </nav>
   `;
 }
@@ -129,19 +135,38 @@ function renderIndex(main, path) {
   const first = TOUR_COMPONENTS[0];
   main.innerHTML = `
     <section class="page-heading">
-      <h1>Action Components</h1>
-      <p>The <code>@ui.base/tour-ui</code> package contains reusable workflow action components. Each component displays a toast-style alert when clicked or when called programmatically by parent state. Use the controls to test labels, descriptions, variants, disabled state, toast duration, and callbacks.</p>
+      <h1>
+        Action Components
+      </h1>
+      <p>
+        The
+        <code>
+          @ui.base/tour-ui
+        </code>
+        package contains reusable workflow action components. Each component displays a toast-style alert when clicked or when called programmatically by parent state. Use the controls to test labels, descriptions, variants, disabled state, toast duration, and callbacks.
+      </p>
     </section>
     ${routeList(path)}
     <section class="demo-layout tour-demo-layout">
       <aside class="card controls">
         <div class="card-content">
-          <h2>Shared action controls</h2>
-          <p class="helper-text">These options apply to all mounted action components on this route.</p>
-          <div class="form-grid">${controlsHtml(first)}</div>
+          <h2>
+            Shared action controls
+          </h2>
+          <p class="helper-text">
+            These options apply to all mounted action components on this route.
+          </p>
+          <div class="form-grid">
+            ${controlsHtml(first)}
+          </div>
           <details class="control-section" open>
-            <summary><strong>Generated markup</strong></summary>
-            <pre id="tourUiMarkup" class="code-block"></pre>
+            <summary>
+              <strong>
+                Generated markup
+              </strong>
+            </summary>
+            <pre id="tourUiMarkup" class="code-block">
+            </pre>
           </details>
         </div>
       </aside>
@@ -151,14 +176,30 @@ function renderIndex(main, path) {
         </section>
         <section class="card tour-call-card">
           <div class="card-content">
-            <h2>Call components from the parent page</h2>
-            <p class="muted">These buttons demonstrate parent-controlled calls to each Web Component's <code>call()</code> and <code>showToast()</code> methods. The component emits events either way.</p>
+            <h2>
+              Call components from the parent page
+            </h2>
+            <p class="muted">
+              These buttons demonstrate parent-controlled calls to each Web Component's
+              <code>
+                call()
+              </code>
+              and
+              <code>
+                showToast()
+              </code>
+              methods. The component emits events either way.
+            </p>
             <div class="button-row">
               ${TOUR_COMPONENTS.map((item) => `<button class="secondary-button" type="button" data-call-tour-component="#${item.key}">Call ${item.title}</button>`).join('')}
               ${TOUR_COMPONENTS.map((item) => `<button class="secondary-button" type="button" data-show-toast="#${item.key}">Show ${item.title} toast</button>`).join('')}
             </div>
-            <div id="tourUiStatus" class="status-box">Call or click a component to see event feedback here.</div>
-            <pre id="tourUiEventLog" class="code-block controls-event-log">{}</pre>
+            <div id="tourUiStatus" class="status-box">
+              Call or click a component to see event feedback here.
+            </div>
+            <pre id="tourUiEventLog" class="code-block controls-event-log">
+              {}
+            </pre>
           </div>
         </section>
       </section>
@@ -172,18 +213,38 @@ function renderSingle(main, path, item) {
   const id = item.key;
   main.innerHTML = `
     <section class="page-heading">
-      <h1>${item.title}</h1>
-      <p>This route isolates the <code>&lt;${item.tag}&gt;</code> component. Change the controls, click the component button, call it from parent code, and inspect the callback payload.</p>
+      <h1>
+        ${item.title}
+      </h1>
+      <p>
+        This route isolates the
+        <code>
+          &lt;
+          ${item.tag}
+          &gt;
+        </code>
+        component. Change the controls, click the component button, call it from parent code, and inspect the callback payload.
+      </p>
     </section>
     ${routeList(path)}
     <section class="demo-layout tour-demo-layout">
       <aside class="card controls">
         <div class="card-content">
-          <h2>${item.title} options</h2>
-          <div class="form-grid">${controlsHtml(item)}</div>
+          <h2>
+            ${item.title}
+            options
+          </h2>
+          <div class="form-grid">
+            ${controlsHtml(item)}
+          </div>
           <details class="control-section" open>
-            <summary><strong>Generated markup</strong></summary>
-            <pre id="tourUiMarkup" class="code-block"></pre>
+            <summary>
+              <strong>
+                Generated markup
+              </strong>
+            </summary>
+            <pre id="tourUiMarkup" class="code-block">
+            </pre>
           </details>
         </div>
       </aside>
@@ -192,15 +253,38 @@ function renderSingle(main, path, item) {
           ${componentMarkup(item, id).replace(' id=', ' data-tour-demo-component id=')}
           <section class="card tour-call-card">
             <div class="card-content">
-              <h2>Parent state call</h2>
-              <p class="muted">The parent page can call the component directly with <code>element.call()</code>, show a toast with <code>element.showToast()</code>, then listen for the reservation event.</p>
+              <h2>
+                Parent state call
+              </h2>
+              <p class="muted">
+                The parent page can call the component directly with
+                <code>
+                  element.call()
+                </code>
+                , show a toast with
+                <code>
+                  element.showToast()
+                </code>
+                , then listen for the reservation event.
+              </p>
               <div class="button-row">
-                <button class="primary-button" type="button" data-call-tour-component="#${id}">Call ${item.title}</button>
-                <button class="secondary-button" type="button" data-show-toast="#${id}">Show toast only</button>
-                <a class="secondary-button" href="/tour-ui/" data-link>Back to all Actions</a>
+                <button class="primary-button" type="button" data-call-tour-component="#${id}">
+                  Call
+                  ${item.title}
+                </button>
+                <button class="secondary-button" type="button" data-show-toast="#${id}">
+                  Show toast only
+                </button>
+                <a class="secondary-button" href="/tour-ui/" data-link>
+                  Back to all Actions
+                </a>
               </div>
-              <div id="tourUiStatus" class="status-box">Call or click the component to see event feedback here.</div>
-              <pre id="tourUiEventLog" class="code-block controls-event-log">{}</pre>
+              <div id="tourUiStatus" class="status-box">
+                Call or click the component to see event feedback here.
+              </div>
+              <pre id="tourUiEventLog" class="code-block controls-event-log">
+                {}
+              </pre>
             </div>
           </section>
         </section>
@@ -227,8 +311,12 @@ export function renderTourUiRoute(main, path) {
 
   main.innerHTML = `
     <section class="page-heading">
-      <h1>Action route not found</h1>
-      <p>The requested action route was not found. Use one of the supported routes below.</p>
+      <h1>
+        Action route not found
+      </h1>
+      <p>
+        The requested action route was not found. Use one of the supported routes below.
+      </p>
     </section>
     ${routeList('/tour-ui')}
   `;

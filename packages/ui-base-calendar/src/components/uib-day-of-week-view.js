@@ -60,36 +60,49 @@ export class UibDayOfWeekView extends BaseHTMLElement {
     const previousDisabled = Boolean(minDate && previousFirst < minDate);
     const nextDisabled = Boolean(maxDate && nextFirst > maxDate);
 
-    this.shadowRoot.innerHTML = `
-      <style>${baseCalendarStyles}
-        .dow-grid { grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); }
-        .weekday { display: block; color: var(--uib-color-muted,#53657f); font-size: 0.72rem; font-weight: 850; text-transform: uppercase; }
-        .day-number { display: block; margin-top: 0.25rem; font-size: 1.15rem; }
-        .pager { display: flex; gap: 0.5rem; }
-      </style>
-      <section class="calendar-card" part="card" aria-label="Day of week view">
-        <div class="calendar-header" part="header">
-          <div>
-            <h2 class="calendar-title" part="title">${escapeHtml(DAY_NAMES[dayOfWeek])} Day Of Week View</h2>
-            <p class="calendar-subtitle" part="subtitle">Shows only ${escapeHtml(DAY_NAMES[dayOfWeek])} dates across ${count} week(s).</p>
-          </div>
-          ${showPaging ? `
+    this.shadowRoot.innerHTML = (
+  `<style>` +
+  ` ` +
+  (baseCalendarStyles) +
+  ` .dow-grid { grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); } .weekday { display: block; color: var(--uib-color-muted,#53657f); font-size: 0.72rem; font-weight: 850; text-transform: uppercase; } .day-number { display: block; margin-top: 0.25rem; font-size: 1.15rem; } .pager { display: flex; gap: 0.5rem; } ` +
+  `</style>` +
+  `<section class="calendar-card" part="card" aria-label="Day of week view">` +
+  `<div class="calendar-header" part="header">` +
+  `<div>` +
+  `<h2 class="calendar-title" part="title">` +
+  ` ` +
+  (escapeHtml(DAY_NAMES[dayOfWeek])) +
+  ` Day Of Week View ` +
+  `</h2>` +
+  `<p class="calendar-subtitle" part="subtitle">` +
+  ` Shows only ` +
+  (escapeHtml(DAY_NAMES[dayOfWeek])) +
+  ` dates across ` +
+  (count) +
+  ` week(s). ` +
+  `</p>` +
+  `</div>` +
+  ` ` +
+  (showPaging ? `
             <div class="pager" part="pager">
-              <button type="button" part="page-button" data-page="previous" ${previousDisabled ? 'disabled' : ''}>Previous</button>
-              <button type="button" part="page-button" data-page="next" ${nextDisabled ? 'disabled' : ''}>Next</button>
+            <button type="button" part="page-button" data-page="previous" ${previousDisabled ? 'disabled' : ''}>Previous</button>
+            <button type="button" part="page-button" data-page="next" ${nextDisabled ? 'disabled' : ''}>Next</button>
             </div>
-          ` : ''}
-        </div>
-        <div class="grid dow-grid" part="grid">
-          ${dates.map((day) => `
+            ` : '') +
+  ` ` +
+  `</div>` +
+  `<div class="grid dow-grid" part="grid">` +
+  ` ` +
+  (dates.map((day) => `
             <button class="date-button" part="date-button${selected && isSameDay(day, selected) ? ' selected-date' : ''}" type="button" data-date="${escapeHtml(toIsoDate(day))}" aria-current="${selected && isSameDay(day, selected) ? 'date' : 'false'}">
-              <span class="weekday" part="day-label">${DAY_NAMES[day.getDay()]}</span>
-              <span class="day-number" part="day-number">${day.getMonth() + 1}/${day.getDate()}</span>
+            <span class="weekday" part="day-label">${DAY_NAMES[day.getDay()]}</span>
+            <span class="day-number" part="day-number">${day.getMonth() + 1}/${day.getDate()}</span>
             </button>
-          `).join('')}
-        </div>
-      </section>
-    `;
+            `).join('')) +
+  ` ` +
+  `</div>` +
+  `</section>`
+);
 
     this.shadowRoot.querySelectorAll('[data-date]').forEach((button) => {
       button.addEventListener('click', () => dispatchDateSelect(this, toDate(button.dataset.date)));

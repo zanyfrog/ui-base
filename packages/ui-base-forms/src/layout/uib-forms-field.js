@@ -17,10 +17,40 @@ export class UibFormsField extends UibBaseElement {
   render() {
     const label = this.label || '';
     const help = this.help
-      ? `<span class="uib-forms-field__help" part="help"><uib-help text="${escapeHtml(this.help)}" mode="${escapeHtml(this.helpMode || 'tooltip')}"></uib-help></span>`
+      ? (
+  `<span class="uib-forms-field__help" part="help">` +
+  `<uib-help text="` +
+  (escapeHtml(this.help)) +
+  `" mode="` +
+  (escapeHtml(this.helpMode || 'tooltip')) +
+  `">` +
+  `</uib-help>` +
+  `</span>`
+)
       : '';
 
-    this.shadowRoot.innerHTML = `<style>${styles}</style><div class="uib-forms-field" part="field"><span class="uib-forms-field__label" part="label"><slot name="label"><uib-label text="${escapeHtml(label)}"></uib-label></slot>${help}</span><slot></slot></div>`;
+    this.shadowRoot.innerHTML = (
+  `<style>` +
+  ` ` +
+  (styles) +
+  ` ` +
+  `</style>` +
+  `<div class="uib-forms-field" part="field">` +
+  `<span class="uib-forms-field__label" part="label">` +
+  `<slot name="label">` +
+  `<uib-label text="` +
+  (escapeHtml(label)) +
+  `">` +
+  `</uib-label>` +
+  `</slot>` +
+  ` ` +
+  (help) +
+  ` ` +
+  `</span>` +
+  `<slot>` +
+  `</slot>` +
+  `</div>`
+);
   }
 }
 

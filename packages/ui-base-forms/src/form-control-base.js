@@ -198,7 +198,17 @@ export class UibFormControlBase extends UibBaseElement {
       .split(',')
       .map((item) => item.trim())
       .filter(Boolean);
-    return options.map((option) => `<option value="${escapeHtml(option)}" ${option === this.value ? 'selected' : ''}>${escapeHtml(option)}</option>`).join('');
+
+    return options.map((option) => (
+  `<option value="` +
+  (escapeHtml(option)) +
+  `" ` +
+  (option === this.value ? 'selected' : '') +
+  `> ` +
+  (escapeHtml(option)) +
+  ` ` +
+  `</option>`
+)).join('');
   }
 
   _controlMarkup(inputId, describedBy) {
@@ -208,18 +218,79 @@ export class UibFormControlBase extends UibBaseElement {
       this.invalid ? 'control-invalid' : '',
       this.disabled || this.readonly ? 'control-disabled' : ''
     ].filter(Boolean).join(' ');
-    const common = `id="${inputId}" class="uib-control" part="${controlParts}" name="${escapeHtml(this.name)}" value="${escapeHtml(this.value)}" placeholder="${escapeHtml(this.placeholder)}" ${this.required ? 'required' : ''} ${this.disabled ? 'disabled' : ''} ${this.readonly ? 'readonly' : ''} ${describedBy ? `aria-describedby="${escapeHtml(describedBy)}"` : ''} aria-invalid="${this.invalid ? 'true' : 'false'}"`;
-    const limits = `${this.getAttribute('min') ? ` min="${escapeHtml(this.getAttribute('min'))}"` : ''}${this.getAttribute('max') ? ` max="${escapeHtml(this.getAttribute('max'))}"` : ''}${this.getAttribute('minlength') ? ` minlength="${escapeHtml(this.getAttribute('minlength'))}"` : ''}${this.getAttribute('maxlength') ? ` maxlength="${escapeHtml(this.getAttribute('maxlength'))}"` : ''}${this.getAttribute('pattern') ? ` pattern="${escapeHtml(this.getAttribute('pattern'))}"` : ''}${this.getAttribute('step') ? ` step="${escapeHtml(this.getAttribute('step'))}"` : ''}${this.getAttribute('autocomplete') ? ` autocomplete="${escapeHtml(this.getAttribute('autocomplete'))}"` : ''}`;
+    const commonAttributes = `
+      id="${inputId}"
+      class="uib-control"
+      part="${controlParts}"
+      name="${escapeHtml(this.name)}"
+      value="${escapeHtml(this.value)}"
+      placeholder="${escapeHtml(this.placeholder)}"
+      ${this.required ? 'required' : ''}
+      ${this.disabled ? 'disabled' : ''}
+      ${this.readonly ? 'readonly' : ''}
+      ${describedBy ? `aria-describedby="${escapeHtml(describedBy)}"` : ''}
+      aria-invalid="${this.invalid ? 'true' : 'false'}"
+    `;
+    const limitAttributes = `
+      ${this.getAttribute('min') ? `min="${escapeHtml(this.getAttribute('min'))}"` : ''}
+      ${this.getAttribute('max') ? `max="${escapeHtml(this.getAttribute('max'))}"` : ''}
+      ${this.getAttribute('minlength') ? `minlength="${escapeHtml(this.getAttribute('minlength'))}"` : ''}
+      ${this.getAttribute('maxlength') ? `maxlength="${escapeHtml(this.getAttribute('maxlength'))}"` : ''}
+      ${this.getAttribute('pattern') ? `pattern="${escapeHtml(this.getAttribute('pattern'))}"` : ''}
+      ${this.getAttribute('step') ? `step="${escapeHtml(this.getAttribute('step'))}"` : ''}
+      ${this.getAttribute('autocomplete') ? `autocomplete="${escapeHtml(this.getAttribute('autocomplete'))}"` : ''}
+    `;
 
     if (this.constructor.controlKind === 'textarea') {
-      return `<textarea ${common}${limits}>${escapeHtml(this.value)}</textarea>`;
+      return (
+  `<textarea ` +
+  (commonAttributes) +
+  ` ` +
+  (limitAttributes) +
+  ` >` +
+  (escapeHtml(this.value)) +
+  `</textarea>`
+);
     }
 
     if (this.constructor.controlKind === 'select') {
-      return `<select id="${inputId}" class="uib-control" part="${controlParts}" name="${escapeHtml(this.name)}" ${this.required ? 'required' : ''} ${this.disabled ? 'disabled' : ''} ${describedBy ? `aria-describedby="${escapeHtml(describedBy)}"` : ''} aria-invalid="${this.invalid ? 'true' : 'false'}"><option value="">Select...</option>${this._optionsMarkup()}<slot></slot></select>`;
+      return (
+  `<select id="` +
+  (inputId) +
+  `" class="uib-control" part="` +
+  (controlParts) +
+  `" name="` +
+  (escapeHtml(this.name)) +
+  `" ` +
+  (this.required ? 'required' : '') +
+  ` ` +
+  (this.disabled ? 'disabled' : '') +
+  ` ` +
+  (describedBy ? `aria-describedby="${escapeHtml(describedBy)}"` : '') +
+  ` aria-invalid="` +
+  (this.invalid ? 'true' : 'false') +
+  `" >` +
+  `<option value="">` +
+  ` Select... ` +
+  `</option>` +
+  ` ` +
+  (this._optionsMarkup()) +
+  ` ` +
+  `<slot>` +
+  `</slot>` +
+  `</select>`
+);
     }
 
-    return `<input type="${escapeHtml(type)}" ${common}${limits}>`;
+    return (
+  `<input type="` +
+  (escapeHtml(type)) +
+  `" ` +
+  (commonAttributes) +
+  ` ` +
+  (limitAttributes) +
+  ` >`
+);
   }
 
   render() {
@@ -231,10 +302,55 @@ export class UibFormControlBase extends UibBaseElement {
     const errorId = shouldShowError && errorText ? `${this.componentId}-error` : '';
     const describedBy = this.describedBy(helpId, errorId);
     const label = this.label || this.name || this.constructor.defaultLabel || 'Field';
-    const help = this.help ? `<span id="${helpId}" class="uib-field__help" part="help"><uib-help text="${escapeHtml(this.help)}" mode="${escapeHtml(this.helpMode || 'tooltip')}"></uib-help></span>` : '';
-    const error = errorId ? `<div id="${errorId}" class="uib-field__error" part="error">${escapeHtml(errorText)}</div>` : '';
+    const help = this.help ? (
+  `<span id="` +
+  (helpId) +
+  `" class="uib-field__help" part="help"><uib-help text="` +
+  (escapeHtml(this.help)) +
+  `" mode="` +
+  (escapeHtml(this.helpMode || 'tooltip')) +
+  `" >` +
+  `</uib-help>` +
+  `</span>`
+) : '';
+    const error = errorId ? (
+  `<div id="` +
+  (errorId) +
+  `" class="uib-field__error" part="error"> ` +
+  (escapeHtml(errorText)) +
+  ` ` +
+  `</div>`
+) : '';
 
-    this.shadowRoot.innerHTML = `<style>${formControlStyles}</style><div class="uib-field" part="field"><span class="uib-field__label" part="label"><slot name="label"><uib-label for="${inputId}" text="${escapeHtml(label)}"></uib-label></slot>${this.required ? '<span class="uib-field__required" part="required" aria-hidden="true">*</span>' : ''}</span>${this._controlMarkup(inputId, describedBy)}${help}${error}</div>`;
+    this.shadowRoot.innerHTML = (
+  `<style>` +
+  ` ` +
+  (formControlStyles) +
+  ` ` +
+  `</style>` +
+  `<div class="uib-field" part="field">` +
+  `<span class="uib-field__label" part="label">` +
+  `<slot name="label">` +
+  `<uib-label for="` +
+  (inputId) +
+  `" text="` +
+  (escapeHtml(label)) +
+  `">` +
+  `</uib-label>` +
+  `</slot>` +
+  ` ` +
+  (this.required ? '<span class="uib-field__required" part="required" aria-hidden="true">*</span>' : '') +
+  ` ` +
+  `</span>` +
+  ` ` +
+  (this._controlMarkup(inputId, describedBy)) +
+  ` ` +
+  (help) +
+  ` ` +
+  (error) +
+  ` ` +
+  `</div>`
+);
     const control = this.shadowRoot.querySelector('.uib-control');
     control?.addEventListener('input', (event) => this._handleInput(event));
     control?.addEventListener('change', (event) => this._handleChange(event));

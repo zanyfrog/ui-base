@@ -338,215 +338,385 @@ export class UibHeroEditor extends HTMLElement {
     const value = this.currentRecord[field.name] || '';
     const base = `name="${escapeHtml(field.name)}" ${field.required ? 'required' : ''}`;
     if (field.kind === 'textarea' || field.kind === 'html') {
-      return `<label class="field field--wide"><span>${escapeHtml(field.label)}</span><textarea ${base} rows="${field.kind === 'html' ? 5 : 3}">${escapeHtml(value)}</textarea></label>`;
+      return (
+  `<label class="field field--wide">` +
+  `<span>` +
+  (escapeHtml(field.label)) +
+  `</span>` +
+  `<textarea ` +
+  (base) +
+  ` rows="` +
+  (field.kind === 'html' ? 5 : 3) +
+  `">` +
+  (escapeHtml(value)) +
+  `</textarea>` +
+  `</label>`
+);
     }
     if (field.kind === 'select') {
-      return `<label class="field"><span>${escapeHtml(field.label)}</span><select ${base}>${field.options.map((option) => `<option value="${escapeHtml(option)}" ${value === option ? 'selected' : ''}>${escapeHtml(option)}</option>`).join('')}</select></label>`;
+      return (
+  `<label class="field">` +
+  `<span>` +
+  (escapeHtml(field.label)) +
+  `</span>` +
+  `<select ` +
+  (base) +
+  `>` +
+  (field.options.map((option) => `<option value="${escapeHtml(option)}" ${value === option ? 'selected' : ''}>${escapeHtml(option)}</option>`).join('')) +
+  `</select>` +
+  `</label>`
+);
     }
-    return `<label class="field"><span>${escapeHtml(field.label)}</span><input ${base} type="${field.kind === 'number' ? 'number' : 'text'}" value="${escapeHtml(value)}" ${field.name === 'layout_opacity' ? 'step="0.05" min="0" max="1"' : ''}></label>`;
+    return (
+  `<label class="field">` +
+  `<span>` +
+  (escapeHtml(field.label)) +
+  `</span>` +
+  `<input ` +
+  (base) +
+  ` type="` +
+  (field.kind === 'number' ? 'number' : 'text') +
+  `" value="` +
+  (escapeHtml(value)) +
+  `" ` +
+  (field.name === 'layout_opacity' ? 'step="0.05" min="0" max="1"' : '') +
+  `>` +
+  `</label>`
+);
   }
 
   sectionMarkup(section) {
     const fields = HERO_FIELD_DEFINITIONS.filter((field) => field.section === section);
-    return `
-      <details class="section" open>
-        <summary>${escapeHtml(section)}</summary>
-        <div class="section-body">
-          ${fields.map((field) => this.fieldMarkup(field)).join('')}
-        </div>
-      </details>`;
+    return (
+  `<details class="section" open>` +
+  `<summary>` +
+  (escapeHtml(section)) +
+  `</summary>` +
+  `<div class="section-body">` +
+  ` ` +
+  (fields.map((field) => this.fieldMarkup(field)).join('')) +
+  ` ` +
+  `</div>` +
+  `</details>`
+);
   }
 
   visualControlMarkup() {
-    return `
-      <details class="section" open>
-        <summary>Visual source</summary>
-        <div class="section-body section-body--single">
-          <uib-visual-source-control
-            label="Hero visual"
-            visual-source="${escapeHtml(this.currentRecord.visual_source || 'none')}"
-            visual-role="${escapeHtml(this.currentRecord.visual_role || 'image')}"
-            src="${escapeHtml(this.currentRecord.visual_src || '')}"
-            asset-id="${escapeHtml(this.currentRecord.visual_asset_id || '')}"
-            alt="${escapeHtml(this.currentRecord.visual_alt || '')}"
-            application-key="${escapeHtml(this.currentRecord.application_key || this.getAttribute('application-key') || '')}"
-          ></uib-visual-source-control>
-        </div>
-      </details>`;
+    return (
+  `<details class="section" open>` +
+  `<summary>` +
+  `Visual source` +
+  `</summary>` +
+  `<div class="section-body section-body--single">` +
+  `<uib-visual-source-control label="Hero visual" visual-source="` +
+  (escapeHtml(this.currentRecord.visual_source || 'none')) +
+  `" visual-role="` +
+  (escapeHtml(this.currentRecord.visual_role || 'image')) +
+  `" src="` +
+  (escapeHtml(this.currentRecord.visual_src || '')) +
+  `" asset-id="` +
+  (escapeHtml(this.currentRecord.visual_asset_id || '')) +
+  `" alt="` +
+  (escapeHtml(this.currentRecord.visual_alt || '')) +
+  `" application-key="` +
+  (escapeHtml(this.currentRecord.application_key || this.getAttribute('application-key') || '')) +
+  `" >` +
+  `</uib-visual-source-control>` +
+  `</div>` +
+  `</details>`
+);
   }
 
   actionsMarkup() {
     const actions = heroActionsForRecord(this.currentRecord);
-    return `
-      <details class="section" open>
-        <summary>Actions</summary>
-        <div class="section-body section-body--single">
-          <div class="toolbar">
-            <p>Configure the Hero action buttons. Link values become hrefs; Action values are emitted for the parent application.</p>
-            <button class="button button--primary" type="button" data-add-action>Add action</button>
-          </div>
-          <div class="action-list">
-            ${actions.length ? actions.map((action, index) => this.actionMarkup(action, index, actions.length)).join('') : '<p class="empty">No actions configured.</p>'}
-          </div>
-        </div>
-      </details>`;
+    return (
+  `<details class="section" open>` +
+  `<summary>` +
+  ` Actions ` +
+  `</summary>` +
+  `<div class="section-body section-body--single">` +
+  `<div class="toolbar">` +
+  `<p>` +
+  ` Configure the Hero action buttons. Link values become hrefs; Action values are emitted for the parent application. ` +
+  `</p>` +
+  `<button class="button button--primary" type="button" data-add-action>` +
+  ` Add action ` +
+  `</button>` +
+  `</div>` +
+  `<div class="action-list">` +
+  ` ` +
+  (actions.length ? actions.map((action, index) => this.actionMarkup(action, index, actions.length)).join('') : '<p class="empty">No actions configured.</p>') +
+  ` ` +
+  `</div>` +
+  `</div>` +
+  `</details>`
+);
   }
 
   actionMarkup(action, index, length) {
     const valueLabel = action.type === 'action' ? 'Action token' : 'Href';
-    return `
-      <article class="action-card" data-action-row="${index}">
-        <div class="action-head">
-          <strong>${escapeHtml(actionLabel(index))}</strong>
-          <div class="button-row">
-            <button class="icon-button" type="button" data-move-action="${index}" data-direction="-1" ${index === 0 ? 'disabled' : ''} aria-label="Move action up">↑</button>
-            <button class="icon-button" type="button" data-move-action="${index}" data-direction="1" ${index === length - 1 ? 'disabled' : ''} aria-label="Move action down">↓</button>
-            <button class="icon-button icon-button--danger" type="button" data-remove-action="${index}" aria-label="Remove action">×</button>
-          </div>
-        </div>
-        <div class="action-grid">
-          <label class="field"><span>Label</span><input data-action-field="label" type="text" value="${escapeHtml(action.label)}"></label>
-          <label class="field"><span>Type</span><select data-action-field="type"><option value="link" ${action.type === 'link' ? 'selected' : ''}>Link</option><option value="action" ${action.type === 'action' ? 'selected' : ''}>Action</option></select></label>
-          <label class="field field--wide"><span>${escapeHtml(valueLabel)}</span><input data-action-field="value" type="text" value="${escapeHtml(action.value)}"></label>
-          <label class="field"><span>Variant</span><select data-action-field="variant">${CTA_VARIANTS.map((variant) => `<option value="${escapeHtml(variant)}" ${action.variant === variant ? 'selected' : ''}>${escapeHtml(variant)}</option>`).join('')}</select></label>
-          <div class="check-row">
-            <label><input data-action-field="show" type="checkbox" ${action.show ? 'checked' : ''}> Show</label>
-            <label><input data-action-field="disabled" type="checkbox" ${action.disabled ? 'checked' : ''}> Disabled</label>
-          </div>
-          <details class="advanced">
-            <summary>Advanced</summary>
-            <div class="action-grid">
-              <label class="field"><span>ID</span><input data-action-field="id" type="text" value="${escapeHtml(action.id)}"></label>
-              <label class="field"><span>Name</span><input data-action-field="name" type="text" value="${escapeHtml(action.name)}"></label>
-              <label class="field"><span>Accessible text</span><input data-action-field="ariaLabel" type="text" value="${escapeHtml(action.ariaLabel)}"></label>
-              <label class="field"><span>Target</span><input data-action-field="target" type="text" value="${escapeHtml(action.target)}"></label>
-              <label class="field"><span>Rel</span><input data-action-field="rel" type="text" value="${escapeHtml(action.rel)}"></label>
-            </div>
-          </details>
-        </div>
-      </article>`;
+    return (
+  `<article class="action-card" data-action-row="` +
+  (index) +
+  `">` +
+  `<div class="action-head">` +
+  `<strong>` +
+  (escapeHtml(actionLabel(index))) +
+  `</strong>` +
+  `<div class="button-row">` +
+  `<button class="icon-button" type="button" data-move-action="` +
+  (index) +
+  `" data-direction="-1" ` +
+  (index === 0 ? 'disabled' : '') +
+  ` aria-label="Move action up">↑` +
+  `</button>` +
+  `<button class="icon-button" type="button" data-move-action="` +
+  (index) +
+  `" data-direction="1" ` +
+  (index === length - 1 ? 'disabled' : '') +
+  ` aria-label="Move action down">↓` +
+  `</button>` +
+  `<button class="icon-button icon-button--danger" type="button" data-remove-action="` +
+  (index) +
+  `" aria-label="Remove action">×` +
+  `</button>` +
+  `</div>` +
+  `</div>` +
+  `<div class="action-grid">` +
+  `<label class="field">` +
+  `<span>` +
+  `Label` +
+  `</span>` +
+  `<input data-action-field="label" type="text" value="` +
+  (escapeHtml(action.label)) +
+  `">` +
+  `</label>` +
+  `<label class="field">` +
+  `<span>` +
+  `Type` +
+  `</span>` +
+  `<select data-action-field="type">` +
+  `<option value="link" ` +
+  (action.type === 'link' ? 'selected' : '') +
+  `>Link` +
+  `</option>` +
+  `<option value="action" ` +
+  (action.type === 'action' ? 'selected' : '') +
+  `>Action` +
+  `</option>` +
+  `</select>` +
+  `</label>` +
+  `<label class="field field--wide">` +
+  `<span>` +
+  (escapeHtml(valueLabel)) +
+  `</span>` +
+  `<input data-action-field="value" type="text" value="` +
+  (escapeHtml(action.value)) +
+  `">` +
+  `</label>` +
+  `<label class="field">` +
+  `<span>` +
+  `Variant` +
+  `</span>` +
+  `<select data-action-field="variant">` +
+  (CTA_VARIANTS.map((variant) => `<option value="${escapeHtml(variant)}" ${action.variant === variant ? 'selected' : ''}>${escapeHtml(variant)}</option>`).join('')) +
+  `</select>` +
+  `</label>` +
+  `<div class="check-row">` +
+  `<label>` +
+  `<input data-action-field="show" type="checkbox" ` +
+  (action.show ? 'checked' : '') +
+  `> Show` +
+  `</label>` +
+  `<label>` +
+  `<input data-action-field="disabled" type="checkbox" ` +
+  (action.disabled ? 'checked' : '') +
+  `> Disabled` +
+  `</label>` +
+  `</div>` +
+  `<details class="advanced">` +
+  `<summary>` +
+  `Advanced` +
+  `</summary>` +
+  `<div class="action-grid">` +
+  `<label class="field">` +
+  `<span>` +
+  `ID` +
+  `</span>` +
+  `<input data-action-field="id" type="text" value="` +
+  (escapeHtml(action.id)) +
+  `">` +
+  `</label>` +
+  `<label class="field">` +
+  `<span>` +
+  `Name` +
+  `</span>` +
+  `<input data-action-field="name" type="text" value="` +
+  (escapeHtml(action.name)) +
+  `">` +
+  `</label>` +
+  `<label class="field">` +
+  `<span>` +
+  `Accessible text` +
+  `</span>` +
+  `<input data-action-field="ariaLabel" type="text" value="` +
+  (escapeHtml(action.ariaLabel)) +
+  `">` +
+  `</label>` +
+  `<label class="field">` +
+  `<span>` +
+  `Target` +
+  `</span>` +
+  `<input data-action-field="target" type="text" value="` +
+  (escapeHtml(action.target)) +
+  `">` +
+  `</label>` +
+  `<label class="field">` +
+  `<span>` +
+  `Rel` +
+  `</span>` +
+  `<input data-action-field="rel" type="text" value="` +
+  (escapeHtml(action.rel)) +
+  `">` +
+  `</label>` +
+  `</div>` +
+  `</details>` +
+  `</div>` +
+  `</article>`
+);
   }
 
   navigationMarkup() {
     const rows = parseArray(this.currentRecord.nav_items);
-    return `
-      <details class="section" open>
-        <summary>Navigation</summary>
-        <div class="section-body section-body--single">
-          <div class="toolbar">
-            <p>Edit generated navigation links.</p>
-            <button class="button button--primary" type="button" data-add-nav>Add link</button>
-          </div>
-          <div class="row-list">
-            ${rows.length ? rows.map((row, index) => `
-              <div class="nav-row" data-nav-row>
-                <label class="field"><span>Label</span><input data-nav-label type="text" value="${escapeHtml(row.label || '')}"></label>
-                <label class="field"><span>Href</span><input data-nav-href type="text" value="${escapeHtml(row.href || '')}"></label>
-                <div class="button-row">
-                  <button class="icon-button" type="button" data-move-nav="${index}" data-direction="-1" ${index === 0 ? 'disabled' : ''} aria-label="Move link up">↑</button>
-                  <button class="icon-button" type="button" data-move-nav="${index}" data-direction="1" ${index === rows.length - 1 ? 'disabled' : ''} aria-label="Move link down">↓</button>
-                  <button class="icon-button icon-button--danger" type="button" data-remove-nav="${index}" aria-label="Remove link">×</button>
-                </div>
-              </div>`).join('') : '<p class="empty">No navigation links configured.</p>'}
-          </div>
-        </div>
-      </details>`;
+    return (
+  `<details class="section" open>` +
+  `<summary>` +
+  ` Navigation ` +
+  `</summary>` +
+  `<div class="section-body section-body--single">` +
+  `<div class="toolbar">` +
+  `<p>` +
+  ` Edit generated navigation links. ` +
+  `</p>` +
+  `<button class="button button--primary" type="button" data-add-nav>` +
+  ` Add link ` +
+  `</button>` +
+  `</div>` +
+  `<div class="row-list">` +
+  ` ` +
+  (rows.length ? rows.map((row, index) => `
+            <div class="nav-row" data-nav-row>
+            <label class="field"><span>Label</span><input data-nav-label type="text" value="${escapeHtml(row.label || '')}"></label>
+            <label class="field"><span>Href</span><input data-nav-href type="text" value="${escapeHtml(row.href || '')}"></label>
+            <div class="button-row">
+            <button class="icon-button" type="button" data-move-nav="${index}" data-direction="-1" ${index === 0 ? 'disabled' : ''} aria-label="Move link up">↑</button>
+            <button class="icon-button" type="button" data-move-nav="${index}" data-direction="1" ${index === rows.length - 1 ? 'disabled' : ''} aria-label="Move link down">↓</button>
+            <button class="icon-button icon-button--danger" type="button" data-remove-nav="${index}" aria-label="Remove link">×</button>
+            </div>
+            </div>`).join('') : '<p class="empty">No navigation links configured.</p>') +
+  ` ` +
+  `</div>` +
+  `</div>` +
+  `</details>`
+);
   }
 
   detailsMarkup() {
-    return `
-      <details class="section" open>
-        <summary>Details</summary>
-        <div class="section-body section-body--single">
-          <uib-detail-list-editor
-            data-details-editor
-            label="Hero details"
-            details="${escapeHtml(this.currentRecord.details || '[]')}"
-            asset-map="${escapeHtml(this.getAttribute('asset-map') || this.currentRecord.asset_map || '')}"
-            application-key="${escapeHtml(this.currentRecord.application_key || this.getAttribute('application-key') || '')}"
-          ></uib-detail-list-editor>
-        </div>
-      </details>`;
+    return (
+  `<details class="section" open>` +
+  `<summary>` +
+  `Details` +
+  `</summary>` +
+  `<div class="section-body section-body--single">` +
+  `<uib-detail-list-editor data-details-editor label="Hero details" details="` +
+  (escapeHtml(this.currentRecord.details || '[]')) +
+  `" asset-map="` +
+  (escapeHtml(this.getAttribute('asset-map') || this.currentRecord.asset_map || '')) +
+  `" application-key="` +
+  (escapeHtml(this.currentRecord.application_key || this.getAttribute('application-key') || '')) +
+  `" >` +
+  `</uib-detail-list-editor>` +
+  `</div>` +
+  `</details>`
+);
   }
 
   footerMarkup() {
-    return `
-      <div class="uib-hero-editor__footer">
-        <div class="status">
-          <span class="badge badge--${escapeHtml(this.state)}">${escapeHtml(this.stateLabel())}</span>
-          <span>${this.autosave ? 'Autosave is enabled.' : 'Save emits an event for the parent app.'}</span>
-          ${this.error ? `<span class="error" role="alert">${escapeHtml(this.error)}</span>` : ''}
-        </div>
-        <div class="button-row">
-          <button class="button" type="button" data-reset-hero ${this.state === 'clean' ? 'disabled' : ''}>Reset</button>
-          <button class="button button--primary" type="button" data-save-hero>Save</button>
-        </div>
-      </div>`;
+    return (
+  `<div class="uib-hero-editor__footer">` +
+  `<div class="status">` +
+  `<span class="badge badge--` +
+  (escapeHtml(this.state)) +
+  `">` +
+  (escapeHtml(this.stateLabel())) +
+  `</span>` +
+  `<span>` +
+  (this.autosave ? 'Autosave is enabled.' : 'Save emits an event for the parent app.') +
+  `</span>` +
+  ` ` +
+  (this.error ? `<span class="error" role="alert">${escapeHtml(this.error)}</span>` : '') +
+  ` ` +
+  `</div>` +
+  `<div class="button-row">` +
+  `<button class="button" type="button" data-reset-hero ` +
+  (this.state === 'clean' ? 'disabled' : '') +
+  `>Reset` +
+  `</button>` +
+  `<button class="button button--primary" type="button" data-save-hero>` +
+  `Save` +
+  `</button>` +
+  `</div>` +
+  `</div>`
+);
   }
 
   toolbarMarkup() {
-    return `
-      <div class="uib-hero-editor__toolbar">
-        <div class="status">
-          <span class="badge badge--${escapeHtml(this.state)}">${escapeHtml(this.stateLabel())}</span>
-          <span>${escapeHtml(this.currentRecord.application_key || this.getAttribute('application-key') || 'hero')}</span>
-          <span>/</span>
-          <span>${escapeHtml(this.currentRecord.hero_key || 'home')}</span>
-        </div>
-        <button class="button" type="button" data-toggle-editor>${this.editorPanelOpen ? 'Hide editing panel' : 'Open editing panel'}</button>
-      </div>`;
+    return (
+  `<div class="uib-hero-editor__toolbar">` +
+  `<div class="status">` +
+  `<span class="badge badge--` +
+  (escapeHtml(this.state)) +
+  `">` +
+  (escapeHtml(this.stateLabel())) +
+  `</span>` +
+  `<span>` +
+  (escapeHtml(this.currentRecord.application_key || this.getAttribute('application-key') || 'hero')) +
+  `</span>` +
+  `<span>` +
+  `/` +
+  `</span>` +
+  `<span>` +
+  (escapeHtml(this.currentRecord.hero_key || 'home')) +
+  `</span>` +
+  `</div>` +
+  `<button class="button" type="button" data-toggle-editor>` +
+  (this.editorPanelOpen ? 'Hide editing panel' : 'Open editing panel') +
+  `</button>` +
+  `</div>`
+);
   }
 
   styles() {
-    return `
-      <style>
-        :host{display:block;color:var(--uib-hero-editor-text,#13294b);font-family:var(--uib-font-family-sans,Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif)}
-        *,*::before,*::after{box-sizing:border-box}
-        .uib-hero-editor{display:grid;gap:1rem}
-        .uib-hero-editor__toolbar,.uib-hero-editor__footer,.toolbar,.action-head{display:flex;align-items:center;justify-content:space-between;gap:.85rem;flex-wrap:wrap}
-        .workspace{display:grid;grid-template-columns:minmax(20rem,28rem) minmax(0,1fr);gap:1rem;align-items:start}
-        .workspace--preview-only{grid-template-columns:1fr}
-        aside{display:grid;gap:.75rem;max-height:calc(100vh - 8rem);overflow:auto;padding:1rem;border:1px solid var(--uib-color-border,#d9e2f0);border-radius:1rem;background:var(--uib-color-surface,#fff)}
-        .preview-panel{min-width:0;padding:1rem;border:1px solid var(--uib-color-border,#d9e2f0);border-radius:1rem;background:var(--uib-color-surface,#fff)}
-        .section{border:1px solid var(--uib-color-border,#d9e2f0);border-radius:.85rem;background:var(--uib-color-surface-soft,#f8fbff);overflow:hidden}
-        summary{padding:.85rem 1rem;color:var(--uib-color-primary,#174a8b);font-weight:900;cursor:pointer}
-        .section-body{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.85rem;padding:0 1rem 1rem}
-        .section-body--single{grid-template-columns:1fr}
-        .field{display:grid;gap:.35rem;min-width:0;color:var(--uib-color-ink,#13294b);font-size:.9rem;font-weight:850}
-        .field--wide{grid-column:1/-1}
-        input,textarea,select{width:100%;min-height:2.45rem;padding:.55rem .68rem;border:1px solid var(--uib-color-border-strong,#aab8cc);border-radius:.65rem;background:var(--uib-color-surface,#fff);color:inherit;font:inherit;font-weight:500}
-        textarea{resize:vertical;line-height:1.4}
-        input:focus-visible,textarea:focus-visible,select:focus-visible,button:focus-visible{outline:3px solid color-mix(in srgb,var(--uib-color-primary,#174a8b) 28%,transparent);outline-offset:2px}
-        .button,.icon-button{display:inline-flex;align-items:center;justify-content:center;min-height:2.35rem;padding:.5rem .75rem;border:1px solid var(--uib-color-border-strong,#aab8cc);border-radius:999px;background:var(--uib-color-surface,#fff);color:var(--uib-color-primary,#174a8b);font:inherit;font-weight:850;cursor:pointer}
-        .button--primary{border-color:var(--uib-color-primary,#174a8b);background:var(--uib-color-primary,#174a8b);color:#fff}
-        .icon-button{width:2.2rem;padding:.35rem;font-size:1rem}
-        .icon-button--danger{border-color:rgba(180,35,42,.35);color:var(--uib-color-danger,#b4232a)}
-        button:disabled{cursor:not-allowed;opacity:.52}
-        .status,.button-row,.check-row{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
-        .status{color:var(--uib-color-muted,#53657f);font-size:.88rem;font-weight:750}
-        .badge{display:inline-flex;align-items:center;min-height:1.55rem;padding:.16rem .58rem;border:1px solid var(--uib-color-border,#d9e2f0);border-radius:999px;background:var(--uib-color-surface-soft,#f8fbff);color:var(--uib-color-primary,#174a8b);font-size:.74rem;font-weight:900;text-transform:uppercase}
-        .badge--dirty,.badge--error{border-color:rgba(180,35,42,.28);background:#fff6ed;color:#9a3412}
-        .badge--saved{border-color:rgba(22,101,52,.28);background:#f0fdf4;color:#166534}
-        .error{color:var(--uib-color-danger,#b4232a)}
-        .row-list,.action-list{display:grid;gap:.75rem}
-        .nav-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:.65rem;align-items:end;padding:.75rem;border:1px solid var(--uib-color-border,#d9e2f0);border-radius:.85rem;background:var(--uib-color-surface,#fff)}
-        .action-card{display:grid;gap:.75rem;padding:.85rem;border:1px solid var(--uib-color-border,#d9e2f0);border-radius:.85rem;background:var(--uib-color-surface,#fff)}
-        .action-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem}
-        .advanced{grid-column:1/-1;border:1px solid var(--uib-color-border,#d9e2f0);border-radius:.75rem;background:var(--uib-color-surface-soft,#f8fbff)}
-        .advanced .action-grid{padding:0 .85rem .85rem}
-        .empty,p{margin:0;color:var(--uib-color-muted,#53657f);line-height:1.45}
-        @media(max-width:980px){.workspace{grid-template-columns:1fr}aside{max-height:none}.nav-row,.action-grid,.section-body{grid-template-columns:1fr}}
-      </style>`;
+    return (
+  `<style>` +
+  ` :host{display:block;color:var(--uib-hero-editor-text,#13294b);font-family:var(--uib-font-family-sans,Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif)} *,*::before,*::after{box-sizing:border-box} .uib-hero-editor{display:grid;gap:1rem} .uib-hero-editor__toolbar,.uib-hero-editor__footer,.toolbar,.action-head{display:flex;align-items:center;justify-content:space-between;gap:.85rem;flex-wrap:wrap} .workspace{display:grid;grid-template-columns:minmax(20rem,28rem) minmax(0,1fr);gap:1rem;align-items:start} .workspace--preview-only{grid-template-columns:1fr} aside{display:grid;gap:.75rem;max-height:calc(100vh - 8rem);overflow:auto;padding:1rem;border:1px solid var(--uib-color-border,#d9e2f0);border-radius:1rem;background:var(--uib-color-surface,#fff)} .preview-panel{min-width:0;padding:1rem;border:1px solid var(--uib-color-border,#d9e2f0);border-radius:1rem;background:var(--uib-color-surface,#fff)} .section{border:1px solid var(--uib-color-border,#d9e2f0);border-radius:.85rem;background:var(--uib-color-surface-soft,#f8fbff);overflow:hidden} summary{padding:.85rem 1rem;color:var(--uib-color-primary,#174a8b);font-weight:900;cursor:pointer} .section-body{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.85rem;padding:0 1rem 1rem} .section-body--single{grid-template-columns:1fr} .field{display:grid;gap:.35rem;min-width:0;color:var(--uib-color-ink,#13294b);font-size:.9rem;font-weight:850} .field--wide{grid-column:1/-1} input,textarea,select{width:100%;min-height:2.45rem;padding:.55rem .68rem;border:1px solid var(--uib-color-border-strong,#aab8cc);border-radius:.65rem;background:var(--uib-color-surface,#fff);color:inherit;font:inherit;font-weight:500} textarea{resize:vertical;line-height:1.4} input:focus-visible,textarea:focus-visible,select:focus-visible,button:focus-visible{outline:3px solid color-mix(in srgb,var(--uib-color-primary,#174a8b) 28%,transparent);outline-offset:2px} .button,.icon-button{display:inline-flex;align-items:center;justify-content:center;min-height:2.35rem;padding:.5rem .75rem;border:1px solid var(--uib-color-border-strong,#aab8cc);border-radius:999px;background:var(--uib-color-surface,#fff);color:var(--uib-color-primary,#174a8b);font:inherit;font-weight:850;cursor:pointer} .button--primary{border-color:var(--uib-color-primary,#174a8b);background:var(--uib-color-primary,#174a8b);color:#fff} .icon-button{width:2.2rem;padding:.35rem;font-size:1rem} .icon-button--danger{border-color:rgba(180,35,42,.35);color:var(--uib-color-danger,#b4232a)} button:disabled{cursor:not-allowed;opacity:.52} .status,.button-row,.check-row{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap} .status{color:var(--uib-color-muted,#53657f);font-size:.88rem;font-weight:750} .badge{display:inline-flex;align-items:center;min-height:1.55rem;padding:.16rem .58rem;border:1px solid var(--uib-color-border,#d9e2f0);border-radius:999px;background:var(--uib-color-surface-soft,#f8fbff);color:var(--uib-color-primary,#174a8b);font-size:.74rem;font-weight:900;text-transform:uppercase} .badge--dirty,.badge--error{border-color:rgba(180,35,42,.28);background:#fff6ed;color:#9a3412} .badge--saved{border-color:rgba(22,101,52,.28);background:#f0fdf4;color:#166534} .error{color:var(--uib-color-danger,#b4232a)} .row-list,.action-list{display:grid;gap:.75rem} .nav-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:.65rem;align-items:end;padding:.75rem;border:1px solid var(--uib-color-border,#d9e2f0);border-radius:.85rem;background:var(--uib-color-surface,#fff)} .action-card{display:grid;gap:.75rem;padding:.85rem;border:1px solid var(--uib-color-border,#d9e2f0);border-radius:.85rem;background:var(--uib-color-surface,#fff)} .action-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem} .advanced{grid-column:1/-1;border:1px solid var(--uib-color-border,#d9e2f0);border-radius:.75rem;background:var(--uib-color-surface-soft,#f8fbff)} .advanced .action-grid{padding:0 .85rem .85rem} .empty,p{margin:0;color:var(--uib-color-muted,#53657f);line-height:1.45} @media(max-width:980px){.workspace{grid-template-columns:1fr}aside{max-height:none}.nav-row,.action-grid,.section-body{grid-template-columns:1fr}} ` +
+  `</style>`
+);
   }
 
   render() {
     const layoutClass = this.editorPanelOpen ? 'workspace' : 'workspace workspace--preview-only';
-    this.innerHTML = `
-      ${this.styles()}
-      <section class="uib-hero-editor">
-        ${this.toolbarMarkup()}
-        <section class="${layoutClass}">
-          ${this.editorPanelOpen ? `
+    this.innerHTML = (
+  ` ` +
+  (this.styles()) +
+  ` ` +
+  `<section class="uib-hero-editor">` +
+  ` ` +
+  (this.toolbarMarkup()) +
+  ` <section class="` +
+  (layoutClass) +
+  `"> ` +
+  (this.editorPanelOpen ? `
             <aside>
               <form novalidate>
                 ${EDIT_SECTIONS.map((section) => this.sectionMarkup(section)).join('')}
@@ -556,17 +726,23 @@ export class UibHeroEditor extends HTMLElement {
                 ${this.detailsMarkup()}
                 ${this.footerMarkup()}
               </form>
-            </aside>` : ''}
-          <div class="preview-panel">
-            <uib-hero-preview
-              asset-map="${escapeHtml(this.getAttribute('asset-map') || this.currentRecord.asset_map || '')}"
-              application-key="${escapeHtml(this.currentRecord.application_key || this.getAttribute('application-key') || '')}"
-              brand-label="${escapeHtml(this.getAttribute('brand-label') || '')}"
-              brand-mark="${escapeHtml(this.getAttribute('brand-mark') || '')}"
-            ></uib-hero-preview>
-          </div>
-        </section>
-      </section>`;
+            </aside>` : '') +
+  ` ` +
+  `<div class="preview-panel">` +
+  `<uib-hero-preview asset-map="` +
+  (escapeHtml(this.getAttribute('asset-map') || this.currentRecord.asset_map || '')) +
+  `" application-key="` +
+  (escapeHtml(this.currentRecord.application_key || this.getAttribute('application-key') || '')) +
+  `" brand-label="` +
+  (escapeHtml(this.getAttribute('brand-label') || '')) +
+  `" brand-mark="` +
+  (escapeHtml(this.getAttribute('brand-mark') || '')) +
+  `" >` +
+  `</uib-hero-preview>` +
+  `</div>` +
+  `</section>` +
+  `</section>`
+);
     this.bind();
   }
 }
