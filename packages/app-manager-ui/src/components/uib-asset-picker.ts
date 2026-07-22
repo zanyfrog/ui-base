@@ -1,4 +1,4 @@
-import type { ShapedRecord } from '@ui.base/app-manager-api-client';
+import type { ShapedRecord } from '@ui-base/app-manager-api-client';
 import { BaseHTMLElement, attr, clientFromElement, defineAppManagerElement, dispatch, escapeHtml, formatError, passClientAttributes } from '../utils/dom.js';
 
 const DEFAULT_ASSET_ACCEPT = 'image/png,image/jpeg,image/gif,image/webp,image/svg+xml,image/avif,application/pdf,text/plain,text/css,application/json';

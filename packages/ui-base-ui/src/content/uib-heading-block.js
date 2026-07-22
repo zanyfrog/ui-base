@@ -1,4 +1,4 @@
-import { defineUiBaseElement, escapeHtml } from '@ui.base/core';
+import { defineUiBaseElement, escapeHtml } from '@ui-base/core';
 import './uib-eyebrow.js';
 
 const styles = `

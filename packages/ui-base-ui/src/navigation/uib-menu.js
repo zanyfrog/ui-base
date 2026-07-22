@@ -4,8 +4,8 @@ import {
   escapeHtml,
   getUiBaseMessage,
   readCssLengthPx
-} from '@ui.base/core';
-import '@ui.base/icons/icon';
+} from '@ui-base/core';
+import '@ui-base/icons/icon';
 import './uib-menuitem.js';
 
 const styles = `

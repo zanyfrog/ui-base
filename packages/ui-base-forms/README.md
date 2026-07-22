@@ -1,4 +1,4 @@
-# @ui.base/forms
+# @ui-base/forms
 
 Form, validation, and input components for UI Base applications.
 
@@ -16,7 +16,7 @@ The first version includes a functional `uib-forms-form` and experimental input 
 - `uib-forms-input-group`
 - `uib-forms-wizard`
 
-`uib-toggle` and `uib-checkbox` remain in `@ui.base/ui` because they are general UI controls and already existed there.
+`uib-toggle` and `uib-checkbox` remain in `@ui-base/ui` because they are general UI controls and already existed there.
 
 ## Example
 

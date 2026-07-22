@@ -1,4 +1,4 @@
-import { UibBaseElement, defineUiBaseElement } from '@ui.base/core';
+import { UibBaseElement, defineUiBaseElement } from '@ui-base/core';
 
 const styles = `:host{display:block}.uib-forms-input-group{display:flex;flex-wrap:wrap;gap:var(--uib-space-2,.5rem);align-items:end}.uib-forms-input-group ::slotted(*){flex:1 1 var(--uib-forms-input-group-item-width,12rem)}`;
 

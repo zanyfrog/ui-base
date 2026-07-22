@@ -13,12 +13,12 @@ The UI Base Design System defines how reusable UI Base applications should look,
 
 ## Package roles
 
-- `@ui.base/core`: base classes, accessibility helpers, localization, validation, and utilities.
-- `@ui.base/design-system`: principles, tokens, standards, and documentation.
-- `@ui.base/theme`: CSS theme files that set or override design tokens.
-- `@ui.base/icons`: embedded SVG icon registry, URL icon support, and `uib-icon`.
-- `@ui.base/ui`: reusable UI, navigation, layout, feedback, and overlay components.
-- `@ui.base/forms`: form layout, validation, field wrappers, and input components.
-- `@ui.base/calendar`: calendar views and scheduling components.
-- `@ui.base/testing`: future test helpers and accessibility checks.
-- `@ui.base/cli`: future command-line utility for creating, upgrading, and diagnosing UI Base apps.
+- `@ui-base/core`: base classes, accessibility helpers, localization, validation, and utilities.
+- `@ui-base/design-system`: principles, tokens, standards, and documentation.
+- `@ui-base/theme`: CSS theme files that set or override design tokens.
+- `@ui-base/icons`: embedded SVG icon registry, URL icon support, and `uib-icon`.
+- `@ui-base/ui`: reusable UI, navigation, layout, feedback, and overlay components.
+- `@ui-base/forms`: form layout, validation, field wrappers, and input components.
+- `@ui-base/calendar`: calendar views and scheduling components.
+- `@ui-base/testing`: future test helpers and accessibility checks.
+- `@ui-base/cli`: future command-line utility for creating, upgrading, and diagnosing UI Base apps.

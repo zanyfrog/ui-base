@@ -1,4 +1,4 @@
-# @ui.base/forms
+# @ui-base/forms
 
 **Version:** `0.1.0`  
 **Package path:** `packages/ui-base-forms`
@@ -14,7 +14,7 @@ Use this package when a project needs the components, styles, or utilities liste
 ## Primary imports
 
 ```js
-import '@ui.base/forms';
+import '@ui-base/forms';
 ```
 
 ## Components

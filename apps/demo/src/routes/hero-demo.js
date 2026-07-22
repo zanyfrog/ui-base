@@ -246,7 +246,7 @@ function renderHeroIndex(main, path) {
         </h2>
         <pre class="code-block">
           <code>
-            &lt;script type="module"&gt; import '@ui.base/hero'; import '@ui.base/ui'; const hero = document.querySelector('uib-hero'); hero.details = [ { label: 'Tour Length', value: '45 minutes', iconUrl: '/apps/demo/assets/icons/tour-length.svg', iconAlt: 'Tour length' }, { label: 'Cost', value: 'Free', iconUrl: '/apps/demo/assets/icons/cost.svg', iconAlt: 'Cost' } ]; &lt;/script&gt; &lt;uib-hero headline="Tour the Sample Visitor Center" subheadline="Go behind the scenes and see how the visitor experience is delivered." action-components='[ { "id": "book-tour", "name": "primaryCta", "kind": "primary", "label": "Book a Tour", "type": "link", "value": "/book", "show": true, "disabled": false, "variant": "primary" }, { "id": "plan-visit", "name": "secondaryCta", "kind": "secondary", "label": "Plan Your Visit", "type": "link", "value": "/visit", "show": true, "disabled": false, "variant": "secondary" }, { "id": "cancel-reservation", "name": "thirdCta", "kind": "third", "label": "Cancel Reservation", "type": "link", "value": "/cancel", "show": true, "disabled": false, "variant": "destructive" }, { "id": "book-group-tour", "name": "fourthCta", "kind": "fourth", "label": "Book Group Tour", "type": "link", "value": "/group", "show": true, "disabled": false, "variant": "secondary" } ]' trust-signal="Advance reservations are required." visual-source="url" visual-role="background" visual-mode="background" layout-opacity="0.8" &gt;&lt;/uib-hero&gt;
+            &lt;script type="module"&gt; import '@ui-base/hero'; import '@ui-base/ui'; const hero = document.querySelector('uib-hero'); hero.details = [ { label: 'Tour Length', value: '45 minutes', iconUrl: '/apps/demo/assets/icons/tour-length.svg', iconAlt: 'Tour length' }, { label: 'Cost', value: 'Free', iconUrl: '/apps/demo/assets/icons/cost.svg', iconAlt: 'Cost' } ]; &lt;/script&gt; &lt;uib-hero headline="Tour the Sample Visitor Center" subheadline="Go behind the scenes and see how the visitor experience is delivered." action-components='[ { "id": "book-tour", "name": "primaryCta", "kind": "primary", "label": "Book a Tour", "type": "link", "value": "/book", "show": true, "disabled": false, "variant": "primary" }, { "id": "plan-visit", "name": "secondaryCta", "kind": "secondary", "label": "Plan Your Visit", "type": "link", "value": "/visit", "show": true, "disabled": false, "variant": "secondary" }, { "id": "cancel-reservation", "name": "thirdCta", "kind": "third", "label": "Cancel Reservation", "type": "link", "value": "/cancel", "show": true, "disabled": false, "variant": "destructive" }, { "id": "book-group-tour", "name": "fourthCta", "kind": "fourth", "label": "Book Group Tour", "type": "link", "value": "/group", "show": true, "disabled": false, "variant": "secondary" } ]' trust-signal="Advance reservations are required." visual-source="url" visual-role="background" visual-mode="background" layout-opacity="0.8" &gt;&lt;/uib-hero&gt;
           </code>
         </pre>
       </div>
@@ -820,7 +820,7 @@ function renderExampleShell(main, path, kind, state) {
             <p class="helper-text">
               Implementation note: the Hero component emits CTA events only. The parent owns the decision to reveal and call a reservation component from
               <code>
-                @ui.base/ui
+                @ui-base/ui
               </code>
               .
             </p>
@@ -1109,7 +1109,7 @@ function bindHeroExample(main, hero, state) {
     hideTourActionComponents();
     component.hidden = false;
 
-    status.textContent = `${sourceEvent.detail.label} clicked. Parent notified by Hero event; opening ${action.tourAction} from @ui.base/ui.`;
+    status.textContent = `${sourceEvent.detail.label} clicked. Parent notified by Hero event; opening ${action.tourAction} from @ui-base/ui.`;
     component.call({
       trigger: action.trigger,
       heroHeadline: state.headline,

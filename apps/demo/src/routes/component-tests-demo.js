@@ -1,4 +1,4 @@
-import '@ui.base/tour-ui';
+import '@ui-base/tour-ui';
 import { UI_BASE_UI_COMPONENTS } from '../../../../packages/ui-base-ui/src/metadata/index.js';
 import { UI_BASE_FORM_COMPONENTS } from '../../../../packages/ui-base-forms/src/metadata.js';
 import { UI_BASE_ASSET_COMPONENTS } from '../../../../packages/ui-base-assets/src/metadata.js';
@@ -91,7 +91,7 @@ const ASSET_FIXTURES = {
 const BASE_PACKAGE_DOCS = [
   {
     id: 'core',
-    name: '@ui.base/core',
+    name: '@ui-base/core',
     title: 'Core utilities',
     summary: 'Shared base classes, events, validation helpers, localization, metadata, and DOM utilities used by the component packages.',
     testRoute: DESIGN_ROUTE,
@@ -109,7 +109,7 @@ const BASE_PACKAGE_DOCS = [
   },
   {
     id: 'design-system',
-    name: '@ui.base/design-system',
+    name: '@ui-base/design-system',
     title: 'Design system',
     summary: 'Design guidance, token files, accessibility CSS, component specification templates, and lifecycle standards.',
     testRoute: DESIGN_ROUTE,
@@ -119,7 +119,7 @@ const BASE_PACKAGE_DOCS = [
   },
   {
     id: 'theme',
-    name: '@ui.base/theme',
+    name: '@ui-base/theme',
     title: 'Theme stylesheets',
     summary: 'Default, dark, and sample-tour CSS variable themes for UI Base applications.',
     testRoute: DESIGN_ROUTE,
@@ -129,7 +129,7 @@ const BASE_PACKAGE_DOCS = [
   },
   {
     id: 'icons',
-    name: '@ui.base/icons',
+    name: '@ui-base/icons',
     title: 'Icons',
     summary: 'Named SVG icon registry, URL icon support, and the accessible <uib-icon> custom element.',
     testRoute: COMPONENT_ROUTE,
@@ -138,7 +138,7 @@ const BASE_PACKAGE_DOCS = [
     components: [
       componentDoc({
         tagName: 'uib-icon',
-        package: '@ui.base/icons',
+        package: '@ui-base/icons',
         maturity: 'preview',
         purpose: 'Renders a registered SVG icon or URL-backed image icon.',
         attributes: ['name', 'src', 'url', 'size', 'label', 'aria-label', 'title', 'decorative'],
@@ -153,7 +153,7 @@ const BASE_PACKAGE_DOCS = [
 
 const UI_PACKAGE = {
   id: 'ui',
-  name: '@ui.base/ui',
+  name: '@ui-base/ui',
   title: 'UI primitives',
   summary: 'Generic controls, content blocks, action buttons, media, details, navigation, layout, and overlay primitives.',
   testRoute: COMPONENT_ROUTE,
@@ -165,7 +165,7 @@ const UI_PACKAGE = {
   })).concat([
     componentDoc({
       tagName: 'uib-eyebrow',
-      package: '@ui.base/ui',
+      package: '@ui-base/ui',
       maturity: 'preview',
       purpose: 'Small section label or overline text.',
       attributes: ['text'],
@@ -175,7 +175,7 @@ const UI_PACKAGE = {
     }),
     componentDoc({
       tagName: 'uib-heading-block',
-      package: '@ui.base/ui',
+      package: '@ui-base/ui',
       maturity: 'preview',
       purpose: 'Reusable heading group with eyebrow, headline, subheadline, and body slots.',
       attributes: ['eyebrow', 'headline', 'subheadline', 'body', 'size', 'align'],
@@ -185,7 +185,7 @@ const UI_PACKAGE = {
     }),
     componentDoc({
       tagName: 'uib-action-button',
-      package: '@ui.base/ui',
+      package: '@ui-base/ui',
       maturity: 'preview',
       purpose: 'Single action rendered as a button or link.',
       attributes: ['label', 'href', 'action', 'action-token', 'variant', 'kind', 'disabled', 'target', 'rel', 'icon'],
@@ -196,7 +196,7 @@ const UI_PACKAGE = {
     }),
     componentDoc({
       tagName: 'uib-action-group',
-      package: '@ui.base/ui',
+      package: '@ui-base/ui',
       maturity: 'preview',
       purpose: 'Renders an ordered group of action buttons from a JSON array or property.',
       attributes: ['actions', 'align', 'stacked'],
@@ -208,7 +208,7 @@ const UI_PACKAGE = {
     }),
     componentDoc({
       tagName: 'uib-media',
-      package: '@ui.base/ui',
+      package: '@ui-base/ui',
       maturity: 'preview',
       purpose: 'Safe image/media presenter with fit, ratio, alt text, and fallback handling.',
       attributes: ['src', 'alt', 'role', 'fit', 'ratio', 'position', 'fallback-label'],
@@ -217,7 +217,7 @@ const UI_PACKAGE = {
     }),
     componentDoc({
       tagName: 'uib-detail-item',
-      package: '@ui.base/ui',
+      package: '@ui-base/ui',
       maturity: 'preview',
       purpose: 'Displays one label/value detail item with an asset-backed icon, URL override, and text fallback.',
       attributes: ['label', 'value', 'description', 'icon', 'asset-id', 'icon-url', 'icon-alt', 'asset-map', 'detail'],
@@ -227,7 +227,7 @@ const UI_PACKAGE = {
     }),
     componentDoc({
       tagName: 'uib-detail-item-edit',
-      package: '@ui.base/ui',
+      package: '@ui-base/ui',
       maturity: 'preview',
       purpose: 'Edits one detail item, including text fallback, asset ID, URL/alt overrides, and optional asset picker.',
       attributes: ['detail', 'label', 'asset-map', 'use-asset-picker', 'application-key', 'api-base-url', 'index'],
@@ -238,7 +238,7 @@ const UI_PACKAGE = {
     }),
     componentDoc({
       tagName: 'uib-detail-list',
-      package: '@ui.base/ui',
+      package: '@ui-base/ui',
       maturity: 'preview',
       purpose: 'Displays label/value/detail rows with text, URL, or asset-backed icons.',
       attributes: ['details', 'asset-map'],
@@ -248,7 +248,7 @@ const UI_PACKAGE = {
     }),
     componentDoc({
       tagName: 'uib-detail-list-editor',
-      package: '@ui.base/ui',
+      package: '@ui-base/ui',
       maturity: 'preview',
       purpose: 'Editable detail-row authoring component that emits clean detail arrays.',
       attributes: ['details', 'asset-map', 'label'],
@@ -262,7 +262,7 @@ const UI_PACKAGE = {
 
 const FORMS_PACKAGE = {
   id: 'forms',
-  name: '@ui.base/forms',
+  name: '@ui-base/forms',
   title: 'Forms',
   summary: 'Form container, text/date/number/select controls, validation states, and form layout components.',
   testRoute: COMPONENT_ROUTE,
@@ -276,25 +276,25 @@ const FORMS_PACKAGE = {
 
 const CALENDAR_PACKAGE = {
   id: 'calendar',
-  name: '@ui.base/calendar',
+  name: '@ui-base/calendar',
   title: 'Calendar',
   summary: 'Day, week, month, year, date-window, and day-of-week calendar views controlled by parent state.',
   testRoute: CALENDAR_ROUTE,
   updateSource: 'packages/ui-base-calendar/src',
   smokeChecks: ['Calendar views render for fixed dates.', 'Date selection events bubble.', 'Dedicated calendar demo routes continue to load.'],
   components: [
-    componentDoc({ tagName: 'uib-calendar-day-view', package: '@ui.base/calendar', maturity: 'preview', purpose: 'Single day schedule/date view.', attributes: ['date', 'selected-date'], events: ['uib-calendar-date-select'], fixtures: ['<uib-calendar-day-view date="2026-07-07"></uib-calendar-day-view>'] }),
-    componentDoc({ tagName: 'uib-calendar-week-view', package: '@ui.base/calendar', maturity: 'preview', purpose: 'Seven-day week view.', attributes: ['date', 'selected-date'], events: ['uib-calendar-date-select'], fixtures: ['<uib-calendar-week-view date="2026-07-07"></uib-calendar-week-view>'] }),
-    componentDoc({ tagName: 'uib-calendar-month-view', package: '@ui.base/calendar', maturity: 'preview', purpose: 'Month grid with selectable dates.', attributes: ['year', 'month', 'selected-date'], events: ['uib-calendar-date-select'], fixtures: ['<uib-calendar-month-view year="2026" month="7" selected-date="2026-07-07"></uib-calendar-month-view>'] }),
-    componentDoc({ tagName: 'uib-calendar-year-view', package: '@ui.base/calendar', maturity: 'preview', purpose: 'Year overview.', attributes: ['year', 'selected-date'], events: ['uib-calendar-date-select'], fixtures: ['<uib-calendar-year-view year="2026" selected-date="2026-07-07"></uib-calendar-year-view>'] }),
-    componentDoc({ tagName: 'uib-date-window-view', package: '@ui.base/calendar', maturity: 'preview', purpose: 'Rolling date window view.', attributes: ['start-date', 'days', 'selected-date'], events: ['uib-calendar-date-select'], fixtures: ['<uib-date-window-view start-date="2026-07-07" days="7"></uib-date-window-view>'] }),
-    componentDoc({ tagName: 'uib-day-of-week-view', package: '@ui.base/calendar', maturity: 'preview', purpose: 'Day-of-week pattern view.', attributes: ['day', 'selected-date', 'start-date', 'weeks'], events: ['uib-calendar-date-select'], fixtures: ['<uib-day-of-week-view day="tuesday" start-date="2026-07-07" weeks="4"></uib-day-of-week-view>'] })
+    componentDoc({ tagName: 'uib-calendar-day-view', package: '@ui-base/calendar', maturity: 'preview', purpose: 'Single day schedule/date view.', attributes: ['date', 'selected-date'], events: ['uib-calendar-date-select'], fixtures: ['<uib-calendar-day-view date="2026-07-07"></uib-calendar-day-view>'] }),
+    componentDoc({ tagName: 'uib-calendar-week-view', package: '@ui-base/calendar', maturity: 'preview', purpose: 'Seven-day week view.', attributes: ['date', 'selected-date'], events: ['uib-calendar-date-select'], fixtures: ['<uib-calendar-week-view date="2026-07-07"></uib-calendar-week-view>'] }),
+    componentDoc({ tagName: 'uib-calendar-month-view', package: '@ui-base/calendar', maturity: 'preview', purpose: 'Month grid with selectable dates.', attributes: ['year', 'month', 'selected-date'], events: ['uib-calendar-date-select'], fixtures: ['<uib-calendar-month-view year="2026" month="7" selected-date="2026-07-07"></uib-calendar-month-view>'] }),
+    componentDoc({ tagName: 'uib-calendar-year-view', package: '@ui-base/calendar', maturity: 'preview', purpose: 'Year overview.', attributes: ['year', 'selected-date'], events: ['uib-calendar-date-select'], fixtures: ['<uib-calendar-year-view year="2026" selected-date="2026-07-07"></uib-calendar-year-view>'] }),
+    componentDoc({ tagName: 'uib-date-window-view', package: '@ui-base/calendar', maturity: 'preview', purpose: 'Rolling date window view.', attributes: ['start-date', 'days', 'selected-date'], events: ['uib-calendar-date-select'], fixtures: ['<uib-date-window-view start-date="2026-07-07" days="7"></uib-date-window-view>'] }),
+    componentDoc({ tagName: 'uib-day-of-week-view', package: '@ui-base/calendar', maturity: 'preview', purpose: 'Day-of-week pattern view.', attributes: ['day', 'selected-date', 'start-date', 'weeks'], events: ['uib-calendar-date-select'], fixtures: ['<uib-day-of-week-view day="tuesday" start-date="2026-07-07" weeks="4"></uib-day-of-week-view>'] })
   ]
 };
 
 const HERO_PACKAGE = {
   id: 'hero',
-  name: '@ui.base/hero',
+  name: '@ui-base/hero',
   title: 'Hero',
   summary: 'Visitor-facing hero renderer with CTA JSON, visual source modes, navigation, details, slots, and asset-backed visuals.',
   testRoute: HERO_ROUTE,
@@ -303,7 +303,7 @@ const HERO_PACKAGE = {
   components: [
     componentDoc({
       tagName: 'uib-hero',
-      package: '@ui.base/hero',
+      package: '@ui-base/hero',
       maturity: 'preview',
       purpose: 'Top-of-page hero section for landing, product, organization, and tour pages.',
       attributes: ['hero-data', 'hero-json', 'eyebrow', 'headline', 'subheadline', 'action-components', 'hero-action-buttons', 'actions', 'visual-source', 'visual-role', 'visual-src', 'visual-asset-id', 'visual-alt', 'visual-mode', 'layout-opacity', 'trust-signal', 'nav-items', 'details', 'asset-map', 'theme', 'size', 'brand-label', 'brand-mark'],
@@ -319,7 +319,7 @@ const HERO_PACKAGE = {
 
 const ASSETS_PACKAGE = {
   id: 'assets',
-  name: '@ui.base/assets',
+  name: '@ui-base/assets',
   title: 'Assets',
   summary: 'Backend-neutral asset browser, picker, upload, metadata, permissions, versioning, preview, and usage components.',
   testRoute: ASSETS_ROUTE,
@@ -334,46 +334,46 @@ const ASSETS_PACKAGE = {
 
 const TOUR_PACKAGE = {
   id: 'tour-ui',
-  name: '@ui.base/tour-ui',
+  name: '@ui-base/tour-ui',
   title: 'Tour action components',
   summary: 'Reusable action components for reservation-style workflows.',
   testRoute: TOUR_ROUTE,
   updateSource: 'packages/ui-base-tour-ui/src',
   smokeChecks: ['Each action component renders.', 'Action buttons emit generic and component-specific events.', 'Disabled state prevents action and shows feedback.'],
   components: [
-    componentDoc({ tagName: 'uib-new-reservation', package: '@ui.base/tour-ui', maturity: 'preview', purpose: 'New reservation action card.', attributes: ['heading', 'eyebrow', 'description', 'action-label', 'toast-message', 'toast-duration', 'disabled', 'variant'], methods: ['call()', 'showToast()', 'hideToast()'], events: ['uib-tour-reservation-action', 'uib-tour-new-reservation', 'uib-tour-toast-show'], fixtures: ['<uib-new-reservation></uib-new-reservation>'] }),
-    componentDoc({ tagName: 'uib-cancel-reservation', package: '@ui.base/tour-ui', maturity: 'preview', purpose: 'Cancel reservation action card.', attributes: ['heading', 'eyebrow', 'description', 'action-label', 'toast-message', 'toast-duration', 'disabled', 'variant'], methods: ['call()', 'showToast()', 'hideToast()'], events: ['uib-tour-reservation-action', 'uib-tour-cancel-reservation', 'uib-tour-toast-show'], fixtures: ['<uib-cancel-reservation></uib-cancel-reservation>'] }),
-    componentDoc({ tagName: 'uib-find-reservation', package: '@ui.base/tour-ui', maturity: 'preview', purpose: 'Find reservation action card.', attributes: ['heading', 'eyebrow', 'description', 'action-label', 'toast-message', 'toast-duration', 'disabled', 'variant'], methods: ['call()', 'showToast()', 'hideToast()'], events: ['uib-tour-reservation-action', 'uib-tour-find-reservation', 'uib-tour-toast-show'], fixtures: ['<uib-find-reservation></uib-find-reservation>'] }),
-    componentDoc({ tagName: 'uib-book-group-reservation', package: '@ui.base/tour-ui', maturity: 'preview', purpose: 'Group reservation action card.', attributes: ['heading', 'eyebrow', 'description', 'action-label', 'toast-message', 'toast-duration', 'disabled', 'variant'], methods: ['call()', 'showToast()', 'hideToast()'], events: ['uib-tour-reservation-action', 'uib-tour-book-group-reservation', 'uib-tour-toast-show'], fixtures: ['<uib-book-group-reservation></uib-book-group-reservation>'] })
+    componentDoc({ tagName: 'uib-new-reservation', package: '@ui-base/tour-ui', maturity: 'preview', purpose: 'New reservation action card.', attributes: ['heading', 'eyebrow', 'description', 'action-label', 'toast-message', 'toast-duration', 'disabled', 'variant'], methods: ['call()', 'showToast()', 'hideToast()'], events: ['uib-tour-reservation-action', 'uib-tour-new-reservation', 'uib-tour-toast-show'], fixtures: ['<uib-new-reservation></uib-new-reservation>'] }),
+    componentDoc({ tagName: 'uib-cancel-reservation', package: '@ui-base/tour-ui', maturity: 'preview', purpose: 'Cancel reservation action card.', attributes: ['heading', 'eyebrow', 'description', 'action-label', 'toast-message', 'toast-duration', 'disabled', 'variant'], methods: ['call()', 'showToast()', 'hideToast()'], events: ['uib-tour-reservation-action', 'uib-tour-cancel-reservation', 'uib-tour-toast-show'], fixtures: ['<uib-cancel-reservation></uib-cancel-reservation>'] }),
+    componentDoc({ tagName: 'uib-find-reservation', package: '@ui-base/tour-ui', maturity: 'preview', purpose: 'Find reservation action card.', attributes: ['heading', 'eyebrow', 'description', 'action-label', 'toast-message', 'toast-duration', 'disabled', 'variant'], methods: ['call()', 'showToast()', 'hideToast()'], events: ['uib-tour-reservation-action', 'uib-tour-find-reservation', 'uib-tour-toast-show'], fixtures: ['<uib-find-reservation></uib-find-reservation>'] }),
+    componentDoc({ tagName: 'uib-book-group-reservation', package: '@ui-base/tour-ui', maturity: 'preview', purpose: 'Group reservation action card.', attributes: ['heading', 'eyebrow', 'description', 'action-label', 'toast-message', 'toast-duration', 'disabled', 'variant'], methods: ['call()', 'showToast()', 'hideToast()'], events: ['uib-tour-reservation-action', 'uib-tour-book-group-reservation', 'uib-tour-toast-show'], fixtures: ['<uib-book-group-reservation></uib-book-group-reservation>'] })
   ]
 };
 
 const APP_MANAGER_PACKAGE = {
   id: 'app-manager-ui',
-  name: '@ui.base/app-manager-ui',
+  name: '@ui-base/app-manager-ui',
   title: 'App Manager UI',
   summary: 'Framework-neutral administrative components for application, hero, and asset configuration.',
   testRoute: '',
   updateSource: 'packages/app-manager-ui/src',
   smokeChecks: ['Manager app builds with Vite.', 'Hero editor can save canonical action JSON and legacy compatibility fields.', 'Asset picker integration resolves detail icons.'],
   components: [
-    componentDoc({ tagName: 'uib-application-manager', package: '@ui.base/app-manager-ui', maturity: 'preview', purpose: 'Top-level manager shell for applications, heroes, and assets.', attributes: ['orm-base-url', 'iam-base-url', 'dev-actor-id', 'dev-token'] }),
-    componentDoc({ tagName: 'uib-application-list', package: '@ui.base/app-manager-ui', maturity: 'preview', purpose: 'Application list and row actions.', attributes: ['orm-base-url', 'iam-base-url', 'dev-actor-id', 'dev-token'] }),
-    componentDoc({ tagName: 'uib-application-editor', package: '@ui.base/app-manager-ui', maturity: 'preview', purpose: 'Application create/edit form.', attributes: ['application-key', 'orm-base-url', 'iam-base-url', 'dev-actor-id', 'dev-token'] }),
-    componentDoc({ tagName: 'uib-application-hero-list', package: '@ui.base/app-manager-ui', maturity: 'preview', purpose: 'Hero list for one application.', attributes: ['application-key', 'orm-base-url', 'dev-actor-id', 'dev-token'] }),
-    componentDoc({ tagName: 'uib-application-hero-editor', package: '@ui.base/app-manager-ui', maturity: 'preview', purpose: 'Hero editor with live preview, autosave, navigation/details editors, and CTA action JSON.', attributes: ['application-key', 'hero-key', 'orm-base-url', 'dev-actor-id', 'dev-token'] }),
-    componentDoc({ tagName: 'uib-application-hero-preview', package: '@ui.base/app-manager-ui', maturity: 'preview', purpose: 'Admin preview wrapper that feeds App Manager hero records into <uib-hero>.', attributes: ['application-key', 'hero-key'] }),
-    componentDoc({ tagName: 'uib-application-asset-list', package: '@ui.base/app-manager-ui', maturity: 'preview', purpose: 'Application asset list.', attributes: ['application-key', 'orm-base-url', 'dev-actor-id', 'dev-token'] }),
-    componentDoc({ tagName: 'uib-application-asset-editor', package: '@ui.base/app-manager-ui', maturity: 'preview', purpose: 'Application asset editor.', attributes: ['application-key', 'asset-id', 'orm-base-url', 'dev-actor-id', 'dev-token'] }),
-    componentDoc({ tagName: 'uib-hero-action-button', package: '@ui.base/app-manager-ui', maturity: 'preview', purpose: 'Single admin CTA action config editor.', attributes: ['heading', 'name', 'action', 'default-action-token'] }),
-    componentDoc({ tagName: 'uib-hero-action-buttons', package: '@ui.base/app-manager-ui', maturity: 'preview', purpose: 'Ordered admin CTA action array editor.', attributes: ['label', 'actions', 'allow-add', 'allow-remove'], events: ['change', 'uib-hero-action-buttons-change'] })
+    componentDoc({ tagName: 'uib-application-manager', package: '@ui-base/app-manager-ui', maturity: 'preview', purpose: 'Top-level manager shell for applications, heroes, and assets.', attributes: ['orm-base-url', 'iam-base-url', 'dev-actor-id', 'dev-token'] }),
+    componentDoc({ tagName: 'uib-application-list', package: '@ui-base/app-manager-ui', maturity: 'preview', purpose: 'Application list and row actions.', attributes: ['orm-base-url', 'iam-base-url', 'dev-actor-id', 'dev-token'] }),
+    componentDoc({ tagName: 'uib-application-editor', package: '@ui-base/app-manager-ui', maturity: 'preview', purpose: 'Application create/edit form.', attributes: ['application-key', 'orm-base-url', 'iam-base-url', 'dev-actor-id', 'dev-token'] }),
+    componentDoc({ tagName: 'uib-application-hero-list', package: '@ui-base/app-manager-ui', maturity: 'preview', purpose: 'Hero list for one application.', attributes: ['application-key', 'orm-base-url', 'dev-actor-id', 'dev-token'] }),
+    componentDoc({ tagName: 'uib-application-hero-editor', package: '@ui-base/app-manager-ui', maturity: 'preview', purpose: 'Hero editor with live preview, autosave, navigation/details editors, and CTA action JSON.', attributes: ['application-key', 'hero-key', 'orm-base-url', 'dev-actor-id', 'dev-token'] }),
+    componentDoc({ tagName: 'uib-application-hero-preview', package: '@ui-base/app-manager-ui', maturity: 'preview', purpose: 'Admin preview wrapper that feeds App Manager hero records into <uib-hero>.', attributes: ['application-key', 'hero-key'] }),
+    componentDoc({ tagName: 'uib-application-asset-list', package: '@ui-base/app-manager-ui', maturity: 'preview', purpose: 'Application asset list.', attributes: ['application-key', 'orm-base-url', 'dev-actor-id', 'dev-token'] }),
+    componentDoc({ tagName: 'uib-application-asset-editor', package: '@ui-base/app-manager-ui', maturity: 'preview', purpose: 'Application asset editor.', attributes: ['application-key', 'asset-id', 'orm-base-url', 'dev-actor-id', 'dev-token'] }),
+    componentDoc({ tagName: 'uib-hero-action-button', package: '@ui-base/app-manager-ui', maturity: 'preview', purpose: 'Single admin CTA action config editor.', attributes: ['heading', 'name', 'action', 'default-action-token'] }),
+    componentDoc({ tagName: 'uib-hero-action-buttons', package: '@ui-base/app-manager-ui', maturity: 'preview', purpose: 'Ordered admin CTA action array editor.', attributes: ['label', 'actions', 'allow-add', 'allow-remove'], events: ['change', 'uib-hero-action-buttons-change'] })
   ],
   apiItems: ['hero-action-config', 'hero-action-model', 'record-fields']
 };
 
 const API_CLIENT_PACKAGE = {
   id: 'app-manager-api-client',
-  name: '@ui.base/app-manager-api-client',
+  name: '@ui-base/app-manager-api-client',
   title: 'App Manager API client',
   summary: 'Typed fetch client for ORM and IAM endpoints used by the App Manager.',
   testRoute: '',
@@ -385,7 +385,7 @@ const API_CLIENT_PACKAGE = {
 
 const APP_MANAGER_TOKENS_PACKAGE = {
   id: 'app-manager-design-tokens',
-  name: '@ui.base/app-manager-design-tokens',
+  name: '@ui-base/app-manager-design-tokens',
   title: 'App Manager design tokens',
   summary: 'Manager-specific administrative token layer over UI Base primitives.',
   testRoute: '',

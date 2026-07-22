@@ -1,4 +1,4 @@
-import { createMockAssetProvider } from '@ui.base/assets';
+import { createMockAssetProvider } from '@ui-base/assets';
 import { ASSET_COMPONENT_API, UI_BASE_ASSET_COMPONENTS } from '../../../../packages/ui-base-assets/src/metadata.js';
 import { appendEventLog, escapeAttr, escapeHtml, json } from './demo-utils.js';
 
@@ -155,7 +155,7 @@ const componentEntries = UI_BASE_ASSET_COMPONENTS.map((item) => ({
   ...item,
   route: `/assets/${item.tagName}`,
   title: item.tagName.replace(/^uib-/, '').split('-').map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(' '),
-  summary: item.purpose || 'Component exported from @ui.base/assets.'
+  summary: item.purpose || 'Component exported from @ui-base/assets.'
 }));
 
 function normalizePath(pathname) {
@@ -360,7 +360,7 @@ function renderIndex(main) {
   main.innerHTML = `
     <section class="page-heading">
       <p class="eyebrow">
-        @ui.base/assets
+        @ui-base/assets
       </p>
       <h1>
         Assets component demos.
@@ -418,7 +418,7 @@ function renderComponentPage(main, component) {
   main.innerHTML = `
     <section class="page-heading forms-detail-heading">
       <p class="eyebrow">
-        @ui.base/assets
+        @ui-base/assets
       </p>
       <h1>
         <code>

@@ -81,6 +81,7 @@ export class PackageBrowser extends HTMLElement {
     return packages.map((pkg) => ({
       name: pkg.name || pkg.package || 'Package',
       path: pkg.path || '',
+      workspacePath: pkg.workspacePath || pkg.path || '',
       summary: pkg.summary || '',
       status: pkg.status || 'loaded',
       importError: pkg.importError || '',
@@ -179,7 +180,7 @@ export class PackageBrowser extends HTMLElement {
         <summary>
           <span class="package-title">
             <strong>${escapeHtml(pkg.name)}</strong>
-            <span>${escapeHtml(pkg.path || pkg.importSpecifier || pkg.summary || 'Workspace package')}</span>
+            <span>${escapeHtml(pkg.workspacePath || pkg.path || pkg.importSpecifier || pkg.summary || 'ui-base workspace package')}</span>
           </span>
           <span class="status">${escapeHtml(statusLabel)}</span>
         </summary>

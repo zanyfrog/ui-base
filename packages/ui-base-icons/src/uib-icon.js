@@ -1,4 +1,4 @@
-import { UibBaseElement, defineUiBaseElement, escapeHtml } from '@ui.base/core';
+import { UibBaseElement, defineUiBaseElement, escapeHtml } from '@ui-base/core';
 import { getMtIcon } from './icon-registry.js';
 
 const styles = `

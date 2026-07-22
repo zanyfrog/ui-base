@@ -1,5 +1,5 @@
 {
-  "name": "@ui.base/assets",
+  "name": "@ui-base/assets",
   "version": "0.1.17",
   "type": "module",
   "description": "Framework-neutral UI Base asset browser, picker, upload, permission, usage, and version Web Components.",
@@ -23,6 +23,6 @@
   "sideEffects": true,
   "license": "UNLICENSED",
   "dependencies": {
-    "@ui.base/ui": "^0.5.1"
+    "@ui-base/ui": "^0.5.1"
   }
 }

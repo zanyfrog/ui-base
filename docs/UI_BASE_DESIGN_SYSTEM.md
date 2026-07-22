@@ -31,12 +31,35 @@ Components that change state emit a native-style event and a component-specific 
 }
 ```
 
+## Responsive breakpoints
+
+Use these viewport widths as the standard responsive review points:
+
+- `360px`: minimum small phone sanity check.
+- `480px`: compact phone; stack dense rows and button groups.
+- `640px`: large phone or small tablet; collapse card headers and small two-column forms.
+- `768px`: tablet portrait; menu and navigation transition point.
+- `1024px`: tablet landscape or small laptop; collapse side rails when cramped.
+- `1280px`: desktop baseline.
+- `1440px`: wide desktop polish.
+- `1728px` and up: extra-wide layout tuning only, not core behavior.
+
+Use these viewport heights when checking layout resilience:
+
+- `640px`: short laptop or mobile landscape.
+- `720px`: common small laptop height.
+- `800px`: typical laptop height.
+- `900px`: desktop height.
+
+For modals, drawers, and fixed panels, prefer `max-height` with `overflow: auto`.
+Use dynamic viewport units such as `100dvh` where mobile browser chrome can affect `100vh`.
+
 ## Packages added in this version
 
-- `@ui.base/core`
-- `@ui.base/design-system`
-- `@ui.base/theme`
-- `@ui.base/icons`
-- `@ui.base/forms`
+- `@ui-base/core`
+- `@ui-base/design-system`
+- `@ui-base/theme`
+- `@ui-base/icons`
+- `@ui-base/forms`
 
-`@ui.base/ui` was also enhanced with `uib-label`, `uib-help`, `uib-menu`, `uib-menuitem`, layout stubs, and an improved compact `uib-toggle`.
+`@ui-base/ui` was also enhanced with `uib-label`, `uib-help`, `uib-menu`, `uib-menuitem`, layout stubs, and an improved compact `uib-toggle`.

@@ -1,5 +1,5 @@
 {
-  "name": "@ui.base/app-manager",
+  "name": "@ui-base/app-manager",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -10,19 +10,19 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@ui.base/app-manager-ui": "file:../../packages/app-manager-ui",
-    "@ui.base/app-manager-api-client": "file:../../packages/app-manager-api-client",
-    "@ui.base/app-manager-design-tokens": "file:../../packages/app-manager-design-tokens",
-    "@ui.base/core": "file:../../packages/ui-base-core",
-    "@ui.base/design-system": "file:../../packages/ui-base-design-system",
-    "@ui.base/theme": "file:../../packages/ui-base-theme",
-    "@ui.base/icons": "file:../../packages/ui-base-icons",
-    "@ui.base/ui": "file:../../packages/ui-base-ui",
-    "@ui.base/forms": "file:../../packages/ui-base-forms",
-    "@ui.base/calendar": "file:../../packages/ui-base-calendar",
-    "@ui.base/hero": "file:../../packages/ui-base-hero",
-    "@ui.base/tour-ui": "file:../../packages/ui-base-tour-ui",
-    "@ui.base/assets": "file:../../packages/ui-base-assets"
+    "@ui-base/app-manager-ui": "file:../../packages/app-manager-ui",
+    "@ui-base/app-manager-api-client": "file:../../packages/app-manager-api-client",
+    "@ui-base/app-manager-design-tokens": "file:../../packages/app-manager-design-tokens",
+    "@ui-base/core": "file:../../packages/ui-base-core",
+    "@ui-base/design-system": "file:../../packages/ui-base-design-system",
+    "@ui-base/theme": "file:../../packages/ui-base-theme",
+    "@ui-base/icons": "file:../../packages/ui-base-icons",
+    "@ui-base/ui": "file:../../packages/ui-base-ui",
+    "@ui-base/forms": "file:../../packages/ui-base-forms",
+    "@ui-base/calendar": "file:../../packages/ui-base-calendar",
+    "@ui-base/hero": "file:../../packages/ui-base-hero",
+    "@ui-base/tour-ui": "file:../../packages/ui-base-tour-ui",
+    "@ui-base/assets": "file:../../packages/ui-base-assets"
   },
   "devDependencies": {
     "typescript": "latest",

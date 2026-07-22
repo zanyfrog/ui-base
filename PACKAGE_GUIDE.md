@@ -5,25 +5,25 @@ This workspace contains reusable npm packages for generic UI Base applications.
 ## Package architecture
 
 ```text
-@ui.base/core             shared base classes, utilities, validation, metadata
-@ui.base/design-system    design principles, accessibility, lifecycle docs
-@ui.base/theme            default, dark, and sample-tour theme CSS variables
-@ui.base/icons            icon registry and uib-icon
-@ui.base/ui               generic UI primitives and shared styles
-@ui.base/forms            forms and form controls
-@ui.base/assets           asset browser, picker, upload, metadata, versioning, usage, permissions
-@ui.base/calendar         calendar views
-@ui.base/hero             visitor-facing uib-hero renderer
-@ui.base/tour-ui          tour reservation/action-flow components
+@ui-base/core             shared base classes, utilities, validation, metadata
+@ui-base/design-system    design principles, accessibility, lifecycle docs
+@ui-base/theme            default, dark, and sample-tour theme CSS variables
+@ui-base/icons            icon registry and uib-icon
+@ui-base/ui               generic UI primitives and shared styles
+@ui-base/forms            forms and form controls
+@ui-base/assets           asset browser, picker, upload, metadata, versioning, usage, permissions
+@ui-base/calendar         calendar views
+@ui-base/hero             visitor-facing uib-hero renderer
+@ui-base/tour-ui          tour reservation/action-flow components
 ```
 
 ## Ownership rules
 
-- `@ui.base/assets` owns asset browsing, picking, upload forms, metadata editing, version history, usage display, and permission summary components.
-- `@ui.base/hero` owns `<uib-hero>`.
-- `@ui.base/tour-ui` owns reservation/action components such as `<uib-new-reservation>` and `<uib-book-group-reservation>`.
-- `@ui.base/ui` owns generic UI primitives and compatibility wrappers for `@ui.base/ui/hero` and `@ui.base/ui/reservations/*` imports.
-- App-specific admin/configuration components belong in the consuming app workspace, such as `@ui.base/app-manager-ui`.
+- `@ui-base/assets` owns asset browsing, picking, upload forms, metadata editing, version history, usage display, and permission summary components.
+- `@ui-base/hero` owns `<uib-hero>`.
+- `@ui-base/tour-ui` owns reservation/action components such as `<uib-new-reservation>` and `<uib-book-group-reservation>`.
+- `@ui-base/ui` owns generic UI primitives and compatibility wrappers for `@ui-base/ui/hero` and `@ui-base/ui/reservations/*` imports.
+- App-specific admin/configuration components belong in the consuming app workspace, such as `@ui-base/app-manager-ui`.
 
 ## Source package folders
 
@@ -40,7 +40,7 @@ packages/ui-base-tour-ui
 packages/ui-base-assets
 ```
 
-The folder names use `ui-base-*` for filesystem safety. The npm package names remain scoped as `@ui.base/*`.
+The folder names use `ui-base-*` for filesystem safety. The npm package names remain scoped as `@ui-base/*`.
 
 ## Assets package demo
 
@@ -60,7 +60,7 @@ The demo website includes a package-by-package testing dashboard at `/package-te
 
 `/component-tests/` is the interactive developer documentation route. It covers every package, uses live fixtures where possible, reflects registered Web Component `observedAttributes`, and exposes stable `data-test-id` hooks that a future browser smoke suite can reuse.
 
-`@ui.base/assets` remains backend-neutral through provider objects such as `MockAssetProvider` and `OrmAssetProvider`.
+`@ui-base/assets` remains backend-neutral through provider objects such as `MockAssetProvider` and `OrmAssetProvider`.
 
 ## Build and pack packages
 
@@ -82,18 +82,18 @@ For adjacent local repositories, use `file:` dependencies that point to source p
 ```json
 {
   "dependencies": {
-    "@ui.base/core": "file:../ui-base-workspace/packages/ui-base-core",
-    "@ui.base/design-system": "file:../ui-base-workspace/packages/ui-base-design-system",
-    "@ui.base/theme": "file:../ui-base-workspace/packages/ui-base-theme",
-    "@ui.base/icons": "file:../ui-base-workspace/packages/ui-base-icons",
-    "@ui.base/ui": "file:../ui-base-workspace/packages/ui-base-ui",
-    "@ui.base/forms": "file:../ui-base-workspace/packages/ui-base-forms",
-    "@ui.base/calendar": "file:../ui-base-workspace/packages/ui-base-calendar",
-    "@ui.base/hero": "file:../ui-base-workspace/packages/ui-base-hero",
-    "@ui.base/tour-ui": "file:../ui-base-workspace/packages/ui-base-tour-ui",
-    "@ui.base/assets": "file:../ui-base-workspace/packages/ui-base-assets"
+    "@ui-base/core": "file:../ui-base-workspace/packages/ui-base-core",
+    "@ui-base/design-system": "file:../ui-base-workspace/packages/ui-base-design-system",
+    "@ui-base/theme": "file:../ui-base-workspace/packages/ui-base-theme",
+    "@ui-base/icons": "file:../ui-base-workspace/packages/ui-base-icons",
+    "@ui-base/ui": "file:../ui-base-workspace/packages/ui-base-ui",
+    "@ui-base/forms": "file:../ui-base-workspace/packages/ui-base-forms",
+    "@ui-base/calendar": "file:../ui-base-workspace/packages/ui-base-calendar",
+    "@ui-base/hero": "file:../ui-base-workspace/packages/ui-base-hero",
+    "@ui-base/tour-ui": "file:../ui-base-workspace/packages/ui-base-tour-ui",
+    "@ui-base/assets": "file:../ui-base-workspace/packages/ui-base-assets"
   }
 }
 ```
 
-Once packages are published to a private registry, switch to normal version ranges such as `"@ui.base/core": "^0.1.0"`.
+Once packages are published to a private registry, switch to normal version ranges such as `"@ui-base/core": "^0.1.0"`.

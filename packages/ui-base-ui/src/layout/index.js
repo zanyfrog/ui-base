@@ -1,5 +1,5 @@
-import { UibBaseElement, defineUiBaseElement, escapeHtml } from '@ui.base/core';
-import '@ui.base/icons/icon';
+import { UibBaseElement, defineUiBaseElement, escapeHtml } from '@ui-base/core';
+import '@ui-base/icons/icon';
 
 const baseStyles = `
 :host{display:block;color:var(--uib-color-ink,#13294b);font-family:var(--uib-font-family-sans,Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif)}*,*::before,*::after{box-sizing:border-box}.placeholder{padding:.75rem;border:1px dashed var(--uib-color-border-strong,#aab8cc);border-radius:var(--uib-radius-md,.75rem);background:var(--uib-color-surface-soft,#f8fbff);color:var(--uib-color-muted,#53657f);font-size:var(--uib-font-size-sm,.875rem)}

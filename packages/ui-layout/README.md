@@ -1,6 +1,6 @@
-# @ui.base/ui-layout
+# @ui-base/ui-layout
 
-`@ui.base/ui-layout` provides source-backed layout tools for visualizing and safely editing the structure of HTML fragments and UI Base Web Components.
+`@ui-base/ui-layout` provides source-backed layout tools for visualizing and safely editing the structure of HTML fragments and UI Base Web Components.
 
 The package is built around one rule: analyze source content first, then produce controlled operations and reviewable diffs. It does not mutate a live DOM and reverse-engineer the result.
 
@@ -33,7 +33,7 @@ node scripts/build-ui-layout-browser.mjs
 The static demos load `packages/ui-layout/browser/index.js` because the simple demo server does not transpile TypeScript.
 
 ```ts
-import '@ui.base/ui-layout';
+import '@ui-base/ui-layout';
 
 const manager = document.querySelector('uib-layout-manager');
 manager.sourceText = sourceFromParent;
@@ -98,7 +98,7 @@ editor.addEventListener('ui-layout-editor-stat-file-requested', (event) => {
 ## Programmatic Analysis
 
 ```ts
-import { analyzeComponentSource } from '@ui.base/ui-layout';
+import { analyzeComponentSource } from '@ui-base/ui-layout';
 
 const analysis = analyzeComponentSource({
   sourceText,
@@ -109,7 +109,7 @@ const analysis = analyzeComponentSource({
 ## Programmatic Patch
 
 ```ts
-import { applyLayoutOperationsToSource } from '@ui.base/ui-layout';
+import { applyLayoutOperationsToSource } from '@ui-base/ui-layout';
 
 const result = applyLayoutOperationsToSource(sourceText, [
   {

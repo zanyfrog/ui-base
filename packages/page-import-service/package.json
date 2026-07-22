@@ -1,0 +1,25 @@
+{
+  "name": "@ui-base/page-import-service",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Local rendered-page extraction service for UI Base PageImporter.",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "bin": {
+    "uib-page-import": "./src/cli.js"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "extract": "node src/cli.js"
+  },
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "license": "UNLICENSED",
+  "dependencies": {
+    "playwright": "^1.55.0"
+  }
+}

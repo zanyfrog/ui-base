@@ -1,5 +1,5 @@
 {
-  "name": "@ui.base/core",
+  "name": "@ui-base/core",
   "version": "0.1.0",
   "type": "module",
   "description": "Shared UI Base Web Component base classes, accessibility helpers, validation, localization, and utilities.",

@@ -1,4 +1,4 @@
-import { createComponentMetadata, MATURITY_LEVELS } from '@ui.base/core';
+import { createComponentMetadata, MATURITY_LEVELS } from '@ui-base/core';
 
 const descriptions = {
   'accepted-file-types': 'Comma-separated accept list used by upload controls.',
@@ -167,7 +167,7 @@ function api({
 }) {
   return {
     tagName,
-    package: '@ui.base/assets',
+    package: '@ui-base/assets',
     maturity: MATURITY_LEVELS.PREVIEW,
     purpose,
     attributes: items(attributes, descriptions),

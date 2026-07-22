@@ -9,7 +9,7 @@ import {
   escapeHtml,
   getUiBaseMessage,
   parseBoolean
-} from '@ui.base/core';
+} from '@ui-base/core';
 import '../help/uib-help.js';
 
 const styles = `

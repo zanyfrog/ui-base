@@ -771,7 +771,7 @@ uib-app-manager-asset-picker {
   align-items: end;
 }
 
-@media (max-width: 1699px) {
+@media (max-width: 1280px) {
   .uibam-editor-layout {
     grid-template-columns: 1fr;
   }

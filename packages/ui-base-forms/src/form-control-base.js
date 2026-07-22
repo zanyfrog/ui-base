@@ -3,9 +3,9 @@ import {
   defineUiBaseElement,
   escapeHtml,
   validateValue
-} from '@ui.base/core';
-import '@ui.base/ui/label';
-import '@ui.base/ui/help';
+} from '@ui-base/core';
+import '@ui-base/ui/label';
+import '@ui-base/ui/help';
 
 export const formControlStyles = `
 :host{display:block;color:var(--uib-color-ink,#13294b);font-family:var(--uib-font-family-sans,Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif)}*,*::before,*::after{box-sizing:border-box}.uib-field{display:grid;gap:var(--uib-forms-field-gap,.35rem);max-width:100%}.uib-field__label{display:inline-flex;align-items:center;gap:.35rem;line-height:1.35}.uib-control{width:100%;font:inherit}.uib-control:focus-visible{outline:none}textarea.uib-control{resize:vertical}select.uib-control{cursor:pointer}

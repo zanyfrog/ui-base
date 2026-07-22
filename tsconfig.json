@@ -13,16 +13,16 @@
     "noEmit": true,
     "allowJs": true,
     "paths": {
-      "@ui.base/app-manager-api-client": [
+      "@ui-base/app-manager-api-client": [
         "./packages/app-manager-api-client/src/index.ts"
       ],
-      "@ui.base/app-manager-ui": [
+      "@ui-base/app-manager-ui": [
         "./packages/app-manager-ui/src/index.ts"
       ],
-      "@ui.base/app-manager-ui/styles.css": [
+      "@ui-base/app-manager-ui/styles.css": [
         "./packages/app-manager-ui/src/styles.css"
       ],
-      "@ui.base/app-manager-design-tokens/tokens.css": [
+      "@ui-base/app-manager-design-tokens/tokens.css": [
         "./packages/app-manager-design-tokens/src/tokens.css"
       ]
     }

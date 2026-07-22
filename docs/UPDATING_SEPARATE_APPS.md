@@ -17,15 +17,15 @@ Example consuming app dependencies from the app root:
 ```json
 {
   "dependencies": {
-    "@ui.base/core": "file:../ui-base-npm-workspace-calendar-routes-hero/packages/ui-base-core",
-    "@ui.base/design-system": "file:../ui-base-npm-workspace-calendar-routes-hero/packages/ui-base-design-system",
-    "@ui.base/theme": "file:../ui-base-npm-workspace-calendar-routes-hero/packages/ui-base-theme",
-    "@ui.base/icons": "file:../ui-base-npm-workspace-calendar-routes-hero/packages/ui-base-icons",
-    "@ui.base/ui": "file:../ui-base-npm-workspace-calendar-routes-hero/packages/ui-base-ui",
-    "@ui.base/forms": "file:../ui-base-npm-workspace-calendar-routes-hero/packages/ui-base-forms",
-    "@ui.base/calendar": "file:../ui-base-npm-workspace-calendar-routes-hero/packages/ui-base-calendar",
-    "@ui.base/hero": "file:../ui-base-npm-workspace-calendar-routes-hero/packages/ui-base-hero",
-    "@ui.base/tour-ui": "file:../ui-base-npm-workspace-calendar-routes-hero/packages/ui-base-tour-ui"
+    "@ui-base/core": "file:../ui-base-npm-workspace-calendar-routes-hero/packages/ui-base-core",
+    "@ui-base/design-system": "file:../ui-base-npm-workspace-calendar-routes-hero/packages/ui-base-design-system",
+    "@ui-base/theme": "file:../ui-base-npm-workspace-calendar-routes-hero/packages/ui-base-theme",
+    "@ui-base/icons": "file:../ui-base-npm-workspace-calendar-routes-hero/packages/ui-base-icons",
+    "@ui-base/ui": "file:../ui-base-npm-workspace-calendar-routes-hero/packages/ui-base-ui",
+    "@ui-base/forms": "file:../ui-base-npm-workspace-calendar-routes-hero/packages/ui-base-forms",
+    "@ui-base/calendar": "file:../ui-base-npm-workspace-calendar-routes-hero/packages/ui-base-calendar",
+    "@ui-base/hero": "file:../ui-base-npm-workspace-calendar-routes-hero/packages/ui-base-hero",
+    "@ui-base/tour-ui": "file:../ui-base-npm-workspace-calendar-routes-hero/packages/ui-base-tour-ui"
   }
 }
 ```
@@ -38,10 +38,10 @@ npm install
 
 ## Package ownership reminder
 
-- Import generic controls and styles from `@ui.base/ui`.
-- Import `<uib-hero>` from `@ui.base/hero`.
-- Import tour reservation/action components from `@ui.base/tour-ui`.
-- Keep app-specific admin/configuration components in the app workspace, such as `@ui.base/app-manager-ui`.
+- Import generic controls and styles from `@ui-base/ui`.
+- Import `<uib-hero>` from `@ui-base/hero`.
+- Import tour reservation/action components from `@ui-base/tour-ui`.
+- Keep app-specific admin/configuration components in the app workspace, such as `@ui-base/app-manager-ui`.
 
 ## Local package process
 
@@ -76,15 +76,15 @@ Once the packages are published to a private registry, the app can use semantic 
 ```json
 {
   "dependencies": {
-    "@ui.base/core": "^0.1.0",
-    "@ui.base/design-system": "^0.1.0",
-    "@ui.base/theme": "^0.1.0",
-    "@ui.base/icons": "^0.1.0",
-    "@ui.base/ui": "^0.5.1",
-    "@ui.base/forms": "^0.1.0",
-    "@ui.base/calendar": "^0.2.0",
-    "@ui.base/hero": "^0.2.1",
-    "@ui.base/tour-ui": "^0.1.1"
+    "@ui-base/core": "^0.1.0",
+    "@ui-base/design-system": "^0.1.0",
+    "@ui-base/theme": "^0.1.0",
+    "@ui-base/icons": "^0.1.0",
+    "@ui-base/ui": "^0.5.1",
+    "@ui-base/forms": "^0.1.0",
+    "@ui-base/calendar": "^0.2.0",
+    "@ui-base/hero": "^0.2.1",
+    "@ui-base/tour-ui": "^0.1.1"
   }
 }
 ```
@@ -92,5 +92,5 @@ Once the packages are published to a private registry, the app can use semantic 
 Then update with:
 
 ```bash
-npm update @ui.base/ui @ui.base/forms @ui.base/hero @ui.base/tour-ui
+npm update @ui-base/ui @ui-base/forms @ui-base/hero @ui-base/tour-ui
 ```

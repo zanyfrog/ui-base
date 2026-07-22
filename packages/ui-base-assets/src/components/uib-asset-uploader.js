@@ -123,7 +123,7 @@ export class UibAssetUploader extends BaseHTMLElement {
   `</label>` +
   `<label>` +
   ` JSON / component config ` +
-  `<textarea name="json" placeholder='{"component":"@ui.base/hero"}'>` +
+  `<textarea name="json" placeholder='{"component":"@ui-base/hero"}'>` +
   `</textarea>` +
   `</label>` +
   `<p class="subtitle small">` +

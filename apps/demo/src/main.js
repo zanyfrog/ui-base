@@ -1,9 +1,9 @@
-import '@ui.base/icons';
-import '@ui.base/ui';
-import '@ui.base/forms';
-import '@ui.base/hero';
-import '@ui.base/calendar';
-import '@ui.base/assets';
+import '@ui-base/icons';
+import '@ui-base/ui';
+import '@ui-base/forms';
+import '@ui-base/hero';
+import '@ui-base/calendar';
+import '@ui-base/assets';
 import './components/package-browser.js';
 import { renderCalendarPackageRoute } from './routes/calendar-package-demo.js';
 import { renderCalendarRoute } from './routes/calendar-demo.js';
@@ -17,6 +17,7 @@ import { renderFormsRoute } from './routes/forms-demo.js';
 import { renderDesignSystemRoute } from './routes/design-system-demo.js';
 import { renderComponentCatalogRoute } from './routes/component-catalog-demo.js';
 import { renderComponentTestsRoute } from './routes/component-tests-demo.js';
+import { renderLayoutPageImporterRoute } from './routes/layout-pageimporter-demo.js';
 import { exportDemoData, initDemoStore, replaceDemoData, resetDemoData } from './data/demo-store.js';
 
 const app = document.querySelector('#app');
@@ -101,6 +102,9 @@ function shell() {
           </uib-menuitem>
           <uib-menuitem href="/forms/" ${isActive('/forms') ? 'active' : ''}>
             Forms
+          </uib-menuitem>
+          <uib-menuitem href="/layout/pageimporter" ${isActive('/layout/pageimporter') ? 'active' : ''}>
+            Page Importer
           </uib-menuitem>
           <uib-menuitem href="/calendar/" ${isActive('/calendar') ? 'active' : ''}>
             Calendar
@@ -248,7 +252,7 @@ function renderHome(main) {
         This workspace includes the UI Base design-system foundation, shared core utilities, theme tokens, icons, UI controls, forms, Hero, Calendar, Assets, and a live package-by-package documentation/demo site.
       </p>
     </section>
-    <package-browser title="Package Browser">
+    <package-browser title="ui-base Package Browser">
     </package-browser>
     <section class="home-grid" aria-label="Primary demo routes">
       <a class="card home-card featured-home-card" href="/package-tests/" data-link>
@@ -262,7 +266,7 @@ function renderHome(main) {
           <p>
             Open the package-by-package route list, including the direct
             <code>
-              @ui.base/assets
+              @ui-base/assets
             </code>
             asset-picker test route.
           </p>
@@ -316,7 +320,7 @@ function renderHome(main) {
       <a class="card home-card" href="/assets-demo/picker" data-link>
         <span>
           <p class="eyebrow">
-            @ui.base/assets
+            @ui-base/assets
           </p>
           <h2>
             Asset Picker Test
@@ -337,7 +341,7 @@ function renderHome(main) {
           <p>
             Browse, pick, upload, edit, archive, version, and permission-check reusable assets using
             <code>
-              @ui.base/assets
+              @ui-base/assets
             </code>
             .
           </p>
@@ -354,7 +358,7 @@ function renderHome(main) {
           <p>
             Focused pages for every
             <code>
-              @ui.base/assets
+              @ui-base/assets
             </code>
             component with public prop controls and mock-data previews.
           </p>
@@ -384,7 +388,7 @@ function renderHome(main) {
           <p>
             Focused pages for every
             <code>
-              @ui.base/ui
+              @ui-base/ui
             </code>
             component with public prop controls and live previews.
           </p>
@@ -401,7 +405,7 @@ function renderHome(main) {
           <p>
             Focused pages for every
             <code>
-              @ui.base/forms
+              @ui-base/forms
             </code>
             component with derived public prop controls and live previews.
           </p>
@@ -418,7 +422,7 @@ function renderHome(main) {
           <p>
             Focused pages for every
             <code>
-              @ui.base/calendar
+              @ui-base/calendar
             </code>
             component with public prop controls and parent-state event handling.
           </p>
@@ -469,7 +473,7 @@ function renderHome(main) {
           <p>
             Reusable action components exported from
             <code>
-              @ui.base/tour-ui
+              @ui-base/tour-ui
             </code>
             for common workflow actions.
           </p>
@@ -519,6 +523,8 @@ function render() {
     renderUiControlsRoute(main);
   } else if (path === '/forms' || path.startsWith('/forms/')) {
     renderFormsRoute(main, path);
+  } else if (path === '/layout/pageimporter') {
+    renderLayoutPageImporterRoute(main);
   } else if (path === '/hero' || path.startsWith('/hero/')) {
     renderHeroRoute(main, path);
   } else if (path === '/tour-ui' || path.startsWith('/tour-ui/')) {
@@ -554,6 +560,9 @@ function render() {
         </a>
         <a class="route-button" href="/forms/" data-link>
           Forms
+        </a>
+        <a class="route-button" href="/layout/pageimporter" data-link>
+          Page Importer
         </a>
         <a class="route-button" href="/calendar/" data-link>
           Calendar

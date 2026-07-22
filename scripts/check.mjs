@@ -224,13 +224,13 @@ for (const exportName of ['UibCalendarDayView', 'UibCalendarWeekView', 'UibCalen
 }
 
 const uiHeroSource = readFileSync(join(root, 'packages/ui-base-ui/src/hero/uib-hero.js'), 'utf8');
-if (!uiHeroSource.includes('@ui.base/hero')) {
-  console.error('UI hero compatibility entry must re-export @ui.base/hero.');
+if (!uiHeroSource.includes('@ui-base/hero')) {
+  console.error('UI hero compatibility entry must re-export @ui-base/hero.');
   failed = true;
 }
 const uiReservationSource = readFileSync(join(root, 'packages/ui-base-ui/src/reservations/index.js'), 'utf8');
-if (!uiReservationSource.includes('@ui.base/tour-ui')) {
-  console.error('UI reservation compatibility entries must re-export @ui.base/tour-ui.');
+if (!uiReservationSource.includes('@ui-base/tour-ui')) {
+  console.error('UI reservation compatibility entries must re-export @ui-base/tour-ui.');
   failed = true;
 }
 

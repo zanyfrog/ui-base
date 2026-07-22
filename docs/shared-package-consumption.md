@@ -23,7 +23,7 @@ packages/ui-base-assets
 
 ## Why this changed
 
-The previous App Manager zip consumed some packages from package archives or a sibling repository. If `@ui.base/*` packages were not published to a registry, npm could try to resolve them remotely and fail.
+The previous App Manager zip consumed some packages from package archives or a sibling repository. If `@ui-base/*` packages were not published to a registry, npm could try to resolve them remotely and fail.
 
 This workspace keeps the shared packages as source folders, so local demos and the app manager can resolve them from the zip without generated package archives.
 
@@ -31,17 +31,17 @@ This workspace keeps the shared packages as source folders, so local demos and t
 
 | Package | Owns |
 | --- | --- |
-| `@ui.base/ui` | Generic UI primitives and shared styles. |
-| `@ui.base/hero` | Visitor-facing `<uib-hero>` renderer. |
-| `@ui.base/assets` | Reusable `<uib-asset-picker>` and asset UI components. |
-| `@ui.base/tour-ui` | Tour reservation/action-flow components. |
-| `@ui.base/app-manager-ui` | Admin/configuration components for ORM resources. |
+| `@ui-base/ui` | Generic UI primitives and shared styles. |
+| `@ui-base/hero` | Visitor-facing `<uib-hero>` renderer. |
+| `@ui-base/assets` | Reusable `<uib-asset-picker>` and asset UI components. |
+| `@ui-base/tour-ui` | Tour reservation/action-flow components. |
+| `@ui-base/app-manager-ui` | Admin/configuration components for ORM resources. |
 
-The App Manager-specific components `<uib-hero-action-button>` and `<uib-hero-action-buttons>` remain in `@ui.base/app-manager-ui` because they edit configuration; they do not render the public website Hero.
+The App Manager-specific components `<uib-hero-action-button>` and `<uib-hero-action-buttons>` remain in `@ui-base/app-manager-ui` because they edit configuration; they do not render the public website Hero.
 
 ## Hero Details asset picker update
 
-Edit Hero > Details uses `<uib-asset-picker>` from `@ui.base/assets` in simple single-select mode. Detail rows save only `iconAssetId`; the live preview resolves the asset through the ORM Asset API and enriches the preview copy with the current asset URL.
+Edit Hero > Details uses `<uib-asset-picker>` from `@ui-base/assets` in simple single-select mode. Detail rows save only `iconAssetId`; the live preview resolves the asset through the ORM Asset API and enriches the preview copy with the current asset URL.
 
 Relevant files:
 

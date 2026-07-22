@@ -68,7 +68,7 @@ ui-base-app-manager/
 
 ## Hero Details asset picker update
 
-Edit Hero > Details now uses the UI Base `<uib-asset-picker>` from `@ui.base/assets` in simple single-select mode. Detail rows save only `iconAssetId`; the live preview resolves the asset through the ORM Asset API and enriches the preview copy with the current asset URL.
+Edit Hero > Details now uses the UI Base `<uib-asset-picker>` from `@ui-base/assets` in simple single-select mode. Detail rows save only `iconAssetId`; the live preview resolves the asset through the ORM Asset API and enriches the preview copy with the current asset URL.
 
 Relevant files:
 

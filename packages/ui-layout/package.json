@@ -1,5 +1,5 @@
 {
-  "name": "@ui.base/ui-layout",
+  "name": "@ui-base/ui-layout",
   "version": "0.1.0",
   "type": "module",
   "description": "Source-backed layout analysis and safe visual layout editing tools for UI Base components.",
@@ -9,6 +9,8 @@
     "./styles.css": "./src/styles.css",
     "./analyzer": "./src/analyzer/analyze-component.ts",
     "./writer": "./src/writer/apply-layout-operations.ts",
+    "./page-importer": "./src/ui/uib-page-importer.ts",
+    "./page-import-artifact": "./src/model/page-import-artifact.ts",
     "./uib-layout-manager": "./src/ui/uib-layout-manager.ts",
     "./uib-layout-editor": "./src/ui/uib-layout-editor.ts"
   },

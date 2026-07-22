@@ -1,5 +1,5 @@
 {
-  "name": "@ui.base/tour-ui",
+  "name": "@ui-base/tour-ui",
   "version": "0.1.1",
   "type": "module",
   "description": "Framework-neutral UI Base tour reservation Web Components.",

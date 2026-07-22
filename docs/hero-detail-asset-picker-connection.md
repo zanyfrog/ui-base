@@ -1,6 +1,6 @@
 # UI Base Asset Picker Connection
 
-This workspace includes the local `@ui.base/assets` source package and uses its `<uib-asset-picker>` component in Edit Hero > Details.
+This workspace includes the local `@ui-base/assets` source package and uses its `<uib-asset-picker>` component in Edit Hero > Details.
 
 The local source package is:
 
@@ -8,14 +8,14 @@ The local source package is:
 packages/ui-base-assets
 ```
 
-It is included as source for standalone App Manager installation so npm does not need to resolve `@ui.base/ui` from a public registry.
+It is included as source for standalone App Manager installation so npm does not need to resolve `@ui-base/ui` from a public registry.
 
 ## Detail editor integration
 
 `uib-application-hero-editor` imports the package root:
 
 ```ts
-import '@ui.base/assets';
+import '@ui-base/assets';
 ```
 
 The picker is rendered inside each Details row and receives:

@@ -1,4 +1,4 @@
-import { createComponentMetadata, MATURITY_LEVELS } from '@ui.base/core';
+import { createComponentMetadata, MATURITY_LEVELS } from '@ui-base/core';
 
 const attributeDescriptions = {
   count: 'Number of matching weekday dates to show.',
@@ -64,7 +64,7 @@ function api({
 }) {
   return {
     tagName,
-    package: '@ui.base/calendar',
+    package: '@ui-base/calendar',
     maturity: MATURITY_LEVELS.PREVIEW,
     purpose,
     attributes: items(attributes, attributeDescriptions),

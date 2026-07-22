@@ -1,1 +1,1 @@
-declare module '@ui.base/assets';
+declare module '@ui-base/assets';

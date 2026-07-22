@@ -1,4 +1,4 @@
-# @ui.base/app-manager-ui
+# @ui-base/app-manager-ui
 
 Framework-neutral Web Components for the application manager.
 
@@ -50,7 +50,7 @@ The App Manager UI owns the Hero Action Component configuration controls:
 <uib-hero-action-buttons></uib-hero-action-buttons>
 ```
 
-They intentionally live in `@ui.base/app-manager-ui`, not `@ui.base/hero`, because they are admin/configuration controls. The public Hero rendering remains in `@ui.base/hero`.
+They intentionally live in `@ui-base/app-manager-ui`, not `@ui-base/hero`, because they are admin/configuration controls. The public Hero rendering remains in `@ui-base/hero`.
 
 A single button config accepts either individual attributes or an `action` JSON object:
 
@@ -97,7 +97,7 @@ The editor reads `action-components` first. If it is missing, the editor reads `
 
 ## Preview variant rendering
 
-The App Manager preview passes the ordered `action-components` array into `<uib-hero action-components="...">`. The public `@ui.base/hero` renderer must use each action item's `variant` for the rendered button class and action marker, for example:
+The App Manager preview passes the ordered `action-components` array into `<uib-hero action-components="...">`. The public `@ui-base/hero` renderer must use each action item's `variant` for the rendered button class and action marker, for example:
 
 ```html
 <button class="uib-hero__button uib-hero__button--destructive" data-uib-hero-action="destructive">Cancel reservation</button>
@@ -107,7 +107,7 @@ The action item's slot/key is preserved separately for event compatibility, but 
 
 ## Hero Details asset picker update
 
-Edit Hero > Details now uses the UI Base `<uib-asset-picker>` from `@ui.base/assets` in simple single-select mode. Detail rows save only `iconAssetId`; the live preview resolves the asset through the ORM Asset API and enriches the preview copy with the current asset URL.
+Edit Hero > Details now uses the UI Base `<uib-asset-picker>` from `@ui-base/assets` in simple single-select mode. Detail rows save only `iconAssetId`; the live preview resolves the asset through the ORM Asset API and enriches the preview copy with the current asset URL.
 
 Relevant files:
 

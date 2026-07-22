@@ -1,26 +1,26 @@
-# @ui.base/hero
+# @ui-base/hero
 
 Framework-neutral UI Base Hero Web Component for landing pages, tour pages, and other high-value entry points.
 
-`@ui.base/hero` is the sole owner of `<uib-hero>`. The older `@ui.base/ui/hero` entry is a compatibility wrapper that re-exports this package.
+`@ui-base/hero` is the sole owner of `<uib-hero>`. The older `@ui-base/ui/hero` entry is a compatibility wrapper that re-exports this package.
 
 ## Import
 
 ```js
-import '@ui.base/hero';
+import '@ui-base/hero';
 ```
 
 The package also exposes the reusable editor and preview components:
 
 ```js
-import '@ui.base/hero/uib-hero-editor';
-import '@ui.base/hero/uib-hero-preview';
+import '@ui-base/hero/uib-hero-editor';
+import '@ui-base/hero/uib-hero-preview';
 ```
 
 The package also exports helper functions for applying package-owned defaults:
 
 ```js
-import { applyHeroDefaults, createSampleTourHeroDefaults } from '@ui.base/hero';
+import { applyHeroDefaults, createSampleTourHeroDefaults } from '@ui-base/hero';
 ```
 
 ## Basic example
@@ -155,7 +155,7 @@ hero.details = [
 ## Sample Tour defaults
 
 ```js
-import { applyHeroDefaults, createSampleTourHeroDefaults } from '@ui.base/hero';
+import { applyHeroDefaults, createSampleTourHeroDefaults } from '@ui-base/hero';
 
 const hero = document.querySelector('uib-hero');
 const defaults = createSampleTourHeroDefaults({ iconBasePath: '/assets/icons' });

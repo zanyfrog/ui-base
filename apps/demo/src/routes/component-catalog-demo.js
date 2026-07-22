@@ -304,8 +304,8 @@ function usageBlock() {
         <pre class="code-block">
           <code>
             ${escapeHtml(`<script type="module">
-  import '@ui.base/ui';
-  import '@ui.base/forms';
+  import '@ui-base/ui';
+  import '@ui-base/forms';
 
   const heading = document.querySelector('uib-heading-block');
   heading.setAttribute('headline', 'Updated by parent state');

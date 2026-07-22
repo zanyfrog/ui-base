@@ -1,6 +1,6 @@
 # Hero Detail Asset Picker
 
-The Edit Hero route uses the UI Base `@ui.base/assets` package for the detail icon picker.
+The Edit Hero route uses the UI Base `@ui-base/assets` package for the detail icon picker.
 
 ## Component used
 

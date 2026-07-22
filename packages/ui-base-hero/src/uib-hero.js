@@ -1,7 +1,7 @@
-import '@ui.base/ui/heading-block';
-import '@ui.base/ui/action-group';
-import '@ui.base/ui/detail-list';
-import '@ui.base/assets/components/uib-asset-image';
+import '@ui-base/ui/heading-block';
+import '@ui-base/ui/action-group';
+import '@ui-base/ui/detail-list';
+import '@ui-base/assets/components/uib-asset-image';
 import { registerHeroElement } from './hero-data.js';
 /**
  * UibHero

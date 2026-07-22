@@ -2,8 +2,8 @@ import {
   UibBaseElement,
   defineUiBaseElement,
   escapeHtml
-} from '@ui.base/core';
-import '@ui.base/ui/checkbox';
+} from '@ui-base/core';
+import '@ui-base/ui/checkbox';
 
 const styles = `
 :host{display:block}

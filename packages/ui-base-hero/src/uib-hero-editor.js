@@ -1,5 +1,5 @@
-import '@ui.base/assets/components/uib-visual-source-control';
-import '@ui.base/ui/detail-list-editor';
+import '@ui-base/assets/components/uib-visual-source-control';
+import '@ui-base/ui/detail-list-editor';
 import './uib-hero-preview.js';
 import {
   CTA_KEYS,

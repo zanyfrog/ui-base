@@ -1,6 +1,6 @@
-import { UibBaseElement, defineUiBaseElement, escapeHtml } from '@ui.base/core';
-import '@ui.base/ui/label';
-import '@ui.base/ui/help';
+import { UibBaseElement, defineUiBaseElement, escapeHtml } from '@ui-base/core';
+import '@ui-base/ui/label';
+import '@ui-base/ui/help';
 
 const styles = `
 :host{display:block;font-family:var(--uib-font-family-sans,Inter,ui-sans-serif,system-ui)}

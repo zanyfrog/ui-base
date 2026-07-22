@@ -38,7 +38,7 @@ const componentEntries = UI_BASE_CALENDAR_COMPONENTS.map((item) => ({
   ...item,
   route: `/calendar/${item.tagName}`,
   title: item.tagName.replace(/^uib-/, '').split('-').map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(' '),
-  summary: item.purpose || 'Calendar component exported from @ui.base/calendar.'
+  summary: item.purpose || 'Calendar component exported from @ui-base/calendar.'
 }));
 
 function normalizePath(pathname) {
@@ -196,7 +196,7 @@ function renderIndex(main) {
   main.innerHTML = `
     <section class="page-heading">
       <p class="eyebrow">
-        @ui.base/calendar
+        @ui-base/calendar
       </p>
       <h1>
         Calendar component demos.
@@ -274,7 +274,7 @@ function renderComponentPage(main, component) {
   main.innerHTML = `
     <section class="page-heading forms-detail-heading">
       <p class="eyebrow">
-        @ui.base/calendar
+        @ui-base/calendar
       </p>
       <h1>
         <code>

@@ -1,14 +1,14 @@
 # Hero Action Component Configuration Components
 
-The Hero action configuration components live in `@ui.base/app-manager-ui` because they are admin/configuration controls. The public website Hero renderer remains in `@ui.base/hero`.
+The Hero action configuration components live in `@ui-base/app-manager-ui` because they are admin/configuration controls. The public website Hero renderer remains in `@ui-base/hero`.
 
 ## Package ownership
 
 | Component | Package | Purpose |
 |---|---|---|
-| `<uib-hero-action-button>` | `@ui.base/app-manager-ui` | Admin/config editor for one Hero Action Component. |
-| `<uib-hero-action-buttons>` | `@ui.base/app-manager-ui` | Admin/config editor for an ordered array of Hero Action Components. |
-| `<uib-hero>` | `@ui.base/hero` | Visitor-facing Hero rendering component. |
+| `<uib-hero-action-button>` | `@ui-base/app-manager-ui` | Admin/config editor for one Hero Action Component. |
+| `<uib-hero-action-buttons>` | `@ui-base/app-manager-ui` | Admin/config editor for an ordered array of Hero Action Components. |
+| `<uib-hero>` | `@ui-base/hero` | Visitor-facing Hero rendering component. |
 
 ## Editor behavior
 
@@ -120,7 +120,7 @@ action-components
 
 ## Preview variant rendering
 
-The App Manager preview passes the ordered `action-components` array into `<uib-hero action-components="...">`. The public `@ui.base/hero` renderer must use each action item's `variant` for the rendered button class and action marker, for example:
+The App Manager preview passes the ordered `action-components` array into `<uib-hero action-components="...">`. The public `@ui-base/hero` renderer must use each action item's `variant` for the rendered button class and action marker, for example:
 
 ```html
 <button class="uib-hero__button uib-hero__button--destructive" data-uib-hero-action="destructive">Cancel reservation</button>

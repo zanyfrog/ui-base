@@ -1,4 +1,4 @@
-import { defineUiBaseElement, escapeHtml, setOrRemoveAttribute } from '@ui.base/core';
+import { defineUiBaseElement, escapeHtml, setOrRemoveAttribute } from '@ui-base/core';
 
 const FALSE_VALUES = new Set(['false', '0', 'no', 'off']);
 const styles = `

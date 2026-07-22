@@ -1,4 +1,4 @@
-import type { ShapedRecord, StorageRecord } from '@ui.base/app-manager-api-client';
+import type { ShapedRecord, StorageRecord } from '@ui-base/app-manager-api-client';
 import { BaseHTMLElement, attr, clientFromElement, defineAppManagerElement, dispatch, escapeHtml, formatError, passClientAttributes, statusBadge } from '../utils/dom.js';
 import './uib-application-editor.js';
 

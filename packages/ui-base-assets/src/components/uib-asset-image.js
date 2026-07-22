@@ -1,6 +1,6 @@
 import { baseAssetStyles, escapeHtml, normalizeAsset, parseJson, registerElement } from '../asset-core.js';
-import { safeMediaSrc } from '@ui.base/ui/media';
-import '@ui.base/ui/media';
+import { safeMediaSrc } from '@ui-base/ui/media';
+import '@ui-base/ui/media';
 
 const styles = `
 ${baseAssetStyles}

@@ -6,7 +6,7 @@ A standalone npm workspace for generic UI Base Web Components, demos, and an app
 
 This repository contains reusable source packages plus the static demo/testing website under `dist/`. Package output archives, vendor tarballs, and dependency folders are intentionally not included in the zip.
 
-Reusable UI packages live as normal source folders under `packages/` and use scoped npm names such as `@ui.base/core`, `@ui.base/ui`, and `@ui.base/assets`. Component tags and source files use the `uib-` prefix, for example `<uib-hero>` and `uib-asset-picker.js`.
+Reusable UI packages live as normal source folders under `packages/` and use scoped npm names such as `@ui-base/core`, `@ui-base/ui`, and `@ui-base/assets`. Component tags and source files use the `uib-` prefix, for example `<uib-hero>` and `uib-asset-picker.js`.
 
 ## Workspace layout
 
@@ -24,7 +24,7 @@ packages/app-manager-api-client
   Fetch client for ORM and I-AM endpoints.
 
 packages/app-manager-design-tokens
-  Manager-specific admin tokens layered over @ui.base/ui.
+  Manager-specific admin tokens layered over @ui-base/ui.
 
 packages/ui-base-core
 packages/ui-base-design-system
@@ -114,7 +114,7 @@ The manager uses hash routes so it can run locally without server-side routing:
 - Hero editing includes live preview, dirty/saved state, autosave, and manual save.
 - Navigation items and details are editable as structured repeatable rows with raw JSON fallback.
 - Detail icons are asset-backed through `iconAssetId` and the ORM Asset API.
-- Detail rows use `<uib-asset-picker>` from `@ui.base/assets` to select existing assets or upload a new one.
+- Detail rows use `<uib-asset-picker>` from `@ui-base/assets` to select existing assets or upload a new one.
 
 ## Useful commands
 

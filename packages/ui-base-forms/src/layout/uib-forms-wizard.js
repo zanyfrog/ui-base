@@ -1,4 +1,4 @@
-import { UibBaseElement, defineUiBaseElement, escapeHtml } from '@ui.base/core';
+import { UibBaseElement, defineUiBaseElement, escapeHtml } from '@ui-base/core';
 
 const styles = `:host{display:block;font-family:var(--uib-font-family-sans,Inter,ui-sans-serif,system-ui)}.uib-forms-wizard{display:grid;gap:var(--uib-space-4,1rem)}`;
 

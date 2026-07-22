@@ -20,16 +20,16 @@ The common UI styles come from:
 packages/ui-base-ui
 ```
 
-This means `npm install` should not try to find `@ui.base/ui` or other `@ui.base/*` packages in the public npm registry.
+This means `npm install` should not try to find `@ui-base/ui` or other `@ui-base/*` packages in the public npm registry.
 
 To verify the patched Hero is installed:
 
 ```powershell
-Select-String -Path .\node_modules\@ui.base\hero\src\uib-hero.js -Pattern "data-uib-hero-cta-variant"
+Select-String -Path .\node_modules\@ui-base\hero\src\uib-hero.js -Pattern "data-uib-hero-cta-variant"
 ```
 
 To verify the local asset picker package is installed:
 
 ```powershell
-npm ls @ui.base/assets -w @ui.base/app-manager
+npm ls @ui-base/assets -w @ui-base/app-manager
 ```

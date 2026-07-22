@@ -221,7 +221,7 @@ export function renderDesignSystemRoute(main) {
           </p>
           <pre class="code-block">
             <code>
-              ${escapeHtml('<link rel="stylesheet" href="@ui.base/theme/default.css">\n<link rel="stylesheet" href="/site/theme-overrides.css">')}
+              ${escapeHtml('<link rel="stylesheet" href="@ui-base/theme/default.css">\n<link rel="stylesheet" href="/site/theme-overrides.css">')}
             </code>
           </pre>
           <p class="muted">
@@ -237,31 +237,31 @@ export function renderDesignSystemRoute(main) {
         </h2>
         <div class="package-roadmap">
           <code>
-            @ui.base/core
+            @ui-base/core
           </code>
           <code>
-            @ui.base/design-system
+            @ui-base/design-system
           </code>
           <code>
-            @ui.base/theme
+            @ui-base/theme
           </code>
           <code>
-            @ui.base/icons
+            @ui-base/icons
           </code>
           <code>
-            @ui.base/ui
+            @ui-base/ui
           </code>
           <code>
-            @ui.base/forms
+            @ui-base/forms
           </code>
           <code>
-            @ui.base/calendar
+            @ui-base/calendar
           </code>
           <code>
-            @ui.base/hero
+            @ui-base/hero
           </code>
           <code>
-            @ui.base/assets
+            @ui-base/assets
           </code>
         </div>
       </div>

@@ -33,7 +33,7 @@ function usageBlock() {
       <div class="card-content">
         <h2>Package usage</h2>
         <pre class="code-block"><code>${escapeHtml(`<script type="module">
-  import '@ui.base/tour-ui';
+  import '@ui-base/tour-ui';
 </script>
 
 <uib-new-reservation
@@ -141,7 +141,7 @@ function renderIndex(main, path) {
       <p>
         The
         <code>
-          @ui.base/tour-ui
+          @ui-base/tour-ui
         </code>
         package contains reusable workflow action components. Each component displays a toast-style alert when clicked or when called programmatically by parent state. Use the controls to test labels, descriptions, variants, disabled state, toast duration, and callbacks.
       </p>

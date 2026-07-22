@@ -1,5 +1,5 @@
-import { UibBaseElement, defineUiBaseElement, escapeHtml } from '@ui.base/core';
-import '@ui.base/ui/action-button';
+import { UibBaseElement, defineUiBaseElement, escapeHtml } from '@ui-base/core';
+import '@ui-base/ui/action-button';
 
 const styles = `
 :host{display:block;color:var(--uib-color-ink,#13294b);font-family:var(--uib-font-family-sans,Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif)}*,*::before,*::after{box-sizing:border-box}.uib-forms-form{display:grid;gap:var(--uib-forms-form-gap,var(--uib-space-4,1rem))}.uib-forms-form__actions{display:flex;gap:.6rem;flex-wrap:wrap}.uib-forms-form__submit{font:inherit;cursor:pointer}.uib-forms-form__submit:focus-visible{outline:none}

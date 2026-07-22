@@ -1,11 +1,11 @@
-# @ui.base/calendar
+# @ui-base/calendar
 
 Framework-neutral calendar Web Components for UI Base sites.
 
 ## Import
 
 ```js
-import '@ui.base/calendar';
+import '@ui-base/calendar';
 ```
 
 ## Components

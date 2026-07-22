@@ -1,5 +1,5 @@
 {
-  "name": "@ui.base/app-manager-design-tokens",
+  "name": "@ui-base/app-manager-design-tokens",
   "version": "0.1.0",
   "type": "module",
   "description": "Design tokens for the UI Base application manager UI.",

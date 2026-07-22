@@ -27,9 +27,9 @@ ui-base-app-manager/
 The manager uses npm workspaces and native Web Components. It follows the attached demo pattern by importing shared packages and styles from local source package folders:
 
 ```ts
-import '@ui.base/ui/styles.css';
-import '@ui.base/calendar';
-import '@ui.base/hero';
+import '@ui-base/ui/styles.css';
+import '@ui-base/calendar';
+import '@ui-base/hero';
 ```
 
 ## Packages
@@ -69,7 +69,7 @@ Components:
 
 ### packages/app-manager-design-tokens
 
-Manager-specific CSS variables layered on top of `@ui.base/ui` tokens.
+Manager-specific CSS variables layered on top of `@ui-base/ui` tokens.
 
 ## Data flow
 
@@ -133,7 +133,7 @@ The rows remain editable so the user can restore them by setting `is_active=true
 
 ## Hero Details asset picker update
 
-Edit Hero > Details now uses the UI Base `<uib-asset-picker>` from `@ui.base/assets` in simple single-select mode. Detail rows save only `iconAssetId`; the live preview resolves the asset through the ORM Asset API and enriches the preview copy with the current asset URL.
+Edit Hero > Details now uses the UI Base `<uib-asset-picker>` from `@ui-base/assets` in simple single-select mode. Detail rows save only `iconAssetId`; the live preview resolves the asset through the ORM Asset API and enriches the preview copy with the current asset URL.
 
 Relevant files:
 

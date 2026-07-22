@@ -81,7 +81,7 @@ const componentEntries = UI_BASE_FORM_COMPONENTS.map((item) => ({
     .split('-')
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
     .join(' '),
-  summary: COMPONENT_SUMMARIES[item.tagName] || 'Form component exported from @ui.base/forms.'
+  summary: COMPONENT_SUMMARIES[item.tagName] || 'Form component exported from @ui-base/forms.'
 }));
 
 function normalizePath(pathname) {
@@ -261,7 +261,7 @@ function renderIndex(main) {
   main.innerHTML = `
     <section class="page-heading">
       <p class="eyebrow">
-        @ui.base/forms
+        @ui-base/forms
       </p>
       <h1>
         Forms component demos.
@@ -306,7 +306,7 @@ function renderComponentPage(main, component) {
   main.innerHTML = `
     <section class="page-heading forms-detail-heading">
       <p class="eyebrow">
-        @ui.base/forms
+        @ui-base/forms
       </p>
       <h1>
         <code>

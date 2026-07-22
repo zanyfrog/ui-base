@@ -1,4 +1,4 @@
-import { AppManagerApiClient } from '@ui.base/app-manager-api-client';
+import { AppManagerApiClient } from '@ui-base/app-manager-api-client';
 
 export type AnyRecord = Record<string, string>;
 

@@ -1,4 +1,4 @@
-import { defineUiBaseElement, escapeHtml, setOrRemoveAttribute } from '@ui.base/core';
+import { defineUiBaseElement, escapeHtml, setOrRemoveAttribute } from '@ui-base/core';
 import './uib-action-button.js';
 
 const styles = `

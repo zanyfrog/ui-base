@@ -3,29 +3,31 @@ import { UI_BASE_FORM_COMPONENTS } from '../../../../packages/ui-base-forms/src/
 import { UI_BASE_CALENDAR_COMPONENTS } from '../../../../packages/ui-base-calendar/src/metadata.js';
 import { UI_BASE_ASSET_COMPONENTS } from '../../../../packages/ui-base-assets/src/metadata.js';
 
+const WORKSPACE_ROOT = 'ui-base';
+
 const PACKAGE_SPECS = [
   {
-    name: '@ui.base/core',
+    name: '@ui-base/core',
     path: 'packages/ui-base-core',
-    importSpecifier: '@ui.base/core',
+    importSpecifier: '@ui-base/core',
     components: []
   },
   {
-    name: '@ui.base/design-system',
+    name: '@ui-base/design-system',
     path: 'packages/ui-base-design-system',
-    importSpecifier: '@ui.base/design-system',
+    importSpecifier: '@ui-base/design-system',
     components: []
   },
   {
-    name: '@ui.base/theme',
+    name: '@ui-base/theme',
     path: 'packages/ui-base-theme',
-    importSpecifier: '@ui.base/theme',
+    importSpecifier: '@ui-base/theme',
     components: []
   },
   {
-    name: '@ui.base/icons',
+    name: '@ui-base/icons',
     path: 'packages/ui-base-icons',
-    importSpecifier: '@ui.base/icons',
+    importSpecifier: '@ui-base/icons',
     routeBase: '/components',
     components: [
       component('uib-icon', {
@@ -35,30 +37,30 @@ const PACKAGE_SPECS = [
     ]
   },
   {
-    name: '@ui.base/ui',
+    name: '@ui-base/ui',
     path: 'packages/ui-base-ui',
-    importSpecifier: '@ui.base/ui',
+    importSpecifier: '@ui-base/ui',
     routeBase: '/ui',
     components: UI_BASE_UI_COMPONENTS
   },
   {
-    name: '@ui.base/forms',
+    name: '@ui-base/forms',
     path: 'packages/ui-base-forms',
-    importSpecifier: '@ui.base/forms',
+    importSpecifier: '@ui-base/forms',
     routeBase: '/forms',
     components: UI_BASE_FORM_COMPONENTS
   },
   {
-    name: '@ui.base/calendar',
+    name: '@ui-base/calendar',
     path: 'packages/ui-base-calendar',
-    importSpecifier: '@ui.base/calendar',
+    importSpecifier: '@ui-base/calendar',
     routeBase: '/calendar',
     components: UI_BASE_CALENDAR_COMPONENTS
   },
   {
-    name: '@ui.base/hero',
+    name: '@ui-base/hero',
     path: 'packages/ui-base-hero',
-    importSpecifier: '@ui.base/hero',
+    importSpecifier: '@ui-base/hero',
     components: [
       component('uib-hero', { route: '/hero/' }),
       component('uib-hero-preview'),
@@ -66,9 +68,9 @@ const PACKAGE_SPECS = [
     ]
   },
   {
-    name: '@ui.base/tour-ui',
+    name: '@ui-base/tour-ui',
     path: 'packages/ui-base-tour-ui',
-    importSpecifier: '@ui.base/tour-ui',
+    importSpecifier: '@ui-base/tour-ui',
     components: [
       component('uib-new-reservation', { route: '/tour-ui/new-reservation' }),
       component('uib-cancel-reservation', { route: '/tour-ui/cancel-reservation' }),
@@ -77,34 +79,34 @@ const PACKAGE_SPECS = [
     ]
   },
   {
-    name: '@ui.base/assets',
+    name: '@ui-base/assets',
     path: 'packages/ui-base-assets',
-    importSpecifier: '@ui.base/assets',
+    importSpecifier: '@ui-base/assets',
     routeBase: '/assets',
     components: UI_BASE_ASSET_COMPONENTS
   },
   {
-    name: '@ui.base/ui-layout',
+    name: '@ui-base/ui-layout',
     path: 'packages/ui-layout',
-    importSpecifier: '@ui.base/ui-layout',
+    importSpecifier: '@ui-base/ui-layout',
     components: []
   },
   {
-    name: '@ui.base/app-manager-api-client',
+    name: '@ui-base/app-manager-api-client',
     path: 'packages/app-manager-api-client',
-    importSpecifier: '@ui.base/app-manager-api-client',
+    importSpecifier: '@ui-base/app-manager-api-client',
     components: []
   },
   {
-    name: '@ui.base/app-manager-design-tokens',
+    name: '@ui-base/app-manager-design-tokens',
     path: 'packages/app-manager-design-tokens',
-    importSpecifier: '@ui.base/app-manager-design-tokens/tokens.css',
+    importSpecifier: '@ui-base/app-manager-design-tokens/tokens.css',
     components: []
   },
   {
-    name: '@ui.base/app-manager-ui',
+    name: '@ui-base/app-manager-ui',
     path: 'packages/app-manager-ui',
-    importSpecifier: '@ui.base/app-manager-ui',
+    importSpecifier: '@ui-base/app-manager-ui',
     components: [
       component('uib-application-manager'),
       component('uib-application-list'),
@@ -204,6 +206,7 @@ export async function discoverPackageBrowserPackages(specs = PACKAGE_SPECS) {
     packages.push({
       name: spec.name,
       path: spec.path || '',
+      workspacePath: spec.path ? `${WORKSPACE_ROOT}/${spec.path}` : WORKSPACE_ROOT,
       importSpecifier: spec.importSpecifier || '',
       summary: spec.summary || '',
       status: importError ? 'partial' : 'loaded',
@@ -216,5 +219,8 @@ export async function discoverPackageBrowserPackages(specs = PACKAGE_SPECS) {
 }
 
 export function getPackageBrowserSpecs() {
-  return PACKAGE_SPECS.map((spec) => ({ ...spec }));
+  return PACKAGE_SPECS.map((spec) => ({
+    ...spec,
+    workspacePath: spec.path ? `${WORKSPACE_ROOT}/${spec.path}` : WORKSPACE_ROOT
+  }));
 }

@@ -1,5 +1,5 @@
 {
-  "name": "@ui.base/theme",
+  "name": "@ui-base/theme",
   "version": "0.1.0",
   "type": "module",
   "description": "Theme CSS files for UI Base applications using CSS custom property overrides.",
@@ -17,6 +17,6 @@
   "sideEffects": true,
   "license": "UNLICENSED",
   "dependencies": {
-    "@ui.base/design-system": "^0.1.0"
+    "@ui-base/design-system": "^0.1.0"
   }
 }

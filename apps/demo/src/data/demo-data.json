@@ -17,7 +17,7 @@
   },
   "packageTests": [
     {
-      "name": "@ui.base/core",
+      "name": "@ui-base/core",
       "title": "Core utilities",
       "description": "Base element behavior, shared utilities, validation, localization, and metadata conventions.",
       "primaryPath": "/design-system/",
@@ -25,7 +25,7 @@
       "links": [{ "path": "/components/", "label": "Component Catalog" }]
     },
     {
-      "name": "@ui.base/design-system",
+      "name": "@ui-base/design-system",
       "title": "Design system",
       "description": "Accessibility standards, lifecycle rules, component specifications, and package roadmap.",
       "primaryPath": "/design-system/",
@@ -33,7 +33,7 @@
       "links": [{ "path": "/components/", "label": "Live Components" }]
     },
     {
-      "name": "@ui.base/theme",
+      "name": "@ui-base/theme",
       "title": "Theme tokens",
       "description": "Default and dark token stylesheets plus token examples used across every UI package.",
       "primaryPath": "/design-system/",
@@ -41,7 +41,7 @@
       "links": [{ "path": "/components/", "label": "Styled Components" }]
     },
     {
-      "name": "@ui.base/icons",
+      "name": "@ui-base/icons",
       "title": "Icons",
       "description": "SVG registry icons, URL icons, labels, and accessible icon behavior.",
       "primaryPath": "/components/",
@@ -49,7 +49,7 @@
       "links": [{ "path": "/components/", "label": "Catalog" }]
     },
     {
-      "name": "@ui.base/ui",
+      "name": "@ui-base/ui",
       "title": "UI controls and layout",
       "description": "Menus, labels, help, toggles, checkboxes, cards, panels, grids, dialogs, tabs, and layout stubs.",
       "primaryPath": "/ui/",
@@ -60,7 +60,7 @@
       ]
     },
     {
-      "name": "@ui.base/forms",
+      "name": "@ui-base/forms",
       "title": "Forms",
       "description": "Text, number, date, email, password, phone, textarea, select, form field, input group, wizard, and form shell tests.",
       "primaryPath": "/forms/",
@@ -68,7 +68,7 @@
       "links": [{ "path": "/ui-controls/", "label": "Control Events" }]
     },
     {
-      "name": "@ui.base/calendar",
+      "name": "@ui-base/calendar",
       "title": "Calendar",
       "description": "Day, week, month, year, date-window, and day-of-week views controlled by parent state.",
       "primaryPath": "/calendar-demo/",
@@ -76,7 +76,7 @@
       "links": [{ "path": "/calendar-demo/", "label": "All Calendar Views" }]
     },
     {
-      "name": "@ui.base/hero",
+      "name": "@ui-base/hero",
       "title": "Hero",
       "description": "Hero headline, CTAs, navigation, trust signal, visual, and detail-bullet configuration tests.",
       "primaryPath": "/hero/",
@@ -88,7 +88,7 @@
       ]
     },
     {
-      "name": "@ui.base/assets",
+      "name": "@ui-base/assets",
       "title": "Assets",
       "description": "Asset browser, asset picker, upload, management, permissions, versions, usage, and provider mode tests.",
       "primaryPath": "/assets/",
@@ -104,7 +104,7 @@
       ]
     },
     {
-      "name": "@ui.base/tour-ui",
+      "name": "@ui-base/tour-ui",
       "title": "Action components",
       "description": "Reusable action components for new, cancel, find, and group-style workflows.",
       "primaryPath": "/tour-ui/",

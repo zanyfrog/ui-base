@@ -1,4 +1,4 @@
-import { defineUiBaseElement, escapeHtml, setOrRemoveAttribute } from '@ui.base/core';
+import { defineUiBaseElement, escapeHtml, setOrRemoveAttribute } from '@ui-base/core';
 
 const styles = `
 :host{display:block;inline-size:100%;block-size:auto}.media{position:relative;display:block;inline-size:100%;overflow:hidden;border-radius:var(--uib-media-radius,inherit);background:var(--uib-media-bg,var(--uib-color-surface-soft,#eef4fb));aspect-ratio:var(--uib-media-ratio,auto)}.media img{display:block;inline-size:100%;block-size:100%;object-fit:var(--uib-media-fit,cover);object-position:var(--uib-media-position,center)}.fallback{display:grid;place-items:center;min-block-size:var(--uib-media-fallback-height,8rem);padding:1rem;color:var(--uib-media-fallback-color,var(--uib-color-muted,#53657f));font-weight:850;text-align:center}:host([role="icon"]) .media{aspect-ratio:1}:host([role="icon"]) .fallback{min-block-size:2.5rem}

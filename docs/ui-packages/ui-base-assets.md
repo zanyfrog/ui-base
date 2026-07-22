@@ -1,4 +1,4 @@
-# @ui.base/assets
+# @ui-base/assets
 
 **Version:** `0.1.5`  
 **Package path:** `packages/ui-base-assets`
@@ -14,7 +14,7 @@ Use this package when a project needs the components, styles, or utilities liste
 ## Primary imports
 
 ```js
-import '@ui.base/assets';
+import '@ui-base/assets';
 // <uib-asset-picker application-key="demo-app" allow-upload></uib-asset-picker>
 ```
 

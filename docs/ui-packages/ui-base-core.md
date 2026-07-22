@@ -1,4 +1,4 @@
-# @ui.base/core
+# @ui-base/core
 
 **Version:** `0.1.0`  
 **Package path:** `packages/ui-base-core`
@@ -14,7 +14,7 @@ Use this package when a project needs the components, styles, or utilities liste
 ## Primary imports
 
 ```js
-import '@ui.base/core';
+import '@ui-base/core';
 ```
 
 ## Components

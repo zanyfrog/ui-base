@@ -1,4 +1,4 @@
-import { UibBaseElement, defineUiBaseElement, ensureGlobalStyle, escapeHtml } from '@ui.base/core';
+import { UibBaseElement, defineUiBaseElement, ensureGlobalStyle, escapeHtml } from '@ui-base/core';
 import '../help/uib-help.js';
 
 const globalStyles = `

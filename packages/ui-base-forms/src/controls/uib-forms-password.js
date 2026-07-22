@@ -1,4 +1,4 @@
-import { escapeHtml } from '@ui.base/core';
+import { escapeHtml } from '@ui-base/core';
 import { UibFormControlBase, defineFormControl } from '../form-control-base.js';
 
 const eyeIcon = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5.5c4.2 0 7.3 3.1 9 6.5-1.7 3.4-4.8 6.5-9 6.5S4.7 15.4 3 12c1.7-3.4 4.8-6.5 9-6.5Zm0 2C9 7.5 6.6 9.4 5.3 12 6.6 14.6 9 16.5 12 16.5s5.4-1.9 6.7-4.5C17.4 9.4 15 7.5 12 7.5Zm0 1.5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Z" fill="currentColor"/></svg>';

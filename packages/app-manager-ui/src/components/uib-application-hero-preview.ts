@@ -1,4 +1,4 @@
-import '@ui.base/hero/uib-hero-preview';
+import '@ui-base/hero/uib-hero-preview';
 import { BaseHTMLElement, attr, defineAppManagerElement } from '../utils/dom.js';
 
 export type HeroRecord = Record<string, string>;

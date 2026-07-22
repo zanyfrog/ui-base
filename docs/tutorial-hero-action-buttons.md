@@ -104,7 +104,7 @@ document.querySelector('uib-hero')?.addEventListener('uib-hero-cta', (event) => 
 
 ## Preview variant rendering
 
-The App Manager preview passes the ordered `action-components` array into `<uib-hero action-components="...">`. The public `@ui.base/hero` renderer must use each action item's `variant` for the rendered button class and action marker, for example:
+The App Manager preview passes the ordered `action-components` array into `<uib-hero action-components="...">`. The public `@ui-base/hero` renderer must use each action item's `variant` for the rendered button class and action marker, for example:
 
 ```html
 <button class="uib-hero__button uib-hero__button--destructive" data-uib-hero-action="destructive">Cancel reservation</button>

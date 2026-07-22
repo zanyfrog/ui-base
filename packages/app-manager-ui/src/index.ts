@@ -1,4 +1,4 @@
-import '@ui.base/assets';
+import '@ui-base/assets';
 export { UibApplicationManager } from './components/uib-application-manager.js';
 export { UibApplicationList } from './components/uib-application-list.js';
 export { UibApplicationEditor } from './components/uib-application-editor.js';

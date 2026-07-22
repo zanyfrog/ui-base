@@ -1,4 +1,4 @@
-import { createComponentMetadata, MATURITY_LEVELS } from '@ui.base/core';
+import { createComponentMetadata, MATURITY_LEVELS } from '@ui-base/core';
 
 const uiAttributeDescriptions = {
   action: 'Action identifier included in emitted action events.',
@@ -202,7 +202,7 @@ function api({
 }) {
   return {
     tagName,
-    package: '@ui.base/ui',
+    package: '@ui-base/ui',
     maturity,
     purpose,
     attributes: items(attributes, uiAttributeDescriptions),

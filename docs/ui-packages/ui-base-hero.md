@@ -1,4 +1,4 @@
-# @ui.base/hero
+# @ui-base/hero
 
 **Version:** `0.2.3`  
 **Package path:** `packages/ui-base-hero`
@@ -14,7 +14,7 @@ Use this package when a project needs the components, styles, or utilities liste
 ## Primary imports
 
 ```js
-import '@ui.base/hero';
+import '@ui-base/hero';
 // <uib-hero></uib-hero>
 ```
 

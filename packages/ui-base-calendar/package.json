@@ -1,5 +1,5 @@
 {
-  "name": "@ui.base/calendar",
+  "name": "@ui-base/calendar",
   "version": "0.2.0",
   "type": "module",
   "description": "Framework-neutral UI Base calendar Web Components.",

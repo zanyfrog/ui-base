@@ -1,4 +1,4 @@
-# @ui.base/tour-ui
+# @ui-base/tour-ui
 
 **Version:** `0.1.1`  
 **Package path:** `packages/ui-base-tour-ui`
@@ -14,7 +14,7 @@ Use this package when a project needs the components, styles, or utilities liste
 ## Primary imports
 
 ```js
-import '@ui.base/tour-ui';
+import '@ui-base/tour-ui';
 ```
 
 ## Components

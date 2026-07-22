@@ -1,6 +1,6 @@
-# @ui.base/tour-ui
+# @ui-base/tour-ui
 
-Framework-neutral Web Components for tour reservation actions. This package sits beside `@ui.base/ui` and `@ui.base/calendar` in the UI Base npm workspace.
+Framework-neutral Web Components for tour reservation actions. This package sits beside `@ui-base/ui` and `@ui-base/calendar` in the UI Base npm workspace.
 
 ## Components
 
@@ -14,16 +14,16 @@ Each component renders an action card and displays an accessible toast-style ale
 ## Import
 
 ```js
-import '@ui.base/tour-ui';
+import '@ui-base/tour-ui';
 ```
 
 Or import one component at a time:
 
 ```js
-import '@ui.base/tour-ui/new-reservation';
-import '@ui.base/tour-ui/cancel-reservation';
-import '@ui.base/tour-ui/find-reservation';
-import '@ui.base/tour-ui/book-group-reservation';
+import '@ui-base/tour-ui/new-reservation';
+import '@ui-base/tour-ui/cancel-reservation';
+import '@ui-base/tour-ui/find-reservation';
+import '@ui-base/tour-ui/book-group-reservation';
 ```
 
 ## Basic usage

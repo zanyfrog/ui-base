@@ -1,4 +1,4 @@
-import { createMockAssetProvider } from '@ui.base/assets';
+import { createMockAssetProvider } from '@ui-base/assets';
 
 let ASSET_ROUTES = [
   { path: '/assets-demo/simple', label: 'Form Picker', description: 'Compact picker field for attaching an image/file/asset to a form field.' },
@@ -356,7 +356,7 @@ function renderOverview(main, path) {
   main.innerHTML = `
     <section class="page-heading">
       <h1>Assets Package Demo</h1>
-      <p><code>@ui.base/assets</code> is a reusable Web Component package for asset browsing, picking, uploading, editing, permissions, usage, and version history. Each child demo now has live controls so testers can change component settings without editing source code. The demos default to mock data so they work immediately, and can be switched to the live ORM API at http://localhost:4020.</p>
+      <p><code>@ui-base/assets</code> is a reusable Web Component package for asset browsing, picking, uploading, editing, permissions, usage, and version history. Each child demo now has live controls so testers can change component settings without editing source code. The demos default to mock data so they work immediately, and can be switched to the live ORM API at http://localhost:4020.</p>
     </section>
     ${routeList(path)}
     <section class="route-grid" aria-label="Asset demo child routes">

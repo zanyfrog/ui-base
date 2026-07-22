@@ -1,4 +1,4 @@
-import { defineUiBaseElement, escapeHtml, setOrRemoveAttribute } from '@ui.base/core';
+import { defineUiBaseElement, escapeHtml, setOrRemoveAttribute } from '@ui-base/core';
 
 const styles = `
 :host{display:block;color:var(--uib-detail-editor-color,var(--uib-color-ink,#13294b));font-family:var(--uib-font-family-sans,Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif)}*,*::before,*::after{box-sizing:border-box}.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem}.field{display:grid;gap:.3rem;color:var(--uib-color-muted,#53657f);font-size:.82rem;font-weight:850}.field--wide{grid-column:1/-1}.field-note{color:var(--uib-color-muted,#53657f);font-size:.78rem;font-weight:650;line-height:1.35}input,textarea{width:100%;min-height:2.35rem;border:1px solid var(--uib-color-border,#d9e2f0);border-radius:.75rem;padding:.58rem .7rem;background:var(--uib-color-surface,#fff);color:var(--uib-color-ink,#13294b);font:inherit;font-weight:700}textarea{min-height:4.5rem;resize:vertical}@media(max-width:720px){.fields{grid-template-columns:1fr}}

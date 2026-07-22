@@ -1,5 +1,5 @@
 {
-  "name": "@ui.base/app-manager-ui",
+  "name": "@ui-base/app-manager-ui",
   "version": "0.2.12",
   "type": "module",
   "description": "Framework-neutral App Manager configuration components for UI Base ORM resources.",
@@ -13,10 +13,10 @@
     "./hero-action-model": "./src/components/hero-action-model.ts"
   },
   "dependencies": {
-    "@ui.base/app-manager-api-client": "file:../app-manager-api-client",
-    "@ui.base/hero": "file:../ui-base-hero",
-    "@ui.base/assets": "file:../ui-base-assets",
-    "@ui.base/ui": "file:../ui-base-ui"
+    "@ui-base/app-manager-api-client": "file:../app-manager-api-client",
+    "@ui-base/hero": "file:../ui-base-hero",
+    "@ui-base/assets": "file:../ui-base-assets",
+    "@ui-base/ui": "file:../ui-base-ui"
   },
   "scripts": {
     "build": "tsc --noEmit",

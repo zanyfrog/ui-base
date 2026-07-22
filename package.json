@@ -1,5 +1,5 @@
 {
-  "name": "@ui.base/workspace",
+  "name": "@ui-base/workspace",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -9,10 +9,10 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "npm run start -w @ui.base/demo",
-    "dev:demo": "npm run start -w @ui.base/demo",
-    "dev:manager": "npm run dev -w @ui.base/app-manager",
-    "build": "npm run build -w @ui.base/app-manager-ui && npm run build -w @ui.base/app-manager-api-client && npm run build -w @ui.base/app-manager",
+    "dev": "npm run start -w @ui-base/demo",
+    "dev:demo": "npm run start -w @ui-base/demo",
+    "dev:manager": "npm run dev -w @ui-base/app-manager",
+    "build": "npm run build -w @ui-base/app-manager-ui && npm run build -w @ui-base/app-manager-api-client && npm run build -w @ui-base/app-manager",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "check": "node scripts/check.mjs",
@@ -31,16 +31,16 @@
   },
   "packageManager": "npm@10.8.2",
   "dependencies": {
-    "@ui.base/core": "file:packages/ui-base-core",
-    "@ui.base/design-system": "file:packages/ui-base-design-system",
-    "@ui.base/theme": "file:packages/ui-base-theme",
-    "@ui.base/icons": "file:packages/ui-base-icons",
-    "@ui.base/ui": "file:packages/ui-base-ui",
-    "@ui.base/forms": "file:packages/ui-base-forms",
-    "@ui.base/calendar": "file:packages/ui-base-calendar",
-    "@ui.base/hero": "file:packages/ui-base-hero",
-    "@ui.base/tour-ui": "file:packages/ui-base-tour-ui",
-    "@ui.base/assets": "file:packages/ui-base-assets",
-    "@ui.base/ui-layout": "file:packages/ui-layout"
+    "@ui-base/core": "file:packages/ui-base-core",
+    "@ui-base/design-system": "file:packages/ui-base-design-system",
+    "@ui-base/theme": "file:packages/ui-base-theme",
+    "@ui-base/icons": "file:packages/ui-base-icons",
+    "@ui-base/ui": "file:packages/ui-base-ui",
+    "@ui-base/forms": "file:packages/ui-base-forms",
+    "@ui-base/calendar": "file:packages/ui-base-calendar",
+    "@ui-base/hero": "file:packages/ui-base-hero",
+    "@ui-base/tour-ui": "file:packages/ui-base-tour-ui",
+    "@ui-base/assets": "file:packages/ui-base-assets",
+    "@ui-base/ui-layout": "file:packages/ui-layout"
   }
 }

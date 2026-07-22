@@ -1,4 +1,4 @@
-# @ui.base/design-system
+# @ui-base/design-system
 
 **Version:** `0.1.0`  
 **Package path:** `packages/ui-base-design-system`
@@ -14,7 +14,7 @@ Use this package when a project needs the components, styles, or utilities liste
 ## Primary imports
 
 ```js
-import '@ui.base/design-system';
+import '@ui-base/design-system';
 ```
 
 ## Components

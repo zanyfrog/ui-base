@@ -1,4 +1,4 @@
-import { createComponentMetadata, MATURITY_LEVELS } from '@ui.base/core';
+import { createComponentMetadata, MATURITY_LEVELS } from '@ui-base/core';
 
 const sharedFieldAttributes = [
   { name: 'name', type: 'string', description: 'Form field name used in form serialization and event detail payloads.' },
@@ -71,7 +71,7 @@ const sharedFieldCssVariables = [
 function fieldApi(tagName, overrides = {}) {
   return {
     tagName,
-    package: '@ui.base/forms',
+    package: '@ui-base/forms',
     maturity: MATURITY_LEVELS.EXPERIMENTAL,
     attributes: sharedFieldAttributes,
     properties: sharedFieldProperties,
@@ -87,7 +87,7 @@ function fieldApi(tagName, overrides = {}) {
 export const FORM_COMPONENT_API = {
   'uib-forms-form': {
     tagName: 'uib-forms-form',
-    package: '@ui.base/forms',
+    package: '@ui-base/forms',
     maturity: MATURITY_LEVELS.PREVIEW,
     attributes: [
       { name: 'name', type: 'string', description: 'Form name included in submit event detail.' },
@@ -177,7 +177,7 @@ export const FORM_COMPONENT_API = {
   }),
   'uib-forms-checkbox': {
     tagName: 'uib-forms-checkbox',
-    package: '@ui.base/forms',
+    package: '@ui-base/forms',
     maturity: MATURITY_LEVELS.EXPERIMENTAL,
     attributes: [
       { name: 'name', type: 'string', description: 'Form field name used in form serialization and event detail payloads.' },
@@ -225,7 +225,7 @@ export const FORM_COMPONENT_API = {
   },
   'uib-forms-field': {
     tagName: 'uib-forms-field',
-    package: '@ui.base/forms',
+    package: '@ui-base/forms',
     maturity: MATURITY_LEVELS.EXPERIMENTAL,
     attributes: [
       { name: 'label', type: 'string', description: 'Fallback label text when the label slot is not provided.' },
@@ -252,7 +252,7 @@ export const FORM_COMPONENT_API = {
   },
   'uib-forms-input-group': {
     tagName: 'uib-forms-input-group',
-    package: '@ui.base/forms',
+    package: '@ui-base/forms',
     maturity: MATURITY_LEVELS.EXPERIMENTAL,
     attributes: [],
     properties: [],
@@ -271,7 +271,7 @@ export const FORM_COMPONENT_API = {
   },
   'uib-forms-wizard': {
     tagName: 'uib-forms-wizard',
-    package: '@ui.base/forms',
+    package: '@ui-base/forms',
     maturity: MATURITY_LEVELS.EXPERIMENTAL,
     attributes: [
       { name: 'label', type: 'string', description: 'Wizard title text when the title slot is not provided.' }

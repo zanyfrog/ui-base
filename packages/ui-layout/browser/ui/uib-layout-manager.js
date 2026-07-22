@@ -4,7 +4,7 @@ import { flattenLayoutNodes } from '../analyzer/map-dom-to-source.js';
                                                           
                                                                     
 import { applyLayoutOperationsToSource,                  } from '../writer/apply-layout-operations.js';
-import { BaseHTMLElement, attr, dispatch, escapeHtml, parseJson } from './dom-utils.js';
+import { BaseHTMLElement, attr, defineLayoutElement, dispatch, escapeHtml, parseJson } from './dom-utils.js';
 import './uib-layout-diff.js';
 import './uib-layout-preview.js';
 import './uib-layout-properties.js';
@@ -352,71 +352,50 @@ export class UibLayoutManager extends BaseHTMLElement {
     if (!this.shadowRoot) return;
     const analysis = this.analysis;
     const sourceLength = this.sourceText.length;
-    this.shadowRoot.innerHTML = (
-  `<style>` +
-  ` :host{display:block;color:#172033;font:14px/1.4 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif} *,*::before,*::after{box-sizing:border-box} .shell{display:grid;gap:.8rem;min-width:0} .grid{display:grid;grid-template-columns:minmax(14rem,1fr) minmax(20rem,2fr) minmax(16rem,1fr);gap:.8rem;align-items:start} .panel{min-width:0;display:grid;gap:.6rem;padding:.8rem;border:1px solid #d9e2ee;border-radius:8px;background:#fff} h2{margin:0;font-size:.95rem;color:#203b5e} .summary{display:flex;gap:.75rem;flex-wrap:wrap;color:#52677f;font-size:.86rem} @media(max-width:980px){.grid{grid-template-columns:1fr}.panel{padding:.7rem}} ` +
-  `</style>` +
-  `<div class="shell">` +
-  `<uib-layout-toolbar file-name="` +
-  (attr(this.fileName || 'Source content')) +
-  `" dirty="` +
-  (this.operations.length > 0 ? 'true' : 'false') +
-  `" ` +
-  (this.readonly ? 'readonly' : '') +
-  `>` +
-  `</uib-layout-toolbar>` +
-  `<div class="summary">` +
-  `<span>` +
-  (escapeHtml(analysis?.framework ?? 'unknown')) +
-  `</span>` +
-  `<span>` +
-  (escapeHtml(analysis?.componentName || analysis?.customElementName || 'layout source')) +
-  `</span>` +
-  `<span>` +
-  (sourceLength) +
-  ` characters` +
-  `</span>` +
-  `<span>` +
-  (this.operations.length) +
-  ` pending operation` +
-  (this.operations.length === 1 ? '' : 's') +
-  `</span>` +
-  `</div>` +
-  `<div class="grid">` +
-  `<section class="panel">` +
-  `<h2>` +
-  `Layout Tree` +
-  `</h2>` +
-  `<uib-layout-tree>` +
-  `</uib-layout-tree>` +
-  `</section>` +
-  `<section class="panel">` +
-  `<h2>` +
-  `Visual Preview` +
-  `</h2>` +
-  `<uib-layout-preview>` +
-  `</uib-layout-preview>` +
-  `</section>` +
-  `<section class="panel">` +
-  `<uib-layout-properties>` +
-  `</uib-layout-properties>` +
-  `</section>` +
-  `</div>` +
-  `<section class="panel">` +
-  `<h2>` +
-  `Diff / Warnings` +
-  `</h2>` +
-  `<uib-layout-diff>` +
-  `</uib-layout-diff>` +
-  `</section>` +
-  `</div>`
-);
+    this.shadowRoot.innerHTML = `
+      <style>
+        :host{display:block;color:#172033;font:14px/1.4 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+        *,*::before,*::after{box-sizing:border-box}
+        .shell{display:grid;gap:.8rem;min-width:0}
+        .grid{display:grid;grid-template-columns:minmax(14rem,1fr) minmax(20rem,2fr) minmax(16rem,1fr);gap:.8rem;align-items:start}
+        .panel{min-width:0;display:grid;gap:.6rem;padding:.8rem;border:1px solid #d9e2ee;border-radius:8px;background:#fff}
+        h2{margin:0;font-size:.95rem;color:#203b5e}
+        .summary{display:flex;gap:.75rem;flex-wrap:wrap;color:#52677f;font-size:.86rem}
+        @media(max-width:980px){.grid{grid-template-columns:1fr}.panel{padding:.7rem}}
+      </style>
+      <div class="shell" part="shell">
+        <uib-layout-toolbar file-name="${attr(this.fileName || 'Source content')}" dirty="${this.operations.length > 0 ? 'true' : 'false'}" ${this.readonly ? 'readonly' : ''}></uib-layout-toolbar>
+        <div class="summary" part="summary">
+          <span>${escapeHtml(analysis?.framework ?? 'unknown')}</span>
+          <span>${escapeHtml(analysis?.componentName || analysis?.customElementName || 'layout source')}</span>
+          <span>${sourceLength} characters</span>
+          <span>${this.operations.length} pending operation${this.operations.length === 1 ? '' : 's'}</span>
+        </div>
+        <div class="grid">
+          <section class="panel" part="panel">
+            <h2>Layout Tree</h2>
+            <uib-layout-tree></uib-layout-tree>
+          </section>
+          <section class="panel" part="panel">
+            <h2>Visual Preview</h2>
+            <uib-layout-preview></uib-layout-preview>
+          </section>
+          <section class="panel" part="panel">
+            <uib-layout-properties></uib-layout-properties>
+          </section>
+        </div>
+        <section class="panel" part="panel">
+          <h2>Diff / Warnings</h2>
+          <uib-layout-diff></uib-layout-diff>
+        </section>
+      </div>
+    `;
     this.syncChildren();
     this.bind();
   }
 }
 
-if (typeof customElements !== 'undefined' && !customElements.get('uib-layout-manager')) customElements.define('uib-layout-manager', UibLayoutManager);
+defineLayoutElement('uib-layout-manager', UibLayoutManager);
 
                 
                                    

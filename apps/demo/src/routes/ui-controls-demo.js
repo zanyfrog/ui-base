@@ -6,7 +6,7 @@ function usageBlock() {
       <div class="card-content">
         <h2>Package usage</h2>
         <pre class="code-block"><code>${escapeHtml(`<script type="module">
-  import '@ui.base/ui';
+  import '@ui-base/ui';
 </script>
 
 <uib-toggle
@@ -134,7 +134,7 @@ export function renderUiControlsRoute(main) {
   main.innerHTML = `
     <section class="page-heading">
       <p class="eyebrow">
-        @ui.base/ui
+        @ui-base/ui
       </p>
       <h1>
         Accessible controls with live option testing.

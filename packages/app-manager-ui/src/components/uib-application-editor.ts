@@ -1,4 +1,4 @@
-import type { ShapedRecord, StorageRecord } from '@ui.base/app-manager-api-client';
+import type { ShapedRecord, StorageRecord } from '@ui-base/app-manager-api-client';
 import { APPLICATION_INFO_FIELDS } from '../record-fields.js';
 import { BaseHTMLElement, attr, clientFromElement, cloneRecord, defineAppManagerElement, dispatch, escapeHtml, formatError, recordsEqual, slugify } from '../utils/dom.js';
 import { formToRecord, renderFieldGroups, validateRecord } from './record-form.js';

@@ -1,24 +1,24 @@
-# @ui.base/ui
+# @ui-base/ui
 
 Framework-neutral UI primitives for UI Base applications.
 
 ## Ownership
 
-`@ui.base/ui` owns generic controls, labels, help text, menus, layout primitives, and shared CSS. It no longer owns the Hero or Tour reservation implementations.
+`@ui-base/ui` owns generic controls, labels, help text, menus, layout primitives, and shared CSS. It no longer owns the Hero or Tour reservation implementations.
 
 Compatibility exports remain available so older imports continue to work:
 
 ```js
-import '@ui.base/ui/hero';          // re-exports @ui.base/hero
-import '@ui.base/ui/reservations';  // re-exports @ui.base/tour-ui
+import '@ui-base/ui/hero';          // re-exports @ui-base/hero
+import '@ui-base/ui/reservations';  // re-exports @ui-base/tour-ui
 ```
 
 New code should import the owning packages directly:
 
 ```js
-import '@ui.base/ui/styles.css';
-import '@ui.base/hero';
-import '@ui.base/tour-ui';
+import '@ui-base/ui/styles.css';
+import '@ui-base/hero';
+import '@ui-base/tour-ui';
 ```
 
 ## Components owned by this package
@@ -47,15 +47,15 @@ import '@ui.base/tour-ui';
 ## Import
 
 ```js
-import '@ui.base/ui';
-import '@ui.base/ui/styles.css';
+import '@ui-base/ui';
+import '@ui-base/ui/styles.css';
 ```
 
 Or import one entry at a time:
 
 ```js
-import '@ui.base/ui/toggle';
-import '@ui.base/ui/menu';
+import '@ui-base/ui/toggle';
+import '@ui-base/ui/menu';
 ```
 
 ## Toggle example
@@ -74,13 +74,13 @@ import '@ui.base/ui/menu';
 The following still works for existing apps, but it is a forwarding layer only:
 
 ```js
-import '@ui.base/ui/hero';
-import '@ui.base/ui/reservations/new-reservation';
+import '@ui-base/ui/hero';
+import '@ui-base/ui/reservations/new-reservation';
 ```
 
 Prefer:
 
 ```js
-import '@ui.base/hero';
-import '@ui.base/tour-ui/new-reservation';
+import '@ui-base/hero';
+import '@ui-base/tour-ui/new-reservation';
 ```

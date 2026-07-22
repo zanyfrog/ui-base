@@ -4,6 +4,7 @@
   uib-layout-manager,
   uib-layout-preview,
   uib-layout-properties,
+  uib-page-importer,
   uib-layout-toolbar,
   uib-layout-tree
 ) {
@@ -28,6 +29,7 @@
   uib-layout-manager,
   uib-layout-preview,
   uib-layout-properties,
+  uib-page-importer,
   uib-layout-toolbar,
   uib-layout-tree
 ) {
@@ -36,7 +38,8 @@
 }
 
 :where(uib-layout-manager)::part(shell),
-:where(uib-layout-editor)::part(editor) {
+:where(uib-layout-editor)::part(editor),
+:where(uib-page-importer)::part(shell) {
   display: grid;
   gap: var(--uib-space-4, 1rem);
   min-width: 0;
@@ -44,6 +47,7 @@
 
 :where(uib-layout-manager)::part(panel),
 :where(uib-layout-editor)::part(panel),
+:where(uib-page-importer)::part(panel),
 :where(uib-layout-properties)::part(panel),
 :where(uib-layout-preview)::part(surface),
 :where(uib-layout-diff)::part(wrap) {
@@ -58,6 +62,7 @@
 
 :where(uib-layout-toolbar)::part(bar),
 :where(uib-layout-editor)::part(toolbar),
+:where(uib-page-importer)::part(toolbar),
 :where(uib-layout-editor)::part(panel-header) {
   display: flex;
   flex-wrap: wrap;

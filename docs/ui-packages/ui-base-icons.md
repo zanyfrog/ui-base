@@ -1,4 +1,4 @@
-# @ui.base/icons
+# @ui-base/icons
 
 **Version:** `0.1.0`  
 **Package path:** `packages/ui-base-icons`
@@ -14,7 +14,7 @@ Use this package when a project needs the components, styles, or utilities liste
 ## Primary imports
 
 ```js
-import '@ui.base/icons';
+import '@ui-base/icons';
 ```
 
 ## Components

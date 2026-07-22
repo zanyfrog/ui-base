@@ -1,4 +1,4 @@
-# @ui.base/icons
+# @ui-base/icons
 
 SVG icon registry and `uib-icon` Web Component.
 

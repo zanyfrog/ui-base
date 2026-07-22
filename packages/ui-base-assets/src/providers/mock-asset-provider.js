@@ -149,7 +149,7 @@ const sampleAssets = [
     fileSizeBytes: 1874,
     permissions: { ...MANAGER_ASSET_PERMISSIONS },
     raw: {
-      component: '@ui.base/hero',
+      component: '@ui-base/hero',
       defaults: 'demo-app',
       visualMode: 'background'
     }

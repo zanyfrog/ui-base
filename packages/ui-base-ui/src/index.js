@@ -17,5 +17,5 @@ export { UibDetailListEditor } from './details/uib-detail-list-editor.js';
 export * from './metadata/index.js';
 
 // Compatibility exports. These packages own the implementations.
-export { UibHero } from '@ui.base/hero';
-export { UibTourReservationBase, UibNewReservation, UibCancelReservation, UibFindReservation, UibBookGroupReservation } from '@ui.base/tour-ui';
+export { UibHero } from '@ui-base/hero';
+export { UibTourReservationBase, UibNewReservation, UibCancelReservation, UibFindReservation, UibBookGroupReservation } from '@ui-base/tour-ui';

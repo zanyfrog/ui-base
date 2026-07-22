@@ -1,4 +1,4 @@
-# @ui.base/calendar
+# @ui-base/calendar
 
 **Version:** `0.2.0`  
 **Package path:** `packages/ui-base-calendar`
@@ -14,7 +14,7 @@ Use this package when a project needs the components, styles, or utilities liste
 ## Primary imports
 
 ```js
-import '@ui.base/calendar';
+import '@ui-base/calendar';
 // <uib-calendar-month-view></uib-calendar-month-view>
 ```
 

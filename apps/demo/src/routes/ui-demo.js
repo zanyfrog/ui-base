@@ -78,7 +78,7 @@ const componentEntries = UI_BASE_UI_COMPONENTS.map((item) => ({
     .split('-')
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
     .join(' '),
-  summary: item.purpose || 'Component exported from @ui.base/ui.'
+  summary: item.purpose || 'Component exported from @ui-base/ui.'
 }));
 
 function normalizePath(pathname) {
@@ -263,7 +263,7 @@ function renderIndex(main) {
   main.innerHTML = `
     <section class="page-heading">
       <p class="eyebrow">
-        @ui.base/ui
+        @ui-base/ui
       </p>
       <h1>
         UI primitive component demos.
@@ -324,7 +324,7 @@ function renderComponentPage(main, component) {
   main.innerHTML = `
     <section class="page-heading forms-detail-heading">
       <p class="eyebrow">
-        @ui.base/ui
+        @ui-base/ui
       </p>
       <h1>
         <code>

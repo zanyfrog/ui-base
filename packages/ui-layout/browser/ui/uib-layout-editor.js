@@ -1,7 +1,7 @@
 import { analyzeComponentSource } from '../analyzer/analyze-component.js';
                                                                     
 import { applyLayoutOperationsToSource } from '../writer/apply-layout-operations.js';
-import { BaseHTMLElement, attr, dispatch, escapeHtml } from './dom-utils.js';
+import { BaseHTMLElement, attr, defineLayoutElement, dispatch, escapeHtml } from './dom-utils.js';
 import './uib-layout-manager.js';
 
                                         
@@ -550,27 +550,18 @@ export class UibLayoutEditor extends BaseHTMLElement {
 
           renderJsonTree()         {
     const parsed = this.parseJsonSource();
-    return (
-  `<section class="panel json-panel">` +
-  `<div class="panel-header">` +
-  `<h2>` +
-  `JSON Tree` +
-  `</h2>` +
-  ` ` +
-  (this.jsonWarning ? `<span class="warning">${escapeHtml(this.jsonWarning)}</span>` : '') +
-  ` ` +
-  `</div>` +
-  ` ` +
-  (parsed.ok ? `<div class="json-tree">${renderJsonNode(parsed.value, [])}</div>` : '<p class="warning">The current JSON is invalid. Tree editing will resume when it can be parsed.</p>') +
-  ` ` +
-  `<label class="raw-source">` +
-  `Raw JSON ` +
-  `<textarea data-json-raw spellcheck="false">` +
-  (escapeHtml(this.sourceText)) +
-  `</textarea>` +
-  `</label>` +
-  `</section>`
-);
+    return `
+      <section class="panel json-panel">
+        <div class="panel-header">
+          <h2>JSON Tree</h2>
+          ${this.jsonWarning ? `<span class="warning">${escapeHtml(this.jsonWarning)}</span>` : ''}
+        </div>
+        ${parsed.ok ? `<div class="json-tree">${renderJsonNode(parsed.value, [])}</div>` : '<p class="warning">The current JSON is invalid. Tree editing will resume when it can be parsed.</p>'}
+        <label class="raw-source">Raw JSON
+          <textarea data-json-raw spellcheck="false">${escapeHtml(this.sourceText)}</textarea>
+        </label>
+      </section>
+    `;
   }
 
           parseJsonSource()                                                              {
@@ -660,67 +651,76 @@ export class UibLayoutEditor extends BaseHTMLElement {
 
   render() {
     if (!this.shadowRoot) return;
-    this.shadowRoot.innerHTML = (
-  `<style>` +
-  ` :host{display:block;color:#172033;font:14px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif} *,*::before,*::after{box-sizing:border-box} .editor{display:grid;gap:.8rem;min-width:0} .toolbar,.panel{border:1px solid #d9e2ee;border-radius:8px;background:#fff} .toolbar{display:flex;align-items:center;justify-content:space-between;gap:.8rem;padding:.7rem .85rem} .identity{min-width:0;display:grid;gap:.1rem} .identity strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#203b5e} .identity span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#52677f;font-size:.84rem} .actions{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:flex-end} button{min-height:2.25rem;border:1px solid #bdcbdd;border-radius:6px;background:#fff;color:#203b5e;font:inherit;font-weight:800;cursor:pointer} button.primary{border-color:#245ea8;background:#245ea8;color:#fff} button.icon{min-width:2.25rem;padding:0 .55rem} button:disabled{opacity:.48;cursor:not-allowed} .status{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;color:#52677f} .badge{display:inline-flex;align-items:center;min-height:1.45rem;padding:.1rem .45rem;border-radius:999px;border:1px solid #c9d5e5;font-size:.78rem;font-weight:800} .badge.dirty{border-color:#e4bd68;color:#875b09;background:#fff8e8} .badge.saved{border-color:#b7d8bd;color:#206b32;background:#effaf1} .panel{display:grid;gap:.7rem;padding:.85rem;min-width:0} .panel-header{display:flex;align-items:center;justify-content:space-between;gap:.7rem} h2{margin:0;color:#203b5e;font-size:1rem} uib-layout-manager{display:block} .hidden{display:none} .picker{position:fixed;inset:1.5rem;z-index:20;display:grid;grid-template-rows:auto 1fr;gap:.8rem;padding:1rem;border:1px solid #bdcbdd;border-radius:8px;background:#fff;box-shadow:0 24px 60px rgba(15,32,54,.22)} .file-list{display:grid;align-content:start;gap:.35rem;overflow:auto} .file-list button{display:grid;text-align:left;padding:.55rem .65rem} .file-list small{color:#52677f;font-weight:500} .warning{color:#8a5a00} .log{display:grid;gap:.5rem;max-height:15rem;overflow:auto} .log-entry{display:grid;gap:.1rem;padding:.5rem;border-left:3px solid #c9d5e5;background:#f8fafd} .log-entry.success{border-color:#2f7d42}.log-entry.warning{border-color:#d19611}.log-entry.error{border-color:#b4232a} .log-entry time{color:#52677f;font-size:.78rem} .json-tree{display:grid;gap:.35rem} .json-node{display:grid;gap:.35rem;margin-left:calc(var(--depth,0) * 1rem);padding:.45rem;border:1px solid #e0e7f0;border-radius:6px;background:#fbfcfe} .json-row{display:grid;grid-template-columns:minmax(8rem,.8fr) minmax(10rem,1.2fr) auto auto;gap:.4rem;align-items:end} .json-row label,.raw-source{display:grid;gap:.25rem;color:#40546d;font-weight:800} input,textarea{width:100%;min-width:0;border:1px solid #bdcbdd;border-radius:6px;padding:.45rem .55rem;font:inherit} textarea{min-height:12rem;font-family:ui-monospace,SFMono-Regular,Consolas,monospace} .raw-source textarea{min-height:9rem} .external{display:flex;gap:.6rem;align-items:center;justify-content:space-between;border:1px solid #e4bd68;background:#fff8e8;border-radius:8px;padding:.65rem .75rem} @media(max-width:840px){.toolbar{display:grid}.actions{justify-content:flex-start}.json-row{grid-template-columns:1fr}.picker{inset:.75rem}} ` +
-  `</style>` +
-  `<div class="editor">` +
-  `<div class="toolbar">` +
-  `<div class="identity">` +
-  `<strong>` +
-  (escapeHtml(this.fileName)) +
-  `</strong>` +
-  `<span>` +
-  (escapeHtml(this.filePath || `Start folder: ${this.startfolder}`)) +
-  `</span>` +
-  `</div>` +
-  `<div class="actions">` +
-  `<button class="primary" type="button" data-open-file>` +
-  `Open File` +
-  `</button>` +
-  `<button class="icon" type="button" data-undo title="Undo" aria-label="Undo" ` +
-  (this.canUndo ? '' : 'disabled') +
-  `>Undo` +
-  `</button>` +
-  `<button class="icon" type="button" data-redo title="Redo" aria-label="Redo" ` +
-  (this.canRedo ? '' : 'disabled') +
-  `>Redo` +
-  `</button>` +
-  `<button type="button" data-toggle-layout ` +
-  (this.currentFile ? '' : 'disabled') +
-  `>` +
-  (this.layoutPanelCollapsed ? 'Show Layout' : 'Hide Layout') +
-  `</button>` +
-  `<button type="button" data-toggle-log>` +
-  (this.logCollapsed ? 'Show Log' : 'Hide Log') +
-  `</button>` +
-  `<button class="icon" type="button" data-export-log title="Export event log" aria-label="Export event log">` +
-  `Log` +
-  `</button>` +
-  `</div>` +
-  `</div>` +
-  `<div class="status">` +
-  `<span class="badge ` +
-  (this.dirty ? 'dirty' : 'saved') +
-  `">` +
-  (this.dirty ? 'dirty' : 'saved') +
-  `</span>` +
-  `<span>` +
-  (escapeHtml(this.statusMessage)) +
-  `</span>` +
-  ` ` +
-  (this.saveRetryCount ? `<span class="warning">Retry ${this.saveRetryCount}/${MAX_SAVE_RETRIES}</span>` : '') +
-  ` ` +
-  `</div>` +
-  ` ` +
-  (this.externalChangeBlocked ? `
+    this.shadowRoot.innerHTML = `
+      <style>
+        :host{display:block;color:#172033;font:14px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+        *,*::before,*::after{box-sizing:border-box}
+        .editor{display:grid;gap:.8rem;min-width:0}
+        .toolbar,.panel{border:1px solid #d9e2ee;border-radius:8px;background:#fff}
+        .toolbar{display:flex;align-items:center;justify-content:space-between;gap:.8rem;padding:.7rem .85rem}
+        .identity{min-width:0;display:grid;gap:.1rem}
+        .identity strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#203b5e}
+        .identity span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#52677f;font-size:.84rem}
+        .actions{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:flex-end}
+        button{min-height:2.25rem;border:1px solid #bdcbdd;border-radius:6px;background:#fff;color:#203b5e;font:inherit;font-weight:800;cursor:pointer}
+        button.primary{border-color:#245ea8;background:#245ea8;color:#fff}
+        button.icon{min-width:2.25rem;padding:0 .55rem}
+        button:disabled{opacity:.48;cursor:not-allowed}
+        .status{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;color:#52677f}
+        .badge{display:inline-flex;align-items:center;min-height:1.45rem;padding:.1rem .45rem;border-radius:999px;border:1px solid #c9d5e5;font-size:.78rem;font-weight:800}
+        .badge.dirty{border-color:#e4bd68;color:#875b09;background:#fff8e8}
+        .badge.saved{border-color:#b7d8bd;color:#206b32;background:#effaf1}
+        .panel{display:grid;gap:.7rem;padding:.85rem;min-width:0}
+        .panel-header{display:flex;align-items:center;justify-content:space-between;gap:.7rem}
+        h2{margin:0;color:#203b5e;font-size:1rem}
+        uib-layout-manager{display:block}
+        .hidden{display:none}
+        .picker{position:fixed;inset:1.5rem;z-index:20;display:grid;grid-template-rows:auto 1fr;gap:.8rem;padding:1rem;border:1px solid #bdcbdd;border-radius:8px;background:#fff;box-shadow:0 24px 60px rgba(15,32,54,.22)}
+        .file-list{display:grid;align-content:start;gap:.35rem;overflow:auto}
+        .file-list button{display:grid;text-align:left;padding:.55rem .65rem}
+        .file-list small{color:#52677f;font-weight:500}
+        .warning{color:#8a5a00}
+        .log{display:grid;gap:.5rem;max-height:15rem;overflow:auto}
+        .log-entry{display:grid;gap:.1rem;padding:.5rem;border-left:3px solid #c9d5e5;background:#f8fafd}
+        .log-entry.success{border-color:#2f7d42}.log-entry.warning{border-color:#d19611}.log-entry.error{border-color:#b4232a}
+        .log-entry time{color:#52677f;font-size:.78rem}
+        .json-tree{display:grid;gap:.35rem}
+        .json-node{display:grid;gap:.35rem;margin-left:calc(var(--depth,0) * 1rem);padding:.45rem;border:1px solid #e0e7f0;border-radius:6px;background:#fbfcfe}
+        .json-row{display:grid;grid-template-columns:minmax(8rem,.8fr) minmax(10rem,1.2fr) auto auto;gap:.4rem;align-items:end}
+        .json-row label,.raw-source{display:grid;gap:.25rem;color:#40546d;font-weight:800}
+        input,textarea{width:100%;min-width:0;border:1px solid #bdcbdd;border-radius:6px;padding:.45rem .55rem;font:inherit}
+        textarea{min-height:12rem;font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+        .raw-source textarea{min-height:9rem}
+        .external{display:flex;gap:.6rem;align-items:center;justify-content:space-between;border:1px solid #e4bd68;background:#fff8e8;border-radius:8px;padding:.65rem .75rem}
+        @media(max-width:840px){.toolbar{display:grid}.actions{justify-content:flex-start}.json-row{grid-template-columns:1fr}.picker{inset:.75rem}}
+      </style>
+      <div class="editor">
+        <div class="toolbar">
+          <div class="identity">
+            <strong>${escapeHtml(this.fileName)}</strong>
+            <span>${escapeHtml(this.filePath || `Start folder: ${this.startfolder}`)}</span>
+          </div>
+          <div class="actions">
+            <button class="primary" type="button" data-open-file>Open File</button>
+            <button class="icon" type="button" data-undo title="Undo" aria-label="Undo" ${this.canUndo ? '' : 'disabled'}>Undo</button>
+            <button class="icon" type="button" data-redo title="Redo" aria-label="Redo" ${this.canRedo ? '' : 'disabled'}>Redo</button>
+            <button type="button" data-toggle-layout ${this.currentFile ? '' : 'disabled'}>${this.layoutPanelCollapsed ? 'Show Layout' : 'Hide Layout'}</button>
+            <button type="button" data-toggle-log>${this.logCollapsed ? 'Show Log' : 'Hide Log'}</button>
+            <button class="icon" type="button" data-export-log title="Export event log" aria-label="Export event log">Log</button>
+          </div>
+        </div>
+        <div class="status">
+          <span class="badge ${this.dirty ? 'dirty' : 'saved'}">${this.dirty ? 'dirty' : 'saved'}</span>
+          <span>${escapeHtml(this.statusMessage)}</span>
+          ${this.saveRetryCount ? `<span class="warning">Retry ${this.saveRetryCount}/${MAX_SAVE_RETRIES}</span>` : ''}
+        </div>
+        ${this.externalChangeBlocked ? `
           <div class="external">
             <span>The file changed outside this editor. Reload before saving.</span>
             <button type="button" data-reload>Reload</button>
           </div>
-        ` : '') +
-  ` ` +
-  (this.currentFile ? this.fileKind === 'json' ? this.renderJsonTree() : `
+        ` : ''}
+        ${this.currentFile ? this.fileKind === 'json' ? this.renderJsonTree() : `
           <section class="panel ${this.layoutPanelCollapsed ? 'hidden' : ''}">
             <div class="panel-header">
               <h2>Layout Editor</h2>
@@ -732,30 +732,20 @@ export class UibLayoutEditor extends BaseHTMLElement {
             <h2>No File Open</h2>
             <p>Use Open File to pick the ${escapeHtml(this.startfolder)} folder and select a JavaScript, TypeScript, HTML, or JSON file.</p>
           </section>
-        `) +
-  ` <section class="panel ` +
-  (this.logCollapsed ? 'hidden' : '') +
-  `">` +
-  `<div class="panel-header">` +
-  `<h2>` +
-  `Event Log` +
-  `</h2>` +
-  `<span>` +
-  (this.logs.length) +
-  ` events` +
-  `</span>` +
-  `</div>` +
-  `<div class="log">` +
-  (this.logs.length ? this.logs.slice().reverse().map((entry) => `
+        `}
+        <section class="panel ${this.logCollapsed ? 'hidden' : ''}">
+          <div class="panel-header">
+            <h2>Event Log</h2>
+            <span>${this.logs.length} events</span>
+          </div>
+          <div class="log">${this.logs.length ? this.logs.slice().reverse().map((entry) => `
             <article class="log-entry ${entry.level}">
               <strong>${escapeHtml(entry.message)}</strong>
               <time>${escapeHtml(entry.timestamp)} / ${escapeHtml(entry.eventType)}</time>
             </article>
-          `).join('') : '<p>No events yet.</p>') +
-  `</div>` +
-  `</section>` +
-  ` ` +
-  (this.pickerOpen ? `
+          `).join('') : '<p>No events yet.</p>'}</div>
+        </section>
+        ${this.pickerOpen ? `
           <section class="picker" role="dialog" aria-modal="true" aria-label="Open file">
             <div class="panel-header">
               <h2>Open File</h2>
@@ -770,10 +760,9 @@ export class UibLayoutEditor extends BaseHTMLElement {
               `).join('') : '<p>No supported files were found.</p>'}
             </div>
           </section>
-        ` : '') +
-  ` ` +
-  `</div>`
-);
+        ` : ''}
+      </div>
+    `;
     this.bind();
   }
 }
@@ -782,61 +771,36 @@ function renderJsonNode(value         , path          , key         , depth = 0,
   const pointer = encodePath(path);
   const type = Array.isArray(value) ? 'array' : value === null ? 'null' : typeof value;
   const isContainer = value !== null && typeof value === 'object';
-  const keyField = key === undefined ? '<span></span>' : parentIsArray ? (
-  `<label>` +
-  `Index <input value="` +
-  (attr(key)) +
-  `" disabled>` +
-  `</label>`
-) : (
-  `<label>` +
-  `Key <input data-json-key="` +
-  (attr(encodePath(path.slice(0, -1)))) +
-  `" data-old-key="` +
-  (attr(key)) +
-  `" value="` +
-  (attr(key)) +
-  `">` +
-  `</label>`
-);
-  const valueField = isContainer ? (
-  `<span>` +
-  (escapeHtml(type)) +
-  `</span>`
-) : (
-  `<label>` +
-  `Value <input data-json-value="` +
-  (attr(pointer)) +
-  `" value="` +
-  (attr(JSON.stringify(value))) +
-  `">` +
-  `</label>`
-);
+  const keyField = key === undefined ? '<span></span>' : parentIsArray ? `
+    <label>Index
+      <input value="${attr(key)}" disabled>
+    </label>
+  ` : `
+    <label>Key
+      <input data-json-key="${attr(encodePath(path.slice(0, -1)))}" data-old-key="${attr(key)}" value="${attr(key)}">
+    </label>
+  `;
+  const valueField = isContainer ? `<span>${escapeHtml(type)}</span>` : `
+    <label>Value
+      <input data-json-value="${attr(pointer)}" value="${attr(JSON.stringify(value))}">
+    </label>
+  `;
   const children = Array.isArray(value)
     ? value.map((item, index) => renderJsonNode(item, [...path, String(index)], String(index), depth + 1, true)).join('')
     : value && typeof value === 'object'
       ? Object.entries(value                           ).map(([childKey, childValue]) => renderJsonNode(childValue, [...path, childKey], childKey, depth + 1, false)).join('')
       : '';
-  return (
-  `<div class="json-node" style="--depth:` +
-  (depth) +
-  `">` +
-  `<div class="json-row">` +
-  ` ` +
-  (keyField) +
-  ` ` +
-  (valueField) +
-  ` ` +
-  (isContainer ? `<button type="button" data-json-add="${attr(pointer)}">Add</button>` : '<span></span>') +
-  ` ` +
-  (path.length ? `<button type="button" data-json-remove="${attr(pointer)}">Remove</button>` : '<span></span>') +
-  ` ` +
-  `</div>` +
-  ` ` +
-  (children) +
-  ` ` +
-  `</div>`
-);
+  return `
+    <div class="json-node" style="--depth:${depth}">
+      <div class="json-row">
+        ${keyField}
+        ${valueField}
+        ${isContainer ? `<button type="button" data-json-add="${attr(pointer)}">Add</button>` : '<span></span>'}
+        ${path.length ? `<button type="button" data-json-remove="${attr(pointer)}">Remove</button>` : '<span></span>'}
+      </div>
+      ${children}
+    </div>
+  `;
 }
 
 function parseJsonLiteral(value        )                                       {
@@ -923,7 +887,7 @@ function sanitizeFileName(value        )         {
   return value.replace(/[^a-zA-Z0-9._-]+/g, '-').replace(/^-+|-+$/g, '') || 'ui-layout-editor';
 }
 
-if (typeof customElements !== 'undefined' && !customElements.get('uib-layout-editor')) customElements.define('uib-layout-editor', UibLayoutEditor);
+defineLayoutElement('uib-layout-editor', UibLayoutEditor);
 
                 
                                    

@@ -1,4 +1,4 @@
-import '@ui.base/hero/uib-hero-editor';
+import '@ui-base/hero/uib-hero-editor';
 import { BaseHTMLElement, attr, clientFromElement, cloneRecord, defineAppManagerElement, dispatch, escapeHtml, formatError } from '../utils/dom.js';
 
 type HeroRecord = Record<string, string>;

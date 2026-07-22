@@ -1,8 +1,8 @@
-# @ui.base/core
+# @ui-base/core
 
 Shared infrastructure for the UI Base package ecosystem.
 
-This package contains the common Web Component base class, shared attribute conventions, event helpers, localization, validation, component metadata helpers, and general utilities used by `@ui.base/ui`, `@ui.base/forms`, `@ui.base/icons`, and future packages.
+This package contains the common Web Component base class, shared attribute conventions, event helpers, localization, validation, component metadata helpers, and general utilities used by `@ui-base/ui`, `@ui-base/forms`, `@ui-base/icons`, and future packages.
 
 ## Common attributes
 
@@ -42,7 +42,7 @@ State-changing components emit both a native-style event and a component-specifi
 English is the default locale. Applications can register or override messages:
 
 ```js
-import { setUiBaseLocale } from '@ui.base/core';
+import { setUiBaseLocale } from '@ui-base/core';
 
 setUiBaseLocale('es', {
   'toggle.null': 'N/D'

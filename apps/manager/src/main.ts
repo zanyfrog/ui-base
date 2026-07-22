@@ -1,9 +1,9 @@
-import '@ui.base/ui/styles.css';
-import '@ui.base/calendar';
-import '@ui.base/hero';
-import '@ui.base/app-manager-design-tokens/tokens.css';
-import '@ui.base/app-manager-ui/styles.css';
-import '@ui.base/app-manager-ui';
+import '@ui-base/ui/styles.css';
+import '@ui-base/calendar';
+import '@ui-base/hero';
+import '@ui-base/app-manager-design-tokens/tokens.css';
+import '@ui-base/app-manager-ui/styles.css';
+import '@ui-base/app-manager-ui';
 import './styles.css';
 
 const root = document.querySelector<HTMLDivElement>('#app');

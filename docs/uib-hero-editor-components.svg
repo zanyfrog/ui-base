@@ -34,10 +34,10 @@
 
   <rect class="bg" width="1280" height="820"/>
   <text class="text title" x="48" y="58">uib-hero-editor component breakdown</text>
-  <text class="muted body" x="48" y="86">Reusable editor in @ui.base/hero. Persistence is owned by the parent demo or app-manager wrapper.</text>
+  <text class="muted body" x="48" y="86">Reusable editor in @ui-base/hero. Persistence is owned by the parent demo or app-manager wrapper.</text>
 
   <rect class="panel" x="44" y="126" width="760" height="620" rx="14"/>
-  <text class="text h2" x="76" y="166">@ui.base/hero package</text>
+  <text class="text h2" x="76" y="166">@ui-base/hero package</text>
 
   <rect class="package" x="84" y="204" width="300" height="104" rx="12"/>
   <text class="text h2" x="112" y="240">uib-hero-editor</text>
@@ -50,11 +50,11 @@
 
   <rect class="package" x="96" y="462" width="260" height="78" rx="10"/>
   <text class="text label" x="122" y="494">uib-visual-source-control</text>
-  <text class="muted small" x="122" y="518">@ui.base/assets</text>
+  <text class="muted small" x="122" y="518">@ui-base/assets</text>
 
   <rect class="package" x="96" y="564" width="260" height="78" rx="10"/>
   <text class="text label" x="122" y="596">uib-detail-list-editor</text>
-  <text class="muted small" x="122" y="620">@ui.base/ui</text>
+  <text class="muted small" x="122" y="620">@ui-base/ui</text>
 
   <rect class="basic" x="424" y="360" width="286" height="78" rx="10"/>
   <text class="text label" x="450" y="392">Inline action editor</text>

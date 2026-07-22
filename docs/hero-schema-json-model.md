@@ -60,7 +60,7 @@ Save behavior:
 
 ## Public Hero rendering
 
-`@ui.base/hero` renders the canonical model through the `action-components` attribute:
+`@ui-base/hero` renders the canonical model through the `action-components` attribute:
 
 ```html
 <uib-hero action-components='[...]'></uib-hero>

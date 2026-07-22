@@ -1,4 +1,4 @@
-# @ui.base/app-manager-api-client
+# @ui-base/app-manager-api-client
 
 Small fetch wrapper for the local ORM and I-AM endpoints used by the app manager UI components.
 

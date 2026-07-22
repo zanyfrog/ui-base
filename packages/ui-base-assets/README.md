@@ -1,8 +1,8 @@
-# @ui.base/assets
+# @ui-base/assets
 
-`@ui.base/assets` is a framework-neutral Web Component package for browsing, picking, uploading, editing, permission-checking, previewing, versioning, and tracking usage of reusable assets.
+`@ui-base/assets` is a framework-neutral Web Component package for browsing, picking, uploading, editing, permission-checking, previewing, versioning, and tracking usage of reusable assets.
 
-It is designed to be used with `@ui.base/ui` design tokens and with ORM as the first backend provider, while remaining reusable with any asset service.
+It is designed to be used with `@ui-base/ui` design tokens and with ORM as the first backend provider, while remaining reusable with any asset service.
 
 ## Components
 
@@ -28,13 +28,13 @@ uib-asset-permission-set-picker
 ## Basic browser usage
 
 ```js
-import '@ui.base/ui';
-import '@ui.base/ui/styles.css';
+import '@ui-base/ui';
+import '@ui-base/ui/styles.css';
 import {
   createMockAssetProvider,
   createOrmAssetProvider
-} from '@ui.base/assets';
-import '@ui.base/assets';
+} from '@ui-base/assets';
+import '@ui-base/assets';
 
 const browser = document.querySelector('uib-asset-browser');
 
@@ -199,7 +199,7 @@ The package demo route `/assets-demo/picker` exposes these settings as dropdowns
 ## ORM provider usage
 
 ```js
-import { createOrmAssetProvider } from '@ui.base/assets';
+import { createOrmAssetProvider } from '@ui-base/assets';
 
 const provider = createOrmAssetProvider({
   baseUrl: 'http://localhost:4020',

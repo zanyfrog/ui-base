@@ -1,5 +1,5 @@
 {
-  "name": "@ui.base/forms",
+  "name": "@ui-base/forms",
   "version": "0.1.0",
   "type": "module",
   "description": "UI Base form, validation, input, and form layout Web Components.",
@@ -29,7 +29,7 @@
   "sideEffects": true,
   "license": "UNLICENSED",
   "dependencies": {
-    "@ui.base/core": "^0.1.0",
-    "@ui.base/ui": "^0.5.1"
+    "@ui-base/core": "^0.1.0",
+    "@ui-base/ui": "^0.5.1"
   }
 }

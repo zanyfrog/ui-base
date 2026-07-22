@@ -1,4 +1,4 @@
-# @ui.base/theme
+# @ui-base/theme
 
 **Version:** `0.1.0`  
 **Package path:** `packages/ui-base-theme`
@@ -14,7 +14,7 @@ Use this package when a project needs the components, styles, or utilities liste
 ## Primary imports
 
 ```js
-import '@ui.base/theme/default.css';
+import '@ui-base/theme/default.css';
 ```
 
 ## Components
