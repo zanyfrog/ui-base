@@ -126,6 +126,7 @@ const requiredFiles = [
   'apps/demo/src/routes/calendar-package-demo.js',
   'apps/demo/src/routes/calendar-demo.js',
   'apps/demo/src/routes/assets-demo.js',
+  'apps/demo/src/routes/ui-demo.js',
   'apps/demo/src/routes/ui-controls-demo.js',
   'apps/demo/src/routes/forms-demo.js',
   'package-tests/index.html',
@@ -183,10 +184,11 @@ const routeSourceFiles = [
   'apps/demo/src/routes/calendar-package-demo.js',
   'apps/demo/src/routes/calendar-demo.js',
   'apps/demo/src/routes/assets-demo.js',
+  'apps/demo/src/routes/ui-demo.js',
   'apps/demo/src/routes/ui-controls-demo.js',
   'apps/demo/src/routes/forms-demo.js'
 ];
-for (const route of ['/package-tests/', '/component-tests/', '/design-system/', '/components/', '/assets-demo/', '/assets-demo/browser', '/assets-demo/picker', '/assets-demo/manage', '/assets-demo/permissions', '/assets-demo/versions', '/assets-demo/usage', '/calendar-demo/', '/calendar/', '/calendar/uib-calendar-day-view', '/calendar/uib-calendar-week-view', '/calendar/uib-calendar-month-view', '/calendar/uib-calendar-year-view', '/calendar/uib-date-window-view', '/calendar/uib-day-of-week-view', '/ui-controls/', '/forms/', '/forms/uib-forms-checkbox', '/forms/uib-forms-date', '/forms/uib-forms-email', '/forms/uib-forms-field', '/forms/uib-forms-form', '/forms/uib-forms-input-group', '/forms/uib-forms-number', '/forms/uib-forms-password', '/forms/uib-forms-phone', '/forms/uib-forms-select', '/forms/uib-forms-textarea', '/forms/uib-forms-textbox', '/forms/uib-forms-wizard', '/hero/', '/hero/organization', '/hero/sample-site', '/hero/asset-backed-details', '/tour-ui/', '/tour-ui/new-reservation', '/tour-ui/cancel-reservation', '/tour-ui/find-reservation', '/tour-ui/book-group-reservation']) {
+for (const route of ['/package-tests/', '/component-tests/', '/design-system/', '/components/', '/assets-demo/', '/assets-demo/browser', '/assets-demo/picker', '/assets-demo/manage', '/assets-demo/permissions', '/assets-demo/versions', '/assets-demo/usage', '/calendar-demo/', '/calendar/', '/calendar/uib-calendar-day-view', '/calendar/uib-calendar-week-view', '/calendar/uib-calendar-month-view', '/calendar/uib-calendar-year-view', '/calendar/uib-date-window-view', '/calendar/uib-day-of-week-view', '/ui/tabs', '/ui-controls/', '/forms/', '/forms/uib-forms-checkbox', '/forms/uib-forms-date', '/forms/uib-forms-email', '/forms/uib-forms-field', '/forms/uib-forms-form', '/forms/uib-forms-input-group', '/forms/uib-forms-number', '/forms/uib-forms-password', '/forms/uib-forms-phone', '/forms/uib-forms-select', '/forms/uib-forms-textarea', '/forms/uib-forms-textbox', '/forms/uib-forms-wizard', '/hero/', '/hero/organization', '/hero/sample-site', '/hero/asset-backed-details', '/tour-ui/', '/tour-ui/new-reservation', '/tour-ui/cancel-reservation', '/tour-ui/find-reservation', '/tour-ui/book-group-reservation']) {
   if (!routeSourceFiles.some((file) => readFileSync(join(root, file), 'utf8').includes(route))) {
     console.error(`Route source is missing ${route}`);
     failed = true;
@@ -200,7 +202,7 @@ if (mainSource.includes('renderSampleTourRoute') || mainSource.includes('/sample
 }
 
 const uiComponentSource = readFileSync(join(root, 'packages/ui-base-ui/src/index.js'), 'utf8');
-for (const exportName of ['UibHelp', 'UibLabel', 'UibToggle', 'UibCheckbox', 'UibEyebrow', 'UibHeadingBlock', 'UibActionButton', 'UibActionGroup', 'UibMedia', 'UibDetailItem', 'UibDetailItemEdit', 'UibDetailList', 'UibDetailListEditor', 'UibMenu', 'UibMenuItem', 'UibStack', 'UibGrid', 'UibRow', 'UibColumn', 'UibPanel', 'UibCard', 'UibDialog', 'UibAccordion', 'UibTabs', 'UibSplitter', 'UibNewReservation', 'UibCancelReservation', 'UibFindReservation', 'UibBookGroupReservation']) {
+for (const exportName of ['UibHelp', 'UibLabel', 'UibToggle', 'UibCheckbox', 'UibEyebrow', 'UibHeadingBlock', 'UibActionButton', 'UibActionGroup', 'UibMedia', 'UibDetailItem', 'UibDetailItemEdit', 'UibDetailList', 'UibDetailListEditor', 'UibMenu', 'UibMenuItem', 'UibStack', 'UibGrid', 'UibRow', 'UibColumn', 'UibPanel', 'UibCard', 'UibDialog', 'UibAccordion', 'UibTab', 'UibTabPanel', 'UibTabs', 'UibSplitter', 'UibNewReservation', 'UibCancelReservation', 'UibFindReservation', 'UibBookGroupReservation']) {
   if (!uiComponentSource.includes(exportName)) {
     console.error(`UI package index is missing export: ${exportName}`);
     failed = true;

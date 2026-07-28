@@ -14,8 +14,13 @@ const sharedFieldAttributes = [
   { name: 'minlength', type: 'number', description: 'Minimum number of characters required for text validation.' },
   { name: 'maxlength', type: 'number', description: 'Maximum number of characters allowed for text validation.' },
   { name: 'pattern', type: 'string', description: 'Regular expression pattern the value must match.' },
-  { name: 'autocomplete', type: 'string', description: 'Browser autocomplete hint passed to the native control.' }
+  { name: 'autocomplete', type: 'string', description: 'Browser autocomplete hint passed to the native control.' },
+  { name: 'recent-values', type: 'boolean', description: 'Enables localStorage-backed recent values for eligible single-line text inputs.' },
+  { name: 'recent-values-limit', type: 'number', description: 'Maximum saved recent values. Defaults to 5; 0 or negative values disable the feature.' },
+  { name: 'recent-values-key', type: 'string', description: 'Optional storage key suffix. Defaults to the field name.' }
 ];
+
+const recentValueAttributeNames = ['recent-values', 'recent-values-limit', 'recent-values-key'];
 
 const sharedFieldProperties = [
   { name: 'value', type: 'string', description: 'Gets or sets the current value and updates the associated form value.' },
@@ -42,6 +47,11 @@ const commonControlEvents = [
 const sharedFieldEvents = (tagName) => [
   ...commonControlEvents,
   { name: `${tagName}-change`, description: 'Custom event fired when the committed value changes. Detail includes name, oldValue, and newValue.' }
+];
+
+const recentFieldEvents = (tagName) => [
+  ...sharedFieldEvents(tagName),
+  { name: 'uib-recent-values-save', description: 'Fires after a recent value is saved. Detail includes name, key, value, values, and limit.' }
 ];
 
 const sharedFieldSlots = [
@@ -120,11 +130,12 @@ export const FORM_COMPONENT_API = {
     examples: ['<uib-forms-form name="contact" submit-label="Send"><uib-forms-textbox name="fullName" label="Full name" required></uib-forms-textbox></uib-forms-form>']
   },
   'uib-forms-textbox': fieldApi('uib-forms-textbox', {
+    events: recentFieldEvents('uib-forms-textbox'),
     examples: ['<uib-forms-textbox name="visitorName" label="Name" placeholder="Enter a name"></uib-forms-textbox>']
   }),
   'uib-forms-number': fieldApi('uib-forms-number', {
     attributes: [
-      ...sharedFieldAttributes.filter((item) => !['minlength', 'maxlength', 'pattern'].includes(item.name)),
+      ...sharedFieldAttributes.filter((item) => !['minlength', 'maxlength', 'pattern', ...recentValueAttributeNames].includes(item.name)),
       { name: 'min', type: 'number', description: 'Minimum numeric value.' },
       { name: 'max', type: 'number', description: 'Maximum numeric value.' },
       { name: 'step', type: 'number', description: 'Allowed numeric increment for the native number input.' }
@@ -133,7 +144,7 @@ export const FORM_COMPONENT_API = {
   }),
   'uib-forms-date': fieldApi('uib-forms-date', {
     attributes: [
-      ...sharedFieldAttributes.filter((item) => !['minlength', 'maxlength', 'pattern', 'placeholder'].includes(item.name)),
+      ...sharedFieldAttributes.filter((item) => !['minlength', 'maxlength', 'pattern', 'placeholder', ...recentValueAttributeNames].includes(item.name)),
       { name: 'min', type: 'date', description: 'Earliest selectable date in YYYY-MM-DD format.' },
       { name: 'max', type: 'date', description: 'Latest selectable date in YYYY-MM-DD format.' },
       { name: 'step', type: 'number', description: 'Allowed day increment for the native date input.' }
@@ -142,10 +153,11 @@ export const FORM_COMPONENT_API = {
   }),
   'uib-forms-email': fieldApi('uib-forms-email', {
     attributes: sharedFieldAttributes.filter((item) => item.name !== 'pattern'),
+    events: recentFieldEvents('uib-forms-email'),
     examples: ['<uib-forms-email name="email" label="Email" autocomplete="email"></uib-forms-email>']
   }),
   'uib-forms-password': fieldApi('uib-forms-password', {
-    attributes: sharedFieldAttributes.filter((item) => !['pattern'].includes(item.name)),
+    attributes: sharedFieldAttributes.filter((item) => !['pattern', ...recentValueAttributeNames].includes(item.name)),
     cssParts: [
       ...sharedFieldParts,
       { name: 'control-wrap', description: 'Password input and visibility toggle wrapper.' },
@@ -159,14 +171,15 @@ export const FORM_COMPONENT_API = {
   }),
   'uib-forms-phone': fieldApi('uib-forms-phone', {
     attributes: sharedFieldAttributes.filter((item) => !['minlength', 'maxlength', 'pattern'].includes(item.name)),
+    events: recentFieldEvents('uib-forms-phone'),
     examples: ['<uib-forms-phone name="phone" label="Phone" autocomplete="tel"></uib-forms-phone>']
   }),
   'uib-forms-textarea': fieldApi('uib-forms-textarea', {
-    attributes: sharedFieldAttributes.filter((item) => !['autocomplete'].includes(item.name)),
+    attributes: sharedFieldAttributes.filter((item) => !['autocomplete', ...recentValueAttributeNames].includes(item.name)),
     examples: ['<uib-forms-textarea name="notes" label="Notes" placeholder="Add notes"></uib-forms-textarea>']
   }),
   'uib-forms-select': fieldApi('uib-forms-select', {
-    attributes: sharedFieldAttributes.filter((item) => !['placeholder', 'minlength', 'maxlength', 'pattern', 'autocomplete'].includes(item.name)).concat([
+    attributes: sharedFieldAttributes.filter((item) => !['placeholder', 'minlength', 'maxlength', 'pattern', 'autocomplete', ...recentValueAttributeNames].includes(item.name)).concat([
       { name: 'options', type: 'string', description: 'Comma-separated option values rendered as native option elements.' }
     ]),
     slots: [
@@ -222,6 +235,30 @@ export const FORM_COMPONENT_API = {
       { name: '--uib-focus-ring', description: 'Focus ring shadow used on keyboard focus.' }
     ],
     examples: ['<uib-forms-checkbox name="confirmed" label="Confirmed" value="yes"></uib-forms-checkbox>']
+  },
+  'uib-recent-values-manager': {
+    tagName: 'uib-recent-values-manager',
+    package: '@ui-base/forms',
+    maturity: MATURITY_LEVELS.EXPERIMENTAL,
+    attributes: [],
+    properties: [],
+    events: [
+      { name: 'uib-recent-values-clear', description: 'Fires after a recent value is deleted or a key is cleared. Detail includes key, value, and values.' }
+    ],
+    slots: [],
+    cssParts: [
+      { name: 'manager', description: 'Outer manager panel.' },
+      { name: 'header', description: 'Panel heading wrapper.' },
+      { name: 'groups', description: 'Recent-value group list.' },
+      { name: 'group', description: 'Single storage-key group.' },
+      { name: 'empty', description: 'Empty state text.' }
+    ],
+    cssVariables: [
+      { name: '--uib-color-border', description: 'Group border color.' },
+      { name: '--uib-color-primary', description: 'Button hover and focus accent color.' },
+      { name: '--uib-focus-ring', description: 'Focus ring shadow used on keyboard focus.' }
+    ],
+    examples: ['<uib-recent-values-manager></uib-recent-values-manager>']
   },
   'uib-forms-field': {
     tagName: 'uib-forms-field',

@@ -34,6 +34,8 @@ import '@ui-base/ui/styles.css';
 - `<uib-row></uib-row>`
 - `<uib-splitter></uib-splitter>`
 - `<uib-stack></uib-stack>`
+- `<uib-tab></uib-tab>`
+- `<uib-tab-panel></uib-tab-panel>`
 - `<uib-tabs></uib-tabs>`
 - `<uib-menu></uib-menu>`
 - `<uib-menuitem></uib-menuitem>`
@@ -61,6 +63,8 @@ import '@ui-base/ui/styles.css';
 - `./menu` -> `./src/navigation/uib-menu.js`
 - `./menuitem` -> `./src/navigation/uib-menuitem.js`
 - `./layout` -> `./src/layout/index.js`
+- `./card` -> `./src/layout/uib-card.js`
+- `./panel` -> `./src/layout/uib-panel.js`
 - `./hero` -> `./src/hero/uib-hero.js`
 - `./reservations` -> `./src/reservations/index.js`
 - `./reservations/new-reservation` -> `./src/reservations/uib-new-reservation.js`

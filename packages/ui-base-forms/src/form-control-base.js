@@ -6,6 +6,12 @@ import {
 } from '@ui-base/core';
 import '@ui-base/ui/label';
 import '@ui-base/ui/help';
+import {
+  loadRecentValues,
+  parseRecentValuesLimit,
+  recentValuesStorageKey,
+  saveRecentValue
+} from './recent-values.js';
 
 export const formControlStyles = `
 :host{display:block;color:var(--uib-color-ink,#13294b);font-family:var(--uib-font-family-sans,Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif)}*,*::before,*::after{box-sizing:border-box}.uib-field{display:grid;gap:var(--uib-forms-field-gap,.35rem);max-width:100%}.uib-field__label{display:inline-flex;align-items:center;gap:.35rem;line-height:1.35}.uib-control{width:100%;font:inherit}.uib-control:focus-visible{outline:none}textarea.uib-control{resize:vertical}select.uib-control{cursor:pointer}
@@ -40,7 +46,10 @@ export class UibFormControlBase extends UibBaseElement {
       'pattern',
       'step',
       'options',
-      'autocomplete'
+      'autocomplete',
+      'recent-values',
+      'recent-values-limit',
+      'recent-values-key'
     ];
   }
 
@@ -50,6 +59,8 @@ export class UibFormControlBase extends UibBaseElement {
     this._initialized = false;
     this._reflecting = false;
     this._internals = null;
+    this._submitForm = null;
+    this._handleNativeSubmit = () => this.saveRecentValue();
     try {
       if (typeof this.attachInternals === 'function') this._internals = this.attachInternals();
     } catch {
@@ -62,7 +73,12 @@ export class UibFormControlBase extends UibBaseElement {
     if (!this._initialized) this._value = this.getAttribute('value') || '';
     this._initialized = true;
     this._updateFormValue();
+    this._bindSubmitForm();
     this.render();
+  }
+
+  disconnectedCallback() {
+    this._unbindSubmitForm();
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -91,6 +107,86 @@ export class UibFormControlBase extends UibBaseElement {
 
   get placeholder() {
     return this.getAttribute('placeholder') || '';
+  }
+
+  get recentValues() {
+    return this.hasAttribute('recent-values');
+  }
+
+  set recentValues(value) {
+    this.toggleAttribute('recent-values', Boolean(value));
+  }
+
+  get recentValuesLimit() {
+    return parseRecentValuesLimit(this.getAttribute('recent-values-limit'));
+  }
+
+  set recentValuesLimit(value) {
+    if (value === null || value === undefined || String(value).trim() === '') this.removeAttribute('recent-values-limit');
+    else this.setAttribute('recent-values-limit', String(value));
+  }
+
+  get recentValuesKey() {
+    return this.getAttribute('recent-values-key') || '';
+  }
+
+  set recentValuesKey(value) {
+    if (value === null || value === undefined || String(value).trim() === '') this.removeAttribute('recent-values-key');
+    else this.setAttribute('recent-values-key', String(value));
+  }
+
+  get recentValuesStorageKey() {
+    return recentValuesStorageKey(this.recentValuesKey || this.name);
+  }
+
+  _supportsRecentValues() {
+    return this.constructor.controlKind === 'input'
+      && ['text', 'email', 'tel', 'url', 'search'].includes(this.constructor.inputType);
+  }
+
+  _recentValuesEnabled() {
+    return this.recentValues
+      && this._supportsRecentValues()
+      && this.recentValuesLimit > 0
+      && Boolean(this.recentValuesStorageKey);
+  }
+
+  _recentValues() {
+    if (!this._recentValuesEnabled()) return [];
+    return loadRecentValues(this.recentValuesStorageKey).slice(0, this.recentValuesLimit);
+  }
+
+  _recentValuesListId() {
+    return `${this.componentId}-recent-values`;
+  }
+
+  _bindSubmitForm() {
+    const form = this._internals?.form || this.closest?.('form') || null;
+    if (form === this._submitForm) return;
+    this._unbindSubmitForm();
+    this._submitForm = form;
+    this._submitForm?.addEventListener?.('submit', this._handleNativeSubmit, true);
+  }
+
+  _unbindSubmitForm() {
+    this._submitForm?.removeEventListener?.('submit', this._handleNativeSubmit, true);
+    this._submitForm = null;
+  }
+
+  saveRecentValue() {
+    if (!this._recentValuesEnabled()) return [];
+    const values = saveRecentValue(this.recentValuesStorageKey, this.value, this.recentValuesLimit);
+    if (values.length) {
+      this.emitMtEvent('uib-recent-values-save', {
+        name: this.name,
+        key: this.recentValuesStorageKey,
+        value: values[0],
+        values,
+        limit: this.recentValuesLimit
+      });
+      if (this.isConnected) this.render();
+    }
+    return values;
   }
 
   _constraints() {
@@ -238,7 +334,8 @@ export class UibFormControlBase extends UibBaseElement {
       ${this.getAttribute('maxlength') ? `maxlength="${escapeHtml(this.getAttribute('maxlength'))}"` : ''}
       ${this.getAttribute('pattern') ? `pattern="${escapeHtml(this.getAttribute('pattern'))}"` : ''}
       ${this.getAttribute('step') ? `step="${escapeHtml(this.getAttribute('step'))}"` : ''}
-      ${this.getAttribute('autocomplete') ? `autocomplete="${escapeHtml(this.getAttribute('autocomplete'))}"` : ''}
+      ${this.getAttribute('autocomplete') ? `autocomplete="${escapeHtml(this.getAttribute('autocomplete'))}"` : (this._recentValuesEnabled() ? 'autocomplete="off"' : '')}
+      ${this._recentValuesEnabled() ? `list="${escapeHtml(this._recentValuesListId())}"` : ''}
     `;
 
     if (this.constructor.controlKind === 'textarea') {
@@ -282,6 +379,15 @@ export class UibFormControlBase extends UibBaseElement {
 );
     }
 
+    const recentValues = this._recentValues();
+    const datalist = recentValues.length ? (
+  `<datalist id="` +
+  (escapeHtml(this._recentValuesListId())) +
+  `">` +
+  (recentValues.map((value) => `<option value="${escapeHtml(value)}"></option>`).join('')) +
+  `</datalist>`
+) : '';
+
     return (
   `<input type="` +
   (escapeHtml(type)) +
@@ -289,7 +395,8 @@ export class UibFormControlBase extends UibBaseElement {
   (commonAttributes) +
   ` ` +
   (limitAttributes) +
-  ` >`
+  ` >` +
+  (datalist)
 );
   }
 

@@ -6,9 +6,11 @@ import { BaseHTMLElement, attr, defineLayoutElement, dispatch, escapeHtml } from
 
 const STORAGE_DB = 'uib-page-importer';
 const STORAGE_STORE = 'drafts';
+const RECENT_URL_STORAGE_KEY = 'uib:recent:page-importer-url';
+const RECENT_URL_LIMIT = 5;
+const RECENT_URL_MAX_LENGTH = 100;
 
 const TABS                                                = [
-  { id: 'source', label: 'Source' },
   { id: 'items', label: 'Extracted Items' },
   { id: 'preview', label: 'Preview' },
   { id: 'database', label: 'Database' },
@@ -16,7 +18,15 @@ const TABS                                                = [
   { id: 'tree', label: 'Tree' },
   { id: 'logs', label: 'Logs' },
   { id: 'artifact', label: 'Artifact JSON' },
+  { id: 'source', label: 'Source' },
 ];
+
+const toolbarIcons = {
+  importUrl: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 3h7v7h-2V6.4l-8.3 8.3-1.4-1.4L17.6 5H14V3ZM5 5h6v2H7v10h10v-4h2v6H5V5Z" fill="currentColor"/></svg>',
+  loadMock: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 3h6v2h-1v4.6l4.7 7.8A2.4 2.4 0 0 1 16.7 21H7.3a2.4 2.4 0 0 1-2-3.6L10 9.6V5H9V3Zm3 7.1-5 8.3a.4.4 0 0 0 .3.6h9.4a.4.4 0 0 0 .3-.6l-5-8.3ZM8.6 17h6.8l-1.8-3H10.4l-1.8 3Z" fill="currentColor"/></svg>',
+  exportJson: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M11 3h2v9.2l3.1-3.1 1.4 1.4L12 16l-5.5-5.5 1.4-1.4 3.1 3.1V3ZM5 18h14v3H5v-3Z" fill="currentColor"/></svg>',
+  importJson: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M11 21h2v-9.2l3.1 3.1 1.4-1.4L12 8l-5.5 5.5 1.4 1.4 3.1-3.1V21ZM5 3h14v3H5V3Z" fill="currentColor"/></svg>',
+};
 
 export class UibPageImporter extends BaseHTMLElement {
   static get observedAttributes() {
@@ -24,7 +34,7 @@ export class UibPageImporter extends BaseHTMLElement {
   }
 
           artifact                            = null;
-          activeTab                  = 'source';
+          activeTab                  = 'items';
           sourceUrl = 'https://example.local/customer-intake';
           statusMessage = 'Load the mock extraction to begin.';
           importing = false;
@@ -52,6 +62,7 @@ export class UibPageImporter extends BaseHTMLElement {
   }
 
           loadMockExtraction() {
+    this.saveRecentSourceUrl();
     const extraction = createMockPageExtractionResult(this.sourceUrl);
     this.artifact = createPageImportArtifact({
       metadata: {
@@ -74,6 +85,7 @@ export class UibPageImporter extends BaseHTMLElement {
 
           async importUrl() {
     if (this.importing) return;
+    this.saveRecentSourceUrl();
     this.importing = true;
     this.statusMessage = `Loading web page ${this.sourceUrl}...`;
     if (this.artifact) this.artifact = appendArtifactLog(this.artifact, this.logEntry('info', `Started loading web page ${this.sourceUrl}.`));
@@ -287,12 +299,34 @@ export class UibPageImporter extends BaseHTMLElement {
     };
   }
 
+          recentSourceUrls()           {
+    return loadRecentUrls();
+  }
+
+          saveRecentSourceUrl()       {
+    const values = saveRecentUrl(this.sourceUrl);
+    if (!values.length) return;
+    dispatch(this, 'uib-recent-values-save', {
+      name: 'pageImporterUrl',
+      key: RECENT_URL_STORAGE_KEY,
+      value: values[0],
+      values,
+      limit: RECENT_URL_LIMIT,
+    });
+  }
+
           bind() {
     const root = this.shadowRoot;
     if (!root) return;
     root.querySelector                  ('[data-url]')?.addEventListener('change', (event) => {
       this.sourceUrl = (event.currentTarget                    ).value;
       this.render();
+    });
+    root.querySelector                  ('[data-url]')?.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter') return;
+      event.preventDefault();
+      this.sourceUrl = (event.currentTarget                    ).value;
+      void this.importUrl();
     });
     root.querySelector('[data-load-mock]')?.addEventListener('click', () => this.loadMockExtraction());
     root.querySelector('[data-import-url]')?.addEventListener('click', () => void this.importUrl());
@@ -310,11 +344,12 @@ export class UibPageImporter extends BaseHTMLElement {
       const file = (event.currentTarget                    ).files?.[0];
       if (file) this.importArtifact(file);
     });
-    root.querySelectorAll                   ('[data-tab]').forEach((button) => {
-      button.addEventListener('click', () => {
-        this.activeTab = button.dataset.tab                   ;
-        this.render();
-      });
+    root.querySelector('uib-tabs')?.addEventListener('uib-tabs-change', (event) => {
+      const index = Number((event                                      ).detail?.newValue);
+      const tab = Number.isInteger(index) ? TABS[index] : null;
+      if (!tab) return;
+      this.activeTab = tab.id;
+      this.render();
     });
     root.querySelectorAll                     ('[data-source-kind]').forEach((field) => {
       field.addEventListener('change', () => this.updateSource(field.dataset.sourceKind                         , field.value));
@@ -342,11 +377,11 @@ export class UibPageImporter extends BaseHTMLElement {
           renderSource() {
     if (!this.artifact) return emptyPanel('No source loaded yet.');
     return `
-      <div class="source-grid">
+      <div class="source-grid" part="source-grid">
         ${(['html', 'css', 'js']         ).map((kind) => `
-          <label class="source-box">
+          <label class="source-box" part="label source-box">
             <span>${kind.toUpperCase()}</span>
-            <textarea data-source-kind="${kind}" spellcheck="false">${escapeHtml(this.artifact?.source[kind] ?? '')}</textarea>
+            <textarea part="textarea source-textarea" data-source-kind="${kind}" spellcheck="false">${escapeHtml(this.artifact?.source[kind] ?? '')}</textarea>
           </label>
         `).join('')}
       </div>
@@ -360,35 +395,35 @@ export class UibPageImporter extends BaseHTMLElement {
     const counts = itemCounts(this.artifact.items);
     const selected = this.selectedReviewItem(items);
     return `
-      <div class="review-tools">
-        <label>Search
-          <input data-search value="${attr(this.searchQuery)}" placeholder="Find label, field, component, selector">
+      <div class="review-tools" part="review-tools">
+        <label part="label">Search
+          <input part="input" data-search value="${attr(this.searchQuery)}" placeholder="Find label, field, component, selector">
         </label>
-        <label class="checkbox-row">
-          <input type="checkbox" data-show-hidden ${this.showHidden ? 'checked' : ''}>
+        <label class="checkbox-row" part="label checkbox-row">
+          <input part="input checkbox-input" type="checkbox" data-show-hidden ${this.showHidden ? 'checked' : ''}>
           <span>Show hidden</span>
         </label>
       </div>
-      <div class="count-strip" aria-label="Extracted item counts">
-        ${Object.entries(counts).map(([kind, count]) => `<span>${escapeHtml(titleCase(kind))}: ${count}</span>`).join('')}
+      <div class="count-strip" part="count-strip" aria-label="Extracted item counts">
+        ${Object.entries(counts).map(([kind, count]) => `<span part="chip count-chip">${escapeHtml(titleCase(kind))}: ${count}</span>`).join('')}
       </div>
-      <div class="panel-actions">
-        <span>${items.length} shown of ${this.artifact.items.length}</span>
-        <button type="button" data-add-item>Add Item</button>
+      <div class="panel-actions" part="panel-actions">
+        <span part="panel-actions-count">${items.length} shown of ${this.artifact.items.length}</span>
+        <button part="button" type="button" data-add-item>Add Item</button>
       </div>
-      <div class="extracted-workspace">
-        <section class="import-tree" aria-label="Imported component tree">
-          <h3>Imported Components</h3>
+      <div class="extracted-workspace" part="extracted-workspace">
+        <section class="import-tree" part="import-tree" aria-label="Imported component tree">
+          <h3 part="section-heading">Imported Components</h3>
           ${this.renderItemTree(grouped)}
         </section>
-        <section class="item-inspector">
+        <section class="item-inspector" part="item-inspector">
           ${selected ? this.renderSelectedItem(selected) : '<p>No item selected.</p>'}
         </section>
       </div>
       ${Object.entries(grouped).map(([kind, items]) => `
-        <section class="item-group">
-          <h3>${escapeHtml(titleCase(kind))} <span>${items.length}</span></h3>
-          <div class="item-list">
+        <section class="item-group" part="item-group">
+          <h3 part="item-group-heading">${escapeHtml(titleCase(kind))} <span part="item-group-count">${items.length}</span></h3>
+          <div class="item-list" part="item-list">
             ${items.map((item) => this.renderItem(item)).join('')}
           </div>
         </section>
@@ -398,16 +433,16 @@ export class UibPageImporter extends BaseHTMLElement {
 
           renderItemTree(grouped                                              )         {
     return `
-      <ul>
+      <ul part="tree-list">
         ${Object.entries(grouped).map(([kind, items]) => `
           <li>
             <strong>${escapeHtml(titleCase(kind))}</strong>
-            <ul>
+            <ul part="tree-child-list">
               ${items.map((item) => `
                 <li>
-                  <button type="button" data-select-item="${attr(item.id)}" aria-current="${this.selectedItemId === item.id ? 'true' : 'false'}">
+                  <button part="button import-tree-button" type="button" data-select-item="${attr(item.id)}" aria-current="${this.selectedItemId === item.id ? 'true' : 'false'}">
                     <span>${escapeHtml(item.label)}</span>
-                    <small>${escapeHtml(item.componentTag || item.kind)}</small>
+                    <small part="import-tree-meta">${escapeHtml(item.componentTag || item.kind)}</small>
                   </button>
                 </li>
               `).join('')}
@@ -420,26 +455,26 @@ export class UibPageImporter extends BaseHTMLElement {
 
           renderSelectedItem(item                )         {
     return `
-      <div class="inspector-head">
+      <div class="inspector-head" part="inspector-head">
         <div>
-          <h3>${escapeHtml(item.label)}</h3>
-          <p>${escapeHtml(item.componentTag || item.kind)}</p>
+          <h3 part="section-heading">${escapeHtml(item.label)}</h3>
+          <p part="inspector-subtitle">${escapeHtml(item.componentTag || item.kind)}</p>
         </div>
-        <span>${escapeHtml(item.kind)}</span>
+        <span part="inspector-badge">${escapeHtml(item.kind)}</span>
       </div>
-      <div class="inspector-grid">
+      <div class="inspector-grid" part="inspector-grid">
         <section>
-          <h4>Exported HTML</h4>
-          <textarea readonly spellcheck="false">${escapeHtml(item.sourceSnippet || exportedHtmlForItem(item))}</textarea>
+          <h4 part="section-heading">Exported HTML</h4>
+          <textarea part="textarea inspector-textarea" readonly spellcheck="false">${escapeHtml(item.sourceSnippet || exportedHtmlForItem(item))}</textarea>
         </section>
         <section>
-          <h4>Associated CSS</h4>
-          <textarea readonly spellcheck="false">${escapeHtml(item.cssSnippet || '/* No associated CSS captured for this item yet. */')}</textarea>
+          <h4 part="section-heading">Associated CSS</h4>
+          <textarea part="textarea inspector-textarea" readonly spellcheck="false">${escapeHtml(item.cssSnippet || '/* No associated CSS captured for this item yet. */')}</textarea>
         </section>
       </div>
       <section>
-        <h4>Preview Element</h4>
-        <div class="selected-preview">${previewItem(item)}</div>
+        <h4 part="section-heading">Preview Element</h4>
+        <div class="selected-preview" part="selected-preview">${previewItem(item)}</div>
       </section>
     `;
   }
@@ -449,27 +484,27 @@ export class UibPageImporter extends BaseHTMLElement {
     const isFirst = itemIndex <= 0;
     const isLast = !this.artifact || itemIndex === this.artifact.items.length - 1;
     return `
-      <article class="item-card ${item.hidden ? 'is-hidden' : ''}">
-        <div class="item-head">
+      <article class="item-card ${item.hidden ? 'is-hidden' : ''}" part="item-card${item.hidden ? ' hidden-item' : ''}">
+        <div class="item-head" part="item-head">
           <strong>${escapeHtml(item.label)}</strong>
-          <span>${escapeHtml(item.kind)}</span>
+          <span part="chip">${escapeHtml(item.kind)}</span>
         </div>
-        <div class="item-edit-grid">
-          <label>Label<input data-item-id="${attr(item.id)}" data-item-field="label" value="${attr(item.label)}"></label>
-          <label>Value<input data-item-id="${attr(item.id)}" data-item-field="value" value="${attr(item.value || '')}"></label>
-          <label>Component<input data-item-id="${attr(item.id)}" data-item-field="componentTag" value="${attr(item.componentTag || '')}"></label>
-          <label>Notes<input data-item-id="${attr(item.id)}" data-item-field="notes" value="${attr(item.notes || '')}"></label>
+        <div class="item-edit-grid" part="item-edit-grid">
+          <label part="label">Label<input part="input" data-item-id="${attr(item.id)}" data-item-field="label" value="${attr(item.label)}"></label>
+          <label part="label">Value<input part="input" data-item-id="${attr(item.id)}" data-item-field="value" value="${attr(item.value || '')}"></label>
+          <label part="label">Component<input part="input" data-item-id="${attr(item.id)}" data-item-field="componentTag" value="${attr(item.componentTag || '')}"></label>
+          <label part="label">Notes<input part="input" data-item-id="${attr(item.id)}" data-item-field="notes" value="${attr(item.notes || '')}"></label>
         </div>
-        <div class="meta-row">
-          ${item.name ? `<span>name: ${escapeHtml(item.name)}</span>` : ''}
-          ${item.inputType ? `<span>type: ${escapeHtml(item.inputType)}</span>` : ''}
-          ${item.required ? '<span>required</span>' : ''}
-          ${item.position?.selector ? `<span>${escapeHtml(item.position.selector)}</span>` : ''}
+        <div class="meta-row" part="meta-row">
+          ${item.name ? `<span part="chip">name: ${escapeHtml(item.name)}</span>` : ''}
+          ${item.inputType ? `<span part="chip">type: ${escapeHtml(item.inputType)}</span>` : ''}
+          ${item.required ? '<span part="chip">required</span>' : ''}
+          ${item.position?.selector ? `<span part="chip">${escapeHtml(item.position.selector)}</span>` : ''}
         </div>
-        <div class="item-actions">
-          <button type="button" data-move-item="up" data-item-id="${attr(item.id)}" ${isFirst ? 'disabled' : ''}>Move Up</button>
-          <button type="button" data-move-item="down" data-item-id="${attr(item.id)}" ${isLast ? 'disabled' : ''}>Move Down</button>
-          <button type="button" data-toggle-hidden data-item-id="${attr(item.id)}">${item.hidden ? 'Unhide' : 'Hide'}</button>
+        <div class="item-actions" part="item-actions">
+          <button part="button" type="button" data-move-item="up" data-item-id="${attr(item.id)}" ${isFirst ? 'disabled' : ''}>Move Up</button>
+          <button part="button" type="button" data-move-item="down" data-item-id="${attr(item.id)}" ${isLast ? 'disabled' : ''}>Move Down</button>
+          <button part="button" type="button" data-toggle-hidden data-item-id="${attr(item.id)}">${item.hidden ? 'Unhide' : 'Hide'}</button>
         </div>
       </article>
     `;
@@ -507,7 +542,7 @@ export class UibPageImporter extends BaseHTMLElement {
     if (!this.artifact) return emptyPanel('No preview yet.');
     const visible = this.artifact.items.filter((item) => !item.hidden);
     return `
-      <div class="preview-surface">
+      <div class="preview-surface" part="preview-surface">
         ${visible.map((item) => previewItem(item)).join('')}
       </div>
     `;
@@ -517,18 +552,18 @@ export class UibPageImporter extends BaseHTMLElement {
     if (!this.artifact) return emptyPanel('No database suggestions yet.');
     const fields = this.artifact.items.filter((item) => item.database);
     return `
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Label</th><th>Field</th><th>Type</th><th>Required</th><th>Entity</th><th>Sample</th></tr></thead>
+      <div class="table-wrap" part="table-wrap">
+        <table part="table">
+          <thead><tr><th part="th">Label</th><th part="th">Field</th><th part="th">Type</th><th part="th">Required</th><th part="th">Entity</th><th part="th">Sample</th></tr></thead>
           <tbody>
             ${fields.map((item) => `
               <tr class="${item.database?.stale ? 'stale' : ''}">
-                <td>${escapeHtml(item.label)}${item.database?.stale ? '<span class="stale-badge">stale</span>' : ''}</td>
-                <td><input data-item-id="${attr(item.id)}" data-db-field="fieldName" value="${attr(item.database?.fieldName || '')}"></td>
-                <td><input data-item-id="${attr(item.id)}" data-db-field="type" value="${attr(item.database?.type || '')}"></td>
-                <td>${item.database?.required ? 'Yes' : 'No'}</td>
-                <td><input data-item-id="${attr(item.id)}" data-db-field="entityGuess" value="${attr(item.database?.entityGuess || '')}"></td>
-                <td>${escapeHtml(item.database?.sampleValue || '')}</td>
+                <td part="td${item.database?.stale ? ' stale-cell' : ''}">${escapeHtml(item.label)}${item.database?.stale ? '<span class="stale-badge" part="stale-badge">stale</span>' : ''}</td>
+                <td part="td${item.database?.stale ? ' stale-cell' : ''}"><input part="input" data-item-id="${attr(item.id)}" data-db-field="fieldName" value="${attr(item.database?.fieldName || '')}"></td>
+                <td part="td${item.database?.stale ? ' stale-cell' : ''}"><input part="input" data-item-id="${attr(item.id)}" data-db-field="type" value="${attr(item.database?.type || '')}"></td>
+                <td part="td${item.database?.stale ? ' stale-cell' : ''}">${item.database?.required ? 'Yes' : 'No'}</td>
+                <td part="td${item.database?.stale ? ' stale-cell' : ''}"><input part="input" data-item-id="${attr(item.id)}" data-db-field="entityGuess" value="${attr(item.database?.entityGuess || '')}"></td>
+                <td part="td${item.database?.stale ? ' stale-cell' : ''}">${escapeHtml(item.database?.sampleValue || '')}</td>
               </tr>
             `).join('')}
           </tbody>
@@ -540,10 +575,10 @@ export class UibPageImporter extends BaseHTMLElement {
           renderAssets() {
     if (!this.artifact) return emptyPanel('No assets yet.');
     return `
-      <div class="item-list">
+      <div class="item-list" part="item-list">
         ${this.artifact.assets.map((asset) => `
-          <article class="item-card">
-            <div class="item-head"><strong>${escapeHtml(asset.label || asset.url)}</strong><span>${escapeHtml(asset.type)}</span></div>
+          <article class="item-card" part="item-card">
+            <div class="item-head" part="item-head"><strong>${escapeHtml(asset.label || asset.url)}</strong><span part="chip">${escapeHtml(asset.type)}</span></div>
             <a href="${attr(asset.url)}" target="_blank" rel="noreferrer">${escapeHtml(asset.url)}</a>
             <p>Used by: ${escapeHtml(asset.usedBy.join(', ') || 'none')}</p>
           </article>
@@ -554,17 +589,17 @@ export class UibPageImporter extends BaseHTMLElement {
 
           renderTree() {
     if (!this.artifact) return emptyPanel('No tree yet.');
-    return `<div class="tree">${renderTreeNode(this.artifact.tree)}</div>`;
+    return `<div class="tree" part="tree">${renderTreeNode(this.artifact.tree)}</div>`;
   }
 
           renderLogs() {
     if (!this.artifact) return emptyPanel('No logs yet.');
     return `
-      <div class="log-list">
+      <div class="log-list" part="log-list">
         ${this.artifact.logs.slice().reverse().map((entry) => `
-          <article class="log-entry ${entry.level}">
+          <article class="log-entry ${entry.level}" part="log-entry log-${entry.level}">
             <strong>${escapeHtml(entry.message)}</strong>
-            <time>${escapeHtml(entry.timestamp)}</time>
+            <time part="log-time">${escapeHtml(entry.timestamp)}</time>
           </article>
         `).join('')}
       </div>
@@ -573,7 +608,7 @@ export class UibPageImporter extends BaseHTMLElement {
 
           renderArtifact() {
     if (!this.artifact) return emptyPanel('No artifact yet.');
-    return `<textarea class="artifact-json" readonly spellcheck="false">${escapeHtml(JSON.stringify(this.artifact, null, 2))}</textarea>`;
+    return `<textarea class="artifact-json" part="textarea artifact-json" readonly spellcheck="false">${escapeHtml(JSON.stringify(this.artifact, null, 2))}</textarea>`;
   }
 
           renderActiveTab() {
@@ -587,103 +622,62 @@ export class UibPageImporter extends BaseHTMLElement {
     return this.renderArtifact();
   }
 
+          activeTabIndex()         {
+    const index = TABS.findIndex((tab) => tab.id === this.activeTab);
+    return index >= 0 ? index : 0;
+  }
+
+          renderTabPanel(tab                 )         {
+    if (tab !== this.activeTab) return '';
+    return this.renderActiveTab();
+  }
+
   render() {
     if (!this.shadowRoot) return;
     this.shadowRoot.innerHTML = `
       <style>
         :host{display:block;color:#172033;font:14px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
         *,*::before,*::after{box-sizing:border-box}
-        .shell{display:grid;gap:1rem;min-width:0}
-        .toolbar,.panel{border:1px solid #d9e2ee;border-radius:8px;background:#fff}
-        .toolbar{display:grid;gap:.75rem;padding:.85rem}
-        .import-row{display:grid;grid-template-columns:minmax(16rem,1fr) auto auto auto;gap:.5rem;align-items:end}
-        label{display:grid;gap:.25rem;color:#40546d;font-weight:800}
-        input,textarea{width:100%;min-width:0;border:1px solid #bdcbdd;border-radius:6px;padding:.5rem .6rem;font:inherit;background:#fff}
-        textarea{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;resize:vertical}
-        button,.file-button{min-height:2.35rem;border:1px solid #bdcbdd;border-radius:6px;background:#fff;color:#203b5e;font:inherit;font-weight:800;cursor:pointer;padding:.45rem .7rem;text-align:center}
-        .primary{border-color:#245ea8;background:#245ea8;color:#fff}
+        .icon-button svg{width:1.15rem;height:1.15rem;display:block}
         .file-button input{position:absolute;inline-size:1px;block-size:1px;opacity:0;pointer-events:none}
-        .status{display:flex;gap:.5rem;align-items:center;color:#52677f;font-size:.9rem}
-        .spinner{inline-size:1rem;block-size:1rem;border:2px solid #c9d5e5;border-top-color:#245ea8;border-radius:50%;animation:spin .8s linear infinite}
+        .spinner{animation:spin .8s linear infinite}
         @keyframes spin{to{transform:rotate(360deg)}}
-        .loading-panel{display:flex;gap:.75rem;align-items:center;padding:.8rem;border:1px solid #b9d4f5;border-radius:8px;background:#f1f7ff;color:#174a8b;font-weight:800}
-        .loading-panel .spinner{inline-size:1.35rem;block-size:1.35rem}
-        .tabs{display:flex;gap:.35rem;flex-wrap:wrap}
-        .tabs button[aria-selected="true"]{border-color:#245ea8;background:#edf5ff;color:#174a8b}
-        .panel{padding:.85rem;min-width:0}
-        .source-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem}
-        .source-box textarea{min-height:24rem}
-        .review-tools{display:grid;grid-template-columns:minmax(14rem,1fr) auto;gap:.75rem;align-items:end;margin-bottom:.7rem}
-        .checkbox-row{display:flex;gap:.45rem;align-items:center;min-height:2.35rem}
-        .checkbox-row input{inline-size:auto}
-        .count-strip{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.7rem}
-        .count-strip span{display:inline-flex;border:1px solid #c9d5e5;border-radius:999px;padding:.16rem .5rem;color:#40546d;background:#f8fafd;font-size:.8rem;font-weight:800}
-        .panel-actions,.item-actions{display:flex;gap:.45rem;align-items:center;justify-content:flex-end;flex-wrap:wrap;margin-bottom:.7rem}
-        .panel-actions span{margin-right:auto;color:#52677f}
-        .item-group{display:grid;gap:.55rem;margin-bottom:1rem}
-        .item-group h3{display:flex;gap:.5rem;align-items:center;margin:0;color:#203b5e;font-size:1rem}
-        .item-group h3 span{color:#52677f;font-size:.86rem}
-        .item-list{display:grid;gap:.6rem}
-        .item-card{display:grid;gap:.6rem;padding:.7rem;border:1px solid #d9e2ee;border-radius:8px;background:#fbfcfe}
-        .item-card.is-hidden{opacity:.62}
-        .item-head,.meta-row{display:flex;gap:.5rem;align-items:center;justify-content:space-between;flex-wrap:wrap}
-        .item-head span,.meta-row span,.stale-badge{display:inline-flex;border:1px solid #c9d5e5;border-radius:999px;padding:.1rem .45rem;color:#52677f;font-size:.78rem;font-weight:800}
-        .item-edit-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.5rem}
-        .extracted-workspace{display:grid;grid-template-columns:minmax(15rem,.8fr) minmax(0,1.6fr);gap:.75rem;margin-bottom:1rem}
-        .import-tree,.item-inspector{display:grid;gap:.6rem;align-content:start;min-width:0;padding:.75rem;border:1px solid #d9e2ee;border-radius:8px;background:#fff}
-        .import-tree h3,.item-inspector h3,.item-inspector h4{margin:0;color:#203b5e}
-        .import-tree ul{display:grid;gap:.35rem;list-style:none;margin:0;padding:0}
-        .import-tree li ul{margin:.35rem 0 .55rem .6rem;padding-left:.6rem;border-left:1px solid #d9e2ee}
-        .import-tree button{display:grid;gap:.1rem;width:100%;height:auto;text-align:left;font-weight:800}
+        .toolbar{display:grid;gap:.75rem;padding:.85rem;border:1px solid #d9e2ee;border-radius:8px;background:#fff}
+        .panel{padding:.85rem;min-width:0;border-radius:8px}
+        uib-tab[selected]{border-color:#245ea8;background:#edf5ff;color:#174a8b}
         .import-tree button[aria-current="true"]{border-color:#245ea8;background:#edf5ff;color:#174a8b}
-        .import-tree small{color:#52677f;font-weight:600}
-        .inspector-head{display:flex;justify-content:space-between;gap:.75rem;align-items:start}
-        .inspector-head p{margin:.15rem 0 0;color:#52677f}
-        .inspector-head span{display:inline-flex;border:1px solid #c9d5e5;border-radius:999px;padding:.12rem .5rem;color:#52677f;font-size:.78rem;font-weight:800}
-        .inspector-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem}
-        .inspector-grid textarea{min-height:13rem}
-        .selected-preview{padding:.75rem;border:1px solid #e1e8f2;border-radius:8px;background:#fbfcfe}
-        .preview-surface{display:grid;gap:.75rem;max-width:920px}
-        .preview-item{padding:.75rem;border:1px solid #d9e2ee;border-radius:8px;background:#fff}
-        .preview-field{display:grid;grid-template-columns:12rem minmax(0,1fr);gap:.5rem;align-items:center}
-        .preview-field input,.preview-field select{min-height:2.25rem;border:1px solid #bdcbdd;border-radius:6px;padding:.45rem .55rem}
-        .table-wrap{overflow:auto}
-        table{width:100%;border-collapse:collapse}
-        th,td{border-bottom:1px solid #e1e8f2;padding:.45rem;text-align:left;vertical-align:top}
-        th{color:#203b5e;background:#f6f8fb}
-        tr.stale td{background:#fff8e8}
-        .stale-badge{margin-left:.35rem;color:#875b09;border-color:#e4bd68;background:#fff8e8}
-        .tree ul{margin:.35rem 0 .35rem 1rem;padding-left:1rem;border-left:1px solid #d9e2ee}
-        .tree li{margin:.25rem 0}
-        .log-list{display:grid;gap:.5rem;max-height:28rem;overflow:auto}
-        .log-entry{display:grid;gap:.1rem;padding:.55rem;border-left:3px solid #c9d5e5;background:#f8fafd}
-        .log-entry.success{border-color:#2f7d42}.log-entry.warning{border-color:#d19611}.log-entry.error{border-color:#b4232a}
-        .log-entry time{color:#52677f;font-size:.78rem}
-        .artifact-json{min-height:36rem}
-        @media(max-width:980px){.import-row,.source-grid,.item-edit-grid,.review-tools,.extracted-workspace,.inspector-grid{grid-template-columns:1fr}.preview-field{grid-template-columns:1fr}}
       </style>
       <div class="shell" part="shell">
-        <section class="toolbar" part="toolbar">
-          <div class="import-row">
-            <label>URL
-              <input data-url value="${attr(this.sourceUrl)}" placeholder="https://example.com/page">
-            </label>
-            <button class="primary" type="button" data-import-url ${this.importing ? 'disabled' : ''}>${this.importing ? 'Importing...' : 'Import URL'}</button>
-            <button type="button" data-load-mock ${this.importing ? 'disabled' : ''}>Load Mock</button>
-            <button type="button" data-export ${this.artifact && !this.importing ? '' : 'disabled'}>Export JSON</button>
-            <label class="file-button">Import JSON
+        <div class="url-action-bar" part="url-action-bar">
+          <label class="url-field" part="label url-field">URL
+            <input part="input" data-url type="url" list="page-importer-recent-urls" autocomplete="off" value="${attr(this.sourceUrl)}" placeholder="https://example.com/page">
+            <datalist id="page-importer-recent-urls">
+              ${this.recentSourceUrls().map((url) => `<option value="${attr(url)}"></option>`).join('')}
+            </datalist>
+          </label>
+          <div class="import-actions" part="import-actions" aria-label="Page import actions">
+            <button class="primary icon-button" part="button primary-button icon-button" type="button" data-import-url title="${this.importing ? 'Importing' : 'Import URL'}" aria-label="${this.importing ? 'Importing' : 'Import URL'}" ${this.importing ? 'disabled' : ''}>${toolbarIcons.importUrl}</button>
+            <button class="icon-button" part="button icon-button" type="button" data-load-mock title="Load mock" aria-label="Load mock" ${this.importing ? 'disabled' : ''}>${toolbarIcons.loadMock}</button>
+            <button class="icon-button" part="button icon-button" type="button" data-export title="Export JSON" aria-label="Export JSON" ${this.artifact && !this.importing ? '' : 'disabled'}>${toolbarIcons.exportJson}</button>
+            <label class="file-button icon-button" part="file-button icon-button" title="Import JSON" aria-label="Import JSON">${toolbarIcons.importJson}
               <input type="file" accept="application/json" data-import>
             </label>
           </div>
-          <div class="status">${this.importing ? '<span class="spinner" aria-hidden="true"></span>' : ''}<span>${escapeHtml(this.statusMessage)}</span></div>
-          <nav class="tabs" aria-label="Page importer views">
-            ${TABS.map((tab) => `<button type="button" data-tab="${tab.id}" aria-selected="${this.activeTab === tab.id ? 'true' : 'false'}">${escapeHtml(tab.label)}</button>`).join('')}
-          </nav>
+        </div>
+        <section class="toolbar" part="toolbar">
+          <div class="status" part="status">${this.importing ? '<span class="spinner" part="spinner" aria-hidden="true"></span>' : ''}<span>${escapeHtml(this.statusMessage)}</span></div>
         </section>
-        <section class="panel" part="panel">
-          ${this.importing ? `<div class="loading-panel" role="status" aria-live="polite"><span class="spinner" aria-hidden="true"></span><span>Loading and parsing web page. Extracted Items will update when complete.</span></div>` : ''}
-          ${this.renderActiveTab()}
-        </section>
+        <uib-tabs part="tabs" selected="${this.activeTabIndex()}">
+          ${TABS.map((tab) => `<uib-tab part="tab">${escapeHtml(tab.label)}</uib-tab>`).join('')}
+          ${TABS.map((tab) => `
+            <uib-tab-panel part="tab-panel">
+              <section class="panel" part="panel">
+                ${this.importing && tab.id === this.activeTab ? `<div class="loading-panel" part="loading-panel" role="status" aria-live="polite"><span class="spinner" part="spinner loading-spinner" aria-hidden="true"></span><span>Loading and parsing web page. Extracted Items will update when complete.</span></div>` : ''}
+                ${this.renderTabPanel(tab.id)}
+              </section>
+            </uib-tab-panel>
+          `).join('')}
+        </uib-tabs>
       </div>
     `;
     this.bind();
@@ -715,13 +709,13 @@ function normalizeSearch(value        )         {
 function previewItem(item                )         {
   if (item.kind === 'field') {
     const control = item.inputType === 'select'
-      ? `<select>${(item.options ?? []).map((option) => `<option>${escapeHtml(option)}</option>`).join('')}</select>`
-      : `<input value="${attr(item.value || '')}" placeholder="${attr(item.placeholder || '')}" ${item.required ? 'required' : ''}>`;
-    return `<div class="preview-item preview-field"><label>${escapeHtml(item.label)}</label>${control}</div>`;
+      ? `<select part="preview-control">${(item.options ?? []).map((option) => `<option>${escapeHtml(option)}</option>`).join('')}</select>`
+      : `<input part="preview-control" value="${attr(item.value || '')}" placeholder="${attr(item.placeholder || '')}" ${item.required ? 'required' : ''}>`;
+    return `<div class="preview-item preview-field" part="preview-item preview-field"><label part="label">${escapeHtml(item.label)}</label>${control}</div>`;
   }
-  if (item.kind === 'asset') return `<div class="preview-item"><strong>${escapeHtml(item.label)}</strong><p>${escapeHtml(item.value || '')}</p></div>`;
-  if (item.kind === 'action') return `<button class="primary preview-item" type="button">${escapeHtml(item.label)}</button>`;
-  return `<div class="preview-item"><strong>${escapeHtml(item.label)}</strong>${item.value ? `<p>${escapeHtml(item.value)}</p>` : ''}</div>`;
+  if (item.kind === 'asset') return `<div class="preview-item" part="preview-item"><strong>${escapeHtml(item.label)}</strong><p>${escapeHtml(item.value || '')}</p></div>`;
+  if (item.kind === 'action') return `<button class="primary preview-item" part="button primary-button preview-item" type="button">${escapeHtml(item.label)}</button>`;
+  return `<div class="preview-item" part="preview-item"><strong>${escapeHtml(item.label)}</strong>${item.value ? `<p>${escapeHtml(item.value)}</p>` : ''}</div>`;
 }
 
 function exportedHtmlForItem(item                )         {
@@ -748,8 +742,8 @@ function exportedHtmlForItem(item                )         {
 
 function renderTreeNode(node                    )         {
   return `
-    <ul>
-      <li>
+    <ul part="tree-branch">
+      <li part="tree-node">
         <strong>${escapeHtml(node.label)}</strong> <span>${escapeHtml(node.kind)}</span>
         ${node.children?.length ? node.children.map((child) => renderTreeNode(child)).join('') : ''}
       </li>
@@ -795,6 +789,59 @@ function appendArtifactLog(artifact                    , entry                  
     ...artifact,
     logs: [...artifact.logs, entry],
   };
+}
+
+function normalizeRecentUrl(value        )         {
+  return String(value ?? '').trim().replace(/\s+/g, ' ');
+}
+
+function recentUrlStorage()                 {
+  try {
+    if (typeof window === 'undefined' || !window.localStorage) return null;
+    const storage = window.localStorage;
+    const testKey = `${RECENT_URL_STORAGE_KEY}:test`;
+    storage.setItem(testKey, '[]');
+    storage.removeItem(testKey);
+    return storage;
+  } catch {
+    return null;
+  }
+}
+
+function loadRecentUrls()           {
+  const storage = recentUrlStorage();
+  if (!storage) return [];
+  try {
+    const parsed = JSON.parse(storage.getItem(RECENT_URL_STORAGE_KEY) || '[]')           ;
+    if (!Array.isArray(parsed)) return [];
+    return parsed
+      .filter((value)                  => typeof value === 'string')
+      .map((value) => normalizeRecentUrl(value))
+      .filter(Boolean)
+      .filter((value) => value.length <= RECENT_URL_MAX_LENGTH)
+      .slice(0, RECENT_URL_LIMIT);
+  } catch {
+    return [];
+  }
+}
+
+function saveRecentUrl(value        )           {
+  const storage = recentUrlStorage();
+  const normalized = normalizeRecentUrl(value);
+  if (!storage || !normalized || normalized.length > RECENT_URL_MAX_LENGTH) return [];
+  const compareValue = normalized.toLocaleLowerCase();
+  const next = [
+    normalized,
+    ...loadRecentUrls().filter((item) => item.toLocaleLowerCase() !== compareValue),
+  ].slice(0, RECENT_URL_LIMIT);
+
+  try {
+    storage.setItem(RECENT_URL_STORAGE_KEY, JSON.stringify(next));
+  } catch {
+    return [];
+  }
+
+  return next;
 }
 
 function openDraftDb()                       {

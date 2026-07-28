@@ -51,8 +51,11 @@ The default dev command starts the package demo/testing website. Use `npm run de
 
 ```bash
 npm run dev          # package demo/testing website
+npm run dev:services # package demo plus PageImporter service
 npm run dev:manager  # app manager shell
 ```
+
+`npm run dev:services` starts the demo at `http://localhost:5173` and `@ui-base/page-import-service` at `http://localhost:4178`. Use `npm run dev:services -- --manager` to also start the app manager shell.
 
 Default app env values in `apps/manager/.env.example` point at local service defaults:
 

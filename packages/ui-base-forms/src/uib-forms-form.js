@@ -43,6 +43,9 @@ export class UibFormsForm extends UibBaseElement {
   }
 
   _emitSubmit() {
+    this.querySelectorAll('uib-forms-textbox, uib-forms-email, uib-forms-phone').forEach((control) => {
+      if (typeof control.saveRecentValue === 'function') control.saveRecentValue();
+    });
     const valid = this.hasAttribute('novalidate') ? true : this._checkValidity();
     const values = this._collectValues();
     this.emitMtEvent('uib-forms-form-submit', { name: this.name, oldValue: null, newValue: values, values, valid });

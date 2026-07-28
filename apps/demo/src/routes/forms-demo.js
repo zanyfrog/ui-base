@@ -1,8 +1,8 @@
 import { FORM_COMPONENT_API, UI_BASE_FORM_COMPONENTS } from '../../../../packages/ui-base-forms/src/metadata.js';
 import { appendEventLog, escapeAttr, escapeHtml, json } from './demo-utils.js';
 
-const BOOLEAN_ATTRIBUTES = new Set(['checked', 'disabled', 'readonly', 'required', 'hidden', 'invalid', 'novalidate']);
-const NUMBER_ATTRIBUTES = new Set(['minlength', 'maxlength', 'step']);
+const BOOLEAN_ATTRIBUTES = new Set(['checked', 'disabled', 'readonly', 'required', 'hidden', 'invalid', 'novalidate', 'recent-values']);
+const NUMBER_ATTRIBUTES = new Set(['minlength', 'maxlength', 'step', 'recent-values-limit']);
 const MULTILINE_ATTRIBUTES = new Set(['help', 'error', 'placeholder', 'options', 'value']);
 const SELECT_OPTIONS = {
   'help-mode': ['tooltip', 'inline'],
@@ -25,6 +25,7 @@ const COMPONENT_DEFAULTS = {
   'uib-forms-textarea': { name: 'notes', label: 'Notes', value: 'Accessible entrance preferred.', placeholder: 'Add notes' },
   'uib-forms-select': { name: 'location', label: 'Location', value: 'Annex', options: 'Main Hall,Annex,Remote' },
   'uib-forms-checkbox': { name: 'confirmed', label: 'Confirmed', value: 'yes', checked: true, help: 'Form-associated checkbox.' },
+  'uib-recent-values-manager': {},
   'uib-forms-field': {
     label: 'Wrapped field',
     help: 'Slotted native control.',
@@ -51,6 +52,7 @@ const COMPONENT_SUMMARIES = {
   'uib-forms-textarea': 'Multiline text input.',
   'uib-forms-select': 'Select input backed by comma-separated options.',
   'uib-forms-checkbox': 'Form-associated checkbox input with checked state, validation, and common form events.',
+  'uib-recent-values-manager': 'Responsive Settings panel for managing local recent input values.',
   'uib-forms-field': 'Label, help, and slot wrapper for native or custom controls.',
   'uib-forms-input-group': 'Responsive grouping layout for related inputs.',
   'uib-forms-wizard': 'Experimental wizard shell for step-based form flows.'
@@ -70,6 +72,7 @@ export const FORMS_ROUTE_PATHS = [
   '/forms/uib-forms-select',
   '/forms/uib-forms-textarea',
   '/forms/uib-forms-textbox',
+  '/forms/uib-recent-values-manager',
   '/forms/uib-forms-wizard'
 ];
 
@@ -121,6 +124,7 @@ function defaultValueFor(name, component) {
   if (name === 'minlength') return '2';
   if (name === 'maxlength') return '40';
   if (name === 'step') return '1';
+  if (name === 'recent-values-limit') return '5';
   return '';
 }
 
@@ -290,6 +294,19 @@ function renderIndex(main) {
           </div>
         </a>
       `).join('')}
+    </section>
+    <section class="card forms-settings-card">
+      <div class="card-content">
+        <div class="controls-header">
+          <h2>
+            Settings
+          </h2>
+          <a class="secondary-button compact-control-button" href="/forms/uib-recent-values-manager" data-link>
+            Open
+          </a>
+        </div>
+        <uib-recent-values-manager></uib-recent-values-manager>
+      </div>
     </section>
   `;
 

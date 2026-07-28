@@ -41,6 +41,8 @@ import '@ui-base/tour-ui';
 - `uib-card`
 - `uib-dialog`
 - `uib-accordion`
+- `uib-tab`
+- `uib-tab-panel`
 - `uib-tabs`
 - `uib-splitter`
 
@@ -56,7 +58,18 @@ Or import one entry at a time:
 ```js
 import '@ui-base/ui/toggle';
 import '@ui-base/ui/menu';
+import '@ui-base/ui/card';
+import '@ui-base/ui/panel';
+import '@ui-base/ui/tabs';
 ```
+
+## Card and panel surfaces
+
+`uib-card` and `uib-panel` share the same surface foundation, but they have different jobs.
+
+Use `uib-card` for compact, repeatable content such as summaries, previews, and selectable grid/list items. It supports `slot="media"`, header/body/footer regions, `variant`, `density`, whole-card `href` links, action events, and selectable state.
+
+Use `uib-panel` for larger structural regions such as settings sections, editor panes, dashboards, and form areas. It supports header/body/footer regions, `slot="actions"`, `variant`, `density`, and optional `collapsible` / `open` behavior. Panels are not collapsible by default.
 
 ## Toggle example
 

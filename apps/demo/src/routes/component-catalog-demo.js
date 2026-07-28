@@ -36,6 +36,18 @@ const FALLBACK_CATALOG_DATA = {
     mediaFit: 'contain',
     mediaRatio: '16:9',
     mediaFallback: 'No media',
+    cardLabel: 'Selectable card',
+    cardVariant: 'elevated',
+    cardDensity: 'comfortable',
+    cardSelectable: true,
+    cardSelected: false,
+    cardDisabled: false,
+    panelLabel: 'Collapsible panel',
+    panelVariant: 'outlined',
+    panelDensity: 'comfortable',
+    panelCollapsible: true,
+    panelOpen: true,
+    panelDisabled: false,
     fieldLabel: 'Example label',
     fieldHelp: 'Change this helper text from the parent page.',
     fieldHelpMode: 'tooltip',
@@ -98,6 +110,8 @@ function applyCatalogOptions(main) {
   const eyebrow = main.querySelector('#catalogEyebrow');
   const actionGroup = main.querySelector('#catalogActionGroup');
   const media = main.querySelector('#catalogMedia');
+  const card = main.querySelector('#catalogCard');
+  const panel = main.querySelector('#catalogPanel');
   const detailList = main.querySelector('#catalogDetailList');
   const detailEditor = main.querySelector('#catalogDetailEditor');
   const label = main.querySelector('#catalogLabel');
@@ -123,6 +137,20 @@ function applyCatalogOptions(main) {
   setOrRemoveAttribute(media, 'fit', main.querySelector('#mediaFit')?.value);
   setOrRemoveAttribute(media, 'ratio', main.querySelector('#mediaRatio')?.value);
   setOrRemoveAttribute(media, 'fallback-label', main.querySelector('#mediaFallback')?.value);
+
+  setOrRemoveAttribute(card, 'label', main.querySelector('#cardLabel')?.value);
+  setOrRemoveAttribute(card, 'variant', main.querySelector('#cardVariant')?.value);
+  setOrRemoveAttribute(card, 'density', main.querySelector('#cardDensity')?.value);
+  setBooleanAttribute(card, 'selectable', main.querySelector('#cardSelectable')?.checked);
+  setBooleanAttribute(card, 'selected', main.querySelector('#cardSelected')?.checked);
+  setBooleanAttribute(card, 'disabled', main.querySelector('#cardDisabled')?.checked);
+
+  setOrRemoveAttribute(panel, 'label', main.querySelector('#panelLabel')?.value);
+  setOrRemoveAttribute(panel, 'variant', main.querySelector('#panelVariant')?.value);
+  setOrRemoveAttribute(panel, 'density', main.querySelector('#panelDensity')?.value);
+  setBooleanAttribute(panel, 'collapsible', main.querySelector('#panelCollapsible')?.checked);
+  setBooleanAttribute(panel, 'open', main.querySelector('#panelOpen')?.checked);
+  setBooleanAttribute(panel, 'disabled', main.querySelector('#panelDisabled')?.checked);
 
   let parsedDetails = catalogData.defaultDetails || [];
   try {
@@ -155,6 +183,8 @@ function applyCatalogOptions(main) {
       serializeElement(heading),
       serializeElement(actionGroup),
       serializeElement(media),
+      serializeElement(card),
+      serializeElement(panel),
       serializeElement(detailList)
     ].join('\n\n');
   }
@@ -186,6 +216,18 @@ function saveCatalogOptions(main) {
       mediaFit: main.querySelector('#mediaFit')?.value || '',
       mediaRatio: main.querySelector('#mediaRatio')?.value || '',
       mediaFallback: main.querySelector('#mediaFallback')?.value || '',
+      cardLabel: main.querySelector('#cardLabel')?.value || '',
+      cardVariant: main.querySelector('#cardVariant')?.value || '',
+      cardDensity: main.querySelector('#cardDensity')?.value || '',
+      cardSelectable: Boolean(main.querySelector('#cardSelectable')?.checked),
+      cardSelected: Boolean(main.querySelector('#cardSelected')?.checked),
+      cardDisabled: Boolean(main.querySelector('#cardDisabled')?.checked),
+      panelLabel: main.querySelector('#panelLabel')?.value || '',
+      panelVariant: main.querySelector('#panelVariant')?.value || '',
+      panelDensity: main.querySelector('#panelDensity')?.value || '',
+      panelCollapsible: Boolean(main.querySelector('#panelCollapsible')?.checked),
+      panelOpen: Boolean(main.querySelector('#panelOpen')?.checked),
+      panelDisabled: Boolean(main.querySelector('#panelDisabled')?.checked),
       fieldLabel: main.querySelector('#fieldLabel')?.value || '',
       fieldHelp: main.querySelector('#fieldHelp')?.value || '',
       fieldHelpMode: main.querySelector('#fieldHelpMode')?.value || '',
@@ -213,6 +255,8 @@ function bindCatalog(main) {
     'headingEyebrow', 'headingHeadline', 'headingSubheadline', 'headingBody', 'headingSize', 'headingAlign',
     'actionLabel', 'secondaryActionLabel', 'actionVariant', 'actionHref', 'actionToken', 'actionDisabled', 'actionAlign', 'actionStacked',
     'mediaSrc', 'mediaAlt', 'mediaFit', 'mediaRatio', 'mediaFallback',
+    'cardLabel', 'cardVariant', 'cardDensity', 'cardSelectable', 'cardSelected', 'cardDisabled',
+    'panelLabel', 'panelVariant', 'panelDensity', 'panelCollapsible', 'panelOpen', 'panelDisabled',
     'detailsJson',
     'fieldLabel', 'fieldHelp', 'fieldHelpMode', 'fieldAccessibleText', 'fieldPlaceholder', 'fieldValue', 'fieldDisabled', 'fieldRequired',
     'menuBreakpoint'
@@ -251,6 +295,18 @@ function bindCatalog(main) {
     main.querySelector('#mediaFit').value = controls.mediaFit;
     main.querySelector('#mediaRatio').value = controls.mediaRatio;
     main.querySelector('#mediaFallback').value = controls.mediaFallback;
+    main.querySelector('#cardLabel').value = controls.cardLabel;
+    main.querySelector('#cardVariant').value = controls.cardVariant;
+    main.querySelector('#cardDensity').value = controls.cardDensity;
+    main.querySelector('#cardSelectable').checked = controls.cardSelectable;
+    main.querySelector('#cardSelected').checked = controls.cardSelected;
+    main.querySelector('#cardDisabled').checked = controls.cardDisabled;
+    main.querySelector('#panelLabel').value = controls.panelLabel;
+    main.querySelector('#panelVariant').value = controls.panelVariant;
+    main.querySelector('#panelDensity').value = controls.panelDensity;
+    main.querySelector('#panelCollapsible').checked = controls.panelCollapsible;
+    main.querySelector('#panelOpen').checked = controls.panelOpen;
+    main.querySelector('#panelDisabled').checked = controls.panelDisabled;
     main.querySelector('#detailsJson').value = json(catalogData.defaultDetails || []);
     main.querySelector('#fieldLabel').value = controls.fieldLabel;
     main.querySelector('#fieldHelp').value = controls.fieldHelp;
@@ -273,6 +329,21 @@ function bindCatalog(main) {
     status.textContent = `Action callback received: ${event.detail.label}. The parent prevented navigation/action by calling preventDefault().`;
   });
   main.addEventListener('uib-action', (event) => appendEventLog(eventBox, 'uib-action', event.detail));
+  main.addEventListener('uib-card-select', (event) => {
+    main.querySelector('#cardSelected').checked = Boolean(event.detail?.newValue);
+    saveCatalogOptions(main);
+    appendEventLog(eventBox, 'uib-card-select', event.detail);
+  });
+  main.addEventListener('uib-card-action', (event) => {
+    event.preventDefault();
+    appendEventLog(eventBox, 'uib-card-action', event.detail);
+    status.textContent = 'Card action callback received. The parent prevented the default action.';
+  });
+  main.addEventListener('uib-panel-toggle', (event) => {
+    main.querySelector('#panelOpen').checked = Boolean(event.detail?.newValue);
+    saveCatalogOptions(main);
+    appendEventLog(eventBox, 'uib-panel-toggle', event.detail);
+  });
   main.addEventListener('uib-forms-form-submit', (event) => appendEventLog(eventBox, 'uib-forms-form-submit', event.detail));
   main.addEventListener('uib-detail-add', (event) => appendEventLog(eventBox, 'uib-detail-add', event.detail));
   main.addEventListener('uib-detail-update', (event) => appendEventLog(eventBox, 'uib-detail-update', event.detail));
@@ -385,6 +456,28 @@ export function renderComponentCatalogRoute(main, data = FALLBACK_CATALOG_DATA) 
               ${selectField('mediaFit', 'Object fit', ['cover', 'contain', 'fill', 'none'], controlValue('mediaFit'))}
               ${selectField('mediaRatio', 'Aspect ratio', ['1:1', '4:3', '16:9', '21:9'], controlValue('mediaRatio'))}
               ${field('mediaFallback', 'Fallback label', controlValue('mediaFallback'))}
+            </fieldset>
+            <fieldset class="control-section">
+              <legend>
+                Card
+              </legend>
+              ${field('cardLabel', 'Card label', controlValue('cardLabel'))}
+              ${selectField('cardVariant', 'Variant', ['elevated', 'outlined', 'flat'], controlValue('cardVariant'))}
+              ${selectField('cardDensity', 'Density', ['comfortable', 'compact'], controlValue('cardDensity'))}
+              ${checkboxField('cardSelectable', 'Selectable', controlChecked('cardSelectable'))}
+              ${checkboxField('cardSelected', 'Selected', controlChecked('cardSelected'))}
+              ${checkboxField('cardDisabled', 'Disabled', controlChecked('cardDisabled'))}
+            </fieldset>
+            <fieldset class="control-section">
+              <legend>
+                Panel
+              </legend>
+              ${field('panelLabel', 'Panel label', controlValue('panelLabel'))}
+              ${selectField('panelVariant', 'Variant', ['outlined', 'elevated', 'flat'], controlValue('panelVariant'))}
+              ${selectField('panelDensity', 'Density', ['comfortable', 'compact'], controlValue('panelDensity'))}
+              ${checkboxField('panelCollapsible', 'Collapsible', controlChecked('panelCollapsible'))}
+              ${checkboxField('panelOpen', 'Open', controlChecked('panelOpen'))}
+              ${checkboxField('panelDisabled', 'Disabled', controlChecked('panelDisabled'))}
             </fieldset>
             <fieldset class="control-section">
               <legend>
@@ -558,21 +651,26 @@ export function renderComponentCatalogRoute(main, data = FALLBACK_CATALOG_DATA) 
             <h2>
               Layout and overlay components
             </h2>
-            <uib-grid min="12rem">
-              <uib-card label="Card">
+            <uib-grid min="14rem">
+              <uib-card id="catalogCard" label="Selectable card" selectable action-token="CATALOG_CARD_ACTION">
+                <uib-media slot="media" src="/apps/demo/assets/icons/availability.svg" alt="Availability" fit="contain" ratio="16:9">
+                </uib-media>
                 <p>
-                  Card body content.
+                  Click the card surface to toggle selected state and emit events. The media, variant, density, and disabled state come from the controls.
                 </p>
                 <span slot="footer">
-                  Footer slot.
+                  Footer slot
                 </span>
               </uib-card>
-              <uib-panel label="Panel">
+              <uib-panel id="catalogPanel" label="Collapsible panel" collapsible open>
+                <button class="secondary-button compact-control-button" type="button" slot="actions">
+                  Action
+                </button>
                 <p>
-                  Panel body content.
+                  Toggle the panel from its header control. Collapse hides this body and the footer while the header stays visible.
                 </p>
                 <span slot="footer">
-                  Footer slot.
+                  Footer slot
                 </span>
               </uib-panel>
               <uib-accordion label="Accordion">
@@ -586,10 +684,23 @@ export function renderComponentCatalogRoute(main, data = FALLBACK_CATALOG_DATA) 
                 <button class="primary-button" type="button" data-open-dialog>
                   Open dialog
                 </button>
-                <uib-tabs label="Preview tab">
-                  <p>
-                    Experimental tab content.
-                  </p>
+                <uib-tabs selected="0">
+                  <uib-tab>
+                    Preview
+                  </uib-tab>
+                  <uib-tab>
+                    Notes
+                  </uib-tab>
+                  <uib-tab-panel>
+                    <p>
+                      Preview tab content.
+                    </p>
+                  </uib-tab-panel>
+                  <uib-tab-panel>
+                    <p>
+                      Notes tab content.
+                    </p>
+                  </uib-tab-panel>
                 </uib-tabs>
               </uib-row>
               <uib-splitter>

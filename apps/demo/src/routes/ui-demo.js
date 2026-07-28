@@ -1,7 +1,7 @@
 import { UI_COMPONENT_API, UI_BASE_UI_COMPONENTS } from '../../../../packages/ui-base-ui/src/metadata/index.js';
 import { appendEventLog, escapeAttr, escapeHtml, json } from './demo-utils.js';
 
-const BOOLEAN_ATTRIBUTES = new Set(['active', 'checked', 'disabled', 'invalid', 'open', 'readonly', 'required', 'stacked', 'wrap', 'use-asset-picker']);
+const BOOLEAN_ATTRIBUTES = new Set(['active', 'checked', 'collapsible', 'disabled', 'interactive', 'invalid', 'open', 'readonly', 'required', 'selectable', 'selected', 'stacked', 'wrap', 'use-asset-picker']);
 const NUMBER_ATTRIBUTES = new Set(['breakpoint', 'columns', 'index', 'level']);
 const MULTILINE_ATTRIBUTES = new Set(['actions', 'asset-map', 'body', 'detail', 'details', 'error', 'help', 'subheadline']);
 const SELECT_OPTIONS = {
@@ -14,9 +14,10 @@ const SELECT_OPTIONS = {
   position: ['center', 'top', 'bottom', 'left', 'right', '1fr 1fr', '2fr 1fr'],
   ratio: ['1/1', '4/3', '16:9', '21:9'],
   role: ['', 'img', 'presentation', 'icon'],
+  density: ['comfortable', 'compact'],
   size: ['compact', 'default', 'large'],
   target: ['', '_self', '_blank'],
-  variant: ['primary', 'secondary', 'tertiary', 'destructive']
+  variant: ['outlined', 'elevated', 'flat', 'primary', 'secondary', 'tertiary', 'destructive']
 };
 
 const COMPONENT_DEFAULTS = {
@@ -34,11 +35,15 @@ const COMPONENT_DEFAULTS = {
   'uib-grid': { min: '8rem', children: '<span class="fixture-chip">One</span><span class="fixture-chip">Two</span><span class="fixture-chip">Three</span>' },
   'uib-row': { wrap: true, gap: '0.75rem', children: '<span class="fixture-chip">Row A</span><span class="fixture-chip">Row B</span>' },
   'uib-column': { gap: '0.75rem', children: '<span class="fixture-chip">Column A</span><span class="fixture-chip">Column B</span>' },
-  'uib-panel': { label: 'Panel fixture', children: '<p>Panel body.</p><span slot="footer">Footer</span>' },
-  'uib-card': { label: 'Card fixture', children: '<p>Card body.</p><span slot="footer">Footer</span>' },
+  'uib-panel': { label: 'Panel fixture', variant: 'outlined', density: 'comfortable', collapsible: true, open: true, children: '<button class="secondary-button compact-control-button" type="button" slot="actions">Edit</button><p>Panel body.</p><span slot="footer">Footer</span>' },
+  'uib-card': { label: 'Card fixture', variant: 'elevated', density: 'comfortable', selectable: true, selected: false, 'action-token': 'CARD_ACTION', href: '', children: '<uib-media slot="media" src="/apps/demo/assets/icons/availability.svg" alt="Availability" fit="contain" ratio="16:9"></uib-media><p>Card body.</p><span slot="footer">Footer</span>' },
   'uib-dialog': { heading: 'Fixture dialog', children: '<p>Dialog body content.</p><span slot="footer">Footer</span>' },
   'uib-accordion': { heading: 'Accordion fixture', children: '<p>Accordion body content.</p>' },
-  'uib-tabs': { label: 'Fixture tab', children: '<p>Experimental tab body.</p>' },
+  'uib-tabs': {
+    selected: '0',
+    orientation: 'horizontal',
+    children: '<uib-tab>Overview</uib-tab><uib-tab aria-disabled="true">Billing</uib-tab><uib-tab>History</uib-tab><uib-tab-panel><p>Overview tab body.</p></uib-tab-panel><uib-tab-panel><p>Billing is disabled until enabled elsewhere.</p></uib-tab-panel><uib-tab-panel><p>History tab body.</p></uib-tab-panel>'
+  },
   'uib-splitter': { children: '<div slot="start">Start pane</div><div slot="end">End pane</div>' },
   'uib-eyebrow': { text: 'Developer docs' },
   'uib-heading-block': {
@@ -67,6 +72,7 @@ const COMPONENT_DEFAULTS = {
 
 export const UI_ROUTE_PATHS = [
   '/ui/',
+  '/ui/tabs',
   ...UI_BASE_UI_COMPONENTS.map((item) => `/ui/${item.tagName}`)
 ];
 
@@ -104,7 +110,12 @@ function defaultValueFor(name, component) {
   if (name === 'gap') return '0.75rem';
   if (name === 'min') return '8rem';
   if (name === 'ratio') return '16:9';
-  if (name === 'variant') return 'secondary';
+  if (name === 'variant') {
+    if (component.tagName === 'uib-card') return 'elevated';
+    if (component.tagName === 'uib-panel') return 'outlined';
+    return 'secondary';
+  }
+  if (name === 'density') return 'comfortable';
   return '';
 }
 
@@ -272,6 +283,22 @@ function renderIndex(main) {
         Each exported UI primitive has a focused page with public prop controls, a live preview, event logging, markup output, and package API notes.
       </p>
     </section>
+    <section class="card landing-callout">
+      <div class="card-content">
+        <p class="eyebrow">
+          Dedicated demo
+        </p>
+        <h2>
+          Tabs test bench
+        </h2>
+        <p class="muted">
+          Test horizontal and vertical tabs, disabled tab recovery, dynamic children, keyboard behavior, panel coordination, and change events.
+        </p>
+        <a class="primary-button compact-control-button" href="/ui/tabs" data-link>
+          Open Tabs Demo
+        </a>
+      </div>
+    </section>
     <section class="forms-component-grid" aria-label="UI components">
       ${componentEntries.map((component) => `
         <a class="card forms-component-card" href="${escapeAttr(component.route)}" data-link>
@@ -299,6 +326,437 @@ function renderIndex(main) {
     const preview = main.querySelector(`[data-card-preview="${component.tagName}"]`);
     if (preview) renderPreviewElement(preview, component, defaultState(component));
   });
+}
+
+function defaultTabsModel() {
+  return {
+    name: 'demoTabs',
+    selected: 0,
+    orientation: 'horizontal',
+    tabs: [
+      {
+        label: 'Overview',
+        disabled: false,
+        ariaDisabled: false,
+        attributes: {},
+        panel: {
+          heading: 'Overview',
+          html: '<p>Account summary, current plan, owner, and primary workspace details.</p>',
+          attributes: {}
+        }
+      },
+      {
+        label: 'Billing',
+        disabled: true,
+        ariaDisabled: true,
+        attributes: {},
+        panel: {
+          heading: 'Billing',
+          html: '<p>Billing starts disabled and can be enabled from the controls.</p>',
+          attributes: {}
+        }
+      },
+      {
+        label: 'History',
+        disabled: false,
+        ariaDisabled: false,
+        attributes: {},
+        panel: {
+          heading: 'History',
+          html: '<p>Recent tab activity and account changes appear here.</p>',
+          attributes: {}
+        }
+      }
+    ]
+  };
+}
+
+function safeAttributes(attributes = {}) {
+  return Object.entries(attributes || {})
+    .filter(([name, value]) => name && value !== false && value !== null && value !== undefined)
+    .map(([name, value]) => value === true ? `${escapeAttr(name)}` : `${escapeAttr(name)}="${escapeAttr(value)}"`)
+    .join(' ');
+}
+
+function normalizeTabsModel(value) {
+  const fallback = defaultTabsModel();
+  const source = value && typeof value === 'object' ? value : fallback;
+  const tabs = Array.isArray(source.tabs) && source.tabs.length ? source.tabs : fallback.tabs;
+  return {
+    name: String(source.name ?? fallback.name),
+    selected: Number.isInteger(Number(source.selected)) ? Math.max(0, Number(source.selected)) : 0,
+    orientation: source.orientation === 'vertical' ? 'vertical' : 'horizontal',
+    tabs: tabs.map((tab, index) => ({
+      label: String(tab?.label ?? `Tab ${index + 1}`),
+      disabled: Boolean(tab?.disabled),
+      ariaDisabled: Boolean(tab?.ariaDisabled || tab?.disabled),
+      attributes: tab?.attributes && typeof tab.attributes === 'object' ? tab.attributes : {},
+      panel: {
+        heading: String(tab?.panel?.heading ?? tab?.label ?? `Panel ${index + 1}`),
+        html: String(tab?.panel?.html ?? '<p>Panel content.</p>'),
+        attributes: tab?.panel?.attributes && typeof tab.panel.attributes === 'object' ? tab.panel.attributes : {}
+      }
+    }))
+  };
+}
+
+function tabsMarkupFromModel(model) {
+  const tabMarkup = model.tabs.map((tab) => {
+    const attrs = [
+      tab.disabled ? 'disabled' : '',
+      tab.ariaDisabled ? 'aria-disabled="true"' : '',
+      safeAttributes(tab.attributes)
+    ].filter(Boolean).join(' ');
+    return `<uib-tab${attrs ? ` ${attrs}` : ''}>${escapeHtml(tab.label)}</uib-tab>`;
+  }).join('');
+  const panelMarkup = model.tabs.map((tab) => {
+    const attrs = safeAttributes(tab.panel.attributes);
+    const heading = tab.panel.heading ? `<h2>${escapeHtml(tab.panel.heading)}</h2>` : '';
+    return `<uib-tab-panel${attrs ? ` ${attrs}` : ''}>${heading}${tab.panel.html}</uib-tab-panel>`;
+  }).join('');
+  return `${tabMarkup}${panelMarkup}`;
+}
+
+function tabsElementMarkup(model) {
+  const attrs = [
+    `name="${escapeAttr(model.name)}"`,
+    `selected="${escapeAttr(model.selected)}"`,
+    `orientation="${escapeAttr(model.orientation)}"`
+  ];
+  return `<uib-tabs\n  ${attrs.join('\n  ')}>\n  ${tabsMarkupFromModel(model)}\n</uib-tabs>`;
+}
+
+function tabsEditorMarkup(model) {
+  return model.tabs.map((tab, index) => `
+    <fieldset class="control-section" data-tab-editor="${index}">
+      <legend>
+        Tab ${index}
+      </legend>
+      <div class="field">
+        <label for="tabs-label-${index}">
+          label
+        </label>
+        <input id="tabs-label-${index}" type="text" value="${escapeAttr(tab.label)}" data-tab-prop="label">
+      </div>
+      <div class="action-control-checks">
+        <label class="checkbox-row" for="tabs-disabled-${index}">
+          <input id="tabs-disabled-${index}" type="checkbox" ${tab.disabled ? 'checked' : ''} data-tab-prop="disabled">
+          <span>disabled</span>
+        </label>
+        <label class="checkbox-row" for="tabs-aria-disabled-${index}">
+          <input id="tabs-aria-disabled-${index}" type="checkbox" ${tab.ariaDisabled ? 'checked' : ''} data-tab-prop="ariaDisabled">
+          <span>aria-disabled</span>
+        </label>
+      </div>
+      <div class="field">
+        <label for="tabs-tab-id-${index}">
+          tab id
+        </label>
+        <input id="tabs-tab-id-${index}" type="text" value="${escapeAttr(tab.attributes.id || '')}" data-tab-attribute="id">
+      </div>
+      <div class="field">
+        <label for="tabs-panel-heading-${index}">
+          panel heading
+        </label>
+        <input id="tabs-panel-heading-${index}" type="text" value="${escapeAttr(tab.panel.heading)}" data-panel-prop="heading">
+      </div>
+      <div class="field">
+        <label for="tabs-panel-id-${index}">
+          panel id
+        </label>
+        <input id="tabs-panel-id-${index}" type="text" value="${escapeAttr(tab.panel.attributes.id || '')}" data-panel-attribute="id">
+      </div>
+      <div class="field">
+        <label for="tabs-panel-html-${index}">
+          panel HTML
+        </label>
+        <textarea id="tabs-panel-html-${index}" data-panel-prop="html" spellcheck="false">${escapeHtml(tab.panel.html)}</textarea>
+      </div>
+    </fieldset>
+  `).join('');
+}
+
+function renderTabsDemo(main) {
+  let model = defaultTabsModel();
+  main.innerHTML = `
+    <section class="page-heading forms-detail-heading">
+      <p class="eyebrow">
+        @ui-base/ui
+      </p>
+      <h1>
+        <code>
+          uib-tabs
+        </code>
+      </h1>
+      <p>
+        Dedicated test page for the coordinated <code>uib-tabs</code>, <code>uib-tab</code>, and <code>uib-tab-panel</code> components.
+      </p>
+      <div class="button-row">
+        <a class="secondary-button compact-control-button" href="/ui/" data-link>
+          Back to UI
+        </a>
+        <a class="secondary-button compact-control-button" href="/ui/uib-tabs" data-link>
+          Component API Page
+        </a>
+      </div>
+    </section>
+    <section class="demo-layout forms-demo-layout">
+      <aside class="card controls forms-controls" aria-label="Tabs demo controls">
+        <div class="card-content">
+          <div class="controls-header">
+            <h2>
+              Test controls
+            </h2>
+          </div>
+          <div class="form-grid">
+            <div class="field">
+              <label for="tabs-demo-name">
+                name
+              </label>
+              <input id="tabs-demo-name" type="text" value="demoTabs" data-tabs-name>
+            </div>
+            <div class="field">
+              <label for="tabs-demo-orientation">
+                orientation
+              </label>
+              <select id="tabs-demo-orientation" data-tabs-orientation>
+                <option value="horizontal">
+                  horizontal
+                </option>
+                <option value="vertical">
+                  vertical
+                </option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="tabs-demo-selected">
+                selected
+              </label>
+              <input id="tabs-demo-selected" type="number" min="0" step="1" value="0" data-tabs-selected>
+            </div>
+            <div data-tabs-editors>
+            </div>
+            <div class="button-row">
+              <button class="secondary-button compact-control-button" type="button" data-tabs-add>
+                Add Tab
+              </button>
+              <button class="secondary-button compact-control-button" type="button" data-tabs-remove>
+                Remove Last
+              </button>
+              <button class="secondary-button compact-control-button" type="button" data-tabs-disable-all>
+                Disable All
+              </button>
+              <button class="primary-button compact-control-button" type="button" data-tabs-reset>
+                Reset
+              </button>
+            </div>
+            <div class="field">
+              <label for="tabs-demo-json">
+                JSON model
+              </label>
+              <textarea id="tabs-demo-json" data-tabs-json spellcheck="false"></textarea>
+            </div>
+            <div class="button-row">
+              <button class="primary-button compact-control-button" type="button" data-tabs-apply-json>
+                Apply JSON
+              </button>
+              <button class="secondary-button compact-control-button" type="button" data-tabs-sync-json>
+                Sync From Controls
+              </button>
+            </div>
+            <div class="status-box" data-tabs-status>
+            </div>
+          </div>
+        </div>
+      </aside>
+      <div class="forms-preview-stack">
+        <section class="card">
+          <div class="preview-toolbar">
+            <div>
+              <strong>
+                Live tabs
+              </strong>
+              <span>
+                Use click, focus, arrows, Home, End, Enter, and Space.
+              </span>
+            </div>
+          </div>
+          <div class="forms-live-preview ui-live-preview" data-tabs-preview>
+          </div>
+        </section>
+        <section class="card">
+          <div class="card-content">
+            <h2>
+              Latest event
+            </h2>
+            <pre class="code-block forms-event-log" data-tabs-event-log>
+              ${escapeHtml(json({}))}
+            </pre>
+          </div>
+        </section>
+        <section class="card">
+          <div class="card-content">
+            <h2>
+              Current markup
+            </h2>
+            <pre class="code-block forms-markup-output">
+              <code data-tabs-state>
+              </code>
+            </pre>
+          </div>
+        </section>
+      </div>
+    </section>
+  `;
+
+  const preview = main.querySelector('[data-tabs-preview]');
+  const nameInput = main.querySelector('[data-tabs-name]');
+  const orientation = main.querySelector('[data-tabs-orientation]');
+  const selected = main.querySelector('[data-tabs-selected]');
+  const editors = main.querySelector('[data-tabs-editors]');
+  const jsonInput = main.querySelector('[data-tabs-json]');
+  const status = main.querySelector('[data-tabs-status]');
+  const state = main.querySelector('[data-tabs-state]');
+  const eventLog = main.querySelector('[data-tabs-event-log]');
+  let addedCount = 0;
+
+  const currentTabs = () => preview.querySelector('[data-tabs-demo]');
+  const tabItems = () => Array.from(currentTabs()?.children || []).filter((child) => child.localName === 'uib-tab');
+  const panelItems = () => Array.from(currentTabs()?.children || []).filter((child) => child.localName === 'uib-tab-panel');
+  const scheduleUpdate = () => requestAnimationFrame(updateStatus);
+  const syncJson = () => {
+    jsonInput.value = json(model);
+  };
+  const renderEditors = () => {
+    editors.innerHTML = tabsEditorMarkup(model);
+  };
+  const renderTabs = () => {
+    preview.innerHTML = `<uib-tabs data-tabs-demo name="${escapeAttr(model.name)}" selected="${escapeAttr(model.selected)}" orientation="${escapeAttr(model.orientation)}">${tabsMarkupFromModel(model)}</uib-tabs>`;
+  };
+  const applyModel = ({ syncJsonInput = true, rebuildEditors = true } = {}) => {
+    model = normalizeTabsModel(model);
+    nameInput.value = model.name;
+    orientation.value = model.orientation;
+    selected.value = model.selected;
+    if (rebuildEditors) renderEditors();
+    renderTabs();
+    if (syncJsonInput) syncJson();
+    scheduleUpdate();
+  };
+  const updateModelFromParentControls = () => {
+    model.name = nameInput.value;
+    model.orientation = orientation.value;
+    model.selected = Number(selected.value || 0);
+    syncJson();
+    renderTabs();
+    scheduleUpdate();
+  };
+  const updateStatus = () => {
+    const tabs = currentTabs();
+    const items = tabItems();
+    const selectedValue = tabs?.getAttribute('selected') || '';
+    const disabledCount = items.filter((tab) => tab.hasAttribute('disabled') || tab.getAttribute('aria-disabled') === 'true').length;
+    model.selected = selectedValue === '' ? model.selected : Number(selectedValue);
+    nameInput.value = tabs?.getAttribute('name') || model.name;
+    orientation.value = tabs?.getAttribute('orientation') || model.orientation;
+    selected.value = selectedValue;
+    status.textContent = `selected: ${selectedValue || 'none'} | orientation: ${orientation.value} | tabs: ${items.length} | disabled: ${disabledCount}`;
+    state.textContent = tabsElementMarkup(model);
+  };
+
+  preview.addEventListener('uib-tabs-change', (event) => {
+    model.selected = Number(event.detail?.newValue ?? model.selected);
+    syncJson();
+    appendEventLog(eventLog, 'uib-tabs-change', event.detail || {}, { tag: event.target?.localName || 'uib-tabs' });
+    scheduleUpdate();
+  });
+  preview.addEventListener('focusin', scheduleUpdate);
+
+  nameInput.addEventListener('input', updateModelFromParentControls);
+  orientation.addEventListener('change', () => {
+    updateModelFromParentControls();
+  });
+
+  selected.addEventListener('change', () => {
+    updateModelFromParentControls();
+  });
+
+  editors.addEventListener('input', (event) => {
+    const editor = event.target.closest('[data-tab-editor]');
+    if (!editor) return;
+    const tab = model.tabs[Number(editor.dataset.tabEditor)];
+    if (!tab) return;
+    const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
+    if (event.target.dataset.tabProp) tab[event.target.dataset.tabProp] = value;
+    if (event.target.dataset.panelProp) tab.panel[event.target.dataset.panelProp] = value;
+    if (event.target.dataset.tabAttribute) {
+      const attr = event.target.dataset.tabAttribute;
+      if (value) tab.attributes[attr] = value;
+      else delete tab.attributes[attr];
+    }
+    if (event.target.dataset.panelAttribute) {
+      const attr = event.target.dataset.panelAttribute;
+      if (value) tab.panel.attributes[attr] = value;
+      else delete tab.panel.attributes[attr];
+    }
+    syncJson();
+    renderTabs();
+    scheduleUpdate();
+  });
+
+  main.querySelector('[data-tabs-add]')?.addEventListener('click', () => {
+    addedCount += 1;
+    model.tabs.push({
+      label: `Extra ${addedCount}`,
+      disabled: false,
+      ariaDisabled: false,
+      attributes: {},
+      panel: {
+        heading: `Extra ${addedCount}`,
+        html: '<p>Dynamically added panel content.</p>',
+        attributes: {}
+      }
+    });
+    applyModel();
+  });
+
+  main.querySelector('[data-tabs-remove]')?.addEventListener('click', () => {
+    if (model.tabs.length <= 1) return;
+    model.tabs.pop();
+    if (model.selected >= model.tabs.length) model.selected = Math.max(0, model.tabs.length - 1);
+    applyModel();
+  });
+
+  main.querySelector('[data-tabs-disable-all]')?.addEventListener('click', () => {
+    model.tabs.forEach((tab) => {
+      tab.disabled = true;
+      tab.ariaDisabled = true;
+    });
+    applyModel();
+  });
+
+  main.querySelector('[data-tabs-reset]')?.addEventListener('click', () => {
+    model = defaultTabsModel();
+    addedCount = 0;
+    applyModel();
+  });
+
+  main.querySelector('[data-tabs-sync-json]')?.addEventListener('click', () => {
+    syncJson();
+    status.textContent = 'JSON synced from the current controls.';
+  });
+
+  main.querySelector('[data-tabs-apply-json]')?.addEventListener('click', () => {
+    try {
+      model = normalizeTabsModel(JSON.parse(jsonInput.value));
+      applyModel({ syncJsonInput: true, rebuildEditors: true });
+      status.textContent = 'JSON applied.';
+    } catch (error) {
+      status.textContent = `JSON error: ${error.message}`;
+    }
+  });
+
+  applyModel();
 }
 
 function bindPreviewEvents(preview, eventLog, component) {
@@ -441,6 +899,10 @@ function renderComponentPage(main, component) {
 }
 
 export function renderUiRoute(main, path) {
+  if (normalizePath(path) === '/ui/tabs') {
+    renderTabsDemo(main);
+    return;
+  }
   const component = initialRouteComponent(path);
   if (!component) {
     renderIndex(main);

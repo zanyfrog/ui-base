@@ -11,6 +11,7 @@
   "scripts": {
     "dev": "npm run start -w @ui-base/demo",
     "dev:demo": "npm run start -w @ui-base/demo",
+    "dev:services": "node scripts/start-ui-base-services.mjs",
     "dev:manager": "npm run dev -w @ui-base/app-manager",
     "build": "npm run build -w @ui-base/app-manager-ui && npm run build -w @ui-base/app-manager-api-client && npm run build -w @ui-base/app-manager",
     "typecheck": "npm run typecheck --workspaces --if-present",

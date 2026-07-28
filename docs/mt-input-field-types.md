@@ -73,6 +73,9 @@ The stored value is still a `string`, but the user interface is a multi-line tex
 | `readonly` | `boolean` | Displays value but prevents editing. |
 | `hidden` | `boolean` | Hides the field from the user. |
 | `autocomplete` | `string` | Browser autocomplete value where applicable. |
+| `recentValues` | `boolean` | Enables browser-local recent values for eligible single-line text fields. |
+| `recentValuesLimit` | `number` | Maximum saved recent values. Defaults to `5`; `0` or negative values disable the feature. |
+| `recentValuesKey` | `string` | Optional localStorage key suffix. Defaults to the field `name`. |
 | `error` | `string` | Error text to display. |
 | `warning` | `string` | Warning text to display. |
 | `success` | `string` | Success text to display. |
@@ -368,6 +371,26 @@ Recommended behavior:
 | `autocomplete` | `<input>` with `<datalist>` or custom | `string` or `reference` | Search suggestions. |
 | `user-picker` | Custom lookup | `reference` | Select a person. |
 | `resource-picker` | Custom lookup | `reference` | Select app, page, content, asset, etc. |
+
+### Recent Values
+
+Eligible single-line text fields can opt into local recent values with `recentValues`.
+The control should render a native datalist populated from `localStorage`, show suggestions immediately on focus, and save only when the parent form is submitted.
+Storage should remain a simple string array under `uib:recent:${recentValuesKey || name}`.
+
+Values should be trimmed, repeated whitespace should collapse to one space, case-insensitive duplicates should move to the top with the latest casing, and values longer than 100 characters should be ignored.
+The default limit is `5`; `0` or negative limits disable saving and suggestions.
+Password fields are excluded.
+
+```html
+<mt-input
+  type="text"
+  name="projectName"
+  label="Project name"
+  recent-values
+  recent-values-limit="8">
+</mt-input>
+```
 
 Example:
 
@@ -882,6 +905,9 @@ export interface MtInputFieldConfig<TValue = unknown> {
   readonly?: boolean;
   hidden?: boolean;
   autocomplete?: string;
+  recentValues?: boolean;
+  recentValuesLimit?: number;
+  recentValuesKey?: string;
   min?: number | string;
   max?: number | string;
   step?: number;

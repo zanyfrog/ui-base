@@ -4,6 +4,9 @@
   "type": "module",
   "description": "UI Base form, validation, input, and form layout Web Components.",
   "main": "src/index.js",
+  "scripts": {
+    "test": "vitest run"
+  },
   "exports": {
     ".": "./src/index.js",
     "./styles.css": "./src/styles.css",
@@ -17,6 +20,8 @@
     "./textarea": "./src/controls/uib-forms-textarea.js",
     "./select": "./src/controls/uib-forms-select.js",
     "./checkbox": "./src/controls/uib-forms-checkbox.js",
+    "./recent-values": "./src/recent-values.js",
+    "./recent-values-manager": "./src/uib-recent-values-manager.js",
     "./field": "./src/layout/uib-forms-field.js",
     "./input-group": "./src/layout/uib-forms-input-group.js",
     "./wizard": "./src/layout/uib-forms-wizard.js",

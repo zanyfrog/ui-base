@@ -17,6 +17,7 @@ const uiAttributeDescriptions = {
   breakpoint: 'Responsive breakpoint, in pixels, where menu collapse behavior activates.',
   checked: 'Boolean checked state.',
   class: 'Optional host CSS class.',
+  collapsible: 'Allows a panel to collapse and expand.',
   'close-label': 'Accessible label for the close menu button.',
   'collapse-label': 'Accessible label for the collapsed menu button.',
   columns: 'Fixed number of grid columns.',
@@ -24,6 +25,7 @@ const uiAttributeDescriptions = {
   details: 'JSON array of detail item objects.',
   direction: 'Flex direction used by stack layout.',
   disabled: 'Disables user interaction.',
+  density: 'Controls component spacing density.',
   error: 'Validation or error message.',
   eyebrow: 'Small overline text rendered before the heading.',
   fit: 'Media object-fit mode.',
@@ -39,6 +41,7 @@ const uiAttributeDescriptions = {
   'icon-url': 'Direct icon image URL.',
   index: 'Item index included in detail editor events.',
   invalid: 'Forces invalid visual styling.',
+  interactive: 'Adds interactive card affordance without requiring a link.',
   justify: 'Main-axis alignment.',
   kind: 'Semantic action kind included in emitted action events.',
   label: 'Visible label text.',
@@ -54,6 +57,8 @@ const uiAttributeDescriptions = {
   rel: 'Anchor rel attribute.',
   required: 'Marks a control or label as required.',
   role: 'ARIA role or media presentation role.',
+  selectable: 'Allows user interaction to toggle selected state.',
+  selected: 'Marks the component as selected.',
   size: 'Heading size variant.',
   src: 'Media source URL.',
   stacked: 'Stacks action buttons vertically.',
@@ -75,6 +80,7 @@ const uiPropertyDescriptions = {
   getAuthHeaders: 'Optional callback used by asset-picker integrations.',
   headers: 'Optional request headers used by asset-picker integrations.',
   open: 'Gets or sets open state.',
+  selected: 'Gets or sets selected state.',
   value: 'Gets or sets the current value.'
 };
 
@@ -83,6 +89,8 @@ const uiEventDescriptions = {
   'uib-accordion-toggle': 'Fires when the accordion disclosure state changes.',
   'uib-action': 'Generic action event fired by action buttons and groups.',
   'uib-action-button-click': 'Cancelable action-button click event with action metadata.',
+  'uib-card-action': 'Fires when an actionable card is activated.',
+  'uib-card-select': 'Fires when a selectable card toggles selected state.',
   'uib-checkbox-change': 'Component-specific checkbox change event.',
   'uib-detail-add': 'Fires when a detail row is added.',
   'uib-detail-asset-change': 'Fires when a detail icon asset changes.',
@@ -93,6 +101,7 @@ const uiEventDescriptions = {
   'uib-dialog-close': 'Fires when a dialog closes.',
   'uib-menu-select': 'Fires when a menu item selection bubbles to the menu.',
   'uib-menuitem-select': 'Fires when a menu item is selected.',
+  'uib-panel-toggle': 'Fires when a collapsible panel opens or closes.',
   'uib-toggle-change': 'Component-specific toggle change event.'
 };
 
@@ -105,6 +114,7 @@ const uiSlotDescriptions = {
   header: 'Header content.',
   headline: 'Custom headline content.',
   label: 'Custom label content.',
+  media: 'Card media content.',
   start: 'Start pane content.',
   subheadline: 'Custom subheadline content.',
   summary: 'Custom accordion summary content.'
@@ -112,6 +122,7 @@ const uiSlotDescriptions = {
 
 const uiPartDescriptions = {
   backdrop: 'Dialog backdrop.',
+  actions: 'Action area wrapper.',
   base: 'Outer component container.',
   body: 'Body content wrapper.',
   button: 'Button element or button-like control.',
@@ -148,6 +159,7 @@ const uiPartDescriptions = {
   tablist: 'Tab list wrapper.',
   text: 'Text wrapper.',
   tooltip: 'Tooltip wrapper.',
+  toggle: 'Collapse or expand toggle.',
   value: 'Value text.'
 };
 
@@ -316,20 +328,24 @@ export const UI_COMPONENT_API = {
   'uib-panel': api({
     tagName: 'uib-panel',
     maturity: MATURITY_LEVELS.EXPERIMENTAL,
-    purpose: 'Panel surface with header, body, and footer slots.',
-    attributes: ['label', 'heading'],
-    slots: ['default', 'header', 'footer'],
-    cssParts: ['base', 'header', 'body', 'footer'],
-    examples: ['<uib-panel label="Panel fixture"><p>Panel body.</p><span slot="footer">Footer</span></uib-panel>']
+    purpose: 'Structural panel region with header, actions, body, footer, and optional collapse behavior.',
+    attributes: ['label', 'heading', 'variant', 'density', 'collapsible', 'open', 'disabled'],
+    properties: ['open', 'disabled'],
+    events: ['change', 'uib-panel-toggle'],
+    slots: ['default', 'header', 'actions', 'footer'],
+    cssParts: ['base', 'header', 'actions', 'body', 'footer', 'content', 'toggle'],
+    examples: ['<uib-panel label="Panel fixture" collapsible open><button slot="actions">Edit</button><p>Panel body.</p><span slot="footer">Footer</span></uib-panel>']
   }),
   'uib-card': api({
     tagName: 'uib-card',
     maturity: MATURITY_LEVELS.EXPERIMENTAL,
-    purpose: 'Card surface with header, body, and footer slots.',
-    attributes: ['label', 'heading'],
-    slots: ['default', 'header', 'footer'],
-    cssParts: ['base', 'header', 'body', 'footer'],
-    examples: ['<uib-card label="Card fixture"><p>Card body.</p><span slot="footer">Footer</span></uib-card>']
+    purpose: 'Compact, repeatable content card with optional media, action, and selection behavior.',
+    attributes: ['label', 'heading', 'variant', 'density', 'href', 'target', 'rel', 'action', 'action-token', 'interactive', 'selectable', 'selected', 'disabled'],
+    properties: ['selected', 'disabled'],
+    events: ['change', 'uib-card-select', 'uib-card-action'],
+    slots: ['default', 'media', 'header', 'footer'],
+    cssParts: ['base', 'media', 'header', 'body', 'footer'],
+    examples: ['<uib-card label="Card fixture" selectable><img slot="media" src="/apps/demo/assets/icons/availability.svg" alt=""><p>Card body.</p><span slot="footer">Footer</span></uib-card>']
   }),
   'uib-dialog': api({
     tagName: 'uib-dialog',
@@ -356,11 +372,28 @@ export const UI_COMPONENT_API = {
   'uib-tabs': api({
     tagName: 'uib-tabs',
     maturity: MATURITY_LEVELS.EXPERIMENTAL,
-    purpose: 'Experimental tab panel stub.',
-    attributes: ['label'],
+    purpose: 'Coordinated tab list with keyboard navigation and paired tab panels.',
+    attributes: ['selected', 'orientation', 'name'],
+    events: ['change', 'uib-tabs-change'],
+    slots: ['tab', 'panel'],
+    cssParts: ['base', 'tablist', 'panels'],
+    examples: ['<uib-tabs selected="0"><uib-tab>Details</uib-tab><uib-tab>History</uib-tab><uib-tab-panel>Details content.</uib-tab-panel><uib-tab-panel>History content.</uib-tab-panel></uib-tabs>']
+  }),
+  'uib-tab': api({
+    tagName: 'uib-tab',
+    maturity: MATURITY_LEVELS.EXPERIMENTAL,
+    purpose: 'Focusable tab item managed by uib-tabs.',
+    attributes: ['disabled', 'aria-disabled'],
     slots: ['default'],
-    cssParts: ['base', 'tablist', 'tab', 'panel'],
-    examples: ['<uib-tabs label="Fixture tab"><p>Experimental tab body.</p></uib-tabs>']
+    examples: ['<uib-tab>Details</uib-tab>']
+  }),
+  'uib-tab-panel': api({
+    tagName: 'uib-tab-panel',
+    maturity: MATURITY_LEVELS.EXPERIMENTAL,
+    purpose: 'Tab panel paired by direct-child order with uib-tab.',
+    attributes: ['hidden'],
+    slots: ['default'],
+    examples: ['<uib-tab-panel>Details content.</uib-tab-panel>']
   }),
   'uib-splitter': api({
     tagName: 'uib-splitter',

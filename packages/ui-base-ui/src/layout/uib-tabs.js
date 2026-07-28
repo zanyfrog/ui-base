@@ -1,1 +1,1 @@
-export { UibTabs } from './index.js';
+export { UibTabs, UibTab, UibTabPanel } from './index.js';

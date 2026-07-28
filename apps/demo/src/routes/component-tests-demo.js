@@ -49,7 +49,7 @@ const UI_FIXTURES = {
   'uib-card': '<uib-card label="Card fixture"><p>Card body.</p><span slot="footer">Footer</span></uib-card>',
   'uib-dialog': '<button class="secondary-button" type="button" data-open-component-dialog>Open fixture dialog</button><uib-dialog id="componentTestsDialog" label="Fixture dialog"><p>Dialog body content.</p><span slot="footer">Footer</span></uib-dialog>',
   'uib-accordion': '<uib-accordion label="Accordion fixture"><p>Accordion body content.</p></uib-accordion>',
-  'uib-tabs': '<uib-tabs label="Fixture tab"><p>Experimental tab body.</p></uib-tabs>',
+  'uib-tabs': '<uib-tabs selected="0"><uib-tab>Overview</uib-tab><uib-tab disabled>Billing</uib-tab><uib-tab>History</uib-tab><uib-tab-panel><p>Overview tab body.</p></uib-tab-panel><uib-tab-panel><p>Billing panel.</p></uib-tab-panel><uib-tab-panel><p>History tab body.</p></uib-tab-panel></uib-tabs>',
   'uib-splitter': '<uib-splitter><div slot="start">Start pane</div><div slot="end">End pane</div></uib-splitter>'
 };
 

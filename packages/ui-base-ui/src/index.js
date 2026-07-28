@@ -4,7 +4,7 @@ export { UibToggle } from './forms/uib-toggle.js';
 export { UibCheckbox } from './forms/uib-checkbox.js';
 export { UibMenu } from './navigation/uib-menu.js';
 export { UibMenuItem } from './navigation/uib-menuitem.js';
-export { UibStack, UibGrid, UibRow, UibColumn, UibPanel, UibCard, UibDialog, UibAccordion, UibTabs, UibSplitter } from './layout/index.js';
+export { UibStack, UibGrid, UibRow, UibColumn, UibPanel, UibCard, UibDialog, UibAccordion, UibTab, UibTabPanel, UibTabs, UibSplitter } from './layout/index.js';
 export { UibEyebrow } from './content/uib-eyebrow.js';
 export { UibHeadingBlock } from './content/uib-heading-block.js';
 export { UibActionButton } from './actions/uib-action-button.js';

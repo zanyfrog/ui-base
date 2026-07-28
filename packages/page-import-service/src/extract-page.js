@@ -217,20 +217,24 @@ function classifyRenderedPage() {
     addField(control);
   });
 
-  Array.from(document.querySelectorAll('button, input[type="button"], input[type="submit"], a[href]')).forEach((control) => {
-    const label = cleanText(control.textContent) || control.getAttribute('value') || control.getAttribute('aria-label') || control.getAttribute('href') || '';
+  allElementsDeep('button, input[type="button"], input[type="submit"], a[href], [role="button"]').forEach((control) => {
+    const label = actionLabel(control);
     if (!label || label.length > 80) return;
-    const signature = `${label}|${control.getAttribute('href') || ''}`;
+    const isSystemAction = isFrameworkErrorAction(control);
+    const signature = `${label}|${control.id || ''}|${control.getAttribute('href') || ''}`;
     if (seenActions.has(signature)) return;
     seenActions.add(signature);
     addItem({
       kind: 'action',
       label,
       value: control.getAttribute('href') || '',
+      elementId: control.id || '',
       componentTag: 'uib-action-button',
       sourceSnippet: snippet(control),
       cssSnippet: cssFor(control),
       position: position(control),
+      hidden: isSystemAction,
+      notes: isSystemAction ? 'Framework error-overlay control, not business page content.' : '',
     });
   });
 
@@ -265,12 +269,14 @@ function classifyRenderedPage() {
     });
   });
 
-  Array.from(document.querySelectorAll('h1,h2,h3,p,[role="note"],.help,.instructions,.instruction')).forEach((node) => {
-    if (node.closest('label,button,a,select')) return;
+  allElementsDeep('h1,h2,h3,p,span,div,[role="note"],.help,.instructions,.instruction').forEach((node) => {
+    if (node.closest('label,button,a,select,textarea')) return;
+    if (!hasInstructionText(node)) return;
     const text = cleanText(node.textContent);
     if (!text || text.length < 12 || text.length > 280) return;
-    const signature = text.toLowerCase();
+    const signature = `${node.tagName.toLowerCase()}|${text.toLowerCase()}`;
     if (seenInstructions.has(signature)) return;
+    if (hasSeenInstructionAncestor(node)) return;
     seenInstructions.add(signature);
     addItem({
       kind: /h1|h2|h3/i.test(node.tagName) ? 'instruction' : 'instruction',
@@ -425,6 +431,21 @@ function classifyRenderedPage() {
     return form?.getAttribute('name') || form?.id || location.pathname.split('/').filter(Boolean).pop() || 'page';
   }
 
+  function actionLabel(element) {
+    return cleanText(element.getAttribute('aria-label'))
+      || cleanText(element.getAttribute('title'))
+      || cleanText(element.getAttribute('value'))
+      || cleanText(element.textContent)
+      || element.id
+      || element.getAttribute('href')
+      || '';
+  }
+
+  function isFrameworkErrorAction(element) {
+    return Boolean(element.closest('#auraError,#auraErrorMask,.auraErrorBox'))
+      || ['dismissError', 'auraErrorReload'].includes(element.id);
+  }
+
   function snippet(element) {
     const html = element.outerHTML || '';
     return html.length > 600 ? `${html.slice(0, 600)}...` : html;
@@ -472,6 +493,40 @@ function classifyRenderedPage() {
 
   function cleanText(value) {
     return String(value || '').replace(/\s+/g, ' ').trim();
+  }
+
+  function hasInstructionText(element) {
+    if (hasOwnReadableText(element)) return true;
+    const tag = element.tagName.toLowerCase();
+    if (!['h1', 'h2', 'h3', 'p'].includes(tag)) return false;
+    return !element.querySelector('div,p,h1,h2,h3,input,select,textarea,button,table,img,video,audio')
+      && cleanText(element.textContent).length >= 2;
+  }
+
+  function hasOwnReadableText(element) {
+    return Array.from(element.childNodes).some((node) => node.nodeType === Node.TEXT_NODE && cleanText(node.textContent).length >= 2);
+  }
+
+  function hasSeenInstructionAncestor(element) {
+    let current = element.parentElement;
+    while (current) {
+      const text = `${current.tagName.toLowerCase()}|${cleanText(current.textContent).toLowerCase()}`;
+      if (text && seenInstructions.has(text)) return true;
+      current = current.parentElement;
+    }
+    return false;
+  }
+
+  function allElementsDeep(selectorValue) {
+    const found = [];
+    const visitRoot = (root) => {
+      found.push(...Array.from(root.querySelectorAll(selectorValue)));
+      Array.from(root.querySelectorAll('*')).forEach((element) => {
+        if (element.shadowRoot) visitRoot(element.shadowRoot);
+      });
+    };
+    visitRoot(document);
+    return found;
   }
 
   function camelCase(value) {
