@@ -33,6 +33,7 @@ export async function extractPage(options) {
       items: extracted.items,
       tree: extracted.tree,
       assets: extracted.assets,
+      appExtractions: extracted.appExtractions,
       logs: [...logs, ...extracted.logs],
     };
   } finally {
@@ -61,6 +62,8 @@ function classifyRenderedPage() {
   const logs = [];
   const seenActions = new Set();
   const seenInstructions = new Set();
+  const appExtractions = new Map();
+  const subcomponentRoots = [];
   let order = 0;
 
   const css = [
@@ -167,6 +170,7 @@ function classifyRenderedPage() {
   function addChoiceGroups(type) {
     const grouped = new Map();
     Array.from(document.querySelectorAll(`input[type="${type}"]`)).forEach((control) => {
+      if (isInsideAppSubcomponent(control)) return;
       const name = control.getAttribute('name') || control.id || labelFor(control);
       const key = `${type}:${entityGuess(control)}:${name}`;
       const current = grouped.get(key) || [];
@@ -211,16 +215,22 @@ function classifyRenderedPage() {
   addChoiceGroups('radio');
   addChoiceGroups('checkbox');
 
+  addAppSubcomponents();
+
   Array.from(document.querySelectorAll('input, select, textarea')).forEach((control) => {
+    if (isInsideAppSubcomponent(control)) return;
     const type = (control.getAttribute('type') || '').toLowerCase();
     if (['hidden', 'submit', 'button', 'reset', 'radio', 'checkbox'].includes(type)) return;
     addField(control);
   });
 
   allElementsDeep('button, input[type="button"], input[type="submit"], a[href], [role="button"]').forEach((control) => {
+    if (isInsideAppSubcomponent(control)) return;
     const label = actionLabel(control);
     if (!label || label.length > 80) return;
     const isSystemAction = isFrameworkErrorAction(control);
+    const hiddenReason = hiddenDisplayReason(control);
+    const isHiddenAction = isSystemAction || Boolean(hiddenReason) || isAccessibilitySkipLink(control, label);
     const signature = `${label}|${control.id || ''}|${control.getAttribute('href') || ''}`;
     if (seenActions.has(signature)) return;
     seenActions.add(signature);
@@ -229,16 +239,19 @@ function classifyRenderedPage() {
       label,
       value: control.getAttribute('href') || '',
       elementId: control.id || '',
-      componentTag: 'uib-action-button',
+      componentTag: isAccessibilitySkipLink(control, label) ? 'aria-hidden' : 'uib-action-button',
       sourceSnippet: snippet(control),
       cssSnippet: cssFor(control),
       position: position(control),
-      hidden: isSystemAction,
-      notes: isSystemAction ? 'Framework error-overlay control, not business page content.' : '',
+      hidden: isHiddenAction,
+      hiddenReason: hiddenReason || (isSystemAction ? 'framework-system-control' : isAccessibilitySkipLink(control, label) ? 'accessibility-skip-link' : ''),
+      accessibilityRole: isAccessibilitySkipLink(control, label) ? 'skip-link' : '',
+      notes: hiddenActionNote(control, label, isSystemAction, hiddenReason),
     });
   });
 
   Array.from(document.querySelectorAll('img[src], video[src], audio[src]')).forEach((media) => {
+    if (isInsideAppSubcomponent(media)) return;
     const src = media.currentSrc || media.getAttribute('src') || '';
     const item = addItem({
       kind: 'asset',
@@ -253,6 +266,7 @@ function classifyRenderedPage() {
   });
 
   Array.from(document.querySelectorAll('dl')).forEach((list) => {
+    if (isInsideAppSubcomponent(list)) return;
     const terms = Array.from(list.querySelectorAll('dt'));
     terms.slice(0, 25).forEach((term) => {
       const value = term.nextElementSibling?.tagName.toLowerCase() === 'dd' ? cleanText(term.nextElementSibling.textContent) : '';
@@ -270,6 +284,7 @@ function classifyRenderedPage() {
   });
 
   allElementsDeep('h1,h2,h3,p,span,div,[role="note"],.help,.instructions,.instruction').forEach((node) => {
+    if (isInsideAppSubcomponent(node)) return;
     if (node.closest('label,button,a,select,textarea')) return;
     if (!hasInstructionText(node)) return;
     const text = cleanText(node.textContent);
@@ -282,7 +297,7 @@ function classifyRenderedPage() {
       kind: /h1|h2|h3/i.test(node.tagName) ? 'instruction' : 'instruction',
       label: text.slice(0, 80),
       value: text,
-      componentTag: 'uib-heading-block',
+      componentTag: 'uib-rich-text',
       sourceSnippet: snippet(node),
       cssSnippet: cssFor(node),
       position: position(node),
@@ -290,6 +305,7 @@ function classifyRenderedPage() {
   });
 
   Array.from(document.querySelectorAll('table')).forEach((table) => {
+    if (isInsideAppSubcomponent(table)) return;
     const label = table.caption ? cleanText(table.caption.textContent) : previousText(table) || 'Table';
     addItem({
       kind: 'table',
@@ -303,6 +319,7 @@ function classifyRenderedPage() {
   });
 
   Array.from(document.querySelectorAll('[class*="dashboard"],[class*="metric"],[class*="stat"],[class*="card"]')).slice(0, 40).forEach((node) => {
+    if (isInsideAppSubcomponent(node)) return;
     if (node.querySelector('input,select,textarea,table')) return;
     const text = cleanText(node.textContent);
     if (!text || text.length < 4 || text.length > 160 || !/\d/.test(text)) return;
@@ -320,6 +337,8 @@ function classifyRenderedPage() {
   Array.from(document.querySelectorAll('*')).forEach((node) => {
     const tag = node.tagName.toLowerCase();
     if (!tag.includes('-') || tag.startsWith('uib-')) return;
+    if (tag.startsWith('c-')) return;
+    if (isInsideAppSubcomponent(node)) return;
     if (Array.from(itemById.values()).some((item) => item.position?.selector === selector(node))) return;
     addItem({
       kind: 'unknown',
@@ -336,21 +355,185 @@ function classifyRenderedPage() {
     addAsset(node.getAttribute('href') || node.getAttribute('src') || '', isScript ? 'script' : 'stylesheet', isScript ? 'Script' : 'Stylesheet', '');
   });
 
-  const items = Array.from(itemById.values()).sort((left, right) => (left.position?.order || 0) - (right.position?.order || 0));
+  const items = Array.from(itemById.values()).sort((left, right) => {
+    const leftDom = left.position?.domIndex ?? Number.MAX_SAFE_INTEGER;
+    const rightDom = right.position?.domIndex ?? Number.MAX_SAFE_INTEGER;
+    if (leftDom !== rightDom) return leftDom - rightDom;
+    return (left.position?.order || 0) - (right.position?.order || 0);
+  });
   return {
     css,
     js,
     items,
     assets: Array.from(assets.values()),
+    appExtractions: Array.from(appExtractions.values()),
     tree: buildTree(items),
     logs,
   };
+
+  function addAppSubcomponents() {
+    allElementsDeep('*').forEach((node) => {
+      const tag = node.tagName.toLowerCase();
+      if (!tag.startsWith('c-')) return;
+      if (hasAppSubcomponentAncestor(node)) return;
+      subcomponentRoots.push(node);
+      const applicationComponentName = appComponentName(tag);
+      const appExtractionId = stableId('app_extraction', tag);
+      const childItems = collectSubcomponentChildItems(node, appExtractionId);
+      const childSummary = summarizeItems(childItems);
+      const item = addItem({
+        kind: 'subcomponent',
+        label: applicationComponentName,
+        value: tag,
+        componentTag: 'ui-subcomponent',
+        applicationComponentName,
+        appExtractionId,
+        serviceName: 'app-components',
+        childSummary,
+        sourceSnippet: snippet(node),
+        cssSnippet: cssFor(node),
+        position: position(node),
+        notes: `Application subcomponent imported from ${tag}. Child extraction is stored separately.`,
+      });
+
+      const existing = appExtractions.get(appExtractionId);
+      if (existing) {
+        existing.usageItemIds = Array.from(new Set([...existing.usageItemIds, item.id]));
+        return;
+      }
+
+      appExtractions.set(appExtractionId, {
+        id: appExtractionId,
+        serviceName: 'app-components',
+        originalTagName: tag,
+        applicationComponentName,
+        source: {
+          html: snippet(node),
+          css: cssFor(node),
+          js: '',
+        },
+        items: childItems,
+        tree: buildTree(childItems),
+        assets: [],
+        usageItemIds: [item.id],
+        childSummary,
+      });
+    });
+  }
+
+  function collectSubcomponentChildItems(root, appExtractionId) {
+    const childItems = [];
+    let childOrder = 0;
+
+    const addChild = (element, item) => {
+      childOrder += 1;
+      childItems.push({
+        id: stableId(`${appExtractionId}_${item.kind}`, `${item.kind}|${item.label || ''}|${selector(element)}|${childOrder}`),
+        hidden: Boolean(hiddenDisplayReason(element)),
+        hiddenReason: hiddenDisplayReason(element),
+        sourceSnippet: snippet(element),
+        cssSnippet: cssFor(element),
+        position: {
+          order: childOrder,
+          ...position(element),
+        },
+        ...item,
+      });
+    };
+
+    elementsWithinDeep(root, 'input, select, textarea').forEach((control) => {
+      const type = (control.getAttribute('type') || '').toLowerCase();
+      if (['hidden', 'submit', 'button', 'reset', 'radio', 'checkbox'].includes(type)) return;
+      const tag = control.tagName.toLowerCase();
+      const label = labelFor(control);
+      const name = control.getAttribute('name') || control.id || camelCase(label);
+      const inputType = tag === 'select' ? 'select' : tag === 'textarea' ? 'textarea' : (control.getAttribute('type') || 'text').toLowerCase();
+      addChild(control, {
+        kind: 'field',
+        label,
+        inputType,
+        name,
+        elementId: control.id || '',
+        placeholder: control.getAttribute('placeholder') || '',
+        value: control.value || control.getAttribute('value') || '',
+        required: control.hasAttribute('required') || control.getAttribute('aria-required') === 'true',
+        options: tag === 'select' ? Array.from(control.querySelectorAll('option')).map((option) => cleanText(option.textContent)).filter(Boolean) : [],
+        componentTag: componentForControl(control),
+      });
+    });
+
+    elementsWithinDeep(root, 'button, input[type="button"], input[type="submit"], a[href], [role="button"]').forEach((control) => {
+      const label = actionLabel(control);
+      if (!label || label.length > 80) return;
+      addChild(control, {
+        kind: 'action',
+        label,
+        value: control.getAttribute('href') || '',
+        elementId: control.id || '',
+        componentTag: isAccessibilitySkipLink(control, label) ? 'aria-hidden' : 'uib-action-button',
+        accessibilityRole: isAccessibilitySkipLink(control, label) ? 'skip-link' : '',
+      });
+    });
+
+    elementsWithinDeep(root, 'h1,h2,h3,p,span,div,[role="note"],.help,.instructions,.instruction').forEach((node) => {
+      if (node.closest('label,button,a,select,textarea')) return;
+      if (!hasInstructionText(node)) return;
+      const text = cleanText(node.textContent);
+      if (!text || text.length < 12 || text.length > 280) return;
+      addChild(node, {
+        kind: 'instruction',
+        label: text.slice(0, 80),
+        value: text,
+        componentTag: 'uib-rich-text',
+      });
+    });
+
+    return childItems;
+  }
+
+  function isInsideAppSubcomponent(element) {
+    return subcomponentRoots.some((root) => root !== element && isDeepDescendantOf(root, element));
+  }
+
+  function isDeepDescendantOf(root, element) {
+    if (root.contains(element)) return true;
+    let currentRoot = element.getRootNode?.();
+    while (currentRoot && currentRoot.host) {
+      const host = currentRoot.host;
+      if (host === root || root.contains(host)) return true;
+      currentRoot = host.getRootNode?.();
+    }
+    return false;
+  }
+
+  function hasAppSubcomponentAncestor(element) {
+    let current = element.parentElement;
+    while (current) {
+      if (current.tagName.toLowerCase().startsWith('c-')) return true;
+      current = current.parentElement;
+    }
+    return false;
+  }
+
+  function appComponentName(tagName) {
+    return tagName.replace(/^c-/, 'app-');
+  }
+
+  function summarizeItems(items) {
+    if (!items.length) return 'No child items extracted yet';
+    const counts = items.reduce((summary, item) => {
+      summary[item.kind] = (summary[item.kind] || 0) + 1;
+      return summary;
+    }, {});
+    return Object.entries(counts).map(([kind, count]) => `${count} ${kind}${count === 1 ? '' : 's'}`).join(', ');
+  }
 
   function position(element) {
     const rect = element.getBoundingClientRect();
     return {
       selector: selector(element),
       domPath: domPath(element),
+      domIndex: elementDomIndex(element),
       gridColumn: '',
       gridRow: '',
       bounds: {
@@ -360,6 +543,12 @@ function classifyRenderedPage() {
         height: Math.round(rect.height),
       },
     };
+  }
+
+  function elementDomIndex(element) {
+    const elements = Array.from(document.querySelectorAll('*'));
+    const index = elements.indexOf(element);
+    return index >= 0 ? index : Number.MAX_SAFE_INTEGER;
   }
 
   function buildTree(items) {
@@ -446,6 +635,34 @@ function classifyRenderedPage() {
       || ['dismissError', 'auraErrorReload'].includes(element.id);
   }
 
+  function isAccessibilitySkipLink(element, label) {
+    return element.tagName.toLowerCase() === 'a'
+      && /skip to (main )?content/i.test(label)
+      && (element.classList.contains('forceSkipLink') || element.getAttribute('href')?.startsWith('#') || element.getAttribute('href') === 'javascript:void(0);');
+  }
+
+  function hiddenActionNote(element, label, isSystemAction, hiddenReason) {
+    if (isSystemAction) return 'Framework error-overlay control, not business page content.';
+    if (isAccessibilitySkipLink(element, label)) return 'Accessibility skip link. Keep in raw metadata, but hide from reconstructed preview and final generated page by default.';
+    if (hiddenReason) return `Rendered hidden by CSS: ${hiddenReason}.`;
+    return '';
+  }
+
+  function hiddenDisplayReason(element) {
+    const computed = getComputedStyle(element);
+    const rect = element.getBoundingClientRect();
+    if (computed.display === 'none') return 'display:none';
+    if (computed.visibility === 'hidden' || computed.visibility === 'collapse') return `visibility:${computed.visibility}`;
+    if (Number(computed.opacity) === 0) return 'opacity:0';
+    if (computed.clip && computed.clip !== 'auto') return `clip:${computed.clip}`;
+    if (computed.clipPath && computed.clipPath !== 'none') return `clip-path:${computed.clipPath}`;
+    if (rect.width <= 1 || rect.height <= 1) return `tiny bounds ${Math.round(rect.width)}x${Math.round(rect.height)}`;
+    const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+    const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+    if (rect.right < 0 || rect.bottom < 0 || rect.left > viewportWidth || rect.top > viewportHeight) return 'outside viewport';
+    return '';
+  }
+
   function snippet(element) {
     const html = element.outerHTML || '';
     return html.length > 600 ? `${html.slice(0, 600)}...` : html;
@@ -464,6 +681,9 @@ function classifyRenderedPage() {
       'align-items',
       'justify-content',
       'gap',
+      'overflow',
+      'clip',
+      'clip-path',
       'width',
       'height',
       'margin',
@@ -526,6 +746,20 @@ function classifyRenderedPage() {
       });
     };
     visitRoot(document);
+    return found;
+  }
+
+  function elementsWithinDeep(rootElement, selectorValue) {
+    const found = [];
+    const visitRoot = (root) => {
+      found.push(...Array.from(root.querySelectorAll(selectorValue)));
+      Array.from(root.querySelectorAll('*')).forEach((element) => {
+        if (element.shadowRoot) visitRoot(element.shadowRoot);
+      });
+    };
+    if (rootElement.matches(selectorValue)) found.push(rootElement);
+    if (rootElement.shadowRoot) visitRoot(rootElement.shadowRoot);
+    visitRoot(rootElement);
     return found;
   }
 

@@ -6,6 +6,7 @@ export type PageImportItemKind =
   | 'asset'
   | 'table'
   | 'dashboard'
+  | 'subcomponent'
   | 'unknown';
 
 export type PageImportLogLevel = 'info' | 'success' | 'warning' | 'error';
@@ -27,6 +28,7 @@ export interface PageImportSource {
 
 export interface PageImportPosition {
   order: number;
+  domIndex?: number;
   sectionId?: string;
   selector?: string;
   domPath?: string;
@@ -56,12 +58,31 @@ export interface PageImportItem {
   required?: boolean;
   options?: string[];
   componentTag?: string;
+  applicationComponentName?: string;
+  appExtractionId?: string;
+  serviceName?: string;
+  hiddenReason?: string;
+  accessibilityRole?: string;
+  childSummary?: string;
   sourceSnippet?: string;
   cssSnippet?: string;
   position?: PageImportPosition;
   database?: PageImportDatabaseSuggestion;
   hidden?: boolean;
   notes?: string;
+}
+
+export interface PageAppExtraction {
+  id: string;
+  serviceName: string;
+  originalTagName: string;
+  applicationComponentName: string;
+  source: PageImportSource;
+  items: PageImportItem[];
+  tree?: PageImportTreeNode;
+  assets?: PageImportAsset[];
+  usageItemIds: string[];
+  childSummary?: string;
 }
 
 export interface PageImportTreeNode {
@@ -92,6 +113,7 @@ export interface PageExtractionResult {
   items: PageImportItem[];
   tree: PageImportTreeNode;
   assets: PageImportAsset[];
+  appExtractions?: PageAppExtraction[];
   logs: PageImportLogEntry[];
 }
 
@@ -103,6 +125,7 @@ export interface PageImportArtifact {
   items: PageImportItem[];
   tree: PageImportTreeNode;
   assets: PageImportAsset[];
+  appExtractions?: PageAppExtraction[];
   logs: PageImportLogEntry[];
 }
 
@@ -128,6 +151,7 @@ export function createPageImportArtifact(input: {
     items: input.extraction.items,
     tree: input.extraction.tree,
     assets: input.extraction.assets,
+    appExtractions: input.extraction.appExtractions,
     logs: input.extraction.logs,
   };
 }

@@ -7,6 +7,7 @@ export { UibMenuItem } from './navigation/uib-menuitem.js';
 export { UibStack, UibGrid, UibRow, UibColumn, UibPanel, UibCard, UibDialog, UibAccordion, UibTab, UibTabPanel, UibTabs, UibSplitter } from './layout/index.js';
 export { UibEyebrow } from './content/uib-eyebrow.js';
 export { UibHeadingBlock } from './content/uib-heading-block.js';
+export { UibRichText } from './content/uib-rich-text.js';
 export { UibActionButton } from './actions/uib-action-button.js';
 export { UibActionGroup } from './actions/uib-action-group.js';
 export { UibMedia } from './media/uib-media.js';

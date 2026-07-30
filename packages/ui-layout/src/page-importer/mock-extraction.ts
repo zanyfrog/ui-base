@@ -48,7 +48,7 @@ form{display:grid;grid-template-columns:12rem 1fr;gap:.75rem}
         kind: 'instruction',
         label: 'Customer Intake',
         value: 'Use this form to capture a new customer request.',
-        componentTag: 'uib-heading-block',
+        componentTag: 'uib-rich-text',
         position: { order: 1, sectionId: 'section_hero', selector: '.hero', gridColumn: '1 / 2' },
       },
       {
@@ -183,4 +183,3 @@ function treeItems(ids: string[]) {
     children: [],
   }));
 }
-

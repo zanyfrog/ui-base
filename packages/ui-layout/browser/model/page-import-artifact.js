@@ -6,6 +6,7 @@
            
            
                
+                  
               
 
                                                                           
@@ -27,6 +28,7 @@
 
                                      
                 
+                    
                      
                     
                    
@@ -56,12 +58,31 @@
                      
                      
                         
+                                    
+                           
+                       
+                        
+                             
+                        
                          
                       
                                 
                                           
                    
                  
+ 
+
+                                    
+             
+                      
+                          
+                                   
+                           
+                          
+                            
+                             
+                         
+                        
  
 
                                      
@@ -92,6 +113,7 @@
                           
                            
                             
+                                       
                              
  
 
@@ -103,6 +125,7 @@
                           
                            
                             
+                                       
                              
  
 
@@ -128,6 +151,7 @@ export function createPageImportArtifact(input
     items: input.extraction.items,
     tree: input.extraction.tree,
     assets: input.extraction.assets,
+    appExtractions: input.extraction.appExtractions,
     logs: input.extraction.logs,
   };
 }

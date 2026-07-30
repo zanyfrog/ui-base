@@ -1,4 +1,4 @@
-import { createPageImportArtifact, type PageExtractionResult, type PageImportArtifact, type PageImportItem, type PageImportItemKind, type PageImportTreeNode } from '../model/page-import-artifact.js';
+import { createPageImportArtifact, type PageAppExtraction, type PageExtractionResult, type PageImportArtifact, type PageImportItem, type PageImportItemKind, type PageImportTreeNode } from '../model/page-import-artifact.js';
 import { createMockPageExtractionResult } from '../page-importer/mock-extraction.js';
 import { BaseHTMLElement, attr, defineLayoutElement, dispatch, escapeHtml } from './dom-utils.js';
 
@@ -454,6 +454,7 @@ export class UibPageImporter extends BaseHTMLElement {
   }
 
   private renderSelectedItem(item: PageImportItem): string {
+    const appExtraction = this.appExtractionFor(item);
     return `
       <div class="inspector-head" part="inspector-head">
         <div>
@@ -476,7 +477,34 @@ export class UibPageImporter extends BaseHTMLElement {
         <h4 part="section-heading">Preview Element</h4>
         <div class="selected-preview" part="selected-preview">${previewItem(item)}</div>
       </section>
+      ${appExtraction ? `
+        <section>
+          <h4 part="section-heading">Linked App Extraction</h4>
+          <div class="subcomponent-panel" part="subcomponent-panel">
+            <div class="meta-row" part="meta-row">
+              <span part="chip">${escapeHtml(appExtraction.serviceName)}</span>
+              <span part="chip">${escapeHtml(appExtraction.originalTagName)}</span>
+              <span part="chip">${escapeHtml(appExtraction.applicationComponentName)}</span>
+              <span part="chip">${escapeHtml(appExtraction.childSummary || `${appExtraction.items.length} child items`)}</span>
+            </div>
+            <ul class="subcomponent-list" part="subcomponent-list">
+              ${appExtraction.items.slice(0, 30).map((child) => `
+                <li part="subcomponent-list-item">
+                  <strong>${escapeHtml(child.label)}</strong>
+                  <span part="chip">${escapeHtml(child.kind)}</span>
+                  <small>${escapeHtml(child.componentTag || '')}</small>
+                </li>
+              `).join('')}
+            </ul>
+          </div>
+        </section>
+      ` : ''}
     `;
+  }
+
+  private appExtractionFor(item: PageImportItem): PageAppExtraction | null {
+    if (!item.appExtractionId || !this.artifact?.appExtractions) return null;
+    return this.artifact.appExtractions.find((extraction) => extraction.id === item.appExtractionId) || null;
   }
 
   private renderItem(item: PageImportItem) {
@@ -499,6 +527,12 @@ export class UibPageImporter extends BaseHTMLElement {
           ${item.name ? `<span part="chip">name: ${escapeHtml(item.name)}</span>` : ''}
           ${item.inputType ? `<span part="chip">type: ${escapeHtml(item.inputType)}</span>` : ''}
           ${item.required ? '<span part="chip">required</span>' : ''}
+          ${item.applicationComponentName ? `<span part="chip">app: ${escapeHtml(item.applicationComponentName)}</span>` : ''}
+          ${item.appExtractionId ? `<span part="chip">extraction: ${escapeHtml(item.appExtractionId)}</span>` : ''}
+          ${item.serviceName ? `<span part="chip">service: ${escapeHtml(item.serviceName)}</span>` : ''}
+          ${item.childSummary ? `<span part="chip">children: ${escapeHtml(item.childSummary)}</span>` : ''}
+          ${item.accessibilityRole ? `<span part="chip">a11y: ${escapeHtml(item.accessibilityRole)}</span>` : ''}
+          ${item.hiddenReason ? `<span part="chip">hidden: ${escapeHtml(item.hiddenReason)}</span>` : ''}
           ${item.position?.selector ? `<span part="chip">${escapeHtml(item.position.selector)}</span>` : ''}
         </div>
         <div class="item-actions" part="item-actions">
@@ -524,6 +558,12 @@ export class UibPageImporter extends BaseHTMLElement {
         item.elementId,
         item.inputType,
         item.componentTag,
+        item.applicationComponentName,
+        item.appExtractionId,
+        item.serviceName,
+        item.hiddenReason,
+        item.accessibilityRole,
+        item.childSummary,
         item.position?.selector,
         item.database?.fieldName,
         item.database?.entityGuess,
@@ -642,10 +682,22 @@ export class UibPageImporter extends BaseHTMLElement {
         .file-button input{position:absolute;inline-size:1px;block-size:1px;opacity:0;pointer-events:none}
         .spinner{animation:spin .8s linear infinite}
         @keyframes spin{to{transform:rotate(360deg)}}
+        .shell{display:grid;gap:1rem;min-width:0}
+        .url-action-bar{position:sticky;top:0;z-index:20;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:.5rem;align-items:end;padding:.85rem;border:1px solid #d9e2ee;border-radius:8px;background:#fff;box-shadow:0 8px 20px rgba(23,32,51,.08)}
+        .url-field{display:grid;gap:.25rem;min-width:0;color:#40546d;font-weight:800}
+        .url-field{grid-column:span 6}
+        .url-field input{width:100%;min-width:0}
+        .import-actions{grid-column:span 6;display:grid;grid-template-columns:repeat(4,2.35rem);gap:.5rem;align-items:end;justify-content:start}
+        input,textarea{box-sizing:border-box;width:100%;min-width:0;padding:.5rem .6rem;border:1px solid #bdcbdd;border-radius:6px;background:#fff;font:inherit}
+        button,.file-button{box-sizing:border-box;min-height:2.35rem;border:1px solid #bdcbdd;border-radius:6px;background:#fff;color:#203b5e;font:inherit;font-weight:800;cursor:pointer}
+        button:disabled{opacity:.5;cursor:not-allowed}
+        .icon-button,.file-button.icon-button{display:inline-grid;width:2.35rem;min-width:2.35rem;min-height:2.35rem;place-items:center;padding:0;line-height:1}
+        .primary{border-color:#245ea8;background:#245ea8;color:#fff}
         .toolbar{display:grid;gap:.75rem;padding:.85rem;border:1px solid #d9e2ee;border-radius:8px;background:#fff}
         .panel{padding:.85rem;min-width:0;border-radius:8px}
         uib-tab[selected]{border-color:#245ea8;background:#edf5ff;color:#174a8b}
         .import-tree button[aria-current="true"]{border-color:#245ea8;background:#edf5ff;color:#174a8b}
+        @media(max-width:980px){.url-action-bar{grid-template-columns:1fr}.url-field,.import-actions{grid-column:auto}.import-actions{grid-template-columns:repeat(4,2.35rem)}}
       </style>
       <div class="shell" part="shell">
         <div class="url-action-bar" part="url-action-bar">
@@ -713,6 +765,7 @@ function previewItem(item: PageImportItem): string {
       : `<input part="preview-control" value="${attr(item.value || '')}" placeholder="${attr(item.placeholder || '')}" ${item.required ? 'required' : ''}>`;
     return `<div class="preview-item preview-field" part="preview-item preview-field"><label part="label">${escapeHtml(item.label)}</label>${control}</div>`;
   }
+  if (item.kind === 'instruction') return `<uib-rich-text class="preview-item" part="preview-item"><p>${escapeHtml(item.value || item.label)}</p></uib-rich-text>`;
   if (item.kind === 'asset') return `<div class="preview-item" part="preview-item"><strong>${escapeHtml(item.label)}</strong><p>${escapeHtml(item.value || '')}</p></div>`;
   if (item.kind === 'action') return `<button class="primary preview-item" part="button primary-button preview-item" type="button">${escapeHtml(item.label)}</button>`;
   return `<div class="preview-item" part="preview-item"><strong>${escapeHtml(item.label)}</strong>${item.value ? `<p>${escapeHtml(item.value)}</p>` : ''}</div>`;
@@ -733,7 +786,9 @@ function exportedHtmlForItem(item: PageImportItem): string {
   <input id="${attr(item.elementId || item.name || item.id)}" name="${attr(item.name || '')}" type="${attr(item.inputType || 'text')}" value="${attr(item.value || '')}">
 </div>`;
   }
-  if (item.kind === 'instruction') return `<p>${escapeHtml(item.value || item.label)}</p>`;
+  if (item.kind === 'instruction') return `<uib-rich-text>
+  <p>${escapeHtml(item.value || item.label)}</p>
+</uib-rich-text>`;
   if (item.kind === 'static-value') return `<div class="detail"><span>${escapeHtml(item.label)}</span><span>${escapeHtml(item.value || '')}</span></div>`;
   if (item.kind === 'action') return `<button type="button">${escapeHtml(item.label)}</button>`;
   if (item.kind === 'asset') return `<img src="${attr(item.value || '')}" alt="${attr(item.label)}">`;

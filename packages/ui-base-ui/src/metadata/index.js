@@ -185,6 +185,15 @@ const cssVariableDescriptions = {
   '--uib-radius-lg': 'Large radius token.',
   '--uib-radius-md': 'Medium radius token.',
   '--uib-radius-pill': 'Pill radius token.',
+  '--uib-rich-text-block-gap': 'Vertical spacing between rich text blocks.',
+  '--uib-rich-text-color': 'Rich text foreground color.',
+  '--uib-rich-text-font-size': 'Rich text base font size.',
+  '--uib-rich-text-heading-color': 'Rich text heading color.',
+  '--uib-rich-text-line-height': 'Rich text line height.',
+  '--uib-rich-text-link-color': 'Rich text link color.',
+  '--uib-rich-text-muted': 'Muted rich text color for supporting text.',
+  '--uib-rich-text-quote-border': 'Rich text blockquote border color.',
+  '--uib-rich-text-width': 'Maximum readable line width.',
   '--uib-shadow-lg': 'Large shadow token.',
   '--uib-shadow-sm': 'Small shadow token.',
   '--uib-space-3': 'Small layout gap.',
@@ -419,6 +428,14 @@ export const UI_COMPONENT_API = {
     slots: ['eyebrow', 'headline', 'subheadline', 'body'],
     cssParts: ['base', 'eyebrow', 'headline', 'subheadline', 'body'],
     examples: ['<uib-heading-block eyebrow="Section" headline="Heading block" subheadline="Reusable content heading." body="Parent pages own the state."></uib-heading-block>']
+  }),
+  'uib-rich-text': api({
+    tagName: 'uib-rich-text',
+    purpose: 'Readable rich text container for trusted slotted content, with safe external link defaults.',
+    slots: ['default'],
+    cssParts: ['base', 'content'],
+    cssVariables: ['--uib-rich-text-color', '--uib-rich-text-font-size', '--uib-rich-text-line-height', '--uib-rich-text-width', '--uib-rich-text-block-gap', '--uib-rich-text-heading-color', '--uib-rich-text-link-color', '--uib-rich-text-muted', '--uib-rich-text-quote-border'],
+    examples: ['<uib-rich-text><p><strong>Reservations are required.</strong> Book up to 30 days in advance.</p></uib-rich-text>']
   }),
   'uib-action-button': api({
     tagName: 'uib-action-button',

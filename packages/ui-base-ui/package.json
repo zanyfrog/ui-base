@@ -27,6 +27,7 @@
     "./reservations/book-group-reservation": "./src/reservations/uib-book-group-reservation.js",
     "./eyebrow": "./src/content/uib-eyebrow.js",
     "./heading-block": "./src/content/uib-heading-block.js",
+    "./rich-text": "./src/content/uib-rich-text.js",
     "./action-button": "./src/actions/uib-action-button.js",
     "./action-group": "./src/actions/uib-action-group.js",
     "./media": "./src/media/uib-media.js",

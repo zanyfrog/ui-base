@@ -33,6 +33,7 @@ import '@ui-base/tour-ui';
 - `uib-detail-item-edit`
 - `uib-detail-list`
 - `uib-detail-list-editor`
+- `uib-rich-text`
 - `uib-stack`
 - `uib-grid`
 - `uib-row`
@@ -60,6 +61,7 @@ import '@ui-base/ui/toggle';
 import '@ui-base/ui/menu';
 import '@ui-base/ui/card';
 import '@ui-base/ui/panel';
+import '@ui-base/ui/rich-text';
 import '@ui-base/ui/tabs';
 ```
 
@@ -70,6 +72,17 @@ import '@ui-base/ui/tabs';
 Use `uib-card` for compact, repeatable content such as summaries, previews, and selectable grid/list items. It supports `slot="media"`, header/body/footer regions, `variant`, `density`, whole-card `href` links, action events, and selectable state.
 
 Use `uib-panel` for larger structural regions such as settings sections, editor panes, dashboards, and form areas. It supports header/body/footer regions, `slot="actions"`, `variant`, `density`, and optional `collapsible` / `open` behavior. Panels are not collapsible by default.
+
+## Rich text example
+
+`uib-rich-text` renders trusted slotted content with readable spacing and safe external link defaults.
+
+```html
+<uib-rich-text>
+  <p><strong>Reservations are required.</strong> Tours can be booked up to 30 days in advance.</p>
+  <p><a href="https://example.com/details">Read details</a></p>
+</uib-rich-text>
+```
 
 ## Toggle example
 
