@@ -20,7 +20,17 @@ const COMPONENT_DEFAULTS = {
   'uib-forms-number': { name: 'groupSize', label: 'Group size', value: '4', min: '1', max: '30', step: '1' },
   'uib-forms-date': { name: 'visitDate', label: 'Visit date', value: '2026-07-14' },
   'uib-forms-email': { name: 'email', label: 'Email', value: 'person@example.local', placeholder: 'person@example.local' },
-  'uib-forms-password': { name: 'accessCode', label: 'Access code', value: 'demo-password' },
+  'uib-forms-password': {
+    name: 'accessCode',
+    label: 'Access code',
+    value: 'demo-password',
+    placeholder: 'Enter access code',
+    help: 'Use the visibility button to confirm the typed value.',
+    autocomplete: 'current-password',
+    minlength: '8',
+    maxlength: '32',
+    required: true
+  },
   'uib-forms-phone': { name: 'phone', label: 'Phone', value: '555-0100', autocomplete: 'tel' },
   'uib-forms-textarea': { name: 'notes', label: 'Notes', value: 'Accessible entrance preferred.', placeholder: 'Add notes' },
   'uib-forms-select': { name: 'location', label: 'Location', value: 'Annex', options: 'Main Hall,Annex,Remote' },
@@ -261,6 +271,46 @@ function renderComponentApi(component) {
   `;
 }
 
+function renderComponentNotes(component) {
+  if (component.tagName !== 'uib-forms-password') return '';
+
+  return `
+    <section class="card forms-feature-card forms-password-card">
+      <div class="card-content">
+        <h2>
+          Password behavior
+        </h2>
+        <div class="forms-feature-grid">
+          <div>
+            <h3>
+              Visibility toggle
+            </h3>
+            <p>
+              The preview includes the built-in show or hide button and exposes the <code>toggle</code> CSS part.
+            </p>
+          </div>
+          <div>
+            <h3>
+              Browser hints
+            </h3>
+            <p>
+              Switch <code>autocomplete</code> between current and new password values to inspect generated markup.
+            </p>
+          </div>
+          <div>
+            <h3>
+              Sensitive values
+            </h3>
+            <p>
+              Recent values are intentionally omitted from this component so password values are not stored locally.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
 function renderIndex(main) {
   main.innerHTML = `
     <section class="page-heading">
@@ -358,6 +408,7 @@ function renderComponentPage(main, component) {
         </div>
       </aside>
       <div class="forms-preview-stack">
+        ${renderComponentNotes(component)}
         ${renderComponentApi(component)}
         <section class="card">
           <div class="preview-toolbar">
