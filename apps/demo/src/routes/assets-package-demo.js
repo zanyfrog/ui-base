@@ -208,15 +208,36 @@ function initialRouteComponent(path) {
   return componentEntries.find((item) => item.tagName === slug) || null;
 }
 
-function controlMarkup(name, value) {
+function attributeHelpItem(component, name) {
+  const apiItem = ASSET_COMPONENT_API[component.tagName]?.attributes?.find((item) => item.name === name);
+  return {
+    name,
+    type: apiItem?.type || (BOOLEAN_ATTRIBUTES.has(name) ? 'boolean' : NUMBER_ATTRIBUTES.has(name) ? 'number' : 'string'),
+    description: apiItem?.description || `${name} attribute.`
+  };
+}
+
+function controlHelpMarkup(component, name, id) {
+  return `
+    <p class="control-help" id="${escapeAttr(id)}">
+      ${escapeHtml(attributeHelpItem(component, name).description)}
+    </p>
+  `;
+}
+
+function controlMarkup(component, name, value) {
   const id = `assets-control-${name}`;
+  const describedBy = `${id}-help`;
 
   if (BOOLEAN_ATTRIBUTES.has(name)) {
     return `
-      <label class="checkbox-row forms-prop-check" for="${escapeAttr(id)}">
-        <input id="${escapeAttr(id)}" type="checkbox" data-prop="${escapeAttr(name)}" ${value ? 'checked' : ''}>
-        <span>${escapeHtml(name)}</span>
-      </label>
+      <div class="field">
+        <label class="checkbox-row forms-prop-check" for="${escapeAttr(id)}">
+          <input id="${escapeAttr(id)}" type="checkbox" data-prop="${escapeAttr(name)}" aria-describedby="${escapeAttr(describedBy)}" ${value ? 'checked' : ''}>
+          <span>${escapeHtml(name)}</span>
+        </label>
+        ${controlHelpMarkup(component, name, describedBy)}
+      </div>
     `;
   }
 
@@ -224,9 +245,10 @@ function controlMarkup(name, value) {
     return `
       <div class="field">
         <label for="${escapeAttr(id)}">${escapeHtml(name)}</label>
-        <select id="${escapeAttr(id)}" data-prop="${escapeAttr(name)}">
+        <select id="${escapeAttr(id)}" data-prop="${escapeAttr(name)}" aria-describedby="${escapeAttr(describedBy)}">
           ${SELECT_OPTIONS[name].map((option) => `<option value="${escapeAttr(option)}" ${String(value) === option ? 'selected' : ''}>${escapeHtml(option || 'empty')}</option>`).join('')}
         </select>
+        ${controlHelpMarkup(component, name, describedBy)}
       </div>
     `;
   }
@@ -235,7 +257,8 @@ function controlMarkup(name, value) {
     return `
       <div class="field">
         <label for="${escapeAttr(id)}">${escapeHtml(name)}</label>
-        <textarea id="${escapeAttr(id)}" data-prop="${escapeAttr(name)}" spellcheck="false">${escapeHtml(value)}</textarea>
+        <textarea id="${escapeAttr(id)}" data-prop="${escapeAttr(name)}" aria-describedby="${escapeAttr(describedBy)}" spellcheck="false">${escapeHtml(value)}</textarea>
+        ${controlHelpMarkup(component, name, describedBy)}
       </div>
     `;
   }
@@ -244,7 +267,8 @@ function controlMarkup(name, value) {
   return `
     <div class="field">
       <label for="${escapeAttr(id)}">${escapeHtml(name)}</label>
-      <input id="${escapeAttr(id)}" type="${escapeAttr(type)}" value="${escapeAttr(value)}" data-prop="${escapeAttr(name)}">
+      <input id="${escapeAttr(id)}" type="${escapeAttr(type)}" value="${escapeAttr(value)}" data-prop="${escapeAttr(name)}" aria-describedby="${escapeAttr(describedBy)}">
+      ${controlHelpMarkup(component, name, describedBy)}
     </div>
   `;
 }
@@ -449,14 +473,17 @@ function renderComponentPage(main, component) {
             </span>
           </div>
           <div class="form-grid" data-assets-controls>
-            ${attrs.map((name) => controlMarkup(name, state[name])).join('')}
+            ${attrs.map((name) => controlMarkup(component, name, state[name])).join('')}
             <div class="field">
               <label for="assets-control-children">
                 children / slots
               </label>
-              <textarea id="assets-control-children" data-prop="children" spellcheck="false">
+              <textarea id="assets-control-children" data-prop="children" aria-describedby="assets-control-children-help" spellcheck="false">
                 ${escapeHtml(state.children)}
               </textarea>
+              <p class="control-help" id="assets-control-children-help">
+                Light DOM content passed into the component. Named slots only apply when the component documents matching slot names.
+              </p>
             </div>
           </div>
         </div>

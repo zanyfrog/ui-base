@@ -1,9 +1,9 @@
 import { UI_COMPONENT_API, UI_BASE_UI_COMPONENTS } from '../../../../packages/ui-base-ui/src/metadata/index.js';
 import { appendEventLog, escapeAttr, escapeHtml, json } from './demo-utils.js';
 
-const BOOLEAN_ATTRIBUTES = new Set(['active', 'checked', 'collapsible', 'disabled', 'interactive', 'invalid', 'open', 'readonly', 'required', 'selectable', 'selected', 'stacked', 'wrap', 'use-asset-picker']);
+const BOOLEAN_ATTRIBUTES = new Set(['active', 'checked', 'collapsible', 'complete', 'current', 'disabled', 'interactive', 'invalid', 'numbered', 'open', 'readonly', 'required', 'selectable', 'selected', 'show-progress', 'stacked', 'wrap', 'use-asset-picker']);
 const NUMBER_ATTRIBUTES = new Set(['breakpoint', 'columns', 'index', 'level']);
-const MULTILINE_ATTRIBUTES = new Set(['actions', 'asset-map', 'body', 'detail', 'details', 'error', 'help', 'subheadline']);
+const MULTILINE_ATTRIBUTES = new Set(['actions', 'asset-map', 'body', 'detail', 'details', 'error', 'help', 'subheadline', 'summary']);
 const SELECT_OPTIONS = {
   align: ['start', 'center', 'end', 'stretch'],
   direction: ['column', 'row', 'column-reverse', 'row-reverse'],
@@ -17,7 +17,7 @@ const SELECT_OPTIONS = {
   density: ['comfortable', 'compact'],
   size: ['compact', 'default', 'large'],
   target: ['', '_self', '_blank'],
-  variant: ['outlined', 'elevated', 'flat', 'primary', 'secondary', 'tertiary', 'destructive']
+  variant: ['outlined', 'elevated', 'flat', 'primary', 'secondary', 'tertiary', 'destructive', 'info', 'tip', 'warning', 'danger', 'success']
 };
 
 const COMPONENT_DEFAULTS = {
@@ -46,6 +46,11 @@ const COMPONENT_DEFAULTS = {
   },
   'uib-splitter': { children: '<div slot="start">Start pane</div><div slot="end">End pane</div>' },
   'uib-eyebrow': { text: 'Developer docs' },
+  'uib-heading': {
+    text: 'Reusable heading',
+    level: '2',
+    size: 'compact'
+  },
   'uib-heading-block': {
     eyebrow: 'Section',
     headline: 'Heading block',
@@ -53,6 +58,17 @@ const COMPONENT_DEFAULTS = {
     body: 'Parent pages own the state.',
     level: '2',
     size: 'compact'
+  },
+  'uib-instruction': {
+    heading: 'Before you publish',
+    summary: 'Complete each setup step before the page goes live.',
+    variant: 'tip',
+    density: 'comfortable',
+    collapsible: true,
+    open: true,
+    numbered: true,
+    'show-progress': true,
+    children: '<p>Use instruction blocks for procedural guidance, warnings, tips, or onboarding.</p><li slot="step" complete>Review required fields.</li><li slot="step" current>Preview the page.</li><li slot="step">Publish when ready.</li><uib-action-button slot="actions" label="Preview" variant="primary"></uib-action-button><span slot="footer">Progress updates automatically from slotted step attributes.</span>'
   },
   'uib-action-button': { label: 'Run action', 'action-token': 'RUN_ACTION', variant: 'primary' },
   'uib-action-group': {
@@ -68,6 +84,101 @@ const COMPONENT_DEFAULTS = {
   'uib-detail-item-edit': { index: '0', detail: '{"label":"Duration","value":"60 minutes","icon":"60"}' },
   'uib-detail-list': { details: '[{"label":"Duration","value":"60 minutes","icon":"60"},{"label":"Capacity","value":"20 people","iconUrl":"/apps/demo/assets/icons/tour-size.svg","iconAlt":"Capacity"}]' },
   'uib-detail-list-editor': { label: 'Editable details', details: '[{"label":"Duration","value":"60 minutes","icon":"60"}]' }
+};
+
+const ATTRIBUTE_HELP = {
+  'uib-action-button': {
+    action: 'Optional action identifier for parent apps that listen for generic action events.',
+    'action-token': 'Stable event token. Use this when a parent workflow needs to distinguish which action fired.',
+    disabled: 'Prevents the button or link from being activated.',
+    href: 'When set, the action renders as a link. When empty, it renders as a button.',
+    icon: 'Optional icon name or marker rendered before the label.',
+    kind: 'Semantic action kind included in event detail for parent apps.',
+    label: 'Visible button text. Slotted text can also provide the label.',
+    rel: 'Forwarded to the anchor when href is set.',
+    target: 'Forwarded to the anchor when href is set.',
+    variant: 'Controls the visual treatment, such as primary, secondary, tertiary, or destructive.'
+  },
+  'uib-action-group': {
+    actions: 'JSON array of action button definitions. Each item can include label, href, action, actionToken, variant, disabled, and icon.',
+    align: 'Aligns the group within its available row. Use start, center, or end for placement.',
+    stacked: 'Stacks actions vertically instead of laying them out in a row.'
+  },
+  'uib-card': {
+    action: 'Action identifier emitted when an interactive card is activated.',
+    'action-token': 'Stable action token emitted when the card is activated.',
+    density: 'Adjusts internal spacing. Compact is tighter; comfortable gives content more room.',
+    disabled: 'Prevents link, action, and selectable behavior.',
+    heading: 'Optional heading text rendered in the card header area.',
+    href: 'Makes the card navigate like a link.',
+    interactive: 'Adds interactive affordances for cards that are handled by JavaScript instead of href.',
+    label: 'Accessible label used when the card does not have enough visible text.',
+    rel: 'Forwarded to the anchor when href is set.',
+    selectable: 'Allows the card to toggle selected state.',
+    selected: 'Current selected state for selectable cards.',
+    target: 'Forwarded to the anchor when href is set.',
+    variant: 'Changes surface treatment. Elevated adds shadow, outlined emphasizes the border, and flat is quiet.'
+  },
+  'uib-instruction': {
+    collapsible: 'Uses native details/summary disclosure behavior so the instruction can expand and collapse.',
+    complete: 'Marks the whole instruction as complete for parent-managed workflows.',
+    current: 'Marks the whole instruction as the current guidance item in a larger flow.',
+    density: 'Adjusts spacing. Compact keeps dense instructional UIs tighter.',
+    disabled: 'Prevents a collapsible instruction from being toggled by the user.',
+    heading: 'Primary instruction title shown in the summary/header row.',
+    icon: 'Optional marker text shown in the circular accent badge. If empty, the variant supplies a default.',
+    label: 'Fallback label used when heading is not set.',
+    numbered: 'Displays slotted steps as an ordered sequence.',
+    open: 'Controls whether a collapsible instruction starts expanded.',
+    'show-progress': 'Shows the step progress meter. When steps are present, progress is shown automatically.',
+    summary: 'Short explanatory line shown under the heading.',
+    variant: 'Instruction tone: info, tip, warning, danger, or success.'
+  },
+  'uib-heading-block': {
+    align: 'Sets text alignment for the whole block. Center also centers the block content; start and end follow the writing direction.',
+    body: 'Supporting paragraph rendered after the subheadline. Use it for longer explanatory copy.',
+    eyebrow: 'Small overline text rendered before the headline, often used for a section label.',
+    headline: 'Primary heading text. This becomes the h1-h6 element selected by level.',
+    level: 'Chooses the h1 through h6 tag and the default font scale for that heading level. Values outside 1-6 fall back to h1.',
+    size: 'Applies a compact, default, or large scale to the selected heading level.',
+    subheadline: 'Secondary supporting line rendered between the headline and body.'
+  },
+  'uib-heading': {
+    align: 'Sets text alignment for the rendered heading.',
+    heading: 'Fallback heading text when text is not set.',
+    level: 'Chooses the h1 through h6 tag and the default font scale for that heading level. Values outside 1-6 fall back to h1.',
+    size: 'Applies a compact, default, or large scale to the selected heading level.',
+    text: 'Heading text. Default slotted content can also provide the heading.'
+  },
+  'uib-help': {
+    label: 'Accessible label for the help trigger button when mode is tooltip.',
+    mode: 'Choose tooltip for on-demand help or inline when the help should always be visible.',
+    open: 'Controls tooltip visibility. Parent pages can set it, and the component updates it as users interact.',
+    text: 'The help copy to render. Default slotted content can also provide the copy.'
+  },
+  'uib-label': {
+    'accessible-text': 'Accessible-only label text when the visible label needs different wording.',
+    for: 'ID of the control this label describes.',
+    help: 'Optional helper copy shown with the label.',
+    'help-mode': 'Choose tooltip for compact help or inline when guidance should remain visible.',
+    required: 'Shows required state in the label.',
+    text: 'Visible label text. Default slotted content can also provide the label.',
+    title: 'Native title text for additional browser tooltip context.'
+  },
+  'uib-media': {
+    alt: 'Accessible alternative text for meaningful images. Leave empty only for decorative images.',
+    fit: 'Maps to object-fit. Cover fills the frame, contain shows the whole image, fill stretches, none keeps intrinsic size, and scale-down chooses the smaller result.',
+    'fallback-label': 'Text shown when src is empty or media cannot be rendered.',
+    position: 'Maps to object-position, such as center, top, bottom, left, or right.',
+    ratio: 'Aspect ratio for the media frame, such as 1/1, 4/3, 16:9, or 21:9.',
+    role: 'Sets the rendered media role. Use img for meaningful media, presentation for decorative media, and icon for icon-like imagery.',
+    src: 'Image or media URL.'
+  },
+  'uib-tabs': {
+    name: 'Name included in tab change events so parent pages can identify this tab set.',
+    orientation: 'Controls keyboard and layout behavior. Horizontal uses left and right arrows; vertical uses up and down arrows.',
+    selected: 'Zero-based index of the active tab.'
+  }
 };
 
 export const UI_ROUTE_PATHS = [
@@ -138,15 +249,36 @@ function initialRouteComponent(path) {
   return componentEntries.find((item) => item.tagName === slug) || null;
 }
 
-function controlMarkup(name, value) {
+function attributeHelpItem(component, name) {
+  const apiItem = UI_COMPONENT_API[component.tagName]?.attributes?.find((item) => item.name === name);
+  return {
+    name,
+    type: apiItem?.type || (BOOLEAN_ATTRIBUTES.has(name) ? 'boolean' : NUMBER_ATTRIBUTES.has(name) ? 'number' : 'string'),
+    description: ATTRIBUTE_HELP[component.tagName]?.[name] || apiItem?.description || `${name} attribute.`
+  };
+}
+
+function controlHelpMarkup(component, name) {
+  return `
+    <p class="control-help" id="ui-control-${escapeAttr(name)}-help">
+      ${escapeHtml(attributeHelpItem(component, name).description)}
+    </p>
+  `;
+}
+
+function controlMarkup(component, name, value) {
   const id = `ui-control-${name}`;
+  const describedBy = `ui-control-${name}-help`;
 
   if (BOOLEAN_ATTRIBUTES.has(name)) {
     return `
-      <label class="checkbox-row forms-prop-check" for="${escapeAttr(id)}">
-        <input id="${escapeAttr(id)}" type="checkbox" data-prop="${escapeAttr(name)}" ${value ? 'checked' : ''}>
-        <span>${escapeHtml(name)}</span>
-      </label>
+      <div class="field">
+        <label class="checkbox-row forms-prop-check" for="${escapeAttr(id)}">
+          <input id="${escapeAttr(id)}" type="checkbox" data-prop="${escapeAttr(name)}" aria-describedby="${escapeAttr(describedBy)}" ${value ? 'checked' : ''}>
+          <span>${escapeHtml(name)}</span>
+        </label>
+        ${controlHelpMarkup(component, name)}
+      </div>
     `;
   }
 
@@ -154,9 +286,10 @@ function controlMarkup(name, value) {
     return `
       <div class="field">
         <label for="${escapeAttr(id)}">${escapeHtml(name)}</label>
-        <select id="${escapeAttr(id)}" data-prop="${escapeAttr(name)}">
+        <select id="${escapeAttr(id)}" data-prop="${escapeAttr(name)}" aria-describedby="${escapeAttr(describedBy)}">
           ${SELECT_OPTIONS[name].map((option) => `<option value="${escapeAttr(option)}" ${String(value) === option ? 'selected' : ''}>${escapeHtml(option || 'empty')}</option>`).join('')}
         </select>
+        ${controlHelpMarkup(component, name)}
       </div>
     `;
   }
@@ -165,7 +298,8 @@ function controlMarkup(name, value) {
     return `
       <div class="field">
         <label for="${escapeAttr(id)}">${escapeHtml(name)}</label>
-        <textarea id="${escapeAttr(id)}" data-prop="${escapeAttr(name)}" spellcheck="false">${escapeHtml(value)}</textarea>
+        <textarea id="${escapeAttr(id)}" data-prop="${escapeAttr(name)}" aria-describedby="${escapeAttr(describedBy)}" spellcheck="false">${escapeHtml(value)}</textarea>
+        ${controlHelpMarkup(component, name)}
       </div>
     `;
   }
@@ -174,8 +308,36 @@ function controlMarkup(name, value) {
   return `
     <div class="field">
       <label for="${escapeAttr(id)}">${escapeHtml(name)}</label>
-      <input id="${escapeAttr(id)}" type="${escapeAttr(type)}" value="${escapeAttr(value)}" data-prop="${escapeAttr(name)}">
+      <input id="${escapeAttr(id)}" type="${escapeAttr(type)}" value="${escapeAttr(value)}" data-prop="${escapeAttr(name)}" aria-describedby="${escapeAttr(describedBy)}">
+      ${controlHelpMarkup(component, name)}
     </div>
+  `;
+}
+
+function renderAttributeHelp(component, attrs) {
+  if (!attrs.length) return '';
+  const helpItems = attrs.map((name) => attributeHelpItem(component, name));
+  return `
+    <uib-accordion class="ui-attribute-help" heading="Attribute help">
+      <dl class="ui-attribute-help-list">
+        ${helpItems.map((item) => `
+          <div>
+            <dt>
+              <code>${escapeHtml(item.name)}</code>
+              <span>${escapeHtml(item.type)}</span>
+            </dt>
+            <dd>${escapeHtml(item.description)}</dd>
+          </div>
+        `).join('')}
+        <div>
+          <dt>
+            <code>children / slots</code>
+            <span>HTML</span>
+          </dt>
+          <dd>Light DOM content passed into the component. Named slots only apply when the component documents matching slot names.</dd>
+        </div>
+      </dl>
+    </uib-accordion>
   `;
 }
 
@@ -808,15 +970,19 @@ function renderComponentPage(main, component) {
             </span>
           </div>
           <div class="form-grid" data-ui-controls>
-            ${attrs.map((name) => controlMarkup(name, state[name])).join('')}
+            ${attrs.map((name) => controlMarkup(component, name, state[name])).join('')}
             <div class="field">
               <label for="ui-control-children">
                 children / slots
               </label>
-              <textarea id="ui-control-children" data-prop="children" spellcheck="false">
+              <textarea id="ui-control-children" data-prop="children" aria-describedby="ui-control-children-help" spellcheck="false">
                 ${escapeHtml(state.children)}
               </textarea>
+              <p class="control-help" id="ui-control-children-help">
+                Light DOM content passed into the component. Named slots only apply when the component documents matching slot names.
+              </p>
             </div>
+            ${renderAttributeHelp(component, attrs)}
           </div>
         </div>
       </aside>

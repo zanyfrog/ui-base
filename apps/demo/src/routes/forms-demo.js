@@ -143,23 +143,41 @@ function initialRouteComponent(path) {
   return componentEntries.find((item) => item.tagName === slug) || null;
 }
 
-function controlMarkup(name, value) {
+function attributeHelpItem(component, name) {
+  const apiItem = FORM_COMPONENT_API[component.tagName]?.attributes?.find((item) => item.name === name);
+  return {
+    name,
+    type: apiItem?.type || (BOOLEAN_ATTRIBUTES.has(name) ? 'boolean' : NUMBER_ATTRIBUTES.has(name) ? 'number' : 'string'),
+    description: apiItem?.description || `${name} attribute.`
+  };
+}
+
+function controlHelp(component, name) {
+  return attributeHelpItem(component, name).description;
+}
+
+function controlMarkup(component, name, value) {
   const id = `forms-control-${name}`;
   const label = name;
+  const help = controlHelp(component, name);
 
   if (BOOLEAN_ATTRIBUTES.has(name)) {
     return `
-      <uib-forms-checkbox class="forms-prop-check" id="${escapeAttr(id)}" data-prop="${escapeAttr(name)}" label="${escapeAttr(label)}" ${value ? 'checked' : ''}></uib-forms-checkbox>
+      <uib-forms-checkbox class="forms-prop-check" id="${escapeAttr(id)}" data-prop="${escapeAttr(name)}" label="${escapeAttr(label)}" help="${escapeAttr(help)}" ${value ? 'checked' : ''}></uib-forms-checkbox>
     `;
   }
 
   if (SELECT_OPTIONS[name]) {
+    const describedBy = `${id}-help`;
     return `
       <div class="field">
         <uib-label for="${escapeAttr(id)}" text="${escapeAttr(label)}"></uib-label>
-        <select id="${escapeAttr(id)}" data-prop="${escapeAttr(name)}">
+        <select id="${escapeAttr(id)}" data-prop="${escapeAttr(name)}" aria-describedby="${escapeAttr(describedBy)}">
           ${SELECT_OPTIONS[name].map((option) => `<option value="${escapeAttr(option)}" ${String(value) === option ? 'selected' : ''}>${escapeHtml(option || 'empty')}</option>`).join('')}
         </select>
+        <p class="control-help" id="${escapeAttr(describedBy)}">
+          ${escapeHtml(help)}
+        </p>
       </div>
     `;
   }
@@ -167,7 +185,7 @@ function controlMarkup(name, value) {
   if (MULTILINE_ATTRIBUTES.has(name)) {
     return `
       <div class="field">
-        <uib-forms-textarea id="${escapeAttr(id)}" data-prop="${escapeAttr(name)}" label="${escapeAttr(label)}" value="${escapeAttr(value)}"></uib-forms-textarea>
+        <uib-forms-textarea id="${escapeAttr(id)}" data-prop="${escapeAttr(name)}" label="${escapeAttr(label)}" value="${escapeAttr(value)}" help="${escapeAttr(help)}"></uib-forms-textarea>
       </div>
     `;
   }
@@ -175,7 +193,7 @@ function controlMarkup(name, value) {
   const controlTag = NUMBER_ATTRIBUTES.has(name) ? 'uib-forms-number' : 'uib-forms-textbox';
   return `
     <div class="field">
-      <${controlTag} id="${escapeAttr(id)}" data-prop="${escapeAttr(name)}" label="${escapeAttr(label)}" value="${escapeAttr(value)}"></${controlTag}>
+      <${controlTag} id="${escapeAttr(id)}" data-prop="${escapeAttr(name)}" label="${escapeAttr(label)}" value="${escapeAttr(value)}" help="${escapeAttr(help)}"></${controlTag}>
     </div>
   `;
 }
@@ -399,9 +417,9 @@ function renderComponentPage(main, component) {
             </span>
           </div>
           <div class="form-grid" data-forms-controls>
-            ${attrs.map((name) => controlMarkup(name, state[name])).join('')}
+            ${attrs.map((name) => controlMarkup(component, name, state[name])).join('')}
             <div class="field">
-              <uib-forms-textarea id="forms-control-children" data-prop="children" label="children / slots" value="${escapeAttr(state.children)}">
+              <uib-forms-textarea id="forms-control-children" data-prop="children" label="children / slots" value="${escapeAttr(state.children)}" help="Light DOM content passed into the component. Named slots only apply when the component documents matching slot names.">
               </uib-forms-textarea>
             </div>
           </div>

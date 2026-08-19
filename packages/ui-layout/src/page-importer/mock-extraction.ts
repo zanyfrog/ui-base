@@ -44,12 +44,24 @@ form{display:grid;grid-template-columns:12rem 1fr;gap:.75rem}
     source: { html, css, js },
     items: [
       {
-        id: 'item_instructions_1',
+        id: 'item_heading_customer_intake',
         kind: 'instruction',
         label: 'Customer Intake',
+        value: 'Customer Intake',
+        componentTag: 'uib-rich-text',
+        sourceSnippet: '<h1>Customer Intake</h1>',
+        cssSnippet: '.hero h1 {\n  font-size: 48px;\n}',
+        position: { order: 1, sectionId: 'section_hero', selector: '.hero h1', gridColumn: '1 / 2' },
+      },
+      {
+        id: 'item_instructions_1',
+        kind: 'instruction',
+        label: 'Use this form to capture a new customer request.',
         value: 'Use this form to capture a new customer request.',
         componentTag: 'uib-rich-text',
-        position: { order: 1, sectionId: 'section_hero', selector: '.hero', gridColumn: '1 / 2' },
+        sourceSnippet: '<p>Use this form to capture a new customer request.</p>',
+        cssSnippet: '.hero p {\n  font-size: 16px;\n}',
+        position: { order: 2, sectionId: 'section_hero', selector: '.hero p', gridColumn: '1 / 2' },
       },
       {
         id: 'item_asset_1',
@@ -57,11 +69,11 @@ form{display:grid;grid-template-columns:12rem 1fr;gap:.75rem}
         label: 'Customer intake dashboard',
         value: 'https://example.local/assets/customer-intake.png',
         componentTag: 'uib-media',
-        position: { order: 2, sectionId: 'section_hero', selector: '.hero img', gridColumn: '2 / 3' },
+        position: { order: 3, sectionId: 'section_hero', selector: '.hero img', gridColumn: '2 / 3' },
       },
-      field('item_field_firstName', 'First name', 'text', 'firstName', 'firstName', 'Ada', true, 3),
-      field('item_field_email', 'Email', 'email', 'email', 'email', '', false, 4, 'person@example.com'),
-      field('item_field_phone', 'Phone', 'tel', 'phone', 'phone', '', false, 5, '(555) 010-1000', 'uib-forms-phone'),
+      field('item_field_firstName', 'First name', 'text', 'firstName', 'firstName', 'Ada', true, 4),
+      field('item_field_email', 'Email', 'email', 'email', 'email', '', false, 5, 'person@example.com'),
+      field('item_field_phone', 'Phone', 'tel', 'phone', 'phone', '', false, 6, '(555) 010-1000', 'uib-forms-phone'),
       {
         id: 'item_field_requestType',
         kind: 'field',
@@ -71,7 +83,7 @@ form{display:grid;grid-template-columns:12rem 1fr;gap:.75rem}
         elementId: 'requestType',
         options: ['Support', 'Sales', 'Billing'],
         componentTag: 'uib-forms-select',
-        position: { order: 6, sectionId: 'section_form', selector: '#requestType', domPath: 'main/form/select[1]', gridColumn: '2 / 3' },
+        position: { order: 7, sectionId: 'section_form', selector: '#requestType', domPath: 'main/form/select[1]', gridColumn: '2 / 3' },
         database: {
           fieldName: 'requestType',
           label: 'Request type',
@@ -86,7 +98,7 @@ form{display:grid;grid-template-columns:12rem 1fr;gap:.75rem}
         kind: 'action',
         label: 'Save customer',
         componentTag: 'uib-action-button',
-        position: { order: 7, sectionId: 'section_form', selector: 'button[type="submit"]' },
+        position: { order: 8, sectionId: 'section_form', selector: 'button[type="submit"]' },
       },
       {
         id: 'item_static_status',
@@ -94,7 +106,7 @@ form{display:grid;grid-template-columns:12rem 1fr;gap:.75rem}
         label: 'Status',
         value: 'Draft',
         componentTag: 'uib-detail-item',
-        position: { order: 8, sectionId: 'section_summary', selector: '.summary' },
+        position: { order: 9, sectionId: 'section_summary', selector: '.summary' },
       },
       {
         id: 'item_dashboard_open_requests',
@@ -102,7 +114,7 @@ form{display:grid;grid-template-columns:12rem 1fr;gap:.75rem}
         label: 'Open requests',
         value: '12',
         componentTag: 'uib-card',
-        position: { order: 9, sectionId: 'section_dashboard', selector: '.dashboard article:nth-child(1)' },
+        position: { order: 10, sectionId: 'section_dashboard', selector: '.dashboard article:nth-child(1)' },
       },
       {
         id: 'item_unknown_priority',
@@ -110,7 +122,7 @@ form{display:grid;grid-template-columns:12rem 1fr;gap:.75rem}
         label: 'Priority widget',
         value: '<legacy-priority-picker value="standard"></legacy-priority-picker>',
         sourceSnippet: '<legacy-priority-picker value="standard"></legacy-priority-picker>',
-        position: { order: 10, sectionId: 'section_form', selector: 'legacy-priority-picker' },
+        position: { order: 11, sectionId: 'section_form', selector: 'legacy-priority-picker' },
       },
     ],
     tree: {
@@ -118,7 +130,7 @@ form{display:grid;grid-template-columns:12rem 1fr;gap:.75rem}
       label: 'Customer Intake',
       kind: 'page',
       children: [
-        { id: 'section_hero', label: 'Hero', kind: 'section', children: treeItems(['item_instructions_1', 'item_asset_1']) },
+        { id: 'section_hero', label: 'Hero', kind: 'section', children: treeItems(['item_heading_customer_intake', 'item_instructions_1', 'item_asset_1']) },
         { id: 'section_form', label: 'Customer form', kind: 'section', children: treeItems(['item_field_firstName', 'item_field_email', 'item_field_phone', 'item_field_requestType', 'item_action_save', 'item_unknown_priority']) },
         { id: 'section_summary', label: 'Summary', kind: 'section', children: treeItems(['item_static_status']) },
         { id: 'section_dashboard', label: 'Dashboard', kind: 'section', children: treeItems(['item_dashboard_open_requests']) },

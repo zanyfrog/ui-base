@@ -50,7 +50,10 @@ const UI_FIXTURES = {
   'uib-dialog': '<button class="secondary-button" type="button" data-open-component-dialog>Open fixture dialog</button><uib-dialog id="componentTestsDialog" label="Fixture dialog"><p>Dialog body content.</p><span slot="footer">Footer</span></uib-dialog>',
   'uib-accordion': '<uib-accordion label="Accordion fixture"><p>Accordion body content.</p></uib-accordion>',
   'uib-tabs': '<uib-tabs selected="0"><uib-tab>Overview</uib-tab><uib-tab disabled>Billing</uib-tab><uib-tab>History</uib-tab><uib-tab-panel><p>Overview tab body.</p></uib-tab-panel><uib-tab-panel><p>Billing panel.</p></uib-tab-panel><uib-tab-panel><p>History tab body.</p></uib-tab-panel></uib-tabs>',
-  'uib-splitter': '<uib-splitter><div slot="start">Start pane</div><div slot="end">End pane</div></uib-splitter>'
+  'uib-splitter': '<uib-splitter><div slot="start">Start pane</div><div slot="end">End pane</div></uib-splitter>',
+  'uib-heading': '<uib-heading text="Reusable heading" level="2" size="compact"></uib-heading>',
+  'uib-heading-block': '<uib-heading-block eyebrow="Section" headline="Heading block" subheadline="Reusable content heading." body="Parent pages own the state."></uib-heading-block>',
+  'uib-instruction': '<uib-instruction heading="Before you publish" summary="Complete each setup step before the page goes live." variant="tip" collapsible open numbered><p>Use instruction blocks for procedural guidance, warnings, tips, or onboarding.</p><li slot="step" complete>Review required fields.</li><li slot="step" current>Preview the page.</li><li slot="step">Publish when ready.</li><uib-action-button slot="actions" label="Preview" variant="primary"></uib-action-button><span slot="footer">Progress updates automatically from slotted step attributes.</span></uib-instruction>'
 };
 
 const FORM_FIXTURES = {
@@ -177,7 +180,7 @@ const UI_PACKAGE = {
       tagName: 'uib-heading-block',
       package: '@ui-base/ui',
       maturity: 'preview',
-      purpose: 'Reusable heading group with eyebrow, headline, subheadline, and body slots.',
+      purpose: 'Reusable heading group that composes uib-heading with eyebrow, subheadline, and body slots.',
       attributes: ['eyebrow', 'headline', 'subheadline', 'body', 'size', 'align'],
       slots: ['eyebrow', 'headline', 'subheadline', 'body'],
       cssParts: ['block', 'headline', 'subheadline', 'body'],

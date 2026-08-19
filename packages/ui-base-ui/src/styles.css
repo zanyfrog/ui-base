@@ -457,8 +457,10 @@ dialog::backdrop {
   uib-detail-list,
   uib-detail-list-editor,
   uib-eyebrow,
+  uib-heading,
   uib-heading-block,
   uib-help,
+  uib-instruction,
   uib-media,
   uib-menu,
   uib-menuitem,
@@ -609,18 +611,72 @@ dialog::backdrop {
   text-transform: uppercase;
 }
 
+:where(uib-heading),
+:where(uib-heading-block) {
+  --uib-heading-level-size: 4.7rem;
+  --uib-heading-compact-level-size: 2.7rem;
+  --uib-heading-large-level-size: 5.4rem;
+}
+
+:where(uib-heading[level="2"]),
+:where(uib-heading-block[level="2"]) {
+  --uib-heading-level-size: 3.7rem;
+  --uib-heading-compact-level-size: 2.35rem;
+  --uib-heading-large-level-size: 4.55rem;
+}
+
+:where(uib-heading[level="3"]),
+:where(uib-heading-block[level="3"]) {
+  --uib-heading-level-size: 3rem;
+  --uib-heading-compact-level-size: 2rem;
+  --uib-heading-large-level-size: 3.75rem;
+}
+
+:where(uib-heading[level="4"]),
+:where(uib-heading-block[level="4"]) {
+  --uib-heading-level-size: 2.35rem;
+  --uib-heading-compact-level-size: 1.7rem;
+  --uib-heading-large-level-size: 3rem;
+}
+
+:where(uib-heading[level="5"]),
+:where(uib-heading-block[level="5"]) {
+  --uib-heading-level-size: 1.85rem;
+  --uib-heading-compact-level-size: 1.45rem;
+  --uib-heading-large-level-size: 2.4rem;
+}
+
+:where(uib-heading[level="6"]),
+:where(uib-heading-block[level="6"]) {
+  --uib-heading-level-size: 1.45rem;
+  --uib-heading-compact-level-size: 1.22rem;
+  --uib-heading-large-level-size: 1.9rem;
+}
+
 :where(uib-heading-block)::part(block) {
   display: grid;
   gap: var(--uib-heading-gap, 0.65rem);
   text-align: var(--uib-heading-align, start);
 }
 
+:where(uib-heading)::part(heading),
 :where(uib-heading-block)::part(headline) {
   margin: 0;
-  color: var(--uib-heading-headline-color, currentColor);
-  font-size: var(--uib-heading-size, clamp(2.3rem, 6vw, 4.7rem));
+  color: var(--uib-heading-color, var(--uib-heading-headline-color, currentColor));
+  font-size: var(--uib-heading-size, var(--uib-heading-level-size));
   font-weight: var(--uib-heading-weight, 900);
   line-height: var(--uib-heading-line-height, 0.95);
+  letter-spacing: var(--uib-heading-letter-spacing, 0);
+}
+
+:where(uib-heading[size="compact"])::part(heading),
+:where(uib-heading-block[size="compact"])::part(headline) {
+  font-size: var(--uib-heading-size, var(--uib-heading-compact-level-size));
+}
+
+:where(uib-heading[size="large"])::part(heading),
+:where(uib-heading-block[size="large"])::part(headline) {
+  font-size: var(--uib-heading-size, var(--uib-heading-large-level-size));
 }
 
 :where(uib-heading-block)::part(subheadline),

@@ -41,6 +41,7 @@ const requiredFiles = [
   'packages/ui-base-ui/src/forms/uib-toggle.js',
   'packages/ui-base-ui/src/forms/uib-checkbox.js',
   'packages/ui-base-ui/src/content/uib-eyebrow.js',
+  'packages/ui-base-ui/src/content/uib-heading.js',
   'packages/ui-base-ui/src/content/uib-heading-block.js',
   'packages/ui-base-ui/src/actions/uib-action-button.js',
   'packages/ui-base-ui/src/actions/uib-action-group.js',
@@ -202,7 +203,7 @@ if (mainSource.includes('renderSampleTourRoute') || mainSource.includes('/sample
 }
 
 const uiComponentSource = readFileSync(join(root, 'packages/ui-base-ui/src/index.js'), 'utf8');
-for (const exportName of ['UibHelp', 'UibLabel', 'UibToggle', 'UibCheckbox', 'UibEyebrow', 'UibHeadingBlock', 'UibActionButton', 'UibActionGroup', 'UibMedia', 'UibDetailItem', 'UibDetailItemEdit', 'UibDetailList', 'UibDetailListEditor', 'UibMenu', 'UibMenuItem', 'UibStack', 'UibGrid', 'UibRow', 'UibColumn', 'UibPanel', 'UibCard', 'UibDialog', 'UibAccordion', 'UibTab', 'UibTabPanel', 'UibTabs', 'UibSplitter', 'UibNewReservation', 'UibCancelReservation', 'UibFindReservation', 'UibBookGroupReservation']) {
+for (const exportName of ['UibHelp', 'UibLabel', 'UibToggle', 'UibCheckbox', 'UibEyebrow', 'UibHeading', 'UibHeadingBlock', 'UibActionButton', 'UibActionGroup', 'UibMedia', 'UibDetailItem', 'UibDetailItemEdit', 'UibDetailList', 'UibDetailListEditor', 'UibMenu', 'UibMenuItem', 'UibStack', 'UibGrid', 'UibRow', 'UibColumn', 'UibPanel', 'UibCard', 'UibDialog', 'UibAccordion', 'UibTab', 'UibTabPanel', 'UibTabs', 'UibSplitter', 'UibNewReservation', 'UibCancelReservation', 'UibFindReservation', 'UibBookGroupReservation']) {
   if (!uiComponentSource.includes(exportName)) {
     console.error(`UI package index is missing export: ${exportName}`);
     failed = true;

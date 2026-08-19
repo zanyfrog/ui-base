@@ -58,6 +58,7 @@ export interface PageImportItem {
   required?: boolean;
   options?: string[];
   componentTag?: string;
+  headingLevel?: number;
   applicationComponentName?: string;
   appExtractionId?: string;
   serviceName?: string;

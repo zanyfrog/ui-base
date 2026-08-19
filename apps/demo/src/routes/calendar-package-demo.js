@@ -86,15 +86,36 @@ function initialRouteComponent(path) {
   return componentEntries.find((item) => item.tagName === slug) || null;
 }
 
-function controlMarkup(name, value) {
+function attributeHelpItem(component, name) {
+  const apiItem = CALENDAR_COMPONENT_API[component.tagName]?.attributes?.find((item) => item.name === name);
+  return {
+    name,
+    type: apiItem?.type || (BOOLEAN_ATTRIBUTES.has(name) ? 'boolean' : DATE_ATTRIBUTES.has(name) ? 'date' : NUMBER_ATTRIBUTES.has(name) ? 'number' : 'string'),
+    description: apiItem?.description || `${name} attribute.`
+  };
+}
+
+function controlHelpMarkup(component, name, id) {
+  return `
+    <p class="control-help" id="${escapeAttr(id)}">
+      ${escapeHtml(attributeHelpItem(component, name).description)}
+    </p>
+  `;
+}
+
+function controlMarkup(component, name, value) {
   const id = `calendar-control-${name}`;
+  const describedBy = `${id}-help`;
 
   if (BOOLEAN_ATTRIBUTES.has(name)) {
     return `
-      <label class="checkbox-row forms-prop-check" for="${escapeAttr(id)}">
-        <input id="${escapeAttr(id)}" type="checkbox" data-prop="${escapeAttr(name)}" ${value ? 'checked' : ''}>
-        <span>${escapeHtml(name)}</span>
-      </label>
+      <div class="field">
+        <label class="checkbox-row forms-prop-check" for="${escapeAttr(id)}">
+          <input id="${escapeAttr(id)}" type="checkbox" data-prop="${escapeAttr(name)}" aria-describedby="${escapeAttr(describedBy)}" ${value ? 'checked' : ''}>
+          <span>${escapeHtml(name)}</span>
+        </label>
+        ${controlHelpMarkup(component, name, describedBy)}
+      </div>
     `;
   }
 
@@ -102,7 +123,8 @@ function controlMarkup(name, value) {
   return `
     <div class="field">
       <label for="${escapeAttr(id)}">${escapeHtml(name)}</label>
-      <input id="${escapeAttr(id)}" type="${escapeAttr(type)}" value="${escapeAttr(value)}" data-prop="${escapeAttr(name)}">
+      <input id="${escapeAttr(id)}" type="${escapeAttr(type)}" value="${escapeAttr(value)}" data-prop="${escapeAttr(name)}" aria-describedby="${escapeAttr(describedBy)}">
+      ${controlHelpMarkup(component, name, describedBy)}
     </div>
   `;
 }
@@ -300,7 +322,7 @@ function renderComponentPage(main, component) {
             </span>
           </div>
           <div class="form-grid" data-calendar-controls>
-            ${attrs.map((name) => controlMarkup(name, state[name])).join('')}
+            ${attrs.map((name) => controlMarkup(component, name, state[name])).join('')}
           </div>
         </div>
       </aside>

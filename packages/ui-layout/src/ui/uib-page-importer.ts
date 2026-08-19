@@ -1,5 +1,6 @@
 import { createPageImportArtifact, type PageAppExtraction, type PageExtractionResult, type PageImportArtifact, type PageImportItem, type PageImportItemKind, type PageImportTreeNode } from '../model/page-import-artifact.js';
 import { createMockPageExtractionResult } from '../page-importer/mock-extraction.js';
+import { matchImportedTextComponents } from '../page-importer/text-component-matching.js';
 import { BaseHTMLElement, attr, defineLayoutElement, dispatch, escapeHtml } from './dom-utils.js';
 
 type PageImporterTab = 'source' | 'items' | 'preview' | 'assets' | 'database' | 'tree' | 'logs' | 'artifact';
@@ -35,7 +36,7 @@ export class UibPageImporter extends BaseHTMLElement {
 
   private artifact: PageImportArtifact | null = null;
   private activeTab: PageImporterTab = 'items';
-  private sourceUrl = 'https://example.local/customer-intake';
+  private sourceUrl = '';// 'https://example.local/customer-intake';
   private statusMessage = 'Load the mock extraction to begin.';
   private importing = false;
   private searchQuery = '';
@@ -63,7 +64,7 @@ export class UibPageImporter extends BaseHTMLElement {
 
   private loadMockExtraction() {
     this.saveRecentSourceUrl();
-    const extraction = createMockPageExtractionResult(this.sourceUrl);
+    const extraction = matchImportedTextComponents(createMockPageExtractionResult(this.sourceUrl));
     this.artifact = createPageImportArtifact({
       metadata: {
         sourceUrl: this.sourceUrl,
@@ -110,7 +111,7 @@ export class UibPageImporter extends BaseHTMLElement {
           routePath: routeFromUrl(this.sourceUrl),
           pageName: titleFromUrl(this.sourceUrl),
         },
-        extraction: payload.result,
+        extraction: matchImportedTextComponents(payload.result),
       });
       this.artifact = appendArtifactLog(artifact, finishedLog);
       this.statusMessage = `Imported ${this.artifact.items.length} items from ${this.sourceUrl}.`;
@@ -765,7 +766,9 @@ function previewItem(item: PageImportItem): string {
       : `<input part="preview-control" value="${attr(item.value || '')}" placeholder="${attr(item.placeholder || '')}" ${item.required ? 'required' : ''}>`;
     return `<div class="preview-item preview-field" part="preview-item preview-field"><label part="label">${escapeHtml(item.label)}</label>${control}</div>`;
   }
-  if (item.kind === 'instruction') return `<uib-rich-text class="preview-item" part="preview-item"><p>${escapeHtml(item.value || item.label)}</p></uib-rich-text>`;
+  if (item.componentTag === 'uib-heading') return `<uib-heading class="preview-item" part="preview-item" level="${headingLevel(item)}">${escapeHtml(item.value || item.label)}</uib-heading>`;
+  if (item.componentTag === 'uib-instruction') return `<uib-instruction class="preview-item" part="preview-item">${escapeHtml(item.value || item.label)}</uib-instruction>`;
+  if (item.kind === 'instruction') return `<uib-instruction class="preview-item" part="preview-item">${escapeHtml(item.value || item.label)}</uib-instruction>`;
   if (item.kind === 'asset') return `<div class="preview-item" part="preview-item"><strong>${escapeHtml(item.label)}</strong><p>${escapeHtml(item.value || '')}</p></div>`;
   if (item.kind === 'action') return `<button class="primary preview-item" part="button primary-button preview-item" type="button">${escapeHtml(item.label)}</button>`;
   return `<div class="preview-item" part="preview-item"><strong>${escapeHtml(item.label)}</strong>${item.value ? `<p>${escapeHtml(item.value)}</p>` : ''}</div>`;
@@ -786,13 +789,18 @@ function exportedHtmlForItem(item: PageImportItem): string {
   <input id="${attr(item.elementId || item.name || item.id)}" name="${attr(item.name || '')}" type="${attr(item.inputType || 'text')}" value="${attr(item.value || '')}">
 </div>`;
   }
-  if (item.kind === 'instruction') return `<uib-rich-text>
-  <p>${escapeHtml(item.value || item.label)}</p>
-</uib-rich-text>`;
+  if (item.componentTag === 'uib-heading') return `<uib-heading level="${headingLevel(item)}">${escapeHtml(item.value || item.label)}</uib-heading>`;
+  if (item.componentTag === 'uib-instruction') return `<uib-instruction>${escapeHtml(item.value || item.label)}</uib-instruction>`;
+  if (item.kind === 'instruction') return `<uib-instruction>${escapeHtml(item.value || item.label)}</uib-instruction>`;
   if (item.kind === 'static-value') return `<div class="detail"><span>${escapeHtml(item.label)}</span><span>${escapeHtml(item.value || '')}</span></div>`;
   if (item.kind === 'action') return `<button type="button">${escapeHtml(item.label)}</button>`;
   if (item.kind === 'asset') return `<img src="${attr(item.value || '')}" alt="${attr(item.label)}">`;
   return `<div>${escapeHtml(item.value || item.label)}</div>`;
+}
+
+function headingLevel(item: PageImportItem): number {
+  const level = Number(item.headingLevel);
+  return Number.isInteger(level) && level >= 1 && level <= 6 ? level : 3;
 }
 
 function renderTreeNode(node: PageImportTreeNode): string {

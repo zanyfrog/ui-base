@@ -845,6 +845,61 @@ uib-hero[visual-mode="background"] .sample-visual {
   background: #ffffff;
 }
 
+.ui-attribute-help {
+  --uib-color-surface: var(--surface-soft);
+  --uib-color-border: var(--border);
+  --uib-radius-lg: 14px;
+}
+
+.ui-attribute-help::part(summary) {
+  padding: 0.8rem 0.85rem;
+  color: var(--text);
+  font-size: 0.92rem;
+}
+
+.ui-attribute-help::part(body) {
+  padding: 0 0.85rem 0.85rem;
+}
+
+.ui-attribute-help-list {
+  display: grid;
+  gap: 0;
+  margin: 0;
+}
+
+.ui-attribute-help-list div {
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.65rem 0;
+  border-top: 1px solid var(--border);
+}
+
+.ui-attribute-help-list div:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.ui-attribute-help-list dt {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-items: center;
+  font-weight: 900;
+}
+
+.ui-attribute-help-list dt span {
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+
+.ui-attribute-help-list dd {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.42;
+}
+
 .forms-preview-stack {
   display: grid;
   gap: 1rem;

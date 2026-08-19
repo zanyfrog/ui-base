@@ -283,21 +283,22 @@ function classifyRenderedPage() {
     });
   });
 
-  allElementsDeep('h1,h2,h3,p,span,div,[role="note"],.help,.instructions,.instruction').forEach((node) => {
+  allElementsDeep('h1,h2,h3,h4,h5,h6,p,span,div,[role="note"],.help,.instructions,.instruction').forEach((node) => {
     if (isInsideAppSubcomponent(node)) return;
     if (node.closest('label,button,a,select,textarea')) return;
     if (!hasInstructionText(node)) return;
     const text = cleanText(node.textContent);
-    if (!text || text.length < 12 || text.length > 280) return;
+    if (!text || text.length > 280) return;
     const signature = `${node.tagName.toLowerCase()}|${text.toLowerCase()}`;
     if (seenInstructions.has(signature)) return;
     if (hasSeenInstructionAncestor(node)) return;
     seenInstructions.add(signature);
     addItem({
-      kind: /h1|h2|h3/i.test(node.tagName) ? 'instruction' : 'instruction',
+      kind: 'instruction',
       label: text.slice(0, 80),
       value: text,
-      componentTag: 'uib-rich-text',
+      componentTag: componentForInstruction(node, text),
+      headingLevel: headingLevelFor(node, text),
       sourceSnippet: snippet(node),
       cssSnippet: cssFor(node),
       position: position(node),
@@ -718,9 +719,31 @@ function classifyRenderedPage() {
   function hasInstructionText(element) {
     if (hasOwnReadableText(element)) return true;
     const tag = element.tagName.toLowerCase();
-    if (!['h1', 'h2', 'h3', 'p'].includes(tag)) return false;
-    return !element.querySelector('div,p,h1,h2,h3,input,select,textarea,button,table,img,video,audio')
+    if (!['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p'].includes(tag)) return false;
+    return !element.querySelector('div,p,h1,h2,h3,h4,h5,h6,input,select,textarea,button,table,img,video,audio')
       && cleanText(element.textContent).length >= 2;
+  }
+
+  function componentForInstruction(element, text) {
+    return isHeadingLikeText(element, text) ? 'uib-heading' : 'uib-instruction';
+  }
+
+  function isHeadingLikeText(element, text) {
+    const tag = element.tagName.toLowerCase();
+    return /^h[1-6]$/.test(tag) || (text.length < 30 && !text.includes('.'));
+  }
+
+  function headingLevelFor(element, text) {
+    const tagLevel = /^h([1-6])$/.exec(element.tagName.toLowerCase())?.[1];
+    if (tagLevel) return Number(tagLevel);
+    if (!isHeadingLikeText(element, text)) return undefined;
+    const fontSize = Number.parseFloat(getComputedStyle(element).fontSize || '0');
+    if (fontSize >= 48) return 1;
+    if (fontSize >= 36) return 2;
+    if (fontSize >= 28) return 3;
+    if (fontSize >= 22) return 4;
+    if (fontSize >= 18) return 5;
+    return 3;
   }
 
   function hasOwnReadableText(element) {

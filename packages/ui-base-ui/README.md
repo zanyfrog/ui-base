@@ -33,6 +33,7 @@ import '@ui-base/tour-ui';
 - `uib-detail-item-edit`
 - `uib-detail-list`
 - `uib-detail-list-editor`
+- `uib-instruction`
 - `uib-rich-text`
 - `uib-stack`
 - `uib-grid`
@@ -61,6 +62,7 @@ import '@ui-base/ui/toggle';
 import '@ui-base/ui/menu';
 import '@ui-base/ui/card';
 import '@ui-base/ui/panel';
+import '@ui-base/ui/instruction';
 import '@ui-base/ui/rich-text';
 import '@ui-base/ui/tabs';
 ```
