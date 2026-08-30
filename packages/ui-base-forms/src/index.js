@@ -8,6 +8,7 @@ export { UibFormsPhone } from './controls/uib-forms-phone.js';
 export { UibFormsTextarea } from './controls/uib-forms-textarea.js';
 export { UibFormsSelect } from './controls/uib-forms-select.js';
 export { UibFormsCheckbox } from './controls/uib-forms-checkbox.js';
+export { UibFormsDisplayField } from './display/uib-forms-display-field.js';
 export { UibRecentValuesManager } from './uib-recent-values-manager.js';
 export { UibFormsField } from './layout/uib-forms-field.js';
 export { UibFormsInputGroup } from './layout/uib-forms-input-group.js';

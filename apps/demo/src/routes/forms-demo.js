@@ -6,7 +6,9 @@ const NUMBER_ATTRIBUTES = new Set(['minlength', 'maxlength', 'step', 'recent-val
 const MULTILINE_ATTRIBUTES = new Set(['help', 'error', 'placeholder', 'options', 'value']);
 const SELECT_OPTIONS = {
   'help-mode': ['tooltip', 'inline'],
-  autocomplete: ['', 'off', 'on', 'name', 'email', 'tel', 'current-password', 'new-password']
+  autocomplete: ['', 'off', 'on', 'name', 'email', 'tel', 'current-password', 'new-password'],
+  orientation: ['vertical', 'horizontal', 'auto'],
+  type: ['text', 'password']
 };
 
 const COMPONENT_DEFAULTS = {
@@ -20,6 +22,15 @@ const COMPONENT_DEFAULTS = {
   'uib-forms-number': { name: 'groupSize', label: 'Group size', value: '4', min: '1', max: '30', step: '1' },
   'uib-forms-date': { name: 'visitDate', label: 'Visit date', value: '2026-07-14' },
   'uib-forms-email': { name: 'email', label: 'Email', value: 'person@example.local', placeholder: 'person@example.local' },
+  'uib-forms-display-field': {
+    name: 'email',
+    label: 'Email',
+    'display-value': 'person@example.local',
+    orientation: 'vertical',
+    'empty-value': '-',
+    type: 'text',
+    help: 'Read-only label and value display.'
+  },
   'uib-forms-password': {
     name: 'accessCode',
     label: 'Access code',
@@ -57,6 +68,7 @@ const COMPONENT_SUMMARIES = {
   'uib-forms-number': 'Numeric input with min, max, and step constraints.',
   'uib-forms-date': 'Date input with shared form-control behavior.',
   'uib-forms-email': 'Email input with validation semantics.',
+  'uib-forms-display-field': 'Read-only label and value display with vertical or horizontal layout.',
   'uib-forms-password': 'Password input for sensitive form values.',
   'uib-forms-phone': 'Telephone input with shared form-control behavior.',
   'uib-forms-textarea': 'Multiline text input.',
@@ -72,6 +84,7 @@ export const FORMS_ROUTE_PATHS = [
   '/forms/',
   '/forms/uib-forms-date',
   '/forms/uib-forms-checkbox',
+  '/forms/uib-forms-display-field',
   '/forms/uib-forms-email',
   '/forms/uib-forms-field',
   '/forms/uib-forms-form',

@@ -12,6 +12,7 @@ The first version includes a functional `uib-forms-form` and experimental input 
 - `uib-forms-phone`
 - `uib-forms-textarea`
 - `uib-forms-select`
+- `uib-forms-display-field`
 - `uib-forms-field`
 - `uib-forms-input-group`
 - `uib-forms-wizard`
@@ -27,6 +28,9 @@ The first version includes a functional `uib-forms-form` and experimental input 
   <uib-forms-email name="email" label="Email" help="Used for reservation confirmation."></uib-forms-email>
   <uib-forms-select name="location" label="Location" options="Sample Site,Site A,Site B"></uib-forms-select>
 </uib-forms-form>
+
+<uib-forms-display-field label="Email" display-value="ada@example.com"></uib-forms-display-field>
+<uib-forms-display-field label="Access code" value="demo-password" type="password"></uib-forms-display-field>
 ```
 
 ## Recent Values

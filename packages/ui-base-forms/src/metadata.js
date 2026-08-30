@@ -236,6 +236,44 @@ export const FORM_COMPONENT_API = {
     ],
     examples: ['<uib-forms-checkbox name="confirmed" label="Confirmed" value="yes"></uib-forms-checkbox>']
   },
+  'uib-forms-display-field': {
+    tagName: 'uib-forms-display-field',
+    package: '@ui-base/forms',
+    maturity: MATURITY_LEVELS.EXPERIMENTAL,
+    attributes: [
+      { name: 'name', type: 'string', description: 'Optional field name for host-level integration and labeling fallback.' },
+      { name: 'label', type: 'string', description: 'Visible label text. A named label slot can override the rendered label content.' },
+      { name: 'value', type: 'string', description: 'Raw field value used when display-value is not provided.' },
+      { name: 'display-value', type: 'string', description: 'Formatted value shown to users. Useful for select labels or preformatted values.' },
+      { name: 'orientation', type: 'string', description: 'Layout direction for label and value. Supports vertical, horizontal, and auto. Defaults to vertical.' },
+      { name: 'empty-value', type: 'string', description: 'Fallback text shown when value and display-value are empty. Defaults to "-".' },
+      { name: 'type', type: 'string', description: 'Display treatment for the value. Use password to mask the rendered value.' },
+      { name: 'help', type: 'string', description: 'Optional helper text rendered below the display value.' }
+    ],
+    properties: [
+      { name: 'value', type: 'string', description: 'Gets or sets the raw value.' },
+      { name: 'displayValue', type: 'string', description: 'Gets or sets the formatted display value.' },
+      { name: 'orientation', type: 'string', description: 'Gets or sets vertical, horizontal, or auto layout.' },
+      { name: 'emptyValue', type: 'string', description: 'Gets or sets the empty-value fallback.' },
+      { name: 'type', type: 'string', description: 'Gets or sets the display treatment.' }
+    ],
+    events: [],
+    slots: [
+      { name: 'label', description: 'Optional custom label content.' }
+    ],
+    cssParts: [
+      { name: 'field', description: 'Outer display field wrapper.' },
+      { name: 'label', description: 'Label element.' },
+      { name: 'value', description: 'Rendered display value.' },
+      { name: 'help', description: 'Helper text.' }
+    ],
+    cssVariables: [
+      { name: '--uib-forms-display-field-gap', description: 'Gap between label, value, and help text.' },
+      { name: '--uib-forms-display-field-label-width', description: 'Label column width in horizontal layout.' },
+      { name: '--uib-forms-display-field-column-gap', description: 'Column gap in horizontal layout.' }
+    ],
+    examples: ['<uib-forms-display-field label="Email" display-value="person@example.local"></uib-forms-display-field>']
+  },
   'uib-recent-values-manager': {
     tagName: 'uib-recent-values-manager',
     package: '@ui-base/forms',

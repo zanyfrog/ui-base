@@ -20,6 +20,7 @@ import '@ui-base/forms';
 ## Components
 
 - `<uib-forms-date></uib-forms-date>`
+- `<uib-forms-display-field></uib-forms-display-field>`
 - `<uib-forms-email></uib-forms-email>`
 - `<uib-forms-number></uib-forms-number>`
 - `<uib-forms-password></uib-forms-password>`
@@ -53,6 +54,7 @@ import '@ui-base/forms';
 - `./phone` -> `./src/controls/uib-forms-phone.js`
 - `./textarea` -> `./src/controls/uib-forms-textarea.js`
 - `./select` -> `./src/controls/uib-forms-select.js`
+- `./display-field` -> `./src/display/uib-forms-display-field.js`
 - `./field` -> `./src/layout/uib-forms-field.js`
 - `./input-group` -> `./src/layout/uib-forms-input-group.js`
 - `./wizard` -> `./src/layout/uib-forms-wizard.js`

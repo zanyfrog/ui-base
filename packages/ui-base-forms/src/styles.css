@@ -4,6 +4,7 @@
   uib-forms-number,
   uib-forms-date,
   uib-forms-email,
+  uib-forms-display-field,
   uib-forms-password,
   uib-forms-phone,
   uib-forms-textarea,
@@ -34,6 +35,7 @@
 }
 
 :where(uib-forms-form)::part(form),
+:where(uib-forms-display-field)::part(field),
 :where(uib-forms-field)::part(field),
 :where(uib-forms-wizard)::part(wizard) {
   color: var(--uib-color-ink, #13294b);
@@ -72,6 +74,7 @@
 }
 
 :where(uib-forms-textbox, uib-forms-number, uib-forms-date, uib-forms-email, uib-forms-password, uib-forms-phone, uib-forms-textarea, uib-forms-select)::part(field),
+:where(uib-forms-display-field)::part(field),
 :where(uib-forms-field)::part(field) {
   display: grid;
   gap: var(--uib-forms-field-gap, 0.35rem);
@@ -79,6 +82,7 @@
 }
 
 :where(uib-forms-textbox, uib-forms-number, uib-forms-date, uib-forms-email, uib-forms-password, uib-forms-phone, uib-forms-textarea, uib-forms-select)::part(label),
+:where(uib-forms-display-field)::part(label),
 :where(uib-forms-field)::part(label) {
   display: inline-flex;
   align-items: center;
@@ -94,6 +98,7 @@
 }
 
 :where(uib-forms-textbox, uib-forms-number, uib-forms-date, uib-forms-email, uib-forms-password, uib-forms-phone, uib-forms-textarea, uib-forms-select)::part(help),
+:where(uib-forms-display-field)::part(help),
 :where(uib-forms-field)::part(help),
 :where(uib-forms-wizard)::part(note) {
   color: var(--uib-color-muted, #53657f);
@@ -139,6 +144,15 @@
 
 :where(uib-forms-select)::part(control) {
   cursor: pointer;
+}
+
+:where(uib-forms-display-field)::part(value) {
+  min-width: 0;
+  color: var(--uib-color-ink, #13294b);
+  font: inherit;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
 }
 
 :where(uib-forms-input-group)::part(group) {
