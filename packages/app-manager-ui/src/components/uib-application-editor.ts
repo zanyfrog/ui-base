@@ -2,6 +2,7 @@ import type { ShapedRecord, StorageRecord } from '@ui-base/app-manager-api-clien
 import { APPLICATION_INFO_FIELDS } from '../record-fields.js';
 import { BaseHTMLElement, attr, clientFromElement, cloneRecord, defineAppManagerElement, dispatch, escapeHtml, formatError, recordsEqual, slugify } from '../utils/dom.js';
 import { formToRecord, renderFieldGroups, validateRecord } from './record-form.js';
+import '@ui-base/ui/action-button';
 
 function defaultApplicationRecord(actorId: string): StorageRecord {
   const now = new Date().toISOString();
@@ -155,7 +156,7 @@ export class UibApplicationEditor extends BaseHTMLElement {
           <span>${this.mode === 'edit' ? 'Autosaves after 3 seconds of inactivity.' : 'Create saves when you press Save.'}</span>
           ${this.error ? `<span role="alert">${escapeHtml(this.error)}</span>` : ''}
         </div>
-        <button class="uibam-button" type="button" data-action="save" ${saving || (!dirty && this.mode === 'edit') ? 'disabled' : ''}>${saving ? 'Saving...' : this.mode === 'edit' ? 'Save changes' : 'Create application'}</button>
+        <uib-action-button data-action="save" variant="primary" label="${attr(saving ? 'Saving...' : this.mode === 'edit' ? 'Save changes' : 'Create application')}" ${saving || (!dirty && this.mode === 'edit') ? 'disabled' : ''}></uib-action-button>
       </div>`;
   }
 

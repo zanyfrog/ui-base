@@ -9,17 +9,11 @@ import {
   parseBoolean,
   parseHeroActionJson,
 } from './hero-action-config.js';
+import '@ui-base/forms';
 
 const TYPE_LABELS: Record<HeroActionType, string> = {
   link: 'Link',
   action: 'Action',
-};
-
-const VARIANT_LABELS: Record<HeroActionConfig['variant'], string> = {
-  primary: 'Primary',
-  secondary: 'Secondary',
-  tertiary: 'Tertiary',
-  destructive: 'Destructive',
 };
 
 let heroActionButtonId = 0;
@@ -32,13 +26,13 @@ function attributeBoolean(element: HTMLElement, name: string, fallback = false):
 }
 
 function fieldValue(root: ShadowRoot, selector: string): string {
-  const input = root.querySelector<HTMLInputElement | HTMLSelectElement>(selector);
+  const input = root.querySelector<HTMLElement & { value?: string }>(selector);
   return input?.value ?? '';
 }
 
 function checkedValue(root: ShadowRoot, selector: string, fallback = false): boolean {
-  const input = root.querySelector<HTMLInputElement>(selector);
-  return input ? input.checked : fallback;
+  const input = root.querySelector<HTMLElement & { checked?: boolean }>(selector);
+  return input?.checked ?? fallback;
 }
 
 export class UibHeroActionButton extends BaseHTMLElement {
@@ -202,9 +196,9 @@ export class UibHeroActionButton extends BaseHTMLElement {
   private bind() {
     const root = this.shadowRoot;
     if (!root) return;
-    root.querySelectorAll<HTMLInputElement | HTMLSelectElement>('[data-field]').forEach((input) => {
+    root.querySelectorAll<HTMLElement>('[data-field]').forEach((input) => {
       const field = input.getAttribute('data-field') || '';
-      const eventName = input instanceof HTMLInputElement && input.type === 'text' ? 'input' : 'change';
+      const eventName = input.localName === 'uib-forms-textbox' ? 'input' : 'change';
       input.addEventListener(eventName, () => this.handleInput(field));
     });
   }
@@ -266,8 +260,7 @@ export class UibHeroActionButton extends BaseHTMLElement {
         <p id="${descriptionId}" class="description" part="description">Configure the Hero call-to-action button. Link and Action share one conditional value field.</p>
         <div class="grid" part="grid">
           <div class="field" part="field">
-            <label part="label" for="${this.componentId}-label">Label</label>
-            <input part="input" id="${this.componentId}-label" data-field="label" type="text" value="${attr(action.label)}" ${disabled ? 'disabled' : ''} />
+            <uib-forms-textbox data-field="label" name="label" label="Label" value="${attr(action.label)}" ${disabled ? 'disabled' : ''}></uib-forms-textbox>
           </div>
           <div class="field" part="field">
             <span class="field-label" part="field-label" id="${this.componentId}-type-label">Type</span>
@@ -280,56 +273,38 @@ export class UibHeroActionButton extends BaseHTMLElement {
             </div>
           </div>
           <div class="field" part="field">
-            <label part="label" for="${this.componentId}-value">${escapeHtml(valueLabel)}</label>
-            <input part="input" id="${this.componentId}-value" data-field="value" type="text" value="${attr(action.value)}" placeholder="${attr(action.type === 'action' ? this.defaultActionToken : '#workflow or /example/visit')}" ${disabled ? 'disabled' : ''} />
-            <span class="hint" part="hint">${escapeHtml(valueHelp)}</span>
+            <uib-forms-textbox data-field="value" name="value" label="${attr(valueLabel)}" value="${attr(action.value)}" placeholder="${attr(action.type === 'action' ? this.defaultActionToken : '#workflow or /example/visit')}" help="${attr(valueHelp)}" ${disabled ? 'disabled' : ''}></uib-forms-textbox>
           </div>
           <div class="field" part="field">
-            <label part="label" for="${this.componentId}-variant">Variant</label>
-            <select part="select" id="${this.componentId}-variant" data-field="variant" ${disabled ? 'disabled' : ''}>
-              ${HERO_ACTION_VARIANTS.map((variant) => `<option value="${attr(variant)}" ${action.variant === variant ? 'selected' : ''}>${escapeHtml(VARIANT_LABELS[variant])}</option>`).join('')}
-            </select>
+            <uib-forms-select data-field="variant" name="variant" label="Variant" value="${attr(action.variant)}" options="${attr(HERO_ACTION_VARIANTS.join(','))}" ${disabled ? 'disabled' : ''}></uib-forms-select>
           </div>
           <div class="check-row field--wide">
-            <label class="check">
-              <input data-field="show" type="checkbox" ${action.show ? 'checked' : ''} ${disabled ? 'disabled' : ''} />
-              <span>Show</span>
-            </label>
-            <label class="check">
-              <input data-field="disabled" type="checkbox" ${action.disabled ? 'checked' : ''} ${disabled ? 'disabled' : ''} />
-              <span>Disabled</span>
-            </label>
+            <uib-forms-checkbox data-field="show" name="show" label="Show" value="true" ${action.show ? 'checked' : ''} ${disabled ? 'disabled' : ''}></uib-forms-checkbox>
+            <uib-forms-checkbox data-field="disabled" name="disabled" label="Disabled" value="true" ${action.disabled ? 'checked' : ''} ${disabled ? 'disabled' : ''}></uib-forms-checkbox>
           </div>
           <details>
             <summary>Advanced accessibility and link settings</summary>
             <div class="advanced-grid">
               <div class="field">
-                <label for="${this.componentId}-id">ID</label>
-                <input id="${this.componentId}-id" data-field="id" type="text" value="${attr(action.id)}" ${disabled ? 'disabled' : ''} />
+                <uib-forms-textbox data-field="id" name="id" label="ID" value="${attr(action.id)}" ${disabled ? 'disabled' : ''}></uib-forms-textbox>
               </div>
               <div class="field">
-                <label for="${this.componentId}-name">Name</label>
-                <input id="${this.componentId}-name" data-field="name" type="text" value="${attr(action.name)}" ${disabled ? 'disabled' : ''} />
+                <uib-forms-textbox data-field="name" name="name" label="Name" value="${attr(action.name)}" ${disabled ? 'disabled' : ''}></uib-forms-textbox>
               </div>
               <div class="field">
-                <label for="${this.componentId}-title">Title</label>
-                <input id="${this.componentId}-title" data-field="title" type="text" value="${attr(action.title)}" ${disabled ? 'disabled' : ''} />
+                <uib-forms-textbox data-field="title" name="title" label="Title" value="${attr(action.title)}" ${disabled ? 'disabled' : ''}></uib-forms-textbox>
               </div>
               <div class="field">
-                <label for="${this.componentId}-aria">Accessible text</label>
-                <input id="${this.componentId}-aria" data-field="ariaLabel" type="text" value="${attr(action.ariaLabel)}" ${disabled ? 'disabled' : ''} />
+                <uib-forms-textbox data-field="ariaLabel" name="ariaLabel" label="Accessible text" value="${attr(action.ariaLabel)}" ${disabled ? 'disabled' : ''}></uib-forms-textbox>
               </div>
               <div class="field field--wide">
-                <label for="${this.componentId}-help">Help text</label>
-                <input id="${this.componentId}-help" data-field="help" type="text" value="${attr(action.help)}" ${disabled ? 'disabled' : ''} />
+                <uib-forms-textbox data-field="help" name="help" label="Help text" value="${attr(action.help)}" ${disabled ? 'disabled' : ''}></uib-forms-textbox>
               </div>
               <div class="field">
-                <label for="${this.componentId}-target">Target</label>
-                <input id="${this.componentId}-target" data-field="target" type="text" value="${attr(action.target)}" placeholder="_self, _blank" ${disabled ? 'disabled' : ''} />
+                <uib-forms-textbox data-field="target" name="target" label="Target" value="${attr(action.target)}" placeholder="_self, _blank" ${disabled ? 'disabled' : ''}></uib-forms-textbox>
               </div>
               <div class="field">
-                <label for="${this.componentId}-rel">Rel</label>
-                <input id="${this.componentId}-rel" data-field="rel" type="text" value="${attr(action.rel)}" placeholder="noopener noreferrer" ${disabled ? 'disabled' : ''} />
+                <uib-forms-textbox data-field="rel" name="rel" label="Rel" value="${attr(action.rel)}" placeholder="noopener noreferrer" ${disabled ? 'disabled' : ''}></uib-forms-textbox>
               </div>
             </div>
           </details>

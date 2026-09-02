@@ -1,5 +1,7 @@
 import type { ShapedRecord } from '@ui-base/app-manager-api-client';
 import { BaseHTMLElement, attr, clientFromElement, defineAppManagerElement, dispatch, escapeHtml, formatError } from '../utils/dom.js';
+import '@ui-base/forms';
+import '@ui-base/ui/action-button';
 
 const ASSET_ACCEPT = 'image/png,image/jpeg,image/gif,image/webp,image/svg+xml,image/avif,application/pdf,text/plain,text/css,application/json';
 
@@ -123,23 +125,11 @@ export class UibApplicationAssetList extends BaseHTMLElement {
             <span>File</span>
             <input type="file" accept="${attr(ASSET_ACCEPT)}" data-upload-field="file" ${this.uploading ? 'disabled' : ''} />
           </label>
-          <label class="uibam-field">
-            <span>Asset key</span>
-            <input type="text" data-upload-field="assetKey" placeholder="optional-slug" />
-          </label>
-          <label class="uibam-field">
-            <span>Alt text</span>
-            <input type="text" data-upload-field="altText" placeholder="Image description" />
-          </label>
-          <label class="uibam-field">
-            <span>Usage context</span>
-            <input type="text" data-upload-field="usageContext" value="general" />
-          </label>
-          <label class="uibam-field uibam-field--wide">
-            <span>Tags</span>
-            <input type="text" data-upload-field="tags" placeholder="comma, separated, tags" />
-          </label>
-          <button class="uibam-button" type="button" data-action="upload-asset" ${this.uploading ? 'disabled' : ''}>${this.uploading ? 'Uploading...' : 'Upload asset'}</button>
+          <uib-forms-textbox name="assetKey" label="Asset key" data-upload-field="assetKey" placeholder="optional-slug"></uib-forms-textbox>
+          <uib-forms-textbox name="altText" label="Alt text" data-upload-field="altText" placeholder="Image description"></uib-forms-textbox>
+          <uib-forms-textbox name="usageContext" label="Usage context" data-upload-field="usageContext" value="general"></uib-forms-textbox>
+          <uib-forms-textbox class="uibam-field--wide" name="tags" label="Tags" data-upload-field="tags" placeholder="comma, separated, tags"></uib-forms-textbox>
+          <uib-action-button data-action="upload-asset" variant="primary" label="${attr(this.uploading ? 'Uploading...' : 'Upload asset')}" ${this.uploading ? 'disabled' : ''}></uib-action-button>
         </div>
       </div>`;
   }
@@ -193,7 +183,7 @@ export class UibApplicationAssetList extends BaseHTMLElement {
               <h2>Assets for ${escapeHtml(this.applicationKey)}</h2>
               <p class="uibam-subtitle">Manage application_asset rows. Soft-deleted assets are hidden and direct file routes return 404.</p>
             </div>
-            <button class="uibam-button-secondary" type="button" data-action="refresh-assets">Refresh</button>
+            <uib-action-button data-action="refresh-assets" variant="secondary" label="Refresh"></uib-action-button>
           </div>
           <div class="uibam-card-body">
             ${this.error ? `<div class="uibam-error" role="alert">${escapeHtml(this.error)}</div>` : ''}

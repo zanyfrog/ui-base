@@ -1,4 +1,5 @@
 import { BaseHTMLElement, attr, defineAppManagerElement, escapeHtml, passClientAttributes } from '../utils/dom.js';
+import '@ui-base/forms';
 
 interface RouteState {
   name: 'applications' | 'heroes' | 'hero-editor' | 'assets' | 'asset-editor';
@@ -136,7 +137,7 @@ export class UibApplicationManager extends BaseHTMLElement {
           </div>
           <div class="uibam-status-line" aria-label="Development identity">
             <span class="uibam-badge uibam-badge--muted">dev mode</span>
-            <span>Actor: ${escapeHtml(this.getAttribute('dev-actor-id') || 'original-creator')}</span>
+            <uib-forms-display-field label="Actor" display-value="${attr(this.getAttribute('dev-actor-id') || 'original-creator')}" orientation="horizontal"></uib-forms-display-field>
           </div>
         </header>
         ${this.navMarkup()}

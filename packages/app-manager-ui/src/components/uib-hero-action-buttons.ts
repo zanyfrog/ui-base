@@ -9,6 +9,7 @@ import {
   parseHeroActionListJson,
 } from './hero-action-config.js';
 import './uib-hero-action-button.js';
+import '@ui-base/ui/action-button';
 
 let heroActionButtonsId = 0;
 
@@ -32,10 +33,6 @@ function defaultAction(index: number): HeroActionConfig {
     variant: index === 0 ? 'primary' : 'secondary',
     title: `Action ${number}`,
   });
-}
-
-function addIcon(): string {
-  return '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6V5Z" fill="currentColor"/></svg>';
 }
 
 function deleteIcon(): string {
@@ -305,9 +302,7 @@ export class UibHeroActionButtons extends BaseHTMLElement {
         .drag-handle{left:.85rem;cursor:grab}
         .drag-handle:active{cursor:grabbing}
         .delete-button{right:.85rem;color:var(--uib-color-danger,#b4232a)}
-        .icon-button{display:inline-flex;align-items:center;justify-content:center;min-height:2.35rem;min-width:2.35rem;padding:.55rem;border:1px solid var(--uib-color-border-strong,#aab8cc);border-radius:999px;background:var(--uib-color-surface,#fff);color:var(--uib-color-primary,#174a8b);font:inherit;font-weight:850;cursor:pointer}
-        .icon-button--primary{border-color:var(--uib-color-primary,#174a8b);background:var(--uib-color-primary,#174a8b);color:var(--uib-color-primary-contrast,#fff)}
-        .icon-button svg,.drag-handle svg,.delete-button svg{width:1.15rem;height:1.15rem;display:block}
+        .drag-handle svg,.delete-button svg{width:1.15rem;height:1.15rem;display:block}
         button:focus-visible{outline:3px solid color-mix(in srgb,var(--uib-color-primary,#174a8b) 28%,transparent);outline-offset:2px}
         button:disabled{cursor:not-allowed;opacity:.6}
         uib-hero-action-button{display:block;--uibam-hero-action-padding:3.1rem clamp(1rem,2vw,1.25rem) clamp(1rem,2vw,1.25rem)}
@@ -322,7 +317,7 @@ export class UibHeroActionButtons extends BaseHTMLElement {
             <h2 part="title" id="${labelId}">${escapeHtml(label)}</h2>
             <p part="help" id="${helpId}">${escapeHtml(help)}</p>
           </div>
-          ${this.allowAdd ? `<button class="icon-button icon-button--primary" part="icon-button" type="button" data-add aria-label="Add action" title="Add action" ${disabled ? 'disabled' : ''}>${addIcon()}<span class="sr-only">Add action</span></button>` : ''}
+          ${this.allowAdd ? `<uib-action-button part="icon-button" data-add variant="primary" label="Add action" ${disabled ? 'disabled' : ''}></uib-action-button>` : ''}
         </div>
         <div class="list" part="list">
           ${actions.length

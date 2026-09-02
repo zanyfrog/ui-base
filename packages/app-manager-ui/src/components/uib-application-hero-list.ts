@@ -1,5 +1,6 @@
 import type { ShapedRecord, StorageRecord } from '@ui-base/app-manager-api-client';
 import { BaseHTMLElement, attr, clientFromElement, defineAppManagerElement, dispatch, escapeHtml, formatError, statusBadge } from '../utils/dom.js';
+import '@ui-base/ui/action-button';
 
 export class UibApplicationHeroList extends BaseHTMLElement {
   static get observedAttributes() {
@@ -130,8 +131,8 @@ export class UibApplicationHeroList extends BaseHTMLElement {
             <p class="uibam-subtitle">List, create, update, and remove application_hero records for the active application.</p>
           </div>
           <div class="uibam-actions">
-            <button class="uibam-button" type="button" data-action="create">Add hero</button>
-            <button class="uibam-button-secondary" type="button" data-action="refresh">Refresh</button>
+            <uib-action-button data-action="create" variant="primary" label="Add hero"></uib-action-button>
+            <uib-action-button data-action="refresh" variant="secondary" label="Refresh"></uib-action-button>
           </div>
         </div>
         <div class="uibam-card-body">

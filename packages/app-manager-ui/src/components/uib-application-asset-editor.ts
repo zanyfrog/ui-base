@@ -2,6 +2,7 @@ import type { ShapedRecord, StorageRecord } from '@ui-base/app-manager-api-clien
 import { APPLICATION_ASSET_FIELDS } from '../record-fields.js';
 import { BaseHTMLElement, attr, clientFromElement, cloneRecord, defineAppManagerElement, escapeHtml, formatError, recordsEqual } from '../utils/dom.js';
 import { formToRecord, renderFieldGroups, validateRecord } from './record-form.js';
+import '@ui-base/ui/action-button';
 
 const ASSET_ACCEPT = 'image/png,image/jpeg,image/gif,image/webp,image/svg+xml,image/avif,application/pdf,text/plain,text/css,application/json';
 
@@ -155,7 +156,7 @@ export class UibApplicationAssetEditor extends BaseHTMLElement {
           <span class="uibam-badge ${this.state === 'saved' ? 'uibam-badge--success' : dirty || this.state === 'error' ? 'uibam-badge--warning' : 'uibam-badge--muted'}">${escapeHtml(this.state)}</span>
           ${this.error ? `<span role="alert">${escapeHtml(this.error)}</span>` : ''}
         </div>
-        <button class="uibam-button" type="button" data-action="save-asset" ${this.saving || !dirty ? 'disabled' : ''}>${this.saving ? 'Saving...' : 'Save asset metadata'}</button>
+        <uib-action-button data-action="save-asset" variant="primary" label="${attr(this.saving ? 'Saving...' : 'Save asset metadata')}" ${this.saving || !dirty ? 'disabled' : ''}></uib-action-button>
       </div>`;
   }
 
@@ -202,15 +203,15 @@ export class UibApplicationAssetEditor extends BaseHTMLElement {
           <div class="uibam-card-body uibam-asset-preview-panel">
             <div class="uibam-asset-preview-large">${this.previewMarkup()}</div>
             <div class="uibam-status-line">
-              <a class="uibam-button-secondary" href="${attr(this.currentRecord.public_url || '#')}" target="_blank" rel="noreferrer">Open display URL</a>
-              <a class="uibam-button-secondary" href="${attr(this.currentRecord.download_url || '#')}" target="_blank" rel="noreferrer">Download</a>
+              <uib-action-button href="${attr(this.currentRecord.public_url || '#')}" target="_blank" rel="noreferrer" variant="secondary" label="Open display URL"></uib-action-button>
+              <uib-action-button href="${attr(this.currentRecord.download_url || '#')}" target="_blank" rel="noreferrer" variant="secondary" label="Download"></uib-action-button>
             </div>
             <div class="uibam-asset-replace">
               <label class="uibam-field">
                 <span>Replace file</span>
                 <input type="file" accept="${attr(ASSET_ACCEPT)}" data-action="replace-asset-file" ${this.replacing ? 'disabled' : ''} />
               </label>
-              <button class="uibam-button" type="button" data-action="replace-asset" ${this.replacing ? 'disabled' : ''}>${this.replacing ? 'Replacing...' : 'Replace file and increment version'}</button>
+              <uib-action-button data-action="replace-asset" variant="primary" label="${attr(this.replacing ? 'Replacing...' : 'Replace file and increment version')}" ${this.replacing ? 'disabled' : ''}></uib-action-button>
             </div>
           </div>
         </aside>

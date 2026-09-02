@@ -1,6 +1,7 @@
 import type { FieldDefinition } from '../record-fields.js';
 import { DATE_FIELD_NAMES, JSON_FIELD_NAMES, URL_FIELD_NAMES, groupFields } from '../record-fields.js';
 import { attr, escapeHtml } from '../utils/dom.js';
+import '@ui-base/forms';
 
 export type FormRecord = Record<string, string>;
 
@@ -12,74 +13,60 @@ function booleanValue(value: string): boolean {
   return String(value).toLowerCase() === 'true';
 }
 
+function fieldAttributes(field: FieldDefinition, value: string, extra: Record<string, string | boolean> = {}): string {
+  const attributes = [
+    `id="field-${attr(field.name)}"`,
+    `name="${attr(field.name)}"`,
+    `label="${attr(field.label)}"`,
+    `value="${attr(value)}"`,
+    field.required ? 'required' : '',
+    field.help ? `help="${attr(field.help)}"` : '',
+  ];
+
+  for (const [name, optionValue] of Object.entries(extra)) {
+    if (optionValue === false || optionValue === undefined || optionValue === null) continue;
+    attributes.push(optionValue === true ? name : `${name}="${attr(String(optionValue))}"`);
+  }
+
+  return attributes.filter(Boolean).join(' ');
+}
+
 export function renderField(field: FieldDefinition, record: FormRecord, options: RenderFieldOptions = {}): string {
   const value = record[field.name] ?? '';
-  const required = field.required ? ' required' : '';
-  const help = field.help ? `<small>${escapeHtml(field.help)}</small>` : '';
   const wide = field.kind === 'textarea' || field.kind === 'json' || field.kind === 'html' ? ' uibam-field--wide' : '';
-  const label = `${escapeHtml(field.label)}${field.required ? ' *' : ''}`;
 
   if (field.kind === 'boolean') {
     const checked = booleanValue(value);
-    if (options.booleanStyle === 'toggle') {
-      return `
-        <div class="uibam-field uibam-field--toggle${wide}">
-          <span class="uibam-field-label" id="field-${attr(field.name)}-label">${label}</span>
-          <input type="hidden" name="${attr(field.name)}" value="false" />
-          <label class="uibam-toggle-control" for="field-${attr(field.name)}">
-            <input id="field-${attr(field.name)}" name="${attr(field.name)}" type="checkbox" value="true" ${checked ? 'checked' : ''}${required} aria-labelledby="field-${attr(field.name)}-label" />
-            <span class="uibam-toggle-switch" aria-hidden="true"><span></span></span>
-            <span class="uibam-toggle-state" aria-hidden="true">
-              <span class="uibam-toggle-state-on">true</span>
-              <span class="uibam-toggle-state-off">false</span>
-            </span>
-          </label>
-          ${help}
-        </div>`;
-    }
     return `
-      <div class="uibam-field${wide}">
-        <label for="field-${attr(field.name)}">${label}</label>
-        <select id="field-${attr(field.name)}" name="${attr(field.name)}"${required}>
-          <option value="true" ${checked ? 'selected' : ''}>true</option>
-          <option value="false" ${!checked ? 'selected' : ''}>false</option>
-        </select>
-        ${help}
+      <div class="uibam-field${wide}${options.booleanStyle === 'toggle' ? ' uibam-field--toggle' : ''}">
+        <uib-forms-checkbox ${fieldAttributes(field, 'true', { checked })}></uib-forms-checkbox>
       </div>`;
   }
 
   if (field.kind === 'select') {
     const options = field.options ?? [];
-    const knownValue = options.includes(value);
+    const selectOptions = options.includes(value) || !value ? options : [value, ...options];
     return `
       <div class="uibam-field${wide}">
-        <label for="field-${attr(field.name)}">${label}</label>
-        <select id="field-${attr(field.name)}" name="${attr(field.name)}"${required}>
-          ${knownValue ? '' : `<option value="${attr(value)}" selected>${escapeHtml(value || 'custom/empty')}</option>`}
-          ${options.map((option) => `<option value="${attr(option)}" ${option === value ? 'selected' : ''}>${escapeHtml(option)}</option>`).join('')}
-        </select>
-        ${help}
+        <uib-forms-select ${fieldAttributes(field, value, { options: selectOptions.join(',') })}></uib-forms-select>
       </div>`;
   }
 
   if (field.kind === 'textarea' || field.kind === 'json' || field.kind === 'html') {
-    const rows = field.kind === 'html' ? 8 : field.kind === 'json' ? 8 : 4;
     return `
       <div class="uibam-field${wide}">
-        <label for="field-${attr(field.name)}">${label}</label>
-        <textarea id="field-${attr(field.name)}" name="${attr(field.name)}" rows="${rows}" spellcheck="false"${required}>${escapeHtml(value)}</textarea>
-        ${help}
+        <uib-forms-textarea ${fieldAttributes(field, value)}></uib-forms-textarea>
       </div>`;
   }
 
-  const inputType = field.kind === 'number' ? 'number' : 'text';
-  const step = field.kind === 'number' ? ' step="any"' : '';
+  const tagName = field.kind === 'number' ? 'uib-forms-number' : 'uib-forms-textbox';
   const placeholder = field.kind === 'datetime' ? '2026-06-24T00:00:00.000Z' : '';
   return `
     <div class="uibam-field${wide}">
-      <label for="field-${attr(field.name)}">${label}</label>
-      <input id="field-${attr(field.name)}" name="${attr(field.name)}" type="${inputType}" value="${attr(value)}" placeholder="${attr(placeholder)}"${step}${required} />
-      ${help}
+      <${tagName} ${fieldAttributes(field, value, {
+        placeholder,
+        step: field.kind === 'number' ? 'any' : '',
+      })}></${tagName}>
     </div>`;
 }
 
@@ -99,6 +86,16 @@ export function formToRecord(form: HTMLFormElement, fields: FieldDefinition[]): 
   const data = new FormData(form);
   const record: FormRecord = {};
   for (const field of fields) {
+    const control = form.querySelector<HTMLElement & { value?: string; checked?: boolean }>(`[name="${field.name}"]`);
+    if (field.kind === 'boolean') {
+      record[field.name] = control?.checked ? 'true' : 'false';
+      continue;
+    }
+    const controlValue = control?.value;
+    if (controlValue !== undefined) {
+      record[field.name] = String(controlValue);
+      continue;
+    }
     const values = data.getAll(field.name);
     record[field.name] = String(values.length ? values[values.length - 1] : '');
   }

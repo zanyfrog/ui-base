@@ -1,6 +1,7 @@
 import type { ShapedRecord, StorageRecord } from '@ui-base/app-manager-api-client';
 import { BaseHTMLElement, attr, clientFromElement, defineAppManagerElement, dispatch, escapeHtml, formatError, passClientAttributes, statusBadge } from '../utils/dom.js';
 import './uib-application-editor.js';
+import '@ui-base/ui/action-button';
 
 export class UibApplicationList extends BaseHTMLElement {
   static get observedAttributes() {
@@ -161,8 +162,8 @@ export class UibApplicationList extends BaseHTMLElement {
             <p class="uibam-subtitle">List, create, update, select, and remove application_info records for the current dev actor.</p>
           </div>
           <div class="uibam-actions">
-            <button class="uibam-button" type="button" data-action="create">Add application</button>
-            <button class="uibam-button-secondary" type="button" data-action="refresh">Refresh</button>
+            <uib-action-button data-action="create" variant="primary" label="Add application"></uib-action-button>
+            <uib-action-button data-action="refresh" variant="secondary" label="Refresh"></uib-action-button>
           </div>
         </div>
         <div class="uibam-card-body">

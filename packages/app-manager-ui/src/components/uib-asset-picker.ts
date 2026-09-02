@@ -1,5 +1,7 @@
 import type { ShapedRecord } from '@ui-base/app-manager-api-client';
 import { BaseHTMLElement, attr, clientFromElement, defineAppManagerElement, dispatch, escapeHtml, formatError, passClientAttributes } from '../utils/dom.js';
+import '@ui-base/forms';
+import '@ui-base/ui/action-button';
 
 const DEFAULT_ASSET_ACCEPT = 'image/png,image/jpeg,image/gif,image/webp,image/svg+xml,image/avif,application/pdf,text/plain,text/css,application/json';
 
@@ -135,7 +137,7 @@ export class UibAppManagerAssetPicker extends BaseHTMLElement {
             <h4>Asset picker</h4>
             <p class="uibam-subtitle">Choose an existing asset or upload a new one for ${escapeHtml(this.applicationKey)}.</p>
           </div>
-          <button class="uibam-button-muted" type="button" data-action="picker-refresh">Refresh</button>
+          <uib-action-button data-action="picker-refresh" variant="tertiary" label="Refresh"></uib-action-button>
         </div>
         ${this.error ? `<div class="uibam-error" role="alert">${escapeHtml(this.error)}</div>` : ''}
         <div class="uibam-asset-picker-upload">
@@ -143,15 +145,9 @@ export class UibAppManagerAssetPicker extends BaseHTMLElement {
             <span>Upload file</span>
             <input type="file" accept="${attr(this.accept)}" data-picker-field="file" ${this.uploading ? 'disabled' : ''} />
           </label>
-          <label class="uibam-field">
-            <span>Asset key</span>
-            <input type="text" data-picker-field="assetKey" placeholder="optional-slug" />
-          </label>
-          <label class="uibam-field">
-            <span>Alt text</span>
-            <input type="text" data-picker-field="altText" placeholder="Image description" />
-          </label>
-          <button class="uibam-button-secondary" type="button" data-action="picker-upload" ${this.uploading ? 'disabled' : ''}>${this.uploading ? 'Uploading...' : 'Upload and select'}</button>
+          <uib-forms-textbox name="assetKey" label="Asset key" data-picker-field="assetKey" placeholder="optional-slug"></uib-forms-textbox>
+          <uib-forms-textbox name="altText" label="Alt text" data-picker-field="altText" placeholder="Image description"></uib-forms-textbox>
+          <uib-action-button data-action="picker-upload" variant="secondary" label="${attr(this.uploading ? 'Uploading...' : 'Upload and select')}" ${this.uploading ? 'disabled' : ''}></uib-action-button>
         </div>
         ${this.loading ? '<div class="uibam-loading">Loading assets...</div>' : records.length ? `
           <div class="uibam-asset-grid">
@@ -165,7 +161,7 @@ export class UibAppManagerAssetPicker extends BaseHTMLElement {
                     <span>${escapeHtml(asset.storageRecord.asset_id || '')}</span>
                   </div>
                 </div>
-                <button class="uibam-button-secondary" type="button" data-action="picker-select" data-asset-id="${attr(asset.storageRecord.asset_id)}">Select</button>
+                <uib-action-button data-action="picker-select" data-asset-id="${attr(asset.storageRecord.asset_id)}" variant="secondary" label="Select"></uib-action-button>
               </article>`).join('')}
           </div>` : '<div class="uibam-empty uibam-empty--compact">No active assets found for this application.</div>'}
       </section>`;

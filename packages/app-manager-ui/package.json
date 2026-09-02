@@ -16,6 +16,7 @@
     "@ui-base/app-manager-api-client": "file:../app-manager-api-client",
     "@ui-base/hero": "file:../ui-base-hero",
     "@ui-base/assets": "file:../ui-base-assets",
+    "@ui-base/forms": "file:../ui-base-forms",
     "@ui-base/ui": "file:../ui-base-ui"
   },
   "scripts": {
