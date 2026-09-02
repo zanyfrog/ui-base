@@ -1,5 +1,6 @@
 import { discoverPackageBrowserPackages } from './package-browser-data.js';
 import { escapeAttr, escapeHtml } from '../routes/demo-utils.js';
+import '@ui-base/icons/icon';
 
 const styles = `
 :host{display:block;color:var(--text,#13294b);font-family:var(--uib-font-family-sans,Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif)}
@@ -20,15 +21,22 @@ p{margin:0;color:var(--muted,#53657f);line-height:1.45}
 .package{border:1px solid var(--border,#d9e2f0);border-radius:14px;background:var(--surface-soft,#f8fbff);overflow:hidden}
 .package>summary{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.85rem 1rem;cursor:pointer;list-style:none}
 .package>summary::-webkit-details-marker{display:none}
-.package-title{min-width:0;display:grid;gap:.15rem}
+.package-main{min-width:0;display:grid;grid-template-columns:2.25rem minmax(0,1fr);gap:.7rem;align-items:start}
+.package-icon,.component-icon{display:inline-grid;place-items:center;border:1px solid rgba(23,74,139,.18);border-radius:999px;background:#fff;color:var(--accent,#174a8b)}
+.package-icon{width:2.25rem;height:2.25rem}
+.component-icon{width:1.9rem;height:1.9rem}
+.package-title{min-width:0;display:grid;gap:.25rem}
 .package-title strong{font-size:.98rem}
-.package-title span{color:var(--muted,#53657f);font-size:.82rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.package-title span{color:var(--muted,#53657f);font-size:.82rem;line-height:1.35}
+.package-meta{display:flex;flex-wrap:wrap;gap:.35rem}
+.meta-chip{display:inline-flex;align-items:center;min-height:1.45rem;padding:.15rem .45rem;border:1px solid rgba(23,74,139,.16);border-radius:999px;background:#fff;color:var(--muted,#53657f);font-size:.74rem;font-weight:850}
 .status{flex:0 0 auto;display:inline-flex;align-items:center;gap:.35rem;min-height:1.75rem;padding:.25rem .55rem;border:1px solid rgba(23,74,139,.22);border-radius:999px;background:#fff;color:var(--muted,#53657f);font-size:.78rem;font-weight:850}
 .components{display:grid;gap:.45rem;padding:0 1rem 1rem}
-.component-link,.component-disabled{display:grid;gap:.25rem;width:100%;padding:.7rem .8rem;border:1px solid var(--border,#d9e2f0);border-radius:12px;background:#fff;text-align:left;text-decoration:none;color:inherit;font:inherit}
+.component-link,.component-disabled{display:grid;grid-template-columns:1.9rem minmax(0,1fr);gap:.65rem;width:100%;padding:.7rem .8rem;border:1px solid var(--border,#d9e2f0);border-radius:12px;background:#fff;text-align:left;text-decoration:none;color:inherit;font:inherit}
 .component-link{cursor:pointer}
 .component-link:hover{border-color:rgba(23,74,139,.45);box-shadow:0 8px 22px rgba(10,31,68,.08)}
 .component-disabled{opacity:.64;cursor:not-allowed}
+.component-copy{min-width:0;display:grid;gap:.25rem}
 .component-link code,.component-disabled code{font-size:.9rem;font-weight:900}
 .component-link span,.component-disabled span{color:var(--muted,#53657f);font-size:.82rem;line-height:1.35}
 .empty{padding:.85rem 1rem;color:var(--muted,#53657f);font-size:.9rem}
@@ -80,6 +88,11 @@ export class PackageBrowser extends HTMLElement {
   normalizePackages(packages) {
     return packages.map((pkg) => ({
       name: pkg.name || pkg.package || 'Package',
+      displayName: pkg.displayName || pkg.package?.displayName || pkg.name || pkg.package || 'Package',
+      description: pkg.description || pkg.package?.description || pkg.summary || '',
+      icon: pkg.icon || pkg.package?.icon || 'info',
+      category: pkg.category || pkg.package?.category || '',
+      version: pkg.version || pkg.package?.version || '',
       path: pkg.path || '',
       workspacePath: pkg.workspacePath || pkg.path || '',
       summary: pkg.summary || '',
@@ -87,8 +100,12 @@ export class PackageBrowser extends HTMLElement {
       importError: pkg.importError || '',
       components: (pkg.components || []).map((component) => ({
         tagName: component.tagName || component.name || '',
-        title: component.title || component.tagName || component.name || '',
-        purpose: component.purpose || component.summary || '',
+        displayName: component.displayName || component.title || component.tagName || component.name || '',
+        title: component.title || component.displayName || component.tagName || component.name || '',
+        description: component.description || component.purpose || component.summary || '',
+        icon: component.icon || 'info',
+        category: component.category || '',
+        purpose: component.purpose || component.description || component.summary || '',
         route: component.route || ''
       })).filter((component) => component.tagName)
     })).sort((a, b) => a.name.localeCompare(b.name));
@@ -100,10 +117,10 @@ export class PackageBrowser extends HTMLElement {
 
     return this.packages
       .map((pkg) => {
-        const packageMatches = [pkg.name, pkg.path, pkg.summary].some((value) => String(value || '').toLowerCase().includes(query));
+        const packageMatches = [pkg.name, pkg.displayName, pkg.path, pkg.summary, pkg.description, pkg.category].some((value) => String(value || '').toLowerCase().includes(query));
         const components = pkg.components.filter((component) => (
           packageMatches ||
-          [component.tagName, component.title, component.purpose].some((value) => String(value || '').toLowerCase().includes(query))
+          [component.tagName, component.displayName, component.title, component.purpose, component.description, component.category].some((value) => String(value || '').toLowerCase().includes(query))
         ));
         if (packageMatches) return pkg;
         return components.length ? { ...pkg, components } : null;
@@ -149,24 +166,28 @@ export class PackageBrowser extends HTMLElement {
   }
 
   renderComponent(component) {
-    const label = component.purpose || (component.route ? 'Open focused demo.' : 'No focused demo route is available yet.');
+    const label = component.description || component.purpose || (component.route ? 'Open focused demo.' : 'No focused demo route is available yet.');
+    const copy = `
+      <span class="component-icon" aria-hidden="true">
+        <uib-icon name="${escapeAttr(component.icon || 'info')}"></uib-icon>
+      </span>
+      <span class="component-copy">
+        <code>${escapeHtml(component.tagName)}</code>
+        <span>${escapeHtml(component.displayName || component.title || component.tagName)}${component.category ? ` - ${escapeHtml(component.category)}` : ''}</span>
+        <span>${escapeHtml(label)}</span>
+      </span>
+    `;
     if (!component.route) {
       return `
         <div class="component-disabled" aria-disabled="true">
-          <code>${escapeHtml(component.tagName)}</code>
-          <span>${escapeHtml(label)}</span>
+          ${copy}
         </div>
       `;
     }
 
     return `
       <a class="component-link" href="${escapeAttr(component.route)}" data-route>
-        <code>
-          ${escapeHtml(component.tagName)}
-        </code>
-        <span>
-          ${escapeHtml(label)}
-        </span>
+        ${copy}
       </a>
     `;
   }
@@ -178,9 +199,20 @@ export class PackageBrowser extends HTMLElement {
     return `
       <details class="package" ${shouldOpen ? 'open' : ''}>
         <summary>
-          <span class="package-title">
-            <strong>${escapeHtml(pkg.name)}</strong>
-            <span>${escapeHtml(pkg.workspacePath || pkg.path || pkg.importSpecifier || pkg.summary || 'ui-base workspace package')}</span>
+          <span class="package-main">
+            <span class="package-icon" aria-hidden="true">
+              <uib-icon name="${escapeAttr(pkg.icon || 'info')}"></uib-icon>
+            </span>
+            <span class="package-title">
+              <strong>${escapeHtml(pkg.displayName || pkg.name)}</strong>
+              <span>${escapeHtml(pkg.description || pkg.summary || 'UI Base workspace package.')}</span>
+              <span class="package-meta">
+                <span class="meta-chip">${escapeHtml(pkg.name)}</span>
+                ${pkg.category ? `<span class="meta-chip">${escapeHtml(pkg.category)}</span>` : ''}
+                ${pkg.version ? `<span class="meta-chip">v${escapeHtml(pkg.version)}</span>` : ''}
+                <span class="meta-chip">${escapeHtml(pkg.workspacePath || pkg.path || pkg.importSpecifier || WORKSPACE_ROOT)}</span>
+              </span>
+            </span>
           </span>
           <span class="status">${escapeHtml(statusLabel)}</span>
         </summary>
