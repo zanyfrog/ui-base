@@ -44,6 +44,7 @@ const COMPONENT_DEFAULTS = {
   },
   'uib-forms-phone': { name: 'phone', label: 'Phone', value: '555-0100', autocomplete: 'tel' },
   'uib-forms-textarea': { name: 'notes', label: 'Notes', value: 'Accessible entrance preferred.', placeholder: 'Add notes' },
+  'uib-forms-rich-text': { name: 'description', label: 'Description', value: '<h2>Reservation details</h2><p><strong>Reservations are required.</strong> Book in advance.</p><ul><li>Bring photo ID</li><li>Arrive early</li></ul>', placeholder: 'Add formatted content' },
   'uib-forms-select': { name: 'location', label: 'Location', value: 'Annex', options: 'Main Hall,Annex,Remote' },
   'uib-forms-checkbox': { name: 'confirmed', label: 'Confirmed', value: 'yes', checked: true, help: 'Form-associated checkbox.' },
   'uib-recent-values-manager': {},
@@ -72,6 +73,7 @@ const COMPONENT_SUMMARIES = {
   'uib-forms-password': 'Password input for sensitive form values.',
   'uib-forms-phone': 'Telephone input with shared form-control behavior.',
   'uib-forms-textarea': 'Multiline text input.',
+  'uib-forms-rich-text': 'Form-associated rich-text editor with visual, HTML source, and read-only preview modes.',
   'uib-forms-select': 'Select input backed by comma-separated options.',
   'uib-forms-checkbox': 'Form-associated checkbox input with checked state, validation, and common form events.',
   'uib-recent-values-manager': 'Responsive Settings panel for managing local recent input values.',
@@ -94,6 +96,7 @@ export const FORMS_ROUTE_PATHS = [
   '/forms/uib-forms-phone',
   '/forms/uib-forms-select',
   '/forms/uib-forms-textarea',
+  '/forms/uib-forms-rich-text',
   '/forms/uib-forms-textbox',
   '/forms/uib-recent-values-manager',
   '/forms/uib-forms-wizard'
@@ -138,6 +141,7 @@ function defaultState(component) {
 }
 
 function defaultValueFor(name, component) {
+  if (component.tagName === 'uib-forms-rich-text' && ['minlength', 'maxlength', 'pattern'].includes(name)) return '';
   if (name === 'name') return component.tagName.replace(/^uib-/, '').replace(/-/g, '');
   if (name === 'label') return component.title;
   if (name === 'title') return component.title;

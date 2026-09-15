@@ -77,7 +77,7 @@ Use `uib-panel` for larger structural regions such as settings sections, editor 
 
 ## Rich text example
 
-`uib-rich-text` renders trusted slotted content with readable spacing and safe external link defaults.
+`uib-rich-text` renders sanitized slotted content with readable spacing and safe external link defaults. It also accepts sanitized HTML through its `html` property when content comes from a form field.
 
 ```html
 <uib-rich-text>

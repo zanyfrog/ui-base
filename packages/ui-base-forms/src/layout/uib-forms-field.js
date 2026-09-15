@@ -16,14 +16,24 @@ export class UibFormsField extends UibBaseElement {
 
   render() {
     const label = this.label || '';
-    const help = this.help
+    const tooltipHelp = this.help && this.helpMode !== 'inline'
       ? (
   `<span class="uib-forms-field__help" part="help">` +
   `<uib-help text="` +
   (escapeHtml(this.help)) +
   `" mode="` +
-  (escapeHtml(this.helpMode || 'tooltip')) +
+  `tooltip` +
   `">` +
+  `</uib-help>` +
+  `</span>`
+)
+      : '';
+    const help = this.help && this.helpMode === 'inline'
+      ? (
+  `<span class="uib-forms-field__help" part="help">` +
+  `<uib-help text="` +
+  (escapeHtml(this.help)) +
+  `" mode="inline">` +
   `</uib-help>` +
   `</span>`
 )
@@ -44,11 +54,12 @@ export class UibFormsField extends UibBaseElement {
   `</uib-label>` +
   `</slot>` +
   ` ` +
-  (help) +
+  (tooltipHelp) +
   ` ` +
   `</span>` +
   `<slot>` +
   `</slot>` +
+  (help) +
   `</div>`
 );
   }

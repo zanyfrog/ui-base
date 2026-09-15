@@ -65,6 +65,7 @@ const FORM_FIXTURES = {
   'uib-forms-password': '<uib-forms-password name="accessCode" label="Access code"></uib-forms-password>',
   'uib-forms-phone': '<uib-forms-phone name="phone" label="Phone"></uib-forms-phone>',
   'uib-forms-textarea': '<uib-forms-textarea name="notes" label="Notes" value="Accessible entrance preferred."></uib-forms-textarea>',
+  'uib-forms-rich-text': '<uib-forms-rich-text name="description" label="Description" value="<p><strong>Reservations are required.</strong> Book in advance.</p>"></uib-forms-rich-text>',
   'uib-forms-select': '<uib-forms-select name="location" label="Location" options="Main Hall,Annex,Remote"></uib-forms-select>',
   'uib-forms-field': '<uib-forms-field label="Wrapped field" help="Slotted control"><input class="native-input" value="Native input"></uib-forms-field>',
   'uib-forms-input-group': '<uib-forms-input-group><uib-forms-textbox name="first" label="First"></uib-forms-textbox><uib-forms-textbox name="second" label="Second"></uib-forms-textbox></uib-forms-input-group>',

@@ -178,6 +178,29 @@ export const FORM_COMPONENT_API = {
     attributes: sharedFieldAttributes.filter((item) => !['autocomplete', ...recentValueAttributeNames].includes(item.name)),
     examples: ['<uib-forms-textarea name="notes" label="Notes" placeholder="Add notes"></uib-forms-textarea>']
   }),
+  'uib-forms-rich-text': fieldApi('uib-forms-rich-text', {
+    attributes: [
+      ...sharedFieldAttributes.filter((item) => !['autocomplete', 'pattern', ...recentValueAttributeNames].includes(item.name)),
+      { name: 'mode', type: 'string', description: 'Active editor mode: visual, source, or preview. Defaults to visual.' }
+    ],
+    properties: [
+      ...sharedFieldProperties,
+      { name: 'mode', type: 'string', description: 'Gets or sets the active visual, source, or preview mode.' }
+    ],
+    events: sharedFieldEvents('uib-forms-rich-text'),
+    cssParts: [
+      ...sharedFieldParts,
+      { name: 'toolbar', description: 'Visual-mode formatting toolbar.' },
+      { name: 'editor', description: 'Visual editable content surface.' },
+      { name: 'source', description: 'HTML source textarea.' },
+      { name: 'preview', description: 'Read-only uib-rich-text preview surface.' }
+    ],
+    cssVariables: [
+      ...sharedFieldCssVariables,
+      { name: '--uib-forms-rich-text-min-height', description: 'Minimum height of the editor, source, and preview surfaces.' }
+    ],
+    examples: ['<uib-forms-rich-text name="description" label="Description" value="<p>Formatted content.</p>"></uib-forms-rich-text>']
+  }),
   'uib-forms-select': fieldApi('uib-forms-select', {
     attributes: sharedFieldAttributes.filter((item) => !['placeholder', 'minlength', 'maxlength', 'pattern', 'autocomplete', ...recentValueAttributeNames].includes(item.name)).concat([
       { name: 'options', type: 'string', description: 'Comma-separated option values rendered as native option elements.' }

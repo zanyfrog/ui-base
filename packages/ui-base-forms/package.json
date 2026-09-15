@@ -18,6 +18,7 @@
     "./password": "./src/controls/uib-forms-password.js",
     "./phone": "./src/controls/uib-forms-phone.js",
     "./textarea": "./src/controls/uib-forms-textarea.js",
+    "./rich-text": "./src/controls/uib-forms-rich-text.js",
     "./select": "./src/controls/uib-forms-select.js",
     "./checkbox": "./src/controls/uib-forms-checkbox.js",
     "./display-field": "./src/display/uib-forms-display-field.js",

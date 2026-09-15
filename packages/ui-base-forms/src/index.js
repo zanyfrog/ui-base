@@ -6,6 +6,7 @@ export { UibFormsEmail } from './controls/uib-forms-email.js';
 export { UibFormsPassword } from './controls/uib-forms-password.js';
 export { UibFormsPhone } from './controls/uib-forms-phone.js';
 export { UibFormsTextarea } from './controls/uib-forms-textarea.js';
+export { UibFormsRichText } from './controls/uib-forms-rich-text.js';
 export { UibFormsSelect } from './controls/uib-forms-select.js';
 export { UibFormsCheckbox } from './controls/uib-forms-checkbox.js';
 export { UibFormsDisplayField } from './display/uib-forms-display-field.js';

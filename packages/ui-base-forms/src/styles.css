@@ -8,6 +8,7 @@
   uib-forms-password,
   uib-forms-phone,
   uib-forms-textarea,
+  uib-forms-rich-text,
   uib-forms-select,
   uib-forms-field,
   uib-forms-input-group,
@@ -68,7 +69,7 @@
 }
 
 :where(uib-forms-form)::part(submit):focus-visible,
-:where(uib-forms-textbox, uib-forms-number, uib-forms-date, uib-forms-email, uib-forms-password, uib-forms-phone, uib-forms-textarea, uib-forms-select)::part(control):focus-visible {
+:where(uib-forms-textbox, uib-forms-number, uib-forms-date, uib-forms-email, uib-forms-password, uib-forms-phone, uib-forms-textarea, uib-forms-rich-text, uib-forms-select)::part(control):focus-visible {
   outline: none;
   box-shadow: var(--uib-focus-ring, 0 0 0 4px rgba(23, 74, 139, 0.25));
 }

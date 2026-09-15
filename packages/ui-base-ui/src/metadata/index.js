@@ -467,7 +467,8 @@ export const UI_COMPONENT_API = {
   }),
   'uib-rich-text': api({
     tagName: 'uib-rich-text',
-    purpose: 'Readable rich text container for trusted slotted content, with safe external link defaults.',
+    purpose: 'Readable rich text container for sanitized slotted content or the html property, with safe external link defaults.',
+    properties: ['html'],
     slots: ['default'],
     cssParts: ['base', 'content'],
     cssVariables: ['--uib-rich-text-color', '--uib-rich-text-font-size', '--uib-rich-text-line-height', '--uib-rich-text-width', '--uib-rich-text-block-gap', '--uib-rich-text-heading-color', '--uib-rich-text-link-color', '--uib-rich-text-muted', '--uib-rich-text-quote-border'],

@@ -102,15 +102,24 @@ export class UibFormsDisplayField extends UibBaseElement {
     const helpId = this.help ? `${this.componentId}-help` : '';
     const describedBy = this.describedBy(helpId);
     const orientation = this.orientation;
-    const help = this.help
+    const tooltipHelp = this.help && this.helpMode !== 'inline'
       ? (
   `<span id="` +
   (helpId) +
   `" class="uib-forms-display-field__help" part="help"><uib-help text="` +
   (escapeHtml(this.help)) +
   `" mode="` +
-  (escapeHtml(this.helpMode || 'tooltip')) +
+  `tooltip` +
   `"></uib-help></span>`
+)
+      : '';
+    const help = this.help && this.helpMode === 'inline'
+      ? (
+  `<span id="` +
+  (helpId) +
+  `" class="uib-forms-display-field__help" part="help"><uib-help text="` +
+  (escapeHtml(this.help)) +
+  `" mode="inline"></uib-help></span>`
 )
       : '';
 
@@ -127,6 +136,7 @@ export class UibFormsDisplayField extends UibBaseElement {
   (escapeHtml(label)) +
   `"></uib-label>` +
   `</slot>` +
+  (tooltipHelp) +
   `</span>` +
   `<span class="uib-forms-display-field__value" part="value" ` +
   (describedBy ? `aria-describedby="${escapeHtml(describedBy)}"` : '') +

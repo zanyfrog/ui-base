@@ -409,7 +409,16 @@ export class UibFormControlBase extends UibBaseElement {
     const errorId = shouldShowError && errorText ? `${this.componentId}-error` : '';
     const describedBy = this.describedBy(helpId, errorId);
     const label = this.label || this.name || this.constructor.defaultLabel || 'Field';
-    const help = this.help ? (
+    const tooltipHelp = this.help && this.helpMode !== 'inline' ? (
+  `<span id="` +
+  (helpId) +
+  `" class="uib-field__help" part="help"><uib-help text="` +
+  (escapeHtml(this.help)) +
+  `" mode="tooltip">` +
+  `</uib-help>` +
+  `</span>`
+) : '';
+    const help = this.help && this.helpMode === 'inline' ? (
   `<span id="` +
   (helpId) +
   `" class="uib-field__help" part="help"><uib-help text="` +
@@ -447,6 +456,8 @@ export class UibFormControlBase extends UibBaseElement {
   `</slot>` +
   ` ` +
   (this.required ? '<span class="uib-field__required" part="required" aria-hidden="true">*</span>' : '') +
+  ` ` +
+  (tooltipHelp) +
   ` ` +
   `</span>` +
   ` ` +

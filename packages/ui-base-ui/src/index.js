@@ -9,7 +9,7 @@ export { UibEyebrow } from './content/uib-eyebrow.js';
 export { UibHeading } from './content/uib-heading.js';
 export { UibHeadingBlock } from './content/uib-heading-block.js';
 export { UibInstruction } from './content/uib-instruction.js';
-export { UibRichText } from './content/uib-rich-text.js';
+export { UibRichText, sanitizeRichTextHtml } from './content/uib-rich-text.js';
 export { UibActionButton } from './actions/uib-action-button.js';
 export { UibActionGroup } from './actions/uib-action-group.js';
 export { UibMedia } from './media/uib-media.js';

@@ -21,7 +21,7 @@ export class UibFormsForm extends UibBaseElement {
 
   _collectValues() {
     const values = {};
-    this.querySelectorAll('input, select, textarea, uib-forms-textbox, uib-forms-number, uib-forms-date, uib-forms-email, uib-forms-password, uib-forms-phone, uib-forms-textarea, uib-forms-select, uib-forms-checkbox, uib-toggle, uib-checkbox').forEach((control) => {
+    this.querySelectorAll('input, select, textarea, uib-forms-textbox, uib-forms-number, uib-forms-date, uib-forms-email, uib-forms-password, uib-forms-phone, uib-forms-textarea, uib-forms-rich-text, uib-forms-select, uib-forms-checkbox, uib-toggle, uib-checkbox').forEach((control) => {
       const name = control.getAttribute('name') || control.name;
       if (!name) return;
       if (control.localName === 'uib-forms-checkbox') values[name] = control.checked ? control.value : '';
@@ -33,7 +33,7 @@ export class UibFormsForm extends UibBaseElement {
   }
 
   _checkValidity() {
-    const controls = Array.from(this.querySelectorAll('uib-forms-textbox, uib-forms-number, uib-forms-date, uib-forms-email, uib-forms-password, uib-forms-phone, uib-forms-textarea, uib-forms-select, uib-forms-checkbox'));
+    const controls = Array.from(this.querySelectorAll('uib-forms-textbox, uib-forms-number, uib-forms-date, uib-forms-email, uib-forms-password, uib-forms-phone, uib-forms-textarea, uib-forms-rich-text, uib-forms-select, uib-forms-checkbox'));
     return controls.every((control) => typeof control.checkValidity !== 'function' || control.checkValidity());
   }
 

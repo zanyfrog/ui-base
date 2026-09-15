@@ -83,6 +83,7 @@ const COMPONENT_DETAILS = {
   'uib-forms-phone': componentDetails('Forms Phone', 'Form-associated telephone input with validation and recent-value support.', 'info', 'Forms'),
   'uib-forms-select': componentDetails('Forms Select', 'Form-associated select control from comma-separated options or native option children.', 'chevron-down', 'Forms'),
   'uib-forms-textarea': componentDetails('Forms Textarea', 'Form-associated multiline text input with validation, help, and error states.', 'info', 'Forms'),
+  'uib-forms-rich-text': componentDetails('Forms Rich Text', 'Form-associated formatted-content editor with visual, HTML source, and preview modes.', 'info', 'Forms'),
   'uib-forms-textbox': componentDetails('Forms Textbox', 'Form-associated single-line text input with validation and recent-value support.', 'info', 'Forms'),
   'uib-forms-wizard': componentDetails('Forms Wizard', 'Experimental wizard shell for parent-owned multi-step form content.', 'menu', 'Forms'),
   'uib-grid': componentDetails('Grid', 'Responsive CSS grid layout primitive with configurable columns, minimum item size, and gap.', 'menu', 'Layout'),

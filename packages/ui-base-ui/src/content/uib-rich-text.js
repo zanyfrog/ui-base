@@ -1,4 +1,5 @@
 import { defineUiBaseElement } from '@ui-base/core';
+import { sanitizeRichTextHtml } from './rich-text-html.js';
 
 const styles = `
 :host{display:block;color:var(--uib-rich-text-color,var(--uib-color-ink,#13294b));font-family:var(--uib-font-family-sans,Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif);font-size:var(--uib-rich-text-font-size,1rem);line-height:var(--uib-rich-text-line-height,1.6)}
@@ -17,47 +18,6 @@ const styles = `
 ::slotted(a){color:var(--uib-rich-text-link-color,var(--uib-color-primary,#174a8b));text-decoration-thickness:.08em;text-underline-offset:.16em}
 `;
 
-const allowedTags = new Set([
-  'A',
-  'ABBR',
-  'B',
-  'BLOCKQUOTE',
-  'BR',
-  'CODE',
-  'DIV',
-  'EM',
-  'H1',
-  'H2',
-  'H3',
-  'H4',
-  'H5',
-  'H6',
-  'I',
-  'LI',
-  'OL',
-  'P',
-  'PRE',
-  'SMALL',
-  'SPAN',
-  'STRONG',
-  'SUB',
-  'SUP',
-  'U',
-  'UL'
-]);
-
-const removedTags = new Set([
-  'BASE',
-  'EMBED',
-  'IFRAME',
-  'LINK',
-  'META',
-  'OBJECT',
-  'SCRIPT',
-  'STYLE',
-  'TEMPLATE'
-]);
-
 export class UibRichText extends HTMLElement {
   constructor() {
     super();
@@ -70,50 +30,16 @@ export class UibRichText extends HTMLElement {
   }
 
   normalizeContent() {
-    Array.from(this.childNodes).forEach((node) => this.normalizeNode(node));
+    const sanitized = sanitizeRichTextHtml(this.innerHTML, this.ownerDocument);
+    if (this.innerHTML !== sanitized) this.innerHTML = sanitized;
   }
 
-  normalizeNode(node) {
-    if (node.nodeType !== Node.ELEMENT_NODE) return;
-    const element = node;
-    const tagName = element.tagName;
-
-    if (removedTags.has(tagName)) {
-      element.remove();
-      return;
-    }
-
-    if (!allowedTags.has(tagName)) {
-      const children = Array.from(element.childNodes);
-      element.replaceWith(...children);
-      children.forEach((child) => this.normalizeNode(child));
-      return;
-    }
-
-    if (tagName === 'A') this.normalizeLink(element);
-    Array.from(element.childNodes).forEach((child) => this.normalizeNode(child));
+  get html() {
+    return this.innerHTML;
   }
 
-  normalizeLink(anchor) {
-    const href = anchor.getAttribute('href') || '';
-    if (!href || href.startsWith('#') || href.startsWith('/') || href.startsWith('mailto:') || href.startsWith('tel:')) return;
-    let url;
-    try {
-      url = new URL(href, window.location.href);
-    } catch {
-      anchor.removeAttribute('href');
-      return;
-    }
-    if (!['http:', 'https:'].includes(url.protocol)) {
-      anchor.removeAttribute('href');
-      return;
-    }
-    if (url.origin === window.location.origin) return;
-    anchor.target = '_blank';
-    const rel = new Set((anchor.getAttribute('rel') || '').split(/\s+/).filter(Boolean));
-    rel.add('noopener');
-    rel.add('noreferrer');
-    anchor.setAttribute('rel', Array.from(rel).join(' '));
+  set html(value) {
+    this.innerHTML = sanitizeRichTextHtml(value, this.ownerDocument);
   }
 
   render() {
@@ -129,3 +55,5 @@ export class UibRichText extends HTMLElement {
 }
 
 defineUiBaseElement('uib-rich-text', UibRichText);
+
+export { sanitizeRichTextHtml } from './rich-text-html.js';
