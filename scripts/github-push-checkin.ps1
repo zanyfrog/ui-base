@@ -1,15 +1,33 @@
 param(
   [string]$Message = "",
   [string]$Remote = "origin",
-  [string]$Branch = ""
+  [string]$Branch = "",
+  [switch]$SkipCheck
 )
 
 $ErrorActionPreference = "Stop"
 
 function Invoke-Git {
-  & git @args
+  param(
+    [string]$Command,
+    [string[]]$ArgumentList = @()
+  )
+
+  & git $Command $ArgumentList
   if ($LASTEXITCODE -ne 0) {
-    throw "git $($args -join ' ') failed with exit code $LASTEXITCODE."
+    throw "git $Command $($ArgumentList -join ' ') failed with exit code $LASTEXITCODE."
+  }
+}
+
+function Invoke-Npm {
+  param(
+    [string]$Command,
+    [string[]]$ArgumentList = @()
+  )
+
+  & npm $Command $ArgumentList
+  if ($LASTEXITCODE -ne 0) {
+    throw "npm $Command $($ArgumentList -join ' ') failed with exit code $LASTEXITCODE."
   }
 }
 
@@ -28,15 +46,21 @@ if ([string]::IsNullOrWhiteSpace($Branch)) {
   throw "Could not determine the current branch. Pass -Branch explicitly."
 }
 
-Invoke-Git status --short
-Invoke-Git add -A
+Invoke-Git -Command 'diff' -ArgumentList @('--check')
+
+if (-not $SkipCheck) {
+  Invoke-Npm -Command 'run' -ArgumentList @('check')
+}
+
+Invoke-Git -Command 'status' -ArgumentList @('--short')
+Invoke-Git -Command 'add' -ArgumentList @('-A')
 
 $stagedChanges = (& git diff --cached --name-only).Trim()
 if (-not [string]::IsNullOrWhiteSpace($stagedChanges)) {
   if ([string]::IsNullOrWhiteSpace($Message)) {
     $Message = "Update UI Base workspace"
   }
-  Invoke-Git commit -m $Message
+  Invoke-Git -Command 'commit' -ArgumentList @('-m', $Message)
 } else {
   Write-Host "No staged changes to commit."
 }
@@ -49,7 +73,9 @@ try {
 }
 
 if (-not [string]::IsNullOrWhiteSpace($upstream)) {
-  Invoke-Git push
+  Invoke-Git -Command 'push'
 } else {
-  Invoke-Git push -u $Remote $Branch
+  Invoke-Git -Command 'push' -ArgumentList @('-u', $Remote, $Branch)
 }
+
+Invoke-Git -Command 'status' -ArgumentList @('--short', '--branch')
