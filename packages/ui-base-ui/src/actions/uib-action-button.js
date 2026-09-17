@@ -1,8 +1,9 @@
 import { defineUiBaseElement, escapeHtml, setOrRemoveAttribute } from '@ui-base/core';
+import '@ui-base/icons/icon';
 
 const FALSE_VALUES = new Set(['false', '0', 'no', 'off']);
 const styles = `
-:host{display:inline-flex;font-family:var(--uib-font-family-sans,Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif)}*,*::before,*::after{box-sizing:border-box}.button{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;min-height:var(--uib-action-min-height,2.9rem);padding:var(--uib-action-padding,.78rem 1.08rem);border:1px solid var(--uib-action-border,rgba(19,41,75,.18));border-radius:var(--uib-action-radius,999px);background:var(--uib-action-bg,#fff);color:var(--uib-action-color,var(--uib-color-ink,#13294b));box-shadow:var(--uib-action-shadow,0 12px 24px rgba(10,31,68,.1));cursor:pointer;font:inherit;font-weight:var(--uib-action-font-weight,900);line-height:1.1;text-decoration:none;transition:transform 140ms ease,box-shadow 140ms ease,background-color 140ms ease,border-color 140ms ease,color 140ms ease}.button:hover:not([aria-disabled="true"]){transform:translateY(-1px);box-shadow:var(--uib-action-shadow-hover,0 16px 30px rgba(10,31,68,.14))}.button:focus-visible{outline:none;box-shadow:var(--uib-focus-ring,0 0 0 4px rgba(23,74,139,.25)),var(--uib-action-shadow,0 12px 24px rgba(10,31,68,.1))}.button[aria-disabled="true"]{cursor:not-allowed;opacity:.55;transform:none}.button--primary{--uib-action-bg:var(--uib-color-primary,#174a8b);--uib-action-color:var(--uib-color-primary-contrast,#fff);--uib-action-border:var(--uib-color-primary,#174a8b)}.button--secondary{--uib-action-bg:var(--uib-color-surface,#fff);--uib-action-color:var(--uib-color-ink,#13294b);--uib-action-border:var(--uib-color-border-strong,#aab8cc)}.button--tertiary{--uib-action-bg:transparent;--uib-action-shadow:none;--uib-action-border:transparent;--uib-action-color:var(--uib-color-primary,#174a8b)}.button--destructive{--uib-action-bg:var(--uib-color-danger,#b4232a);--uib-action-color:#fff;--uib-action-border:var(--uib-color-danger,#b4232a)}.icon{display:inline-grid;place-items:center;min-width:1em}.label{overflow-wrap:anywhere}
+:host{display:inline-flex;font-family:var(--uib-font-family-sans,Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif)}*,*::before,*::after{box-sizing:border-box}.button{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;min-height:var(--uib-action-min-height,2.9rem);padding:var(--uib-action-padding,.78rem 1.08rem);border:1px solid var(--uib-action-border,rgba(19,41,75,.18));border-radius:var(--uib-action-radius,999px);background:var(--uib-action-bg,#fff);color:var(--uib-action-color,var(--uib-color-ink,#13294b));box-shadow:var(--uib-action-shadow,0 12px 24px rgba(10,31,68,.1));cursor:pointer;font:inherit;font-weight:var(--uib-action-font-weight,900);line-height:1.1;text-decoration:none;transition:transform 140ms ease,box-shadow 140ms ease,background-color 140ms ease,border-color 140ms ease,color 140ms ease}.button:hover:not([aria-disabled="true"]){transform:translateY(-1px);box-shadow:var(--uib-action-shadow-hover,0 16px 30px rgba(10,31,68,.14))}.button:focus-visible{outline:none;box-shadow:var(--uib-focus-ring,0 0 0 4px rgba(23,74,139,.25)),var(--uib-action-shadow,0 12px 24px rgba(10,31,68,.1))}.button[aria-disabled="true"]{cursor:not-allowed;opacity:.55;transform:none}.button--primary{--uib-action-bg:var(--uib-color-primary,#174a8b);--uib-action-color:var(--uib-color-primary-contrast,#fff);--uib-action-border:var(--uib-color-primary,#174a8b)}.button--secondary{--uib-action-bg:var(--uib-color-surface,#fff);--uib-action-color:var(--uib-color-ink,#13294b);--uib-action-border:var(--uib-color-border-strong,#aab8cc)}.button--tertiary{--uib-action-bg:transparent;--uib-action-shadow:none;--uib-action-border:transparent;--uib-action-color:var(--uib-color-primary,#174a8b)}.button--destructive{--uib-action-bg:var(--uib-color-danger,#b4232a);--uib-action-color:#fff;--uib-action-border:var(--uib-color-danger,#b4232a)}.icon{display:inline-grid;place-items:center;min-width:1em}.icon uib-icon{width:1em;height:1em}.label{overflow-wrap:anywhere}
 `;
 
 function boolAttribute(element, name, fallback = false) {
@@ -18,8 +19,15 @@ function safeHref(value) {
   return href;
 }
 
+function safeImageSrc(value) {
+  const src = String(value ?? '').trim();
+  if (!src || /^javascript:/i.test(src)) return '';
+  if (/^data:/i.test(src) && !/^data:image\//i.test(src)) return '';
+  return src;
+}
+
 export class UibActionButton extends HTMLElement {
-  static get observedAttributes() { return ['label', 'href', 'action', 'action-token', 'variant', 'kind', 'disabled', 'target', 'rel', 'icon']; }
+  static get observedAttributes() { return ['label', 'href', 'action', 'action-token', 'variant', 'kind', 'disabled', 'target', 'rel', 'icon', 'icon-src']; }
   constructor() { super(); this.attachShadow({ mode: 'open' }); }
   connectedCallback() { this.render(); }
   attributeChangedCallback() { if (this.isConnected) this.render(); }
@@ -42,13 +50,14 @@ export class UibActionButton extends HTMLElement {
     const href = safeHref(this.href);
     const variant = this.getAttribute('variant') || 'secondary';
     const icon = this.getAttribute('icon') || '';
+    const iconSrc = safeImageSrc(this.getAttribute('icon-src'));
     const target = this.getAttribute('target') || '';
     const rel = this.getAttribute('rel') || (target === '_blank' ? 'noopener noreferrer' : '');
     const className = `button button--${escapeHtml(variant)}`;
     const disabled = this.disabled;
     const commonAttrs = `class="${className}" part="button" aria-disabled="${disabled ? 'true' : 'false'}"`;
     const contents = (
-  (icon ? `<span class="icon" aria-hidden="true">${escapeHtml(icon)}</span>` : '') +
+  (iconSrc ? `<span class="icon" aria-hidden="true"><uib-icon src="${escapeHtml(iconSrc)}" decorative></uib-icon></span>` : icon ? `<span class="icon" aria-hidden="true">${escapeHtml(icon)}</span>` : '') +
   `<span class="label">` +
   `<slot>` +
   (escapeHtml(label)) +

@@ -70,9 +70,9 @@ const COMPONENT_DEFAULTS = {
     'show-progress': true,
     children: '<p>Use instruction blocks for procedural guidance, warnings, tips, or onboarding.</p><li slot="step" complete>Review required fields.</li><li slot="step" current>Preview the page.</li><li slot="step">Publish when ready.</li><uib-action-button slot="actions" label="Preview" variant="primary"></uib-action-button><span slot="footer">Progress updates automatically from slotted step attributes.</span>'
   },
-  'uib-action-button': { label: 'Run action', 'action-token': 'RUN_ACTION', variant: 'primary' },
+  'uib-action-button': { label: 'Run action', 'action-token': 'RUN_ACTION', variant: 'primary', 'icon-src': '/apps/demo/assets/icons/accessibility.svg' },
   'uib-action-group': {
-    actions: '[{"label":"Save","variant":"primary","actionToken":"SAVE"},{"label":"Cancel","variant":"secondary","actionToken":"CANCEL"}]'
+    actions: '[{"label":"Save","variant":"primary","actionToken":"SAVE","icon":"✓"},{"label":"Accessibility","variant":"secondary","actionToken":"ACCESSIBILITY","iconSrc":"/apps/demo/assets/icons/accessibility.svg"}]'
   },
   'uib-media': { src: '/apps/demo/assets/icons/availability.svg', alt: 'Availability', fit: 'contain', ratio: '16:9', 'fallback-label': 'No media' },
   'uib-detail-item': {
@@ -93,6 +93,7 @@ const ATTRIBUTE_HELP = {
     disabled: 'Prevents the button or link from being activated.',
     href: 'When set, the action renders as a link. When empty, it renders as a button.',
     icon: 'Optional icon name or marker rendered before the label.',
+    'icon-src': 'Optional image URL rendered before the label. The icon is decorative because the action label supplies the accessible name.',
     kind: 'Semantic action kind included in event detail for parent apps.',
     label: 'Visible button text. Slotted text can also provide the label.',
     rel: 'Forwarded to the anchor when href is set.',
@@ -100,7 +101,7 @@ const ATTRIBUTE_HELP = {
     variant: 'Controls the visual treatment, such as primary, secondary, tertiary, or destructive.'
   },
   'uib-action-group': {
-    actions: 'JSON array of action button definitions. Each item can include label, href, action, actionToken, variant, disabled, and icon.',
+    actions: 'JSON array of action button definitions. Each item can include label, href, action, actionToken, variant, disabled, icon, and iconSrc (or iconUrl) for an image URL.',
     align: 'Aligns the group within its available row. Use start, center, or end for placement.',
     stacked: 'Stacks actions vertically instead of laying them out in a row.'
   },
@@ -937,9 +938,138 @@ function bindPreviewEvents(preview, eventLog, component) {
   });
 }
 
+function normalizeActionItem(item, index) {
+  const source = item && typeof item === 'object' ? item : {};
+  return {
+    label: String(source.label ?? source.text ?? source.title ?? `Action ${index + 1}`),
+    variant: String(source.variant || (index === 0 ? 'primary' : 'secondary')),
+    actionToken: String(source.actionToken ?? source.action ?? source.token ?? ''),
+    href: String(source.href ?? source.url ?? ''),
+    icon: String(source.icon ?? ''),
+    iconSrc: String(source.iconSrc ?? source.iconUrl ?? source.icon_url ?? ''),
+    target: String(source.target ?? ''),
+    rel: String(source.rel ?? ''),
+    disabled: Boolean(source.disabled),
+    shown: source.shown ?? source.show ?? source.visible ?? true
+  };
+}
+
+function parseActionItems(value) {
+  try {
+    const parsed = Array.isArray(value) ? value : JSON.parse(String(value || '[]'));
+    return Array.isArray(parsed) ? parsed.map(normalizeActionItem) : [];
+  } catch {
+    return [];
+  }
+}
+
+function actionGroupEditorMarkup() {
+  return `
+    <fieldset class="control-section cta-control-section">
+      <legend>
+        Action buttons
+      </legend>
+      <p class="control-help">
+        Add ordered button definitions here. The live group renders these as <code>uib-action-button</code> elements.
+      </p>
+      <div class="button-row">
+        <button class="secondary-button compact-control-button" type="button" data-action-add>
+          Add action
+        </button>
+        <button class="secondary-button compact-control-button" type="button" data-action-remove>
+          Remove last
+        </button>
+        <button class="primary-button compact-control-button" type="button" data-action-reset>
+          Reset
+        </button>
+      </div>
+      <div data-action-editors>
+      </div>
+      <div class="field">
+        <label for="ui-action-json">
+          actions JSON
+        </label>
+        <textarea id="ui-action-json" data-action-json spellcheck="false"></textarea>
+      </div>
+      <div class="button-row">
+        <button class="secondary-button compact-control-button" type="button" data-action-sync-json>
+          Sync JSON
+        </button>
+        <button class="primary-button compact-control-button" type="button" data-action-apply-json>
+          Apply JSON
+        </button>
+      </div>
+      <p class="control-help" data-action-status>
+      </p>
+    </fieldset>
+  `;
+}
+
+function actionItemEditorMarkup(item, index) {
+  const variants = ['primary', 'secondary', 'tertiary', 'destructive'];
+  return `
+    <fieldset class="action-control-card" data-action-editor="${index}">
+      <legend>
+        Action ${index + 1}
+      </legend>
+      <div class="cta-control-grid">
+        <div class="field">
+          <label for="ui-action-label-${index}">label</label>
+          <input id="ui-action-label-${index}" type="text" value="${escapeAttr(item.label)}" data-action-prop="label">
+        </div>
+        <div class="field">
+          <label for="ui-action-variant-${index}">variant</label>
+          <select id="ui-action-variant-${index}" data-action-prop="variant">
+            ${variants.map((variant) => `<option value="${variant}" ${item.variant === variant ? 'selected' : ''}>${variant}</option>`).join('')}
+          </select>
+        </div>
+        <div class="field">
+          <label for="ui-action-token-${index}">action token</label>
+          <input id="ui-action-token-${index}" type="text" value="${escapeAttr(item.actionToken)}" data-action-prop="actionToken">
+        </div>
+        <div class="field">
+          <label for="ui-action-href-${index}">href</label>
+          <input id="ui-action-href-${index}" type="url" value="${escapeAttr(item.href)}" data-action-prop="href">
+        </div>
+        <div class="field">
+          <label for="ui-action-icon-${index}">text icon</label>
+          <input id="ui-action-icon-${index}" type="text" value="${escapeAttr(item.icon)}" data-action-prop="icon">
+        </div>
+        <div class="field">
+          <label for="ui-action-icon-src-${index}">image URL</label>
+          <input id="ui-action-icon-src-${index}" type="url" value="${escapeAttr(item.iconSrc)}" data-action-prop="iconSrc">
+        </div>
+        <div class="field">
+          <label for="ui-action-target-${index}">target</label>
+          <select id="ui-action-target-${index}" data-action-prop="target">
+            <option value="" ${item.target === '' ? 'selected' : ''}>none</option>
+            <option value="_self" ${item.target === '_self' ? 'selected' : ''}>_self</option>
+            <option value="_blank" ${item.target === '_blank' ? 'selected' : ''}>_blank</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="ui-action-rel-${index}">rel</label>
+          <input id="ui-action-rel-${index}" type="text" value="${escapeAttr(item.rel)}" data-action-prop="rel">
+        </div>
+      </div>
+      <div class="action-control-checks">
+        <label class="checkbox-row" for="ui-action-disabled-${index}">
+          <input id="ui-action-disabled-${index}" type="checkbox" ${item.disabled ? 'checked' : ''} data-action-prop="disabled">
+          <span>disabled</span>
+        </label>
+        <label class="checkbox-row" for="ui-action-shown-${index}">
+          <input id="ui-action-shown-${index}" type="checkbox" ${item.shown ? 'checked' : ''} data-action-prop="shown">
+          <span>shown</span>
+        </label>
+      </div>
+    </fieldset>
+  `;
+}
+
 function renderComponentPage(main, component) {
   const state = defaultState(component);
   const attrs = visibleAttributes(component);
+  const controlAttrs = component.tagName === 'uib-action-group' ? attrs.filter((name) => name !== 'actions') : attrs;
 
   main.innerHTML = `
     <section class="page-heading forms-detail-heading">
@@ -970,7 +1100,8 @@ function renderComponentPage(main, component) {
             </span>
           </div>
           <div class="form-grid" data-ui-controls>
-            ${attrs.map((name) => controlMarkup(component, name, state[name])).join('')}
+              ${controlAttrs.map((name) => controlMarkup(component, name, state[name])).join('')}
+              ${component.tagName === 'uib-action-group' ? actionGroupEditorMarkup() : ''}
             <div class="field">
               <label for="ui-control-children">
                 children / slots
@@ -1031,6 +1162,11 @@ function renderComponentPage(main, component) {
   const preview = main.querySelector('[data-ui-preview]');
   const markup = main.querySelector('[data-ui-markup]');
   const eventLog = main.querySelector('[data-ui-event-log]');
+  const actionEditor = main.querySelector('[data-action-editors]');
+  const actionJson = main.querySelector('[data-action-json]');
+  const actionStatus = main.querySelector('[data-action-status]');
+  const defaultActionItems = () => parseActionItems(COMPONENT_DEFAULTS['uib-action-group'].actions);
+  let actionItems = component.tagName === 'uib-action-group' ? parseActionItems(state.actions) : [];
 
   const updatePreview = () => {
     preview.textContent = '';
@@ -1044,6 +1180,15 @@ function renderComponentPage(main, component) {
     }
     renderPreviewElement(preview, component, state, { clear: false });
     markup.textContent = serializedMarkup(component, state);
+  };
+
+  const syncActionState = ({ rebuildEditors = false, status = '' } = {}) => {
+    if (component.tagName !== 'uib-action-group') return;
+    state.actions = json(actionItems);
+    if (rebuildEditors && actionEditor) actionEditor.innerHTML = actionItems.map(actionItemEditorMarkup).join('');
+    if (actionJson) actionJson.value = json(actionItems);
+    if (actionStatus) actionStatus.textContent = status || `${actionItems.length} action${actionItems.length === 1 ? '' : 's'} configured.`;
+    updatePreview();
   };
 
   main.querySelector('[data-ui-controls]')?.addEventListener('input', (event) => {
@@ -1060,8 +1205,57 @@ function renderComponentPage(main, component) {
     updatePreview();
   });
 
+  actionEditor?.addEventListener('input', (event) => {
+    const editor = event.target.closest('[data-action-editor]');
+    const prop = event.target.dataset?.actionProp;
+    if (!editor || !prop) return;
+    const action = actionItems[Number(editor.dataset.actionEditor)];
+    if (!action) return;
+    action[prop] = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
+    syncActionState();
+  });
+
+  actionEditor?.addEventListener('change', (event) => {
+    const editor = event.target.closest('[data-action-editor]');
+    const prop = event.target.dataset?.actionProp;
+    if (!editor || !prop) return;
+    const action = actionItems[Number(editor.dataset.actionEditor)];
+    if (!action) return;
+    action[prop] = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
+    syncActionState();
+  });
+
+  main.querySelector('[data-action-add]')?.addEventListener('click', () => {
+    actionItems.push(normalizeActionItem({ label: `Action ${actionItems.length + 1}`, variant: 'secondary', actionToken: `ACTION_${actionItems.length + 1}` }, actionItems.length));
+    syncActionState({ rebuildEditors: true });
+  });
+
+  main.querySelector('[data-action-remove]')?.addEventListener('click', () => {
+    actionItems.pop();
+    syncActionState({ rebuildEditors: true });
+  });
+
+  main.querySelector('[data-action-reset]')?.addEventListener('click', () => {
+    actionItems = defaultActionItems();
+    syncActionState({ rebuildEditors: true, status: 'Action buttons reset.' });
+  });
+
+  main.querySelector('[data-action-sync-json]')?.addEventListener('click', () => {
+    syncActionState({ status: 'JSON synced from the action controls.' });
+  });
+
+  main.querySelector('[data-action-apply-json]')?.addEventListener('click', () => {
+    try {
+      actionItems = parseActionItems(JSON.parse(actionJson.value));
+      syncActionState({ rebuildEditors: true, status: 'JSON applied.' });
+    } catch (error) {
+      if (actionStatus) actionStatus.textContent = `JSON error: ${error.message}`;
+    }
+  });
+
   bindPreviewEvents(preview, eventLog, component);
-  updatePreview();
+  if (component.tagName === 'uib-action-group') syncActionState({ rebuildEditors: true });
+  else updatePreview();
 }
 
 export function renderUiRoute(main, path) {

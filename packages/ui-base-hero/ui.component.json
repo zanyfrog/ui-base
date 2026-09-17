@@ -1,0 +1,39 @@
+{
+  "components": [
+    {
+      "id": "@ui-base/hero:uib-hero",
+      "name": "Hero",
+      "tagName": "uib-hero",
+      "category": "Content",
+      "description": "Application entry-point hero with route-owned content, actions, and assets.",
+      "module": "./src/uib-hero.js",
+      "importPath": "@ui-base/hero",
+      "attributes": ["hero-data", "theme", "size", "visual-mode"],
+      "properties": ["heroData"],
+      "events": ["uib-hero-cta"],
+      "slots": ["navigation", "visual", "trust", "after-content"],
+      "presentation": {
+        "settings": {
+          "theme": {
+            "type": "select",
+            "default": "organization",
+            "options": ["organization", "light", "dark"],
+            "inheritable": true
+          },
+          "size": {
+            "type": "select",
+            "default": "default",
+            "options": ["compact", "default", "large"],
+            "inheritable": true
+          },
+          "visual_mode": {
+            "type": "select",
+            "default": "panel-right",
+            "options": ["panel-right", "panel-left", "background"],
+            "inheritable": true
+          }
+        }
+      }
+    }
+  ]
+}

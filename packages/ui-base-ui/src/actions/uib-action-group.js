@@ -20,6 +20,8 @@ export class UibActionGroup extends HTMLElement {
     const variant = item.variant || (index === 0 ? 'primary' : 'secondary');
     const href = item.href || item.url || (String(item.type || '').toLowerCase() === 'link' ? item.value : '');
     const actionToken = item.action || item.actionToken || item.token || (String(item.type || '').toLowerCase() === 'action' ? item.value : '');
+    const icon = item.icon || '';
+    const iconSrc = item.iconSrc || item.icon_src || item.iconUrl || item.icon_url || item.iconHref || item.iconImage || '';
     const shown = boolish(item.shown ?? item.show ?? item.visible, true);
     if (!shown || !label) return '';
     return (
@@ -33,6 +35,10 @@ export class UibActionGroup extends HTMLElement {
   (escapeHtml(href || '')) +
   `" action-token="` +
   (escapeHtml(actionToken || '')) +
+  `" icon="` +
+  (escapeHtml(icon)) +
+  `" icon-src="` +
+  (escapeHtml(iconSrc)) +
   `" ` +
   (boolish(item.disabled, false) ? 'disabled' : '') +
   ` ` +
