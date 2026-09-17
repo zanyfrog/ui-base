@@ -128,6 +128,27 @@
           }
         }
       }
+    },
+    {
+      "id": "@ui-base/ui:uib-action-group",
+      "name": "Action Group",
+      "tagName": "uib-action-group",
+      "category": "Actions",
+      "description": "Ordered action group with page-owned actions and behavior, plus inheritable visual alignment.",
+      "module": "./src/actions/uib-action-group.js",
+      "importPath": "@ui-base/ui/action-group",
+      "attributes": ["actions", "align", "stacked"],
+      "slots": ["default"],
+      "presentation": {
+        "settings": {
+          "align": {
+            "type": "select",
+            "default": "start",
+            "options": ["start", "center", "end"],
+            "inheritable": true
+          }
+        }
+      }
     }
   ]
 }
