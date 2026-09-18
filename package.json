@@ -17,6 +17,7 @@
     "typecheck": "npm run typecheck --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "check": "node scripts/check.mjs",
+    "checkin:github": "powershell -ExecutionPolicy Bypass -File scripts/github-push-checkin.ps1",
     "build:static-demo": "node scripts/build.mjs",
     "serve:static-demo": "npm run build:static-demo && node scripts/serve.mjs dist 5173",
     "package:pack": "node scripts/pack-packages.mjs"

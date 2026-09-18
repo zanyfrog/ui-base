@@ -38,6 +38,7 @@ const uiAttributeDescriptions = {
   href: 'Link URL.',
   icon: 'Icon text, symbol, or fallback marker.',
   'icon-alt': 'Accessible label for an icon URL or asset.',
+  'icon-src': 'Direct image URL rendered as a decorative action icon.',
   'icon-url': 'Direct icon image URL.',
   index: 'Item index included in detail editor events.',
   invalid: 'Forces invalid visual styling.',
@@ -477,7 +478,7 @@ export const UI_COMPONENT_API = {
   'uib-action-button': api({
     tagName: 'uib-action-button',
     purpose: 'Single action rendered as a button or link.',
-    attributes: ['label', 'href', 'action', 'action-token', 'variant', 'kind', 'disabled', 'target', 'rel', 'icon'],
+    attributes: ['label', 'href', 'action', 'action-token', 'variant', 'kind', 'disabled', 'target', 'rel', 'icon', 'icon-src'],
     properties: ['disabled'],
     events: ['uib-action-button-click', 'uib-action'],
     slots: ['default'],

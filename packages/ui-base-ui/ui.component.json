@@ -1,0 +1,154 @@
+{
+  "components": [
+    {
+      "id": "@ui-base/ui:uib-heading",
+      "name": "Heading",
+      "tagName": "uib-heading",
+      "category": "Content",
+      "description": "Semantic page heading with page-owned level and inheritable visual defaults.",
+      "module": "./src/content/uib-heading.js",
+      "importPath": "@ui-base/ui/heading",
+      "attributes": ["text", "heading", "level", "size", "align"],
+      "slots": ["default"],
+      "presentation": {
+        "settings": {
+          "size": {
+            "type": "select",
+            "default": "default",
+            "options": ["compact", "default", "large"],
+            "inheritable": true
+          },
+          "align": {
+            "type": "select",
+            "default": "start",
+            "options": ["start", "center", "end"],
+            "inheritable": true
+          }
+        }
+      }
+    },
+    {
+      "id": "@ui-base/ui:uib-card",
+      "name": "Card",
+      "tagName": "uib-card",
+      "category": "Layout",
+      "description": "Repeatable content surface with page-owned content and behavior, plus inheritable visual defaults.",
+      "module": "./src/layout/uib-card.js",
+      "importPath": "@ui-base/ui/card",
+      "attributes": ["label", "heading", "variant", "density", "href", "action", "interactive", "selectable"],
+      "slots": ["default", "header", "media", "actions", "footer"],
+      "presentation": {
+        "settings": {
+          "variant": {
+            "type": "select",
+            "default": "elevated",
+            "options": ["outlined", "elevated", "flat"],
+            "inheritable": true
+          },
+          "density": {
+            "type": "select",
+            "default": "comfortable",
+            "options": ["comfortable", "compact"],
+            "inheritable": true
+          }
+        }
+      }
+    },
+    {
+      "id": "@ui-base/ui:uib-panel",
+      "name": "Panel",
+      "tagName": "uib-panel",
+      "category": "Layout",
+      "description": "Structural panel region with page-owned content and behavior, plus inheritable visual defaults.",
+      "module": "./src/layout/uib-panel.js",
+      "importPath": "@ui-base/ui/panel",
+      "attributes": ["label", "heading", "variant", "density", "collapsible", "open", "disabled"],
+      "slots": ["default", "header", "actions", "footer"],
+      "presentation": {
+        "settings": {
+          "variant": {
+            "type": "select",
+            "default": "outlined",
+            "options": ["outlined", "elevated", "flat"],
+            "inheritable": true
+          },
+          "density": {
+            "type": "select",
+            "default": "comfortable",
+            "options": ["comfortable", "compact"],
+            "inheritable": true
+          }
+        }
+      }
+    },
+    {
+      "id": "@ui-base/ui:uib-instruction",
+      "name": "Instruction",
+      "tagName": "uib-instruction",
+      "category": "Content",
+      "description": "Instructional content block with page-owned severity, content, and workflow state, plus inheritable visual density.",
+      "module": "./src/content/uib-instruction.js",
+      "importPath": "@ui-base/ui/instruction",
+      "attributes": ["name", "label", "heading", "summary", "variant", "icon", "density", "collapsible", "open", "numbered", "complete", "current", "show-progress", "disabled"],
+      "slots": ["default", "summary", "step", "actions", "footer"],
+      "presentation": {
+        "settings": {
+          "density": {
+            "type": "select",
+            "default": "comfortable",
+            "options": ["comfortable", "compact"],
+            "inheritable": true
+          }
+        }
+      }
+    },
+    {
+      "id": "@ui-base/ui:uib-heading-block",
+      "name": "Heading Block",
+      "tagName": "uib-heading-block",
+      "category": "Content",
+      "description": "Reusable heading composition with page-owned copy and semantic level, plus inheritable visual size and alignment.",
+      "module": "./src/content/uib-heading-block.js",
+      "importPath": "@ui-base/ui/heading-block",
+      "attributes": ["eyebrow", "headline", "subheadline", "body", "level", "size", "align"],
+      "slots": ["headline", "subheadline", "body"],
+      "presentation": {
+        "settings": {
+          "size": {
+            "type": "select",
+            "default": "default",
+            "options": ["compact", "default", "large"],
+            "inheritable": true
+          },
+          "align": {
+            "type": "select",
+            "default": "start",
+            "options": ["start", "center", "end"],
+            "inheritable": true
+          }
+        }
+      }
+    },
+    {
+      "id": "@ui-base/ui:uib-action-group",
+      "name": "Action Group",
+      "tagName": "uib-action-group",
+      "category": "Actions",
+      "description": "Ordered action group with page-owned actions and behavior, plus inheritable visual alignment.",
+      "module": "./src/actions/uib-action-group.js",
+      "importPath": "@ui-base/ui/action-group",
+      "attributes": ["actions", "align", "stacked"],
+      "slots": ["default"],
+      "presentation": {
+        "settings": {
+          "align": {
+            "type": "select",
+            "default": "start",
+            "options": ["start", "center", "end"],
+            "inheritable": true
+          }
+        }
+      }
+    }
+  ]
+}
