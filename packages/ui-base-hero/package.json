@@ -15,7 +15,8 @@
   },
   "files": [
     "src",
-    "README.md"
+    "README.md",
+    "ui.component.json"
   ],
   "sideEffects": true,
   "license": "UNLICENSED",

@@ -1,0 +1,40 @@
+{
+  "components": [
+    {
+      "tagName": "uib-hero",
+      "module": "./src/uib-hero.js",
+      "importPath": "./uib-hero",
+      "presentation": {
+        "settings": {
+          "theme": {
+            "type": "select",
+            "options": [
+              "organization",
+              "light",
+              "dark"
+            ],
+            "inheritable": true
+          },
+          "size": {
+            "type": "select",
+            "options": [
+              "compact",
+              "default",
+              "large"
+            ],
+            "inheritable": true
+          },
+          "visual_mode": {
+            "type": "select",
+            "options": [
+              "panel-right",
+              "panel-left",
+              "background"
+            ],
+            "inheritable": true
+          }
+        }
+      }
+    }
+  ]
+}

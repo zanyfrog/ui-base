@@ -1,0 +1,145 @@
+{
+  "components": [
+    {
+      "tagName": "uib-heading",
+      "module": "./src/content/uib-heading.js",
+      "importPath": "./heading",
+      "presentation": {
+        "settings": {
+          "size": {
+            "type": "select",
+            "options": [
+              "compact",
+              "default",
+              "large"
+            ],
+            "inheritable": true
+          },
+          "align": {
+            "type": "select",
+            "options": [
+              "start",
+              "center",
+              "end"
+            ],
+            "inheritable": true
+          }
+        }
+      }
+    },
+    {
+      "tagName": "uib-heading-block",
+      "module": "./src/content/uib-heading-block.js",
+      "importPath": "./heading-block",
+      "presentation": {
+        "settings": {
+          "size": {
+            "type": "select",
+            "options": [
+              "compact",
+              "default",
+              "large"
+            ],
+            "inheritable": true
+          },
+          "align": {
+            "type": "select",
+            "options": [
+              "start",
+              "center",
+              "end"
+            ],
+            "inheritable": true
+          }
+        }
+      }
+    },
+    {
+      "tagName": "uib-card",
+      "module": "./src/layout/uib-card.js",
+      "importPath": "./card",
+      "presentation": {
+        "settings": {
+          "variant": {
+            "type": "select",
+            "options": [
+              "elevated",
+              "outlined",
+              "flat"
+            ],
+            "inheritable": true
+          },
+          "density": {
+            "type": "select",
+            "options": [
+              "comfortable",
+              "compact"
+            ],
+            "inheritable": true
+          }
+        }
+      }
+    },
+    {
+      "tagName": "uib-panel",
+      "module": "./src/layout/uib-panel.js",
+      "importPath": "./panel",
+      "presentation": {
+        "settings": {
+          "variant": {
+            "type": "select",
+            "options": [
+              "elevated",
+              "outlined",
+              "flat"
+            ],
+            "inheritable": true
+          },
+          "density": {
+            "type": "select",
+            "options": [
+              "comfortable",
+              "compact"
+            ],
+            "inheritable": true
+          }
+        }
+      }
+    },
+    {
+      "tagName": "uib-instruction",
+      "module": "./src/content/uib-instruction.js",
+      "importPath": "./instruction",
+      "presentation": {
+        "settings": {
+          "density": {
+            "type": "select",
+            "options": [
+              "comfortable",
+              "compact"
+            ],
+            "inheritable": true
+          }
+        }
+      }
+    },
+    {
+      "tagName": "uib-action-group",
+      "module": "./src/actions/uib-action-group.js",
+      "importPath": "./action-group",
+      "presentation": {
+        "settings": {
+          "align": {
+            "type": "select",
+            "options": [
+              "start",
+              "center",
+              "end"
+            ],
+            "inheritable": true
+          }
+        }
+      }
+    }
+  ]
+}
