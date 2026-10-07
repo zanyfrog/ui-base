@@ -264,6 +264,41 @@ export class UibCard extends UibSurfaceBase {
   surfaceName = 'card';
   defaultVariant = 'elevated';
 
+  connectedCallback() {
+    super.connectedCallback();
+    this._cardSlotObserver ||= new MutationObserver((records) => {
+      if (records.some((record) => record.target === this
+        || (record.type === 'attributes' && record.target.parentElement === this))) this._updateCardSlots();
+    });
+    this._cardSlotObserver.observe(this, { childList: true, attributes: true, attributeFilter: ['slot'], subtree: true });
+  }
+
+  disconnectedCallback() {
+    this._cardSlotObserver?.disconnect();
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (oldValue === newValue) return;
+    // Selection is state on the current surface. Replacing the focused element
+    // here also destroys child UI state and the browser's activation target.
+    if (name === 'selected' && this.shadowRoot?.querySelector('.uib-card')) {
+      const surface = this.shadowRoot.querySelector('.uib-card');
+      surface.classList.toggle('uib-card--selected', this.selected);
+      if (this.selectable) surface.setAttribute('aria-pressed', String(this.selected));
+      return;
+    }
+    super.attributeChangedCallback(name, oldValue, newValue);
+  }
+
+  _updateCardSlots() {
+    if (!this.shadowRoot) return;
+    for (const name of ['media', 'header', 'footer']) {
+      const wrapper = this.shadowRoot.querySelector(`[part="${name}"]`);
+      if (wrapper) wrapper.hidden = name === 'header'
+        ? !this.heading && !this.hasNamedSlot(name) : !this.hasNamedSlot(name);
+    }
+  }
+
   get href() { return this.getAttribute('href') || ''; }
   get target() { return this.getAttribute('target') || ''; }
   get rel() { return this.getAttribute('rel') || ''; }
@@ -314,11 +349,15 @@ export class UibCard extends UibSurfaceBase {
   handleKeydown(event) {
     if (!this.interactive || this.href) return;
     if (event.key !== 'Enter' && event.key !== ' ') return;
+    const surface = this.shadowRoot?.querySelector('.uib-card');
+    if (surface && this.shouldIgnoreActivation(event, surface)) return;
     event.preventDefault();
     this.activate(event);
   }
 
   render() {
+    const hadSurfaceFocus = Boolean(this.shadowRoot?.activeElement)
+      && this.shadowRoot.activeElement === this.shadowRoot.querySelector('.uib-card');
     const headingId = this.heading ? `${this.componentId}-heading` : '';
     const hasHeader = Boolean(this.heading) || this.hasNamedSlot('header');
     const hasMedia = this.hasNamedSlot('media');
@@ -334,7 +373,8 @@ export class UibCard extends UibSurfaceBase {
     this.shadowRoot.innerHTML = (
   this.surfaceStyles(`.uib-card{width:100%;font:inherit}.uib-card--interactive{cursor:pointer}.uib-card--selected{border-color:var(--uib-color-primary,#174a8b);box-shadow:var(--uib-focus-ring,0 0 0 4px rgba(23,74,139,.18))}.uib-card__media{display:block;overflow:hidden;background:var(--uib-color-surface-soft,#f8fbff)}.uib-card__media::slotted(img),.uib-card__media::slotted(video),.uib-card__media::slotted(uib-media){display:block;width:100%}`) +
   `<${tag} class="${this.surfaceClasses(this.interactive ? 'uib-card--interactive' : '', this.selected ? 'uib-card--selected' : '')}" part="base" ` +
-  (headingId ? `aria-labelledby="${headingId}"` : '') +
+  (this.ariaLabel ? `aria-label="${escapeHtml(this.ariaLabel)}"` : (headingId ? `aria-labelledby="${headingId}"` : '')) +
+  (this.ariaDescribedBy ? ` aria-describedby="${escapeHtml(this.ariaDescribedBy)}"` : '') +
   (this.disabled ? ' aria-disabled="true"' : '') +
   ariaPressed +
   role +
@@ -354,6 +394,7 @@ export class UibCard extends UibSurfaceBase {
     const surface = this.shadowRoot.querySelector('.uib-card');
     surface?.addEventListener('click', (event) => this.activate(event));
     surface?.addEventListener('keydown', (event) => this.handleKeydown(event));
+    if (hadSurfaceFocus && this.interactive && !this.disabled) surface?.focus({ preventScroll: true });
   }
 }
 

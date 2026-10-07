@@ -49,6 +49,8 @@ npm run dev
 
 The default dev command starts the package demo/testing website. Use `npm run dev:manager` when you specifically want the app manager shell.
 
+The **Card workspace** at `/reference/card` is the reference Platform Component editor. It generates controls from the canonical Card definition, previews the real component, and saves workspaces locally in this browser. Check In/Publish is unavailable at this stage. See [implementation and verification](docs/uib-card-reference-implementation.md) and the accepted [workspace component audit](docs/ui-base-component-architecture-baseline.md).
+
 ```bash
 npm run dev          # package demo/testing website
 npm run dev:services # package demo plus PageImporter service

@@ -4,6 +4,9 @@
   "type": "module",
   "description": "Framework-neutral UI Base UI primitives with compatibility exports for Hero and Tour UI.",
   "main": "src/index.js",
+  "scripts": {
+    "test": "vitest run --environment happy-dom"
+  },
   "exports": {
     ".": "./src/index.js",
     "./styles.css": "./src/styles.css",
@@ -15,6 +18,10 @@
     "./menuitem": "./src/navigation/uib-menuitem.js",
     "./layout": "./src/layout/index.js",
     "./card": "./src/layout/uib-card.js",
+    "./component-reference": "./src/platform/index.js",
+    "./component-registry": "./src/platform/registry.js",
+    "./component-workspace": "./src/platform/workspace.js",
+    "./ui.component.json": "./ui.component.json",
     "./panel": "./src/layout/uib-panel.js",
     "./tab": "./src/layout/uib-tab.js",
     "./tab-panel": "./src/layout/uib-tab-panel.js",
@@ -42,6 +49,7 @@
   "license": "UNLICENSED",
   "dependencies": {
     "@ui-base/core": "^0.1.0",
+    "@ui-base/icons": "^0.1.0",
     "@ui-base/hero": "^0.2.1",
     "@ui-base/tour-ui": "^0.1.1"
   }

@@ -1575,3 +1575,10 @@ uib-hero[visual-mode="background"] .sample-visual {
     grid-template-columns: 1fr;
   }
 }
+.reference-workspace{display:grid;gap:1rem;padding:1.25rem;border:1px solid var(--uib-color-border,#d9e2f0);border-radius:1rem;background:var(--uib-color-surface,#fff)}
+.reference-toolbar{display:flex;flex-wrap:wrap;align-items:end;gap:.6rem}.reference-toolbar label{display:grid;gap:.35rem;min-width:12rem}.reference-toolbar select{min-height:2.5rem}
+.reference-columns{display:grid;grid-template-columns:minmax(16rem,1fr) minmax(18rem,1.25fr);gap:1.5rem;align-items:start}
+.reference-property-editor{display:grid;gap:1rem}.reference-columns fieldset{display:grid;gap:.7rem;margin:0 0 1rem;padding:1rem;border:1px solid var(--uib-color-border,#d9e2f0);border-radius:.6rem}.reference-columns legend{padding:0 .35rem;font-weight:750}
+.reference-field{display:grid;gap:.3rem;font-size:.9rem}.reference-field input:not([type=checkbox]),.reference-field select,.reference-field textarea{width:100%;min-height:2.5rem;padding:.5rem;border:1px solid var(--uib-color-border-strong,#aab8cc);border-radius:.35rem;background:var(--uib-color-surface,#fff);color:inherit;font:inherit}.reference-field textarea{min-height:5rem}.reference-field input[type=checkbox]{width:1.2rem;height:1.2rem}
+.reference-preview-panel{position:sticky;top:1rem;min-width:0}.reference-preview-panel pre{max-height:20rem;overflow:auto;padding:.75rem;background:var(--uib-color-surface-soft,#f8fbff);white-space:pre-wrap;overflow-wrap:anywhere;border-radius:.6rem}.reference-status{margin:0;padding:.6rem;border-radius:.4rem;background:var(--uib-color-surface-soft,#f8fbff)}.reference-status[role=alert]{color:var(--uib-color-danger,#9d2b3a)}
+@media(max-width:760px){.reference-columns{grid-template-columns:1fr}.reference-preview-panel{position:static}.reference-toolbar>*{flex:1 1 9rem}}

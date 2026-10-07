@@ -277,5 +277,10 @@ for (const file of walk(root)) {
   }
 }
 
+const metadataCheck = spawnSync(process.execPath, [join(root, 'scripts/generate-card-metadata.mjs'), '--check'], { encoding: 'utf8' });
+if (metadataCheck.status !== 0) {
+  console.error(metadataCheck.error?.message || metadataCheck.stderr || 'Card metadata projection check failed.');
+  failed = true;
+}
 if (failed) process.exit(1);
 console.log('All required package workspace files exist and JavaScript syntax checks passed.');

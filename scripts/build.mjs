@@ -31,6 +31,7 @@ const spaRoutes = [
   'component-tests',
   'design-system',
   'components',
+  'reference/card',
   'calendar-demo',
   'calendar-demo/day',
   'calendar-demo/week',

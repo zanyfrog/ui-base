@@ -18,6 +18,7 @@ import { renderDesignSystemRoute } from './routes/design-system-demo.js';
 import { renderComponentCatalogRoute } from './routes/component-catalog-demo.js';
 import { renderComponentTestsRoute } from './routes/component-tests-demo.js';
 import { renderLayoutPageImporterRoute } from './routes/layout-pageimporter-demo.js';
+import { renderCardReferenceRoute } from './routes/card-reference-demo.js';
 import { exportDemoData, initDemoStore, replaceDemoData, resetDemoData } from './data/demo-store.js';
 
 const app = document.querySelector('#app');
@@ -94,6 +95,7 @@ function shell() {
           <uib-menuitem href="/components/" ${isActive('/components') ? 'active' : ''}>
             Components
           </uib-menuitem>
+          <uib-menuitem href="/reference/card" ${isActive('/reference/card') ? 'active' : ''}>Card workspace</uib-menuitem>
           <uib-menuitem href="/ui/" ${isActive('/ui') ? 'active' : ''}>
             UI
           </uib-menuitem>
@@ -509,6 +511,8 @@ function render() {
     renderDesignSystemRoute(main);
   } else if (path === '/components' || path.startsWith('/components/')) {
     renderComponentCatalogRoute(main, demoData.components?.componentCatalog);
+  } else if (path === '/reference/card') {
+    renderCardReferenceRoute(main);
   } else if (path === '/ui' || path.startsWith('/ui/')) {
     renderUiRoute(main, path);
   } else if (path === '/assets' || path.startsWith('/assets/')) {

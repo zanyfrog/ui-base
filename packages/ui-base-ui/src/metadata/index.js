@@ -1,4 +1,5 @@
 import { createComponentMetadata, MATURITY_LEVELS } from '@ui-base/core';
+import { CARD_COMPONENT_API } from '../platform/card-metadata.generated.js';
 
 const uiAttributeDescriptions = {
   action: 'Action identifier included in emitted action events.',
@@ -362,17 +363,7 @@ export const UI_COMPONENT_API = {
     cssParts: ['base', 'header', 'actions', 'body', 'footer', 'content', 'toggle'],
     examples: ['<uib-panel label="Panel fixture" collapsible open><button slot="actions">Edit</button><p>Panel body.</p><span slot="footer">Footer</span></uib-panel>']
   }),
-  'uib-card': api({
-    tagName: 'uib-card',
-    maturity: MATURITY_LEVELS.EXPERIMENTAL,
-    purpose: 'Compact, repeatable content card with optional media, action, and selection behavior.',
-    attributes: ['label', 'heading', 'variant', 'density', 'href', 'target', 'rel', 'action', 'action-token', 'interactive', 'selectable', 'selected', 'disabled'],
-    properties: ['selected', 'disabled'],
-    events: ['change', 'uib-card-select', 'uib-card-action'],
-    slots: ['default', 'media', 'header', 'footer'],
-    cssParts: ['base', 'media', 'header', 'body', 'footer'],
-    examples: ['<uib-card label="Card fixture" selectable><img slot="media" src="/apps/demo/assets/icons/availability.svg" alt=""><p>Card body.</p><span slot="footer">Footer</span></uib-card>']
-  }),
+  'uib-card': CARD_COMPONENT_API,
   'uib-dialog': api({
     tagName: 'uib-dialog',
     maturity: MATURITY_LEVELS.EXPERIMENTAL,
