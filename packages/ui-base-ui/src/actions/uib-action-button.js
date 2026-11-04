@@ -14,7 +14,7 @@ function boolAttribute(element, name, fallback = false) {
 
 function safeHref(value) {
   const href = String(value ?? '').trim();
-  if (!href || /^javascript:/i.test(href)) return '';
+  if (!href || /[\u0000-\u0020\u007f\\]/.test(href) || href.startsWith('//') || /^[a-z][a-z\d+.-]*:/i.test(href) && !/^(https?|mailto|tel):/i.test(href)) return '';
   return href;
 }
 
@@ -32,6 +32,7 @@ export class UibActionButton extends HTMLElement {
   get disabled() { return boolAttribute(this, 'disabled', false); }
   set disabled(value) { this.toggleAttribute('disabled', Boolean(value)); }
   emitClick(event) {
+    if (this.disabled) { event.preventDefault(); return; }
     const detail = { kind: this.getAttribute('kind') || '', variant: this.getAttribute('variant') || 'secondary', label: this.label || this.textContent.trim(), href: safeHref(this.href), action: this.action, actionToken: this.action, disabled: this.disabled, hasHref: Boolean(safeHref(this.href)), originalEvent: event };
     const allowed = this.dispatchEvent(new CustomEvent('uib-action-button-click', { bubbles: true, composed: true, cancelable: true, detail }));
     this.dispatchEvent(new CustomEvent('uib-action', { bubbles: true, composed: true, detail }));

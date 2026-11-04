@@ -599,7 +599,7 @@ function parseJsonArray(value, fallback = []) {
 function safeHref(value) {
   const href = String(value ?? '').trim();
   if (!href) return '#';
-  if (/^javascript:/i.test(href)) return '#';
+  if (/[\u0000-\u0020\u007f\\]/.test(href) || href.startsWith('//') || /^[a-z][a-z\d+.-]*:/i.test(href) && !/^(https?|mailto|tel):/i.test(href)) return '#';
   return href;
 }
 
@@ -1574,7 +1574,9 @@ export class UibHero extends BaseHTMLElement {
   }
 
   bindActionHandlers() {
-    this.shadowRoot.querySelectorAll('uib-action-button').forEach((element) => {
+    // Action Buttons live inside the Action Group's shadow root. Listen at
+    // that single composed-event boundary rather than searching through it.
+    this.shadowRoot.querySelectorAll('uib-action-group').forEach((element) => {
       element.addEventListener('uib-action-button-click', (event) => {
         const sourceDetail = event.detail || {};
         const kind = sourceDetail.kind || sourceDetail.action || 'action';
@@ -1589,6 +1591,7 @@ export class UibHero extends BaseHTMLElement {
         const legacyEvent = new CustomEvent(`uib-hero-${kind}-cta`, { bubbles: true, composed: true, cancelable: true, detail });
         const unifiedAllowed = this.dispatchEvent(unifiedEvent);
         const legacyAllowed = this.dispatchEvent(legacyEvent);
+        if (!legacyAllowed) unifiedEvent.preventDefault();
         if (disabled || !unifiedAllowed || !legacyAllowed) event.preventDefault();
       });
     });

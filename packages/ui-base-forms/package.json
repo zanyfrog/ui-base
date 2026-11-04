@@ -1,6 +1,6 @@
 {
   "name": "@ui-base/forms",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "description": "UI Base form, validation, input, and form layout Web Components.",
   "main": "src/index.js",
@@ -31,7 +31,8 @@
   },
   "files": [
     "src",
-    "README.md"
+    "README.md",
+    "ui.component.json"
   ],
   "sideEffects": true,
   "license": "UNLICENSED",

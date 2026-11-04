@@ -111,7 +111,7 @@
         "package": {
           "packageId": "@ui-base/ui",
           "scope": "platform",
-          "version": "0.5.1"
+          "version": "0.5.2"
         },
         "provenance": {
           "origin": "installed-package",
@@ -156,8 +156,8 @@
         ]
       },
       "version": {
-        "packageVersion": "0.5.1",
-        "runtimeCompatibility": "^0.5.1",
+        "packageVersion": "0.5.2",
+        "runtimeCompatibility": "^0.5.2",
         "revisionId": null
       },
       "maturity": "experimental",
@@ -1041,26 +1041,300 @@
       "module": "./src/layout/uib-panel.js",
       "importPath": "./panel",
       "presentation": {
-        "settings": {
+        "settings": {},
+        "cssVariables": []
+      },
+      "schemaVersion": "1.0.0",
+      "identity": {
+        "componentId": "@ui-base/ui:uib-panel",
+        "name": "uib-panel",
+        "displayName": "uib-panel",
+        "description": "Metadata-admitted uib-panel"
+      },
+      "ownership": {
+        "scope": "platform",
+        "package": {
+          "packageId": "@ui-base/ui",
+          "scope": "platform",
+          "version": "0.5.2"
+        },
+        "provenance": {
+          "origin": "installed-package",
+          "promotedFromComponentId": null,
+          "promotedFromRevisionId": null
+        }
+      },
+      "implementation": {
+        "type": "code",
+        "tagName": "uib-panel",
+        "module": "./src/layout/uib-panel.js",
+        "importPath": "@ui-base/ui/panel",
+        "exportName": "UibPanel",
+        "runtimeBinding": {
+          "kind": "custom-element",
+          "tagName": "uib-panel"
+        },
+        "aliases": [],
+        "registrationSideEffects": [
+          "uib-panel"
+        ]
+      },
+      "version": {
+        "packageVersion": "0.5.2",
+        "runtimeCompatibility": "^0.5.2",
+        "revisionId": null
+      },
+      "maturity": "experimental",
+      "category": "content-surfaces",
+      "runtime": {
+        "attributes": {
+          "heading": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
           "variant": {
-            "type": "select",
-            "options": [
+            "type": "string",
+            "default": "outlined",
+            "observed": true,
+            "serialization": "string"
+          },
+          "density": {
+            "type": "string",
+            "default": "comfortable",
+            "observed": true,
+            "serialization": "string"
+          },
+          "collapsible": {
+            "type": "boolean",
+            "default": false,
+            "observed": true,
+            "serialization": "presence"
+          },
+          "open": {
+            "type": "boolean",
+            "default": false,
+            "observed": true,
+            "serialization": "presence"
+          },
+          "disabled": {
+            "type": "boolean",
+            "default": false,
+            "observed": true,
+            "serialization": "presence"
+          }
+        },
+        "properties": {},
+        "events": {
+          "uib-panel-toggle": {
+            "detail": {
+              "name": "string",
+              "oldValue": "boolean",
+              "newValue": "boolean"
+            },
+            "bubbles": true,
+            "composed": true,
+            "cancelable": false
+          }
+        },
+        "slots": [
+          {
+            "name": "default"
+          },
+          {
+            "name": "header"
+          },
+          {
+            "name": "actions"
+          },
+          {
+            "name": "footer"
+          }
+        ]
+      },
+      "builder": {
+        "groups": [
+          {
+            "id": "content",
+            "label": "Content"
+          },
+          {
+            "id": "appearance",
+            "label": "Appearance"
+          },
+          {
+            "id": "interaction",
+            "label": "Interaction"
+          },
+          {
+            "id": "state",
+            "label": "State"
+          },
+          {
+            "id": "accessibility",
+            "label": "Accessibility"
+          },
+          {
+            "id": "events",
+            "label": "Event bindings"
+          }
+        ],
+        "definitionSettings": {
+          "displayName": {
+            "label": "Display name",
+            "type": "string",
+            "required": true,
+            "binding": {
+              "kind": "definition",
+              "path": "identity.displayName"
+            }
+          },
+          "description": {
+            "label": "Description",
+            "type": "string",
+            "editor": "textarea",
+            "binding": {
+              "kind": "definition",
+              "path": "identity.description"
+            }
+          }
+        },
+        "settings": {
+          "heading": {
+            "type": "string",
+            "default": "",
+            "label": "heading",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "heading"
+            }
+          },
+          "variant": {
+            "type": "string",
+            "default": "outlined",
+            "label": "variant",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "variant"
+            },
+            "enum": [
               "elevated",
               "outlined",
               "flat"
-            ],
-            "inheritable": true
+            ]
           },
           "density": {
-            "type": "select",
-            "options": [
+            "type": "string",
+            "default": "comfortable",
+            "label": "density",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "density"
+            },
+            "enum": [
               "comfortable",
               "compact"
-            ],
-            "inheritable": true
+            ]
+          },
+          "collapsible": {
+            "type": "boolean",
+            "default": false,
+            "label": "collapsible",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "collapsible"
+            }
+          },
+          "open": {
+            "type": "boolean",
+            "default": false,
+            "label": "open",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "open"
+            }
+          },
+          "disabled": {
+            "type": "boolean",
+            "default": false,
+            "label": "disabled",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "disabled"
+            }
           }
+        },
+        "interactionModes": {},
+        "validation": [],
+        "responsive": {
+          "supported": false
+        },
+        "preview": {
+          "renderer": "runtimeBinding",
+          "navigation": "prevent",
+          "eventHandlers": "observe-only"
         }
-      }
+      },
+      "capabilities": [
+        "surface",
+        "container",
+        "collapsible"
+      ],
+      "dependencies": {
+        "packages": [
+          {
+            "packageId": "@ui-base/core",
+            "range": "^0.1.0"
+          },
+          {
+            "packageId": "@ui-base/icons",
+            "range": "^0.1.0"
+          },
+          {
+            "packageId": "@ui-base/hero",
+            "range": "^0.2.1"
+          },
+          {
+            "packageId": "@ui-base/tour-ui",
+            "range": "^0.1.1"
+          }
+        ],
+        "services": []
+      },
+      "accessibility": {
+        "keyboard": {
+          "controls": "native"
+        },
+        "namePrecedence": [
+          "heading",
+          "label"
+        ],
+        "disabled": "native-control-semantics"
+      },
+      "lifecycle": {
+        "state": "installed",
+        "save": "workspace-only",
+        "publication": "platform-release-snapshot",
+        "publishedRevisionsImmutable": true,
+        "rollback": "new-revision",
+        "promotion": "new-identity-with-provenance"
+      },
+      "clone": {
+        "workspace": "new-workspace-and-instance-ids;same-component-identity",
+        "component": "new-component-identity;retain-provenance"
+      },
+      "deprecation": {
+        "status": "none",
+        "replacementComponentId": null
+      },
+      "extensions": {}
     },
     {
       "tagName": "uib-instruction",
@@ -1096,6 +1370,331 @@
           }
         }
       }
+    },
+    {
+      "tagName": "uib-action-button",
+      "module": "./src/actions/uib-action-button.js",
+      "importPath": "./action-button",
+      "presentation": {
+        "settings": {},
+        "cssVariables": []
+      },
+      "schemaVersion": "1.0.0",
+      "identity": {
+        "componentId": "@ui-base/ui:uib-action-button",
+        "name": "uib-action-button",
+        "displayName": "uib-action-button",
+        "description": "Metadata-admitted uib-action-button"
+      },
+      "ownership": {
+        "scope": "platform",
+        "package": {
+          "packageId": "@ui-base/ui",
+          "scope": "platform",
+          "version": "0.5.2"
+        },
+        "provenance": {
+          "origin": "installed-package",
+          "promotedFromComponentId": null,
+          "promotedFromRevisionId": null
+        }
+      },
+      "implementation": {
+        "type": "code",
+        "tagName": "uib-action-button",
+        "module": "./src/actions/uib-action-button.js",
+        "importPath": "@ui-base/ui/action-button",
+        "exportName": "UibActionButton",
+        "runtimeBinding": {
+          "kind": "custom-element",
+          "tagName": "uib-action-button"
+        },
+        "aliases": [],
+        "registrationSideEffects": [
+          "uib-action-button"
+        ]
+      },
+      "version": {
+        "packageVersion": "0.5.2",
+        "runtimeCompatibility": "^0.5.2",
+        "revisionId": null
+      },
+      "maturity": "experimental",
+      "category": "content-surfaces",
+      "runtime": {
+        "attributes": {
+          "label": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "href": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "action": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "action-token": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "target": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "rel": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "disabled": {
+            "type": "boolean",
+            "default": false,
+            "observed": true,
+            "serialization": "presence"
+          },
+          "variant": {
+            "type": "string",
+            "default": "secondary",
+            "observed": true,
+            "serialization": "string"
+          }
+        },
+        "properties": {},
+        "events": {
+          "uib-action-button-click": {
+            "detail": {
+              "action": "string",
+              "actionToken": "string",
+              "href": "string",
+              "disabled": "boolean"
+            },
+            "bubbles": true,
+            "composed": true,
+            "cancelable": false
+          }
+        },
+        "slots": [
+          {
+            "name": "default"
+          }
+        ]
+      },
+      "builder": {
+        "groups": [
+          {
+            "id": "content",
+            "label": "Content"
+          },
+          {
+            "id": "appearance",
+            "label": "Appearance"
+          },
+          {
+            "id": "interaction",
+            "label": "Interaction"
+          },
+          {
+            "id": "state",
+            "label": "State"
+          },
+          {
+            "id": "accessibility",
+            "label": "Accessibility"
+          },
+          {
+            "id": "events",
+            "label": "Event bindings"
+          }
+        ],
+        "definitionSettings": {
+          "displayName": {
+            "label": "Display name",
+            "type": "string",
+            "required": true,
+            "binding": {
+              "kind": "definition",
+              "path": "identity.displayName"
+            }
+          },
+          "description": {
+            "label": "Description",
+            "type": "string",
+            "editor": "textarea",
+            "binding": {
+              "kind": "definition",
+              "path": "identity.description"
+            }
+          }
+        },
+        "settings": {
+          "label": {
+            "type": "string",
+            "default": "",
+            "label": "label",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "label"
+            }
+          },
+          "href": {
+            "type": "string",
+            "default": "",
+            "label": "href",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "href"
+            },
+            "format": "url"
+          },
+          "action": {
+            "type": "string",
+            "default": "",
+            "label": "action",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "action"
+            }
+          },
+          "action-token": {
+            "type": "string",
+            "default": "",
+            "label": "action-token",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "action-token"
+            }
+          },
+          "target": {
+            "type": "string",
+            "default": "",
+            "label": "target",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "target"
+            },
+            "enum": [
+              "",
+              "_self",
+              "_blank"
+            ]
+          },
+          "rel": {
+            "type": "string",
+            "default": "",
+            "label": "rel",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "rel"
+            }
+          },
+          "disabled": {
+            "type": "boolean",
+            "default": false,
+            "label": "disabled",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "disabled"
+            }
+          },
+          "variant": {
+            "type": "string",
+            "default": "secondary",
+            "label": "variant",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "variant"
+            },
+            "enum": [
+              "primary",
+              "secondary",
+              "tertiary",
+              "destructive"
+            ]
+          }
+        },
+        "interactionModes": {},
+        "validation": [],
+        "responsive": {
+          "supported": false
+        },
+        "preview": {
+          "renderer": "runtimeBinding",
+          "navigation": "prevent",
+          "eventHandlers": "observe-only"
+        }
+      },
+      "capabilities": [
+        "interactive",
+        "linkable"
+      ],
+      "dependencies": {
+        "packages": [
+          {
+            "packageId": "@ui-base/core",
+            "range": "^0.1.0"
+          },
+          {
+            "packageId": "@ui-base/icons",
+            "range": "^0.1.0"
+          },
+          {
+            "packageId": "@ui-base/hero",
+            "range": "^0.2.1"
+          },
+          {
+            "packageId": "@ui-base/tour-ui",
+            "range": "^0.1.1"
+          }
+        ],
+        "services": []
+      },
+      "accessibility": {
+        "keyboard": {
+          "controls": "native"
+        },
+        "namePrecedence": [
+          "label"
+        ],
+        "disabled": "native-control-semantics"
+      },
+      "lifecycle": {
+        "state": "installed",
+        "save": "workspace-only",
+        "publication": "platform-release-snapshot",
+        "publishedRevisionsImmutable": true,
+        "rollback": "new-revision",
+        "promotion": "new-identity-with-provenance"
+      },
+      "clone": {
+        "workspace": "new-workspace-and-instance-ids;same-component-identity",
+        "component": "new-component-identity;retain-provenance"
+      },
+      "deprecation": {
+        "status": "none",
+        "replacementComponentId": null
+      },
+      "extensions": {}
     }
   ]
 }

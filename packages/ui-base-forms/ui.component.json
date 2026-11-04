@@ -1,0 +1,1821 @@
+{
+  "components": [
+    {
+      "tagName": "uib-forms-form",
+      "module": "./src/uib-forms-form.js",
+      "importPath": "./form",
+      "presentation": {
+        "settings": {},
+        "cssVariables": []
+      },
+      "schemaVersion": "1.0.0",
+      "identity": {
+        "componentId": "@ui-base/forms:uib-forms-form",
+        "name": "uib-forms-form",
+        "displayName": "uib-forms-form",
+        "description": "Metadata-admitted uib-forms-form"
+      },
+      "ownership": {
+        "scope": "platform",
+        "package": {
+          "packageId": "@ui-base/forms",
+          "scope": "platform",
+          "version": "0.1.1"
+        },
+        "provenance": {
+          "origin": "installed-package",
+          "promotedFromComponentId": null,
+          "promotedFromRevisionId": null
+        }
+      },
+      "implementation": {
+        "type": "code",
+        "tagName": "uib-forms-form",
+        "module": "./src/uib-forms-form.js",
+        "importPath": "@ui-base/forms/form",
+        "exportName": "UibFormsForm",
+        "runtimeBinding": {
+          "kind": "custom-element",
+          "tagName": "uib-forms-form"
+        },
+        "aliases": [],
+        "registrationSideEffects": [
+          "uib-forms-form"
+        ]
+      },
+      "version": {
+        "packageVersion": "0.1.1",
+        "runtimeCompatibility": "^0.1.1",
+        "revisionId": null
+      },
+      "maturity": "experimental",
+      "category": "forms",
+      "runtime": {
+        "attributes": {
+          "name": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "label": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "submit-label": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "disabled": {
+            "type": "boolean",
+            "default": false,
+            "observed": true,
+            "serialization": "presence"
+          }
+        },
+        "properties": {},
+        "events": {
+          "uib-forms-form-submit": {
+            "detail": {
+              "name": "string",
+              "valid": "boolean"
+            },
+            "bubbles": true,
+            "composed": true,
+            "cancelable": false
+          }
+        },
+        "slots": [
+          {
+            "name": "default"
+          },
+          {
+            "name": "actions"
+          }
+        ]
+      },
+      "builder": {
+        "groups": [
+          {
+            "id": "content",
+            "label": "Content"
+          },
+          {
+            "id": "appearance",
+            "label": "Appearance"
+          },
+          {
+            "id": "interaction",
+            "label": "Interaction"
+          },
+          {
+            "id": "state",
+            "label": "State"
+          },
+          {
+            "id": "accessibility",
+            "label": "Accessibility"
+          },
+          {
+            "id": "events",
+            "label": "Event bindings"
+          }
+        ],
+        "definitionSettings": {
+          "displayName": {
+            "label": "Display name",
+            "type": "string",
+            "required": true,
+            "binding": {
+              "kind": "definition",
+              "path": "identity.displayName"
+            }
+          },
+          "description": {
+            "label": "Description",
+            "type": "string",
+            "editor": "textarea",
+            "binding": {
+              "kind": "definition",
+              "path": "identity.description"
+            }
+          }
+        },
+        "settings": {
+          "name": {
+            "type": "string",
+            "default": "",
+            "label": "name",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "name"
+            }
+          },
+          "label": {
+            "type": "string",
+            "default": "",
+            "label": "label",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "label"
+            }
+          },
+          "submit-label": {
+            "type": "string",
+            "default": "",
+            "label": "submit-label",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "submit-label"
+            }
+          },
+          "disabled": {
+            "type": "boolean",
+            "default": false,
+            "label": "disabled",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "disabled"
+            }
+          }
+        },
+        "interactionModes": {},
+        "validation": [],
+        "responsive": {
+          "supported": false
+        },
+        "preview": {
+          "renderer": "runtimeBinding",
+          "navigation": "prevent",
+          "eventHandlers": "observe-only"
+        }
+      },
+      "capabilities": [
+        "form",
+        "container"
+      ],
+      "dependencies": {
+        "packages": [
+          {
+            "packageId": "@ui-base/core",
+            "range": "^0.1.0"
+          },
+          {
+            "packageId": "@ui-base/ui",
+            "range": "^0.5.1"
+          }
+        ],
+        "services": []
+      },
+      "accessibility": {
+        "keyboard": {
+          "controls": "native"
+        },
+        "namePrecedence": [
+          "label"
+        ],
+        "disabled": "native-control-semantics"
+      },
+      "lifecycle": {
+        "state": "installed",
+        "save": "workspace-only",
+        "publication": "platform-release-snapshot",
+        "publishedRevisionsImmutable": true,
+        "rollback": "new-revision",
+        "promotion": "new-identity-with-provenance"
+      },
+      "clone": {
+        "workspace": "new-workspace-and-instance-ids;same-component-identity",
+        "component": "new-component-identity;retain-provenance"
+      },
+      "deprecation": {
+        "status": "none",
+        "replacementComponentId": null
+      },
+      "extensions": {}
+    },
+    {
+      "tagName": "uib-forms-textbox",
+      "module": "./src/controls/uib-forms-textbox.js",
+      "importPath": "./textbox",
+      "presentation": {
+        "settings": {},
+        "cssVariables": []
+      },
+      "schemaVersion": "1.0.0",
+      "identity": {
+        "componentId": "@ui-base/forms:uib-forms-textbox",
+        "name": "uib-forms-textbox",
+        "displayName": "uib-forms-textbox",
+        "description": "Metadata-admitted uib-forms-textbox"
+      },
+      "ownership": {
+        "scope": "platform",
+        "package": {
+          "packageId": "@ui-base/forms",
+          "scope": "platform",
+          "version": "0.1.1"
+        },
+        "provenance": {
+          "origin": "installed-package",
+          "promotedFromComponentId": null,
+          "promotedFromRevisionId": null
+        }
+      },
+      "implementation": {
+        "type": "code",
+        "tagName": "uib-forms-textbox",
+        "module": "./src/controls/uib-forms-textbox.js",
+        "importPath": "@ui-base/forms/textbox",
+        "exportName": "UibFormsTextbox",
+        "runtimeBinding": {
+          "kind": "custom-element",
+          "tagName": "uib-forms-textbox"
+        },
+        "aliases": [],
+        "registrationSideEffects": [
+          "uib-forms-textbox"
+        ]
+      },
+      "version": {
+        "packageVersion": "0.1.1",
+        "runtimeCompatibility": "^0.1.1",
+        "revisionId": null
+      },
+      "maturity": "experimental",
+      "category": "forms",
+      "runtime": {
+        "attributes": {
+          "name": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "label": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "help": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "value": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "required": {
+            "type": "boolean",
+            "default": false,
+            "observed": true,
+            "serialization": "presence"
+          },
+          "disabled": {
+            "type": "boolean",
+            "default": false,
+            "observed": true,
+            "serialization": "presence"
+          },
+          "readonly": {
+            "type": "boolean",
+            "default": false,
+            "observed": true,
+            "serialization": "presence"
+          },
+          "placeholder": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "pattern": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "minlength": {
+            "type": "number",
+            "default": 0,
+            "observed": true,
+            "serialization": "string"
+          },
+          "maxlength": {
+            "type": "number",
+            "default": 0,
+            "observed": true,
+            "serialization": "string"
+          }
+        },
+        "properties": {},
+        "events": {
+          "uib-forms-textbox-change": {
+            "detail": {
+              "name": "string",
+              "oldValue": "string",
+              "newValue": "string"
+            },
+            "bubbles": true,
+            "composed": true,
+            "cancelable": false
+          }
+        },
+        "slots": [
+          {
+            "name": "default"
+          },
+          {
+            "name": "label"
+          }
+        ]
+      },
+      "builder": {
+        "groups": [
+          {
+            "id": "content",
+            "label": "Content"
+          },
+          {
+            "id": "appearance",
+            "label": "Appearance"
+          },
+          {
+            "id": "interaction",
+            "label": "Interaction"
+          },
+          {
+            "id": "state",
+            "label": "State"
+          },
+          {
+            "id": "accessibility",
+            "label": "Accessibility"
+          },
+          {
+            "id": "events",
+            "label": "Event bindings"
+          }
+        ],
+        "definitionSettings": {
+          "displayName": {
+            "label": "Display name",
+            "type": "string",
+            "required": true,
+            "binding": {
+              "kind": "definition",
+              "path": "identity.displayName"
+            }
+          },
+          "description": {
+            "label": "Description",
+            "type": "string",
+            "editor": "textarea",
+            "binding": {
+              "kind": "definition",
+              "path": "identity.description"
+            }
+          }
+        },
+        "settings": {
+          "name": {
+            "type": "string",
+            "default": "",
+            "label": "name",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "name"
+            }
+          },
+          "label": {
+            "type": "string",
+            "default": "",
+            "label": "label",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "label"
+            }
+          },
+          "help": {
+            "type": "string",
+            "default": "",
+            "label": "help",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "help"
+            }
+          },
+          "value": {
+            "type": "string",
+            "default": "",
+            "label": "value",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "value"
+            }
+          },
+          "required": {
+            "type": "boolean",
+            "default": false,
+            "label": "required",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "required"
+            }
+          },
+          "disabled": {
+            "type": "boolean",
+            "default": false,
+            "label": "disabled",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "disabled"
+            }
+          },
+          "readonly": {
+            "type": "boolean",
+            "default": false,
+            "label": "readonly",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "readonly"
+            }
+          },
+          "placeholder": {
+            "type": "string",
+            "default": "",
+            "label": "placeholder",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "placeholder"
+            }
+          },
+          "pattern": {
+            "type": "string",
+            "default": "",
+            "label": "pattern",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "pattern"
+            }
+          },
+          "minlength": {
+            "type": "number",
+            "default": 0,
+            "label": "minlength",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "minlength"
+            },
+            "omitWhenUnset": true
+          },
+          "maxlength": {
+            "type": "number",
+            "default": 0,
+            "label": "maxlength",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "maxlength"
+            },
+            "omitWhenUnset": true
+          }
+        },
+        "interactionModes": {},
+        "validation": [],
+        "responsive": {
+          "supported": false
+        },
+        "preview": {
+          "renderer": "runtimeBinding",
+          "navigation": "prevent",
+          "eventHandlers": "observe-only"
+        }
+      },
+      "capabilities": [
+        "form-control",
+        "field"
+      ],
+      "dependencies": {
+        "packages": [
+          {
+            "packageId": "@ui-base/core",
+            "range": "^0.1.0"
+          },
+          {
+            "packageId": "@ui-base/ui",
+            "range": "^0.5.1"
+          }
+        ],
+        "services": []
+      },
+      "accessibility": {
+        "keyboard": {
+          "controls": "native"
+        },
+        "namePrecedence": [
+          "label"
+        ],
+        "disabled": "native-control-semantics"
+      },
+      "lifecycle": {
+        "state": "installed",
+        "save": "workspace-only",
+        "publication": "platform-release-snapshot",
+        "publishedRevisionsImmutable": true,
+        "rollback": "new-revision",
+        "promotion": "new-identity-with-provenance"
+      },
+      "clone": {
+        "workspace": "new-workspace-and-instance-ids;same-component-identity",
+        "component": "new-component-identity;retain-provenance"
+      },
+      "deprecation": {
+        "status": "none",
+        "replacementComponentId": null
+      },
+      "extensions": {}
+    },
+    {
+      "tagName": "uib-forms-number",
+      "module": "./src/controls/uib-forms-number.js",
+      "importPath": "./number",
+      "presentation": {
+        "settings": {},
+        "cssVariables": []
+      },
+      "schemaVersion": "1.0.0",
+      "identity": {
+        "componentId": "@ui-base/forms:uib-forms-number",
+        "name": "uib-forms-number",
+        "displayName": "uib-forms-number",
+        "description": "Metadata-admitted uib-forms-number"
+      },
+      "ownership": {
+        "scope": "platform",
+        "package": {
+          "packageId": "@ui-base/forms",
+          "scope": "platform",
+          "version": "0.1.1"
+        },
+        "provenance": {
+          "origin": "installed-package",
+          "promotedFromComponentId": null,
+          "promotedFromRevisionId": null
+        }
+      },
+      "implementation": {
+        "type": "code",
+        "tagName": "uib-forms-number",
+        "module": "./src/controls/uib-forms-number.js",
+        "importPath": "@ui-base/forms/number",
+        "exportName": "UibFormsNumber",
+        "runtimeBinding": {
+          "kind": "custom-element",
+          "tagName": "uib-forms-number"
+        },
+        "aliases": [],
+        "registrationSideEffects": [
+          "uib-forms-number"
+        ]
+      },
+      "version": {
+        "packageVersion": "0.1.1",
+        "runtimeCompatibility": "^0.1.1",
+        "revisionId": null
+      },
+      "maturity": "experimental",
+      "category": "forms",
+      "runtime": {
+        "attributes": {
+          "name": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "label": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "help": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "value": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "required": {
+            "type": "boolean",
+            "default": false,
+            "observed": true,
+            "serialization": "presence"
+          },
+          "disabled": {
+            "type": "boolean",
+            "default": false,
+            "observed": true,
+            "serialization": "presence"
+          },
+          "readonly": {
+            "type": "boolean",
+            "default": false,
+            "observed": true,
+            "serialization": "presence"
+          },
+          "min": {
+            "type": "number",
+            "default": 0,
+            "observed": true,
+            "serialization": "string"
+          },
+          "max": {
+            "type": "number",
+            "default": 100,
+            "observed": true,
+            "serialization": "string"
+          },
+          "step": {
+            "type": "number",
+            "default": 1,
+            "observed": true,
+            "serialization": "string"
+          }
+        },
+        "properties": {},
+        "events": {
+          "uib-forms-number-change": {
+            "detail": {
+              "name": "string",
+              "oldValue": "string",
+              "newValue": "string"
+            },
+            "bubbles": true,
+            "composed": true,
+            "cancelable": false
+          }
+        },
+        "slots": [
+          {
+            "name": "default"
+          },
+          {
+            "name": "label"
+          }
+        ]
+      },
+      "builder": {
+        "groups": [
+          {
+            "id": "content",
+            "label": "Content"
+          },
+          {
+            "id": "appearance",
+            "label": "Appearance"
+          },
+          {
+            "id": "interaction",
+            "label": "Interaction"
+          },
+          {
+            "id": "state",
+            "label": "State"
+          },
+          {
+            "id": "accessibility",
+            "label": "Accessibility"
+          },
+          {
+            "id": "events",
+            "label": "Event bindings"
+          }
+        ],
+        "definitionSettings": {
+          "displayName": {
+            "label": "Display name",
+            "type": "string",
+            "required": true,
+            "binding": {
+              "kind": "definition",
+              "path": "identity.displayName"
+            }
+          },
+          "description": {
+            "label": "Description",
+            "type": "string",
+            "editor": "textarea",
+            "binding": {
+              "kind": "definition",
+              "path": "identity.description"
+            }
+          }
+        },
+        "settings": {
+          "name": {
+            "type": "string",
+            "default": "",
+            "label": "name",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "name"
+            }
+          },
+          "label": {
+            "type": "string",
+            "default": "",
+            "label": "label",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "label"
+            }
+          },
+          "help": {
+            "type": "string",
+            "default": "",
+            "label": "help",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "help"
+            }
+          },
+          "value": {
+            "type": "string",
+            "default": "",
+            "label": "value",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "value"
+            }
+          },
+          "required": {
+            "type": "boolean",
+            "default": false,
+            "label": "required",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "required"
+            }
+          },
+          "disabled": {
+            "type": "boolean",
+            "default": false,
+            "label": "disabled",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "disabled"
+            }
+          },
+          "readonly": {
+            "type": "boolean",
+            "default": false,
+            "label": "readonly",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "readonly"
+            }
+          },
+          "min": {
+            "type": "number",
+            "default": 0,
+            "label": "min",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "min"
+            },
+            "omitWhenUnset": true
+          },
+          "max": {
+            "type": "number",
+            "default": 100,
+            "label": "max",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "max"
+            },
+            "omitWhenUnset": true
+          },
+          "step": {
+            "type": "number",
+            "default": 1,
+            "label": "step",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "step"
+            },
+            "omitWhenUnset": true
+          }
+        },
+        "interactionModes": {},
+        "validation": [],
+        "responsive": {
+          "supported": false
+        },
+        "preview": {
+          "renderer": "runtimeBinding",
+          "navigation": "prevent",
+          "eventHandlers": "observe-only"
+        }
+      },
+      "capabilities": [
+        "form-control",
+        "field"
+      ],
+      "dependencies": {
+        "packages": [
+          {
+            "packageId": "@ui-base/core",
+            "range": "^0.1.0"
+          },
+          {
+            "packageId": "@ui-base/ui",
+            "range": "^0.5.1"
+          }
+        ],
+        "services": []
+      },
+      "accessibility": {
+        "keyboard": {
+          "controls": "native"
+        },
+        "namePrecedence": [
+          "label"
+        ],
+        "disabled": "native-control-semantics"
+      },
+      "lifecycle": {
+        "state": "installed",
+        "save": "workspace-only",
+        "publication": "platform-release-snapshot",
+        "publishedRevisionsImmutable": true,
+        "rollback": "new-revision",
+        "promotion": "new-identity-with-provenance"
+      },
+      "clone": {
+        "workspace": "new-workspace-and-instance-ids;same-component-identity",
+        "component": "new-component-identity;retain-provenance"
+      },
+      "deprecation": {
+        "status": "none",
+        "replacementComponentId": null
+      },
+      "extensions": {}
+    },
+    {
+      "tagName": "uib-forms-checkbox",
+      "module": "./src/controls/uib-forms-checkbox.js",
+      "importPath": "./checkbox",
+      "presentation": {
+        "settings": {},
+        "cssVariables": []
+      },
+      "schemaVersion": "1.0.0",
+      "identity": {
+        "componentId": "@ui-base/forms:uib-forms-checkbox",
+        "name": "uib-forms-checkbox",
+        "displayName": "uib-forms-checkbox",
+        "description": "Metadata-admitted uib-forms-checkbox"
+      },
+      "ownership": {
+        "scope": "platform",
+        "package": {
+          "packageId": "@ui-base/forms",
+          "scope": "platform",
+          "version": "0.1.1"
+        },
+        "provenance": {
+          "origin": "installed-package",
+          "promotedFromComponentId": null,
+          "promotedFromRevisionId": null
+        }
+      },
+      "implementation": {
+        "type": "code",
+        "tagName": "uib-forms-checkbox",
+        "module": "./src/controls/uib-forms-checkbox.js",
+        "importPath": "@ui-base/forms/checkbox",
+        "exportName": "UibFormsCheckbox",
+        "runtimeBinding": {
+          "kind": "custom-element",
+          "tagName": "uib-forms-checkbox"
+        },
+        "aliases": [],
+        "registrationSideEffects": [
+          "uib-forms-checkbox"
+        ]
+      },
+      "version": {
+        "packageVersion": "0.1.1",
+        "runtimeCompatibility": "^0.1.1",
+        "revisionId": null
+      },
+      "maturity": "experimental",
+      "category": "forms",
+      "runtime": {
+        "attributes": {
+          "name": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "label": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "help": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "value": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "required": {
+            "type": "boolean",
+            "default": false,
+            "observed": true,
+            "serialization": "presence"
+          },
+          "disabled": {
+            "type": "boolean",
+            "default": false,
+            "observed": true,
+            "serialization": "presence"
+          },
+          "readonly": {
+            "type": "boolean",
+            "default": false,
+            "observed": true,
+            "serialization": "presence"
+          },
+          "checked": {
+            "type": "boolean",
+            "default": false,
+            "observed": true,
+            "serialization": "presence"
+          }
+        },
+        "properties": {},
+        "events": {
+          "uib-forms-checkbox-change": {
+            "detail": {
+              "name": "string",
+              "checked": "boolean",
+              "value": "string",
+              "oldValue": "boolean",
+              "newValue": "boolean"
+            },
+            "bubbles": true,
+            "composed": true,
+            "cancelable": false
+          }
+        },
+        "slots": []
+      },
+      "builder": {
+        "groups": [
+          {
+            "id": "content",
+            "label": "Content"
+          },
+          {
+            "id": "appearance",
+            "label": "Appearance"
+          },
+          {
+            "id": "interaction",
+            "label": "Interaction"
+          },
+          {
+            "id": "state",
+            "label": "State"
+          },
+          {
+            "id": "accessibility",
+            "label": "Accessibility"
+          },
+          {
+            "id": "events",
+            "label": "Event bindings"
+          }
+        ],
+        "definitionSettings": {
+          "displayName": {
+            "label": "Display name",
+            "type": "string",
+            "required": true,
+            "binding": {
+              "kind": "definition",
+              "path": "identity.displayName"
+            }
+          },
+          "description": {
+            "label": "Description",
+            "type": "string",
+            "editor": "textarea",
+            "binding": {
+              "kind": "definition",
+              "path": "identity.description"
+            }
+          }
+        },
+        "settings": {
+          "name": {
+            "type": "string",
+            "default": "",
+            "label": "name",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "name"
+            }
+          },
+          "label": {
+            "type": "string",
+            "default": "",
+            "label": "label",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "label"
+            }
+          },
+          "help": {
+            "type": "string",
+            "default": "",
+            "label": "help",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "help"
+            }
+          },
+          "value": {
+            "type": "string",
+            "default": "",
+            "label": "value",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "value"
+            }
+          },
+          "required": {
+            "type": "boolean",
+            "default": false,
+            "label": "required",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "required"
+            }
+          },
+          "disabled": {
+            "type": "boolean",
+            "default": false,
+            "label": "disabled",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "disabled"
+            }
+          },
+          "readonly": {
+            "type": "boolean",
+            "default": false,
+            "label": "readonly",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "readonly"
+            }
+          },
+          "checked": {
+            "type": "boolean",
+            "default": false,
+            "label": "checked",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "checked"
+            }
+          }
+        },
+        "interactionModes": {},
+        "validation": [],
+        "responsive": {
+          "supported": false
+        },
+        "preview": {
+          "renderer": "runtimeBinding",
+          "navigation": "prevent",
+          "eventHandlers": "observe-only"
+        }
+      },
+      "capabilities": [
+        "form-control",
+        "field"
+      ],
+      "dependencies": {
+        "packages": [
+          {
+            "packageId": "@ui-base/core",
+            "range": "^0.1.0"
+          },
+          {
+            "packageId": "@ui-base/ui",
+            "range": "^0.5.1"
+          }
+        ],
+        "services": []
+      },
+      "accessibility": {
+        "keyboard": {
+          "controls": "native"
+        },
+        "namePrecedence": [
+          "label"
+        ],
+        "disabled": "native-control-semantics"
+      },
+      "lifecycle": {
+        "state": "installed",
+        "save": "workspace-only",
+        "publication": "platform-release-snapshot",
+        "publishedRevisionsImmutable": true,
+        "rollback": "new-revision",
+        "promotion": "new-identity-with-provenance"
+      },
+      "clone": {
+        "workspace": "new-workspace-and-instance-ids;same-component-identity",
+        "component": "new-component-identity;retain-provenance"
+      },
+      "deprecation": {
+        "status": "none",
+        "replacementComponentId": null
+      },
+      "extensions": {}
+    },
+    {
+      "tagName": "uib-forms-display-field",
+      "module": "./src/display/uib-forms-display-field.js",
+      "importPath": "./display-field",
+      "presentation": {
+        "settings": {},
+        "cssVariables": []
+      },
+      "schemaVersion": "1.0.0",
+      "identity": {
+        "componentId": "@ui-base/forms:uib-forms-display-field",
+        "name": "uib-forms-display-field",
+        "displayName": "uib-forms-display-field",
+        "description": "Metadata-admitted uib-forms-display-field"
+      },
+      "ownership": {
+        "scope": "platform",
+        "package": {
+          "packageId": "@ui-base/forms",
+          "scope": "platform",
+          "version": "0.1.1"
+        },
+        "provenance": {
+          "origin": "installed-package",
+          "promotedFromComponentId": null,
+          "promotedFromRevisionId": null
+        }
+      },
+      "implementation": {
+        "type": "code",
+        "tagName": "uib-forms-display-field",
+        "module": "./src/display/uib-forms-display-field.js",
+        "importPath": "@ui-base/forms/display-field",
+        "exportName": "UibFormsDisplayField",
+        "runtimeBinding": {
+          "kind": "custom-element",
+          "tagName": "uib-forms-display-field"
+        },
+        "aliases": [],
+        "registrationSideEffects": [
+          "uib-forms-display-field"
+        ]
+      },
+      "version": {
+        "packageVersion": "0.1.1",
+        "runtimeCompatibility": "^0.1.1",
+        "revisionId": null
+      },
+      "maturity": "experimental",
+      "category": "forms",
+      "runtime": {
+        "attributes": {
+          "label": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "help": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "value": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "display-value": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "empty-value": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "orientation": {
+            "type": "string",
+            "default": "vertical",
+            "observed": true,
+            "serialization": "string"
+          }
+        },
+        "properties": {},
+        "events": {},
+        "slots": [
+          {
+            "name": "label"
+          }
+        ]
+      },
+      "builder": {
+        "groups": [
+          {
+            "id": "content",
+            "label": "Content"
+          },
+          {
+            "id": "appearance",
+            "label": "Appearance"
+          },
+          {
+            "id": "interaction",
+            "label": "Interaction"
+          },
+          {
+            "id": "state",
+            "label": "State"
+          },
+          {
+            "id": "accessibility",
+            "label": "Accessibility"
+          },
+          {
+            "id": "events",
+            "label": "Event bindings"
+          }
+        ],
+        "definitionSettings": {
+          "displayName": {
+            "label": "Display name",
+            "type": "string",
+            "required": true,
+            "binding": {
+              "kind": "definition",
+              "path": "identity.displayName"
+            }
+          },
+          "description": {
+            "label": "Description",
+            "type": "string",
+            "editor": "textarea",
+            "binding": {
+              "kind": "definition",
+              "path": "identity.description"
+            }
+          }
+        },
+        "settings": {
+          "label": {
+            "type": "string",
+            "default": "",
+            "label": "label",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "label"
+            }
+          },
+          "help": {
+            "type": "string",
+            "default": "",
+            "label": "help",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "help"
+            }
+          },
+          "value": {
+            "type": "string",
+            "default": "",
+            "label": "value",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "value"
+            }
+          },
+          "display-value": {
+            "type": "string",
+            "default": "",
+            "label": "display-value",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "display-value"
+            }
+          },
+          "empty-value": {
+            "type": "string",
+            "default": "",
+            "label": "empty-value",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "empty-value"
+            }
+          },
+          "orientation": {
+            "type": "string",
+            "default": "vertical",
+            "label": "orientation",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "orientation"
+            },
+            "enum": [
+              "vertical",
+              "horizontal",
+              "auto"
+            ]
+          }
+        },
+        "interactionModes": {},
+        "validation": [],
+        "responsive": {
+          "supported": false
+        },
+        "preview": {
+          "renderer": "runtimeBinding",
+          "navigation": "prevent",
+          "eventHandlers": "observe-only"
+        }
+      },
+      "capabilities": [
+        "display",
+        "read-only"
+      ],
+      "dependencies": {
+        "packages": [
+          {
+            "packageId": "@ui-base/core",
+            "range": "^0.1.0"
+          },
+          {
+            "packageId": "@ui-base/ui",
+            "range": "^0.5.1"
+          }
+        ],
+        "services": []
+      },
+      "accessibility": {
+        "keyboard": {
+          "controls": "native"
+        },
+        "namePrecedence": [
+          "label"
+        ],
+        "disabled": "native-control-semantics"
+      },
+      "lifecycle": {
+        "state": "installed",
+        "save": "workspace-only",
+        "publication": "platform-release-snapshot",
+        "publishedRevisionsImmutable": true,
+        "rollback": "new-revision",
+        "promotion": "new-identity-with-provenance"
+      },
+      "clone": {
+        "workspace": "new-workspace-and-instance-ids;same-component-identity",
+        "component": "new-component-identity;retain-provenance"
+      },
+      "deprecation": {
+        "status": "none",
+        "replacementComponentId": null
+      },
+      "extensions": {}
+    },
+    {
+      "tagName": "uib-forms-select",
+      "module": "./src/controls/uib-forms-select.js",
+      "importPath": "./select",
+      "presentation": {
+        "settings": {},
+        "cssVariables": []
+      },
+      "schemaVersion": "1.0.0",
+      "identity": {
+        "componentId": "@ui-base/forms:uib-forms-select",
+        "name": "uib-forms-select",
+        "displayName": "uib-forms-select",
+        "description": "Metadata-admitted uib-forms-select"
+      },
+      "ownership": {
+        "scope": "platform",
+        "package": {
+          "packageId": "@ui-base/forms",
+          "scope": "platform",
+          "version": "0.1.1"
+        },
+        "provenance": {
+          "origin": "installed-package",
+          "promotedFromComponentId": null,
+          "promotedFromRevisionId": null
+        }
+      },
+      "implementation": {
+        "type": "code",
+        "tagName": "uib-forms-select",
+        "module": "./src/controls/uib-forms-select.js",
+        "importPath": "@ui-base/forms/select",
+        "exportName": "UibFormsSelect",
+        "runtimeBinding": {
+          "kind": "custom-element",
+          "tagName": "uib-forms-select"
+        },
+        "aliases": [],
+        "registrationSideEffects": [
+          "uib-forms-select"
+        ]
+      },
+      "version": {
+        "packageVersion": "0.1.1",
+        "runtimeCompatibility": "^0.1.1",
+        "revisionId": null
+      },
+      "maturity": "experimental",
+      "category": "forms",
+      "runtime": {
+        "attributes": {
+          "name": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "label": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "help": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "value": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "required": {
+            "type": "boolean",
+            "default": false,
+            "observed": true,
+            "serialization": "presence"
+          },
+          "disabled": {
+            "type": "boolean",
+            "default": false,
+            "observed": true,
+            "serialization": "presence"
+          },
+          "readonly": {
+            "type": "boolean",
+            "default": false,
+            "observed": true,
+            "serialization": "presence"
+          },
+          "options": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          }
+        },
+        "properties": {},
+        "events": {
+          "uib-forms-select-change": {
+            "detail": {
+              "name": "string",
+              "oldValue": "string",
+              "newValue": "string"
+            },
+            "bubbles": true,
+            "composed": true,
+            "cancelable": false
+          }
+        },
+        "slots": [
+          {
+            "name": "default"
+          },
+          {
+            "name": "label"
+          }
+        ]
+      },
+      "builder": {
+        "groups": [
+          {
+            "id": "content",
+            "label": "Content"
+          },
+          {
+            "id": "appearance",
+            "label": "Appearance"
+          },
+          {
+            "id": "interaction",
+            "label": "Interaction"
+          },
+          {
+            "id": "state",
+            "label": "State"
+          },
+          {
+            "id": "accessibility",
+            "label": "Accessibility"
+          },
+          {
+            "id": "events",
+            "label": "Event bindings"
+          }
+        ],
+        "definitionSettings": {
+          "displayName": {
+            "label": "Display name",
+            "type": "string",
+            "required": true,
+            "binding": {
+              "kind": "definition",
+              "path": "identity.displayName"
+            }
+          },
+          "description": {
+            "label": "Description",
+            "type": "string",
+            "editor": "textarea",
+            "binding": {
+              "kind": "definition",
+              "path": "identity.description"
+            }
+          }
+        },
+        "settings": {
+          "name": {
+            "type": "string",
+            "default": "",
+            "label": "name",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "name"
+            }
+          },
+          "label": {
+            "type": "string",
+            "default": "",
+            "label": "label",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "label"
+            }
+          },
+          "help": {
+            "type": "string",
+            "default": "",
+            "label": "help",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "help"
+            }
+          },
+          "value": {
+            "type": "string",
+            "default": "",
+            "label": "value",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "value"
+            }
+          },
+          "required": {
+            "type": "boolean",
+            "default": false,
+            "label": "required",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "required"
+            }
+          },
+          "disabled": {
+            "type": "boolean",
+            "default": false,
+            "label": "disabled",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "disabled"
+            }
+          },
+          "readonly": {
+            "type": "boolean",
+            "default": false,
+            "label": "readonly",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "readonly"
+            }
+          },
+          "options": {
+            "type": "string",
+            "default": "",
+            "label": "options",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "options"
+            },
+            "format": "comma-options"
+          }
+        },
+        "interactionModes": {},
+        "validation": [],
+        "responsive": {
+          "supported": false
+        },
+        "preview": {
+          "renderer": "runtimeBinding",
+          "navigation": "prevent",
+          "eventHandlers": "observe-only"
+        }
+      },
+      "capabilities": [
+        "form-control",
+        "field"
+      ],
+      "dependencies": {
+        "packages": [
+          {
+            "packageId": "@ui-base/core",
+            "range": "^0.1.0"
+          },
+          {
+            "packageId": "@ui-base/ui",
+            "range": "^0.5.1"
+          }
+        ],
+        "services": []
+      },
+      "accessibility": {
+        "keyboard": {
+          "controls": "native"
+        },
+        "namePrecedence": [
+          "label"
+        ],
+        "disabled": "native-control-semantics"
+      },
+      "lifecycle": {
+        "state": "installed",
+        "save": "workspace-only",
+        "publication": "platform-release-snapshot",
+        "publishedRevisionsImmutable": true,
+        "rollback": "new-revision",
+        "promotion": "new-identity-with-provenance"
+      },
+      "clone": {
+        "workspace": "new-workspace-and-instance-ids;same-component-identity",
+        "component": "new-component-identity;retain-provenance"
+      },
+      "deprecation": {
+        "status": "none",
+        "replacementComponentId": null
+      },
+      "extensions": {}
+    }
+  ]
+}

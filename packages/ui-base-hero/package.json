@@ -1,6 +1,6 @@
 {
   "name": "@ui-base/hero",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "type": "module",
   "description": "Framework-neutral UI Base Hero Web Component for landing pages and tour pages.",
   "main": "src/index.js",
@@ -21,7 +21,7 @@
   "sideEffects": true,
   "license": "UNLICENSED",
   "dependencies": {
-    "@ui-base/ui": "^0.5.1",
+    "@ui-base/ui": "^0.5.2",
     "@ui-base/assets": "^0.1.17"
   }
 }

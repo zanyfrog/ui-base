@@ -18,7 +18,7 @@ export function renderComponentInstance(definition, instance, { registry, docume
   const element = ownerDocument.createElement(tag);
   const values = { ...defaultSettings(definition), ...instance.settings };
   for (const [name, setting] of Object.entries(definition.builder.settings)) {
-    if (!isSettingVisible(setting, values)) continue;
+    if (!isSettingVisible(setting, values) || setting.omitWhenUnset && !Object.hasOwn(instance.settings, name)) continue;
     const value = values[name]; const binding = setting.binding;
     if (binding.kind === 'attribute') {
       if (setting.type === 'boolean') element.toggleAttribute(binding.name, value);

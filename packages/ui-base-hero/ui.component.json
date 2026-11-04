@@ -5,36 +5,397 @@
       "module": "./src/uib-hero.js",
       "importPath": "./uib-hero",
       "presentation": {
-        "settings": {
-          "theme": {
-            "type": "select",
-            "options": [
-              "organization",
-              "light",
-              "dark"
-            ],
-            "inheritable": true
-          },
-          "size": {
-            "type": "select",
-            "options": [
-              "compact",
-              "default",
-              "large"
-            ],
-            "inheritable": true
-          },
-          "visual_mode": {
-            "type": "select",
-            "options": [
-              "panel-right",
-              "panel-left",
-              "background"
-            ],
-            "inheritable": true
-          }
+        "settings": {},
+        "cssVariables": []
+      },
+      "schemaVersion": "1.0.0",
+      "identity": {
+        "componentId": "@ui-base/hero:uib-hero",
+        "name": "uib-hero",
+        "displayName": "Hero",
+        "description": "Metadata-admitted uib-panel"
+      },
+      "ownership": {
+        "scope": "platform",
+        "package": {
+          "packageId": "@ui-base/hero",
+          "scope": "platform",
+          "version": "0.2.4"
+        },
+        "provenance": {
+          "origin": "installed-package",
+          "promotedFromComponentId": null,
+          "promotedFromRevisionId": null
         }
-      }
+      },
+      "implementation": {
+        "type": "code",
+        "tagName": "uib-hero",
+        "module": "./src/uib-hero.js",
+        "importPath": "@ui-base/hero/uib-hero",
+        "exportName": "UibHero",
+        "runtimeBinding": {
+          "kind": "custom-element",
+          "tagName": "uib-hero"
+        },
+        "aliases": [],
+        "registrationSideEffects": [
+          "uib-hero"
+        ]
+      },
+      "version": {
+        "packageVersion": "0.2.4",
+        "runtimeCompatibility": "^0.2.4",
+        "revisionId": null
+      },
+      "maturity": "experimental",
+      "category": "presentation",
+      "runtime": {
+        "attributes": {
+          "eyebrow": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "headline": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "subheadline": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "primary-cta-label": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "primary-cta-href": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "primary-cta-action-token": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "primary-cta-type": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "secondary-cta-label": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "secondary-cta-href": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "secondary-cta-action-token": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "secondary-cta-type": {
+            "type": "string",
+            "default": "",
+            "observed": true,
+            "serialization": "string"
+          },
+          "primary-cta-disabled": {
+            "type": "boolean",
+            "default": false,
+            "observed": true,
+            "serialization": "presence"
+          },
+          "secondary-cta-disabled": {
+            "type": "boolean",
+            "default": false,
+            "observed": true,
+            "serialization": "presence"
+          }
+        },
+        "properties": {},
+        "events": {
+          "uib-hero-cta": {
+            "detail": {
+              "actionToken": "string",
+              "ctaType": "string",
+              "href": "string",
+              "disabled": "boolean"
+            },
+            "bubbles": true,
+            "composed": true,
+            "cancelable": true
+          }
+        },
+        "slots": [
+          {
+            "name": "navigation"
+          },
+          {
+            "name": "visual"
+          },
+          {
+            "name": "trust"
+          },
+          {
+            "name": "after-content"
+          }
+        ]
+      },
+      "builder": {
+        "groups": [
+          {
+            "id": "content",
+            "label": "Content"
+          },
+          {
+            "id": "appearance",
+            "label": "Appearance"
+          },
+          {
+            "id": "interaction",
+            "label": "Interaction"
+          },
+          {
+            "id": "state",
+            "label": "State"
+          },
+          {
+            "id": "accessibility",
+            "label": "Accessibility"
+          },
+          {
+            "id": "events",
+            "label": "Event bindings"
+          }
+        ],
+        "definitionSettings": {
+          "displayName": {
+            "label": "Display name",
+            "type": "string",
+            "required": true,
+            "binding": {
+              "kind": "definition",
+              "path": "identity.displayName"
+            }
+          },
+          "description": {
+            "label": "Description",
+            "type": "string",
+            "editor": "textarea",
+            "binding": {
+              "kind": "definition",
+              "path": "identity.description"
+            }
+          }
+        },
+        "settings": {
+          "eyebrow": {
+            "type": "string",
+            "default": "",
+            "label": "eyebrow",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "eyebrow"
+            }
+          },
+          "headline": {
+            "type": "string",
+            "default": "",
+            "label": "headline",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "headline"
+            }
+          },
+          "subheadline": {
+            "type": "string",
+            "default": "",
+            "label": "subheadline",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "subheadline"
+            }
+          },
+          "primary-cta-label": {
+            "type": "string",
+            "default": "",
+            "label": "primary-cta-label",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "primary-cta-label"
+            }
+          },
+          "primary-cta-href": {
+            "type": "string",
+            "default": "",
+            "label": "primary-cta-href",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "primary-cta-href"
+            },
+            "format": "url"
+          },
+          "primary-cta-action-token": {
+            "type": "string",
+            "default": "",
+            "label": "primary-cta-action-token",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "primary-cta-action-token"
+            }
+          },
+          "primary-cta-type": {
+            "type": "string",
+            "default": "",
+            "label": "primary-cta-type",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "primary-cta-type"
+            }
+          },
+          "secondary-cta-label": {
+            "type": "string",
+            "default": "",
+            "label": "secondary-cta-label",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "secondary-cta-label"
+            }
+          },
+          "secondary-cta-href": {
+            "type": "string",
+            "default": "",
+            "label": "secondary-cta-href",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "secondary-cta-href"
+            },
+            "format": "url"
+          },
+          "secondary-cta-action-token": {
+            "type": "string",
+            "default": "",
+            "label": "secondary-cta-action-token",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "secondary-cta-action-token"
+            }
+          },
+          "secondary-cta-type": {
+            "type": "string",
+            "default": "",
+            "label": "secondary-cta-type",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "secondary-cta-type"
+            }
+          },
+          "primary-cta-disabled": {
+            "type": "boolean",
+            "default": false,
+            "label": "primary-cta-disabled",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "primary-cta-disabled"
+            }
+          },
+          "secondary-cta-disabled": {
+            "type": "boolean",
+            "default": false,
+            "label": "secondary-cta-disabled",
+            "group": "content",
+            "binding": {
+              "kind": "attribute",
+              "name": "secondary-cta-disabled"
+            }
+          }
+        },
+        "interactionModes": {},
+        "validation": [],
+        "responsive": {
+          "supported": false
+        },
+        "preview": {
+          "renderer": "runtimeBinding",
+          "navigation": "prevent",
+          "eventHandlers": "observe-only"
+        }
+      },
+      "capabilities": [
+        "presentation",
+        "interactive",
+        "linkable"
+      ],
+      "dependencies": {
+        "packages": [
+          {
+            "packageId": "@ui-base/ui",
+            "range": "^0.5.2"
+          },
+          {
+            "packageId": "@ui-base/assets",
+            "range": "^0.1.17"
+          }
+        ],
+        "services": []
+      },
+      "accessibility": {
+        "keyboard": {
+          "controls": "native"
+        },
+        "namePrecedence": [
+          "label"
+        ],
+        "disabled": "native-control-semantics"
+      },
+      "lifecycle": {
+        "state": "installed",
+        "save": "workspace-only",
+        "publication": "platform-release-snapshot",
+        "publishedRevisionsImmutable": true,
+        "rollback": "new-revision",
+        "promotion": "new-identity-with-provenance"
+      },
+      "clone": {
+        "workspace": "new-workspace-and-instance-ids;same-component-identity",
+        "component": "new-component-identity;retain-provenance"
+      },
+      "deprecation": {
+        "status": "none",
+        "replacementComponentId": null
+      },
+      "extensions": {}
     }
   ]
 }

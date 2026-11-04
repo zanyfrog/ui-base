@@ -43,6 +43,7 @@ export class UibFormsForm extends UibBaseElement {
   }
 
   _emitSubmit() {
+    if (this.disabled) return;
     this.querySelectorAll('uib-forms-textbox, uib-forms-email, uib-forms-phone').forEach((control) => {
       if (typeof control.saveRecentValue === 'function') control.saveRecentValue();
     });
@@ -75,7 +76,7 @@ export class UibFormsForm extends UibBaseElement {
   `<slot name="actions">` +
   `<uib-action-button class="uib-forms-form__submit" part="submit" label="` +
   (escapeHtml(submitLabel)) +
-  `" variant="primary" action="submit" action-token="submit" >` +
+  `" variant="primary" action="submit" action-token="submit" ${this.disabled ? 'disabled' : ''}>` +
   `</uib-action-button>` +
   `</slot>` +
   `</div>` +

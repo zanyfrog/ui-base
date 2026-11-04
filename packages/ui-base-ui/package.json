@@ -1,6 +1,6 @@
 {
   "name": "@ui-base/ui",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "type": "module",
   "description": "Framework-neutral UI Base UI primitives with compatibility exports for Hero and Tour UI.",
   "main": "src/index.js",

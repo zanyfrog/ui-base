@@ -105,6 +105,7 @@ export function validateSettings(definition, input, { registry, resolveHandlers 
     const value = effective[name];
     if (typeof value !== setting.type || (setting.type === 'number' && !Number.isFinite(value))) { errors.push(`${setting.label} must be ${setting.type}.`); continue; }
     if (setting.enum && !setting.enum.includes(value)) errors.push(`${setting.label} has an unsupported value.`);
+    if (setting.format === 'comma-options' && value && (value.split(',').some(item => !item.trim()) || new Set(value.split(',').map(item => item.trim())).size !== value.split(',').length)) errors.push(`${setting.label} requires distinct nonempty comma-separated values.`);
     if (!isSettingVisible(setting, effective) && value !== setting.default) errors.push(`${setting.label} is not allowed in this interaction mode.`);
     if ((setting.format === 'url' || setting.format === 'image-url') && !safeAuthoringUrl(value, setting.format === 'image-url')) errors.push(`${setting.label} uses an unsupported URL.`);
     if (resolveHandlers && setting.binding.kind === 'event' && value && !registry?.hasHandler(value)) errors.push(`Handler is not registered: ${value}.`);

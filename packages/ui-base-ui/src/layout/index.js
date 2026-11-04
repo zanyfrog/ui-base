@@ -217,7 +217,9 @@ export class UibPanel extends UibSurfaceBase {
   toggle() {
     if (!this.collapsible || this.disabled) return;
     const oldValue = this.open;
+    const restoreFocus = this.shadowRoot?.activeElement?.classList.contains('uib-panel__toggle') || this.contains(this.getRootNode().activeElement ?? this.ownerDocument.activeElement);
     this.open = !oldValue;
+    if (restoreFocus) this.shadowRoot?.querySelector('.uib-panel__toggle')?.focus();
     this.emitValueChange('uib-panel-toggle', oldValue, this.open);
   }
 
@@ -229,7 +231,7 @@ export class UibPanel extends UibSurfaceBase {
     const open = this.open;
     const toggleButton = this.collapsible
       ? (
-  `<button class="uib-panel__toggle" part="toggle" type="button" aria-expanded="${open ? 'true' : 'false'}" ${this.disabled ? 'disabled' : ''}>` +
+  `<button class="uib-panel__toggle" part="toggle" type="button" aria-label="${escapeHtml(this.heading || this.label || 'Panel')}" aria-controls="${this.componentId}-content" aria-expanded="${open ? 'true' : 'false'}" ${this.disabled ? 'disabled' : ''}>` +
   `<span class="uib-panel__toggle-icon" aria-hidden="true">` +
   (open ? '-' : '+') +
   `</span>` +
@@ -244,7 +246,7 @@ export class UibPanel extends UibSurfaceBase {
   (this.disabled ? ' aria-disabled="true"' : '') +
   `>` +
   (hasHeader ? this.headerMarkup(headingId, true, `<div class="uib-surface__actions" part="actions"><slot name="actions"></slot></div>${toggleButton}`) : this.headerMarkup('', false)) +
-  `<div class="uib-surface__collapsible" part="content"` +
+  `<div id="${this.componentId}-content" class="uib-surface__collapsible" part="content"` +
   (open ? '' : ' hidden') +
   `>` +
   (hasActions && !hasHeader ? `<div class="uib-surface__actions" part="actions"><slot name="actions"></slot></div>` : '') +
